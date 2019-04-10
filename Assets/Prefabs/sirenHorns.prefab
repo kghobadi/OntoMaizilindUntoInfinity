@@ -167,6 +167,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4412641556588668}
   - component: {fileID: 82810361877921800}
+  - component: {fileID: 65703964084519136}
   m_Layer: 0
   m_Name: sirenHorns
   m_TagString: Untagged
@@ -278,8 +279,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1753938843565792}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -38.4, y: 3.7, z: 33.76961}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -38.4, y: 3.7000008, z: 33.769608}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4639650133473828}
@@ -388,7 +389,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 45eb889555d584b4b98a1b3fa29aada2, type: 3}
+  - {fileID: 2100000, guid: 0bca4ec90565ee542be4a85a1e97324b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -423,7 +424,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 45eb889555d584b4b98a1b3fa29aada2, type: 3}
+  - {fileID: 2100000, guid: 84f5e1bbe77209b42aec93c08d3a8bb4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -458,7 +459,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 45eb889555d584b4b98a1b3fa29aada2, type: 3}
+  - {fileID: 2100000, guid: 0bca4ec90565ee542be4a85a1e97324b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -528,7 +529,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 45eb889555d584b4b98a1b3fa29aada2, type: 3}
+  - {fileID: 2100000, guid: 0bca4ec90565ee542be4a85a1e97324b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -563,7 +564,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 45eb889555d584b4b98a1b3fa29aada2, type: 3}
+  - {fileID: 2100000, guid: 0bca4ec90565ee542be4a85a1e97324b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -598,7 +599,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 45eb889555d584b4b98a1b3fa29aada2, type: 3}
+  - {fileID: 2100000, guid: 0bca4ec90565ee542be4a85a1e97324b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -667,6 +668,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1379917663427234}
   m_Mesh: {fileID: 4300006, guid: 45eb889555d584b4b98a1b3fa29aada2, type: 3}
+--- !u!65 &65703964084519136
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1753938843565792}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 25, z: 2}
+  m_Center: {x: 0, y: 5, z: 0}
 --- !u!82 &82810361877921800
 AudioSource:
   m_ObjectHideFlags: 1
@@ -675,7 +688,8 @@ AudioSource:
   m_GameObject: {fileID: 1753938843565792}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 243024570814676158, guid: 44cea40f08940944983694f8bd40ac83,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: b3f722a3abcdb954fac1c6435eaa2a66, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -685,7 +699,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0.25
   MinDistance: 15
   MaxDistance: 500
   Pan2D: 0
