@@ -54,8 +54,7 @@ public class FirstPersonController : MonoBehaviour
             moving = true;
             //ResetNearbyAudioSources();
             movement = new Vector3(0, 0, currentSpeed);
-
-
+            
             footStepTimer -= Time.deltaTime;
             if (footStepTimer < 0)
             {

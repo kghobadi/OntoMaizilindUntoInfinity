@@ -19,6 +19,7 @@ public class Bomb : MonoBehaviour {
 
     //explosion prefab
     public GameObject explosionPrefab;
+    public Transform explosionParent;
 
 	void Start () {
         //world man and add to list
@@ -35,7 +36,8 @@ public class Bomb : MonoBehaviour {
         bombAudio.clip = bombfalls[randomFall];
         bombAudio.Play();
 
-        bombBody.AddForce(0, -1500, 0);
+        //set parent for explosion
+        explosionParent = GameObject.FindGameObjectWithTag("ExpParent").transform;
 	}
 
 	void Update () {
@@ -47,26 +49,9 @@ public class Bomb : MonoBehaviour {
     {
         if (other.gameObject.tag == "Building" || other.gameObject.tag == "Ground" || other.gameObject.tag == "Car" || other.gameObject.tag == "Human")
         {
-            Debug.Log("bomb went off");
+            //Debug.Log("bomb went off");
             Vector3 spawnPos = transform.position ;
-            GameObject explosion = Instantiate(explosionPrefab, spawnPos, Quaternion.Euler(-90, 0, 0));
-
-            //kill a human
-            if(other.gameObject.tag == "Human")
-            {
-                //if this is the human currently being played
-                if(camSwitcher.cameraObjects[camSwitcher.currentCam] == other.gameObject)
-                {
-                    //switch to next viewer
-                    camSwitcher.SwitchCam(true, -1);
-                }
-
-                //remove this human from cam objects list
-                camSwitcher.cameraObjects.Remove(other.gameObject);   
-
-                //destroy the human
-                Destroy(other.gameObject);
-            }
+            GameObject explosion = Instantiate(explosionPrefab, spawnPos, Quaternion.Euler(-90, 0, 0), explosionParent);
 
             //destroy this bomb
             Destroy(gameObject);

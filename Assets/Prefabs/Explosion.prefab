@@ -387,6 +387,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d3bc2a91d19a1c84faf852b1707bf720, type: 3}
   - {fileID: 8300000, guid: bed2e99301d4a6842846c0e4e0899a68, type: 3}
   - {fileID: 8300000, guid: 510842bfc6ef05742bd8d4e185f16bcd, type: 3}
+  fireBurning: {fileID: 8300000, guid: f508227546a2d0345a8bb9b01503853a, type: 3}
+  fireGroup: {fileID: 243466239810843312, guid: 44cea40f08940944983694f8bd40ac83,
+    type: 2}
 --- !u!135 &135993709931852922
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -397,7 +400,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 10
+  m_Radius: 15
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!198 &198144163525718166
 ParticleSystem:
@@ -4946,7 +4949,7 @@ ParticleSystem:
   stopAction: 0
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1

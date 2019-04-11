@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 //explosion is produced by the bomb class
 public class Explosion : MonoBehaviour {
@@ -11,6 +12,9 @@ public class Explosion : MonoBehaviour {
     //audio vars
     AudioSource explosionAudio;
     public AudioClip[] explosions;
+    public AudioClip fireBurning;
+    public AudioMixerGroup fireGroup;
+    int randomFall;
 
     //particles
     ParticleSystem explosionParts;
@@ -28,7 +32,7 @@ public class Explosion : MonoBehaviour {
         eMain = explosionParts.main;
 
         //set explode sound
-        int randomFall = Random.Range(0, explosions.Length);
+        randomFall = Random.Range(0, explosions.Length);
         explosionAudio.clip = explosions[randomFall];
         explosionAudio.Play();
 
@@ -38,25 +42,36 @@ public class Explosion : MonoBehaviour {
     }
 	
 	void Update () {
-        if (explosionAudio.isPlaying == false)
+        //audio stopped playing after explosion 
+        if (explosionAudio.isPlaying == false && explosionAudio.clip == explosions[randomFall])
         {
-            //Destroy(gameObject);
-            Debug.Log("it is in our house now");
-        }
+            Debug.Log("just a fire burning///");
+            explosionAudio.Stop();
+            explosionAudio.clip = fireBurning;
+            explosionAudio.outputAudioMixerGroup = fireGroup;
+            explosionAudio.loop = true;
 
-        //could add a collider to this so that when it overlaps with other explosion fire, they combine into one thing
+            //should only play this sound if current player is near
+        }
 	}
 
+    //could add to this so that when it overlaps with other explosion fire, they combine into one thing
     private void OnTriggerEnter(Collider other)
     {
         //kill a human
         if (other.gameObject.tag == "Human")
         {
+            Debug.Log("human burnssss");
+
+            //grab the game object that is currently viewer
+            GameObject camObj = camSwitcher.cameraObjects[camSwitcher.currentCam];
+
             //if this is the human currently being played
-            if (camSwitcher.cameraObjects[camSwitcher.currentCam] == other.gameObject)
+            if (camObj.tag == "Human" && camObj.GetComponent<FirstPersonController>().enabled)
             {
                 //switch to next viewer
-                camSwitcher.SwitchCam(true, -1);
+                camSwitcher.SwitchCam(false, 0);
+                Debug.Log("it was you who died");
             }
 
             //remove this human from cam objects list
@@ -64,6 +79,7 @@ public class Explosion : MonoBehaviour {
 
             //destroy the human
             Destroy(other.gameObject);
+
         }
     }
 }

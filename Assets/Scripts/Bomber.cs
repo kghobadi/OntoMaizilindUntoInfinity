@@ -20,9 +20,9 @@ public class Bomber : MonoBehaviour {
     //spawn a random count of bombs to drop
     IEnumerator SpawnBombs()
     {
-        int randomBcount = Random.Range(2, 4);
+        int randomBcount = Random.Range(2, 5);
 
-        Debug.Log("Spawning " + randomBcount + " bombs");
+        //Debug.Log("Spawning " + randomBcount + " bombs");
 
         for(int i = 0; i < randomBcount; i++)
         {

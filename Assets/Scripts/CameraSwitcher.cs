@@ -29,6 +29,8 @@ public class CameraSwitcher : MonoBehaviour {
             {
                 //set the body's parent to the host game obj
                 cameraObjects[i].GetComponent<CamObject>().myBody.transform.SetParent(cameraObjects[i].transform);
+                //turn on that persons Citizen Ai
+                cameraObjects[i].GetComponent<Citizen>().enabled = true;
                 //turn off that persons FPC
                 cameraObjects[i].GetComponent<FirstPersonController>().enabled = false;
                 //turn off the person's camera
@@ -66,6 +68,8 @@ public class CameraSwitcher : MonoBehaviour {
         {
             //set the body's parent to the host game obj
             cameraObjects[currentCam].GetComponent<CamObject>().myBody.transform.SetParent(cameraObjects[currentCam].transform);
+            //turn on that persons Citizen Ai
+            cameraObjects[currentCam].GetComponent<Citizen>().enabled = true;
             //turn off that persons FPC
             cameraObjects[currentCam].GetComponent<FirstPersonController>().enabled = false;
             //turn off the person's camera
@@ -118,9 +122,11 @@ public class CameraSwitcher : MonoBehaviour {
         {
             //set the body's parent to its camera
             cameraObjects[currentCam].GetComponent<CamObject>().myBody.transform.SetParent(cameraObjects[currentCam].GetComponent<CamObject>().camObj.transform);
-            //turn off that persons FPC
+            //turn off that persons Citizen Ai
+            cameraObjects[currentCam].GetComponent<Citizen>().enabled = false;
+            //turn on that persons FPC
             cameraObjects[currentCam].GetComponent<FirstPersonController>().enabled = true;
-            //turn off the person's camera
+            //turn on the person's camera
             cameraObjects[currentCam].GetComponent<CamObject>().camObj.enabled = true;
             cameraObjects[currentCam].GetComponent<CamObject>().camObj.GetComponent<AudioListener>().enabled = true;
         }

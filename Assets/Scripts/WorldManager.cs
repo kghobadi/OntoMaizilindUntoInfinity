@@ -5,9 +5,13 @@ using UnityEngine;
 public class WorldManager : MonoBehaviour {
 
     public List<GameObject> explosionsToDelete = new List<GameObject>();
-    
-	
-	void Update () {
+
+    void Start()
+    {
+        Cursor.visible = false;
+    }
+
+    void Update () {
         //quit app
         if (Input.GetKeyDown(KeyCode.Escape))
         {
