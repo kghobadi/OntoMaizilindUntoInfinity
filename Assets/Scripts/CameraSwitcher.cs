@@ -8,45 +8,125 @@ public class CameraSwitcher : MonoBehaviour {
     public int currentCam = 0;
 
 	void Start () {
-		
+
+        //collect all humans and add them to cameraObjects list if they are not in it already
+        GameObject[] humans = GameObject.FindGameObjectsWithTag("Human");
+
+        //go through and add them
+        for(int i = 0; i < humans.Length; i++)
+        {
+            if (!cameraObjects.Contains(humans[i]))
+            {
+                cameraObjects.Add(humans[i]);
+            }
+        }
+        
+        //loop through the cam objects list and set start settings for objects
+        for (int i = 1; i < cameraObjects.Count; i++)
+        {
+            //do this to human cameras only
+            if (cameraObjects[i].GetComponent<CamObject>().myCamType == CamObject.CamType.HUMAN)
+            {
+                //set the body's parent to the host game obj
+                cameraObjects[i].GetComponent<CamObject>().myBody.transform.SetParent(cameraObjects[i].transform);
+                //turn off that persons FPC
+                cameraObjects[i].GetComponent<FirstPersonController>().enabled = false;
+                //turn off the person's camera
+                cameraObjects[i].GetComponent<CamObject>().camObj.enabled = false;
+                cameraObjects[i].GetComponent<CamObject>().camObj.GetComponent<AudioListener>().enabled = false;
+            }
+        }
 	}
 	
 	void Update () {
+
+        //switch through cam objects down
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            SwitchCam(false);
-        }	
+            SwitchCam(false, -1);
+        }
+        //switch through cam objects up
+        if (Input.GetKeyDown(KeyCode.RightShift))
+        {
+            SwitchCam(true, -1);
+        }
+
+        //directly switch to planes
+        if (Input.GetKeyDown(KeyCode.Alpha0) && currentCam != 0)
+        {
+            SwitchCam(false, 0);
+        }
 	}
 
-    public void SwitchCam(bool upOrDown)
+    public void SwitchCam(bool upOrDown, int num)
     {
-        cameraObjects[currentCam].SetActive(false);
         
-        //count up
-        if (upOrDown)
+        //deal with current cam object
+        if(cameraObjects[currentCam].GetComponent<CamObject>().myCamType == CamObject.CamType.HUMAN)
         {
-            if (currentCam < cameraObjects.Count - 1)
-            {
-                currentCam++;
-            }
-            else
-            {
-                currentCam = 0;
-            }
+            //set the body's parent to the host game obj
+            cameraObjects[currentCam].GetComponent<CamObject>().myBody.transform.SetParent(cameraObjects[currentCam].transform);
+            //turn off that persons FPC
+            cameraObjects[currentCam].GetComponent<FirstPersonController>().enabled = false;
+            //turn off the person's camera
+            cameraObjects[currentCam].GetComponent<CamObject>().camObj.enabled = false;
+            cameraObjects[currentCam].GetComponent<CamObject>().camObj.GetComponent<AudioListener>().enabled = false;
         }
-        //count down
         else
         {
-            if (currentCam > 0)
-            {
-                currentCam--;
-            }
-            else
-            {
-                currentCam = cameraObjects.Count - 1;
-            }
+            cameraObjects[currentCam].SetActive(false);
         }
 
-        cameraObjects[currentCam].SetActive(true);
+        //increment currentCam
+
+        //use the passed int
+        if (num >= 0)
+        {
+            currentCam = num;
+        }
+        //count up or down based on bool
+        else
+        {
+            //count up
+            if (upOrDown)
+            {
+                if (currentCam < cameraObjects.Count - 1)
+                {
+                    currentCam++;
+                }
+                else
+                {
+                    currentCam = 0;
+                }
+            }
+            //count down
+            else
+            {
+                if (currentCam > 0)
+                {
+                    currentCam--;
+                }
+                else
+                {
+                    currentCam = cameraObjects.Count - 1;
+                }
+            }
+        }
+        
+        //turn on new cam obj
+        if (cameraObjects[currentCam].GetComponent<CamObject>().myCamType == CamObject.CamType.HUMAN)
+        {
+            //set the body's parent to its camera
+            cameraObjects[currentCam].GetComponent<CamObject>().myBody.transform.SetParent(cameraObjects[currentCam].GetComponent<CamObject>().camObj.transform);
+            //turn off that persons FPC
+            cameraObjects[currentCam].GetComponent<FirstPersonController>().enabled = true;
+            //turn off the person's camera
+            cameraObjects[currentCam].GetComponent<CamObject>().camObj.enabled = true;
+            cameraObjects[currentCam].GetComponent<CamObject>().camObj.GetComponent<AudioListener>().enabled = true;
+        }
+        else
+        {
+            cameraObjects[currentCam].SetActive(true);
+        }
     }
 }

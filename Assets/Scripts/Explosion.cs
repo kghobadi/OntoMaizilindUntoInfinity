@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//explosion is produced by the bomb class
 public class Explosion : MonoBehaviour {
+    //world manager ref
+    WorldManager worldMan;
+    CameraSwitcher camSwitcher;
+
     //audio vars
     AudioSource explosionAudio;
     public AudioClip[] explosions;
@@ -12,6 +17,12 @@ public class Explosion : MonoBehaviour {
     ParticleSystem.MainModule eMain;
     
     void Start () {
+        //world man and add to list
+        worldMan = GameObject.FindGameObjectWithTag("WorldManager").GetComponent<WorldManager>();
+        worldMan.explosionsToDelete.Add(gameObject);
+        camSwitcher = worldMan.GetComponent<CameraSwitcher>();
+
+        //component refs
         explosionAudio = GetComponent<AudioSource>();
         explosionParts = GetComponent<ParticleSystem>();
         eMain = explosionParts.main;
@@ -27,10 +38,32 @@ public class Explosion : MonoBehaviour {
     }
 	
 	void Update () {
-		if(explosionAudio.isPlaying == false)
+        if (explosionAudio.isPlaying == false)
         {
             //Destroy(gameObject);
             Debug.Log("it is in our house now");
         }
+
+        //could add a collider to this so that when it overlaps with other explosion fire, they combine into one thing
 	}
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //kill a human
+        if (other.gameObject.tag == "Human")
+        {
+            //if this is the human currently being played
+            if (camSwitcher.cameraObjects[camSwitcher.currentCam] == other.gameObject)
+            {
+                //switch to next viewer
+                camSwitcher.SwitchCam(true, -1);
+            }
+
+            //remove this human from cam objects list
+            camSwitcher.cameraObjects.Remove(other.gameObject);
+
+            //destroy the human
+            Destroy(other.gameObject);
+        }
+    }
 }
