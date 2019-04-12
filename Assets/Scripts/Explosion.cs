@@ -63,11 +63,8 @@ public class Explosion : MonoBehaviour {
         {
             Debug.Log("human burnssss");
 
-            //grab the game object that is currently viewer
-            GameObject camObj = camSwitcher.cameraObjects[camSwitcher.currentCam];
-
             //if this is the human currently being played
-            if (camObj.tag == "Human" && camObj.GetComponent<FirstPersonController>().enabled)
+            if (other.gameObject.GetComponent<FirstPersonController>().enabled)
             {
                 //switch to next viewer
                 camSwitcher.SwitchCam(false, 0);

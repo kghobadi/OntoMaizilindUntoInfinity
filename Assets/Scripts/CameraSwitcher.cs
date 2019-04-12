@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraSwitcher : MonoBehaviour {
-
+    //camera objects list, current obj, and int to count them
     public List<GameObject> cameraObjects = new List<GameObject>();
+    GameObject currentCamObj;
     public int currentCam = 0;
 
 	void Start () {
@@ -38,6 +39,9 @@ public class CameraSwitcher : MonoBehaviour {
                 cameraObjects[i].GetComponent<CamObject>().camObj.GetComponent<AudioListener>().enabled = false;
             }
         }
+
+        //set current cam obj at start
+        currentCamObj = cameraObjects[currentCam];
 	}
 	
 	void Update () {
@@ -62,23 +66,22 @@ public class CameraSwitcher : MonoBehaviour {
 
     public void SwitchCam(bool upOrDown, int num)
     {
-        
         //deal with current cam object
-        if(cameraObjects[currentCam].GetComponent<CamObject>().myCamType == CamObject.CamType.HUMAN)
+        if(currentCamObj.GetComponent<CamObject>().myCamType == CamObject.CamType.HUMAN)
         {
             //set the body's parent to the host game obj
-            cameraObjects[currentCam].GetComponent<CamObject>().myBody.transform.SetParent(cameraObjects[currentCam].transform);
+            currentCamObj.GetComponent<CamObject>().myBody.transform.SetParent(currentCamObj.transform);
             //turn on that persons Citizen Ai
-            cameraObjects[currentCam].GetComponent<Citizen>().enabled = true;
+            currentCamObj.GetComponent<Citizen>().enabled = true;
             //turn off that persons FPC
-            cameraObjects[currentCam].GetComponent<FirstPersonController>().enabled = false;
+            currentCamObj.GetComponent<FirstPersonController>().enabled = false;
             //turn off the person's camera
-            cameraObjects[currentCam].GetComponent<CamObject>().camObj.enabled = false;
-            cameraObjects[currentCam].GetComponent<CamObject>().camObj.GetComponent<AudioListener>().enabled = false;
+            currentCamObj.GetComponent<CamObject>().camObj.enabled = false;
+            currentCamObj.GetComponent<CamObject>().camObj.GetComponent<AudioListener>().enabled = false;
         }
         else
         {
-            cameraObjects[currentCam].SetActive(false);
+            currentCamObj.SetActive(false);
         }
 
         //increment currentCam
@@ -108,7 +111,14 @@ public class CameraSwitcher : MonoBehaviour {
             {
                 if (currentCam > 0)
                 {
-                    currentCam--;
+                    if(currentCam < cameraObjects.Count - 1)
+                    {
+                        currentCam--;
+                    }
+                    else
+                    {
+                        currentCam = cameraObjects.Count - 2;
+                    }
                 }
                 else
                 {
@@ -134,5 +144,8 @@ public class CameraSwitcher : MonoBehaviour {
         {
             cameraObjects[currentCam].SetActive(true);
         }
+
+        //reset current cam obj
+        currentCamObj = cameraObjects[currentCam];
     }
 }
