@@ -36,7 +36,7 @@ public class CameraSwitcher : MonoBehaviour {
                 cameraObjects[i].GetComponent<FirstPersonController>().enabled = false;
                 //turn off the person's camera
                 cameraObjects[i].GetComponent<CamObject>().camObj.enabled = false;
-                cameraObjects[i].GetComponent<CamObject>().camObj.GetComponent<AudioListener>().enabled = false;
+                cameraObjects[i].GetComponent<AudioListener>().enabled = false;
             }
         }
 
@@ -45,7 +45,13 @@ public class CameraSwitcher : MonoBehaviour {
 	}
 	
 	void Update () {
-
+        OVRInput.Update();
+        //switch through cam objects up when press back button on Oculus remote
+        if (OVRInput.Get(OVRInput.Button.Two))
+        {
+            SwitchCam(true, -1);
+        }
+        
         //switch through cam objects down
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
@@ -77,7 +83,7 @@ public class CameraSwitcher : MonoBehaviour {
             currentCamObj.GetComponent<FirstPersonController>().enabled = false;
             //turn off the person's camera
             currentCamObj.GetComponent<CamObject>().camObj.enabled = false;
-            currentCamObj.GetComponent<CamObject>().camObj.GetComponent<AudioListener>().enabled = false;
+            currentCamObj.GetComponent<AudioListener>().enabled = false;
         }
         else
         {
@@ -138,7 +144,7 @@ public class CameraSwitcher : MonoBehaviour {
             cameraObjects[currentCam].GetComponent<FirstPersonController>().enabled = true;
             //turn on the person's camera
             cameraObjects[currentCam].GetComponent<CamObject>().camObj.enabled = true;
-            cameraObjects[currentCam].GetComponent<CamObject>().camObj.GetComponent<AudioListener>().enabled = true;
+            cameraObjects[currentCam].GetComponent<AudioListener>().enabled = true;
         }
         else
         {

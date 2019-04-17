@@ -52,15 +52,8 @@ public class FirstPersonController : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             moving = true;
-            //ResetNearbyAudioSources();
+
             movement = new Vector3(0, 0, currentSpeed);
-            
-            footStepTimer -= Time.deltaTime;
-            if (footStepTimer < 0)
-            {
-                PlayFootStepAudio();
-                footStepTimer = footStepTimerTotal;
-            }
 
             SprintSpeed();
         }
@@ -68,14 +61,8 @@ public class FirstPersonController : MonoBehaviour
         else if (Input.GetMouseButton(1))
         {
             moving = true;
-            //ResetNearbyAudioSources();
+
             movement = new Vector3(0, 0, -currentSpeed);
-            footStepTimer -= Time.deltaTime;
-            if (footStepTimer < 0)
-            {
-                PlayFootStepAudio();
-                footStepTimer = footStepTimerTotal;
-            }
 
             SprintSpeed();
         }
@@ -84,13 +71,9 @@ public class FirstPersonController : MonoBehaviour
             Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
         {
             moving = true;
+
             float moveForwardBackward = Input.GetAxis("Vertical") * currentSpeed;
             float moveLeftRight = Input.GetAxis("Horizontal") * currentSpeed;
-            //float moveUpDown = Input.GetAxis("Mouse ScrollWheel") * scrollSpeed;
-            if ((moveForwardBackward != 0 || moveLeftRight != 0) && !playerAudSource.isPlaying)
-            {
-                PlayFootStepAudio();
-            }
 
             movement = new Vector3(moveLeftRight, 0, moveForwardBackward);
 
@@ -113,6 +96,14 @@ public class FirstPersonController : MonoBehaviour
     //increases move speed while player is moving over time
     public void SprintSpeed()
     {
+        //increment and play footstep sounds
+        footStepTimer -= Time.deltaTime;
+        if (footStepTimer < 0)
+        {
+            PlayFootStepAudio();
+            footStepTimer = footStepTimerTotal;
+        }
+
         sprintTimer += Time.deltaTime;
         //while speed is less than sprint, autoAdd
         if (sprintTimer > sprintTimerMax && currentSpeed < sprintSpeed)
