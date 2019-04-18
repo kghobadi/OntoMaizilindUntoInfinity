@@ -11,7 +11,8 @@ public class Bomber : MonoBehaviour {
 	}
 	
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Space))
+        OVRInput.Update();
+        if (Input.GetKeyDown(KeyCode.Space) || OVRInput.GetDown(OVRInput.Button.One))
         {
             StartCoroutine(SpawnBombs());
         }

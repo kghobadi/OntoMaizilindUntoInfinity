@@ -8,7 +8,7 @@ public class CamObject : MonoBehaviour {
 
     public CamType myCamType;
     public Camera camObj;
-    public GameObject myBody;
+    public GameObject headset, myBody;
 
     public enum CamType
     {

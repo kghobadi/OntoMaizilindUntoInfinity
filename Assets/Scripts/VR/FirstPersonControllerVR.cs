@@ -67,9 +67,11 @@ public class FirstPersonControllerVR : MonoBehaviour
             moving = false;
             movement = Vector3.zero;
             currentSpeed = walkSpeed;
+
+            Debug.Log("not moving");
         }
 
-        movement = transform.rotation * movement;
+        movement = transform.GetChild(0).rotation * movement;
         player.Move(movement * Time.deltaTime);
 
         player.Move(new Vector3(0, -0.5f, 0));

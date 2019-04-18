@@ -26,7 +26,7 @@ public class OculusController : MonoBehaviour {
                 if (go != hit.collider.gameObject)
                 {
                     go = hit.transform.gameObject;
-                    go.SendMessage("OnVREnter");
+                    //go.SendMessage("OnVREnter");
                     Debug.Log("Raycasting at " + go.name);
                 }
             }
@@ -35,7 +35,7 @@ public class OculusController : MonoBehaviour {
         {
             if (go != null)
             {
-                go.SendMessage("OnVRExit");
+                //go.SendMessage("OnVRExit");
                 go = null;
             }
         }
