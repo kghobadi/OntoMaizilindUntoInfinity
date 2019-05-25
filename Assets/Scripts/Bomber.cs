@@ -5,6 +5,7 @@ using UnityEngine;
 public class Bomber : MonoBehaviour {
 
     public GameObject bombPrefab;
+    public bool bombing;
 
 	void Start () {
 		
@@ -19,18 +20,22 @@ public class Bomber : MonoBehaviour {
 	}
 
     //spawn a random count of bombs to drop
-    IEnumerator SpawnBombs()
+    public IEnumerator SpawnBombs()
     {
+        bombing = true;
+
         int randomBcount = Random.Range(2, 5);
 
         //Debug.Log("Spawning " + randomBcount + " bombs");
 
         for(int i = 0; i < randomBcount; i++)
         {
-            Vector3 spawnPos = transform.position - new Vector3(0, 7, 0) + Random.insideUnitSphere * 5;
+            Vector3 spawnPos = transform.position - new Vector3(0, 7, 0) + Random.insideUnitSphere * 25f;
             GameObject bomb = Instantiate(bombPrefab,spawnPos, Quaternion.identity);
 
             yield return new WaitForSeconds(0.5f);
         }
+
+        bombing = false;
     }
 }

@@ -53,6 +53,12 @@ public class Bomb : MonoBehaviour {
             Vector3 spawnPos = transform.position ;
             GameObject explosion = Instantiate(explosionPrefab, spawnPos, Quaternion.Euler(-90, 0, 0), explosionParent);
 
+            //parent to building so when it falls, explosion falls with it
+            if(other.gameObject.tag == "Building")
+            {
+                explosion.transform.SetParent(other.transform);
+            }
+
             //destroy this bomb
             Destroy(gameObject);
         } 
