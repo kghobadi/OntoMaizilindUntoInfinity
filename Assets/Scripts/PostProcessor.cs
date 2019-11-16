@@ -35,6 +35,7 @@ public class PostProcessor : MonoBehaviour
     public int bombCounter = 0;
     public bool canSpawnBombs = true;
     public float bombTimer, bombTimerTotal = 0.1f;
+    public Camera player;
 
     //calibrate all the post processing values at start because these change outside playmode
     void Start()
@@ -62,7 +63,7 @@ public class PostProcessor : MonoBehaviour
         positiveTempShift = true;
         positiveTintShift = true;
 
-       
+        player = Camera.main;
     }
 
     void Update()
@@ -117,6 +118,7 @@ public class PostProcessor : MonoBehaviour
         bombCounter++;
         canSpawnBombs = false;
         bombTimer = bombTimerTotal;
+        player.transform.LookAt(nuke.transform.position + new Vector3(0,50f,0));
         Debug.Log("spawned abomb");
     }
 
