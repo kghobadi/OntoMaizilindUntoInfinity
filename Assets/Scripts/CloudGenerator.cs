@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CloudGenerator : MonoBehaviour
 {
+    Vector3 origPos;
     public ObjectPooler cloudPooler;
     GameObject cloudClone;
     public GameObject[] generatedObjs;
@@ -33,6 +34,12 @@ public class CloudGenerator : MonoBehaviour
 
     void Awake()
     {
+        //random y
+        transform.position = new Vector3(transform.position.x,
+            transform.position.y + Random.Range(-15f, 75f), transform.position.z);
+        //set orig pos 
+        origPos = transform.position;
+        //randomize spawn timer 
         spawnTimer = spawnInterval + Random.Range(-1f, 1f);
     }
 
@@ -41,6 +48,10 @@ public class CloudGenerator : MonoBehaviour
         spawnTimer -= Time.deltaTime;
         if(spawnTimer < 0)
         {
+            //randomize spawn center on x axis 
+            transform.position = new Vector3(origPos.x + Random.Range(-15f, 15f),
+                transform.position.y, transform.position.z);
+
             //generation patterns 
             if(generationType == GenerationType.RANDOM)
             {

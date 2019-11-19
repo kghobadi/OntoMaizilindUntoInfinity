@@ -31,10 +31,12 @@ public class Bullet : MonoBehaviour {
         //return bullet and death cloud to their pools on impact 
         if(other.gameObject.tag == "DeathCloud")
         {
+            //reset b speed & cloud scale
             bulletSpeed = origSpeed;
+            other.gameObject.transform.localScale = other.gameObject.GetComponent<Cloud>().origScale;
+            //send to poolers
             other.gameObject.GetComponent<PooledObject>().ReturnToPool();
             GetComponent<PooledObject>().ReturnToPool();
-            Debug.Log("hit cloud");
         }
     }
 }

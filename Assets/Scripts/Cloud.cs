@@ -14,11 +14,17 @@ public class Cloud : MonoBehaviour
 
     public float heightFromZero;
     float rotateX, rotateY, rotateZ;
+    [HideInInspector]
+    public Vector3 origScale;
+
+    void Awake()
+    {
+        _player = GameObject.FindGameObjectWithTag("Player");
+        origScale = transform.localScale;
+    }
 
     void Start()
     {
-        _player = GameObject.FindGameObjectWithTag("Player");
-
         currentSpeed = _cloudGen.cloudSpeed;
         heightFromZero = transform.position.y;
         poolObj = GetComponent<PooledObject>();
@@ -40,6 +46,7 @@ public class Cloud : MonoBehaviour
         //destroy when it gets far away enough from original generator
         if (Mathf.Abs(transform.position.z - _cloudGen.transform.position.z) > _cloudGen.distanceToDestroy)
         {
+            transform.localScale = origScale;
             poolObj.ReturnToPool();
         }
         

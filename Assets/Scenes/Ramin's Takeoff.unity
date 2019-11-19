@@ -274,7 +274,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &71590310
 MonoBehaviour:
@@ -310,6 +310,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pilot: {fileID: 1261894561}
   xDistAtStart: 0
+  yDistAtStart: 0
+  followY: 0
 --- !u!1 &111304912 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1643316830813750, guid: 848a4981616de49419b480ffd9b13d03,
@@ -328,6 +330,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pilot: {fileID: 1261894561}
   xDistAtStart: 0
+  yDistAtStart: 0
+  followY: 1
 --- !u!1001 &151162950
 Prefab:
   m_ObjectHideFlags: 0
@@ -529,6 +533,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pilot: {fileID: 1261894561}
   xDistAtStart: 0
+  yDistAtStart: 0
+  followY: 1
 --- !u!1001 &351743762
 Prefab:
   m_ObjectHideFlags: 0
@@ -566,7 +572,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4703306631742902, guid: 2d4e63209c75a40479a7c06efdf43344, type: 2}
       propertyPath: m_RootOrder
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 1835803776135858, guid: 2d4e63209c75a40479a7c06efdf43344, type: 2}
       propertyPath: m_IsActive
@@ -14924,6 +14930,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pilot: {fileID: 1261894561}
   xDistAtStart: 0
+  yDistAtStart: 0
+  followY: 1
 --- !u!1 &925286575
 GameObject:
   m_ObjectHideFlags: 0
@@ -15143,7 +15151,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1111025407
 GameObject:
@@ -15178,7 +15186,7 @@ Transform:
   - {fileID: 151162951}
   - {fileID: 1245108148}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1130502345
 GameObject:
@@ -15383,6 +15391,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pilot: {fileID: 1261894561}
   xDistAtStart: 0
+  yDistAtStart: 0
+  followY: 1
 --- !u!1 &1201182889
 GameObject:
   m_ObjectHideFlags: 0
@@ -15408,12 +15418,12 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1201182889}
-  m_LocalRotation: {x: -0.7059497, y: 0.7059497, z: -0.04043525, w: 0.04043526}
-  m_LocalPosition: {x: 0, y: 40, z: -114.20995}
-  m_LocalScale: {x: 1, y: 1.0375404, z: 3.841911}
+  m_LocalRotation: {x: -0.66551447, y: -0.0000000018626451, z: -0, w: 0.746385}
+  m_LocalPosition: {x: 0, y: -15.179999, z: 0}
+  m_LocalScale: {x: 1, y: 1.0275005, z: 1.0275009}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_Father: {fileID: 1261894562}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: -83.444, y: 0, z: 0}
 --- !u!199 &1201182891
 ParticleSystemRenderer:
@@ -16105,7 +16115,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 50, y: 50, z: 1}
+    m_Scale: {x: 100, y: 100, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -20150,7 +20160,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 054922578da0d3441a56d2a8f657c5d8, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 054922578da0d3441a56d2a8f657c5d8, type: 3}
       propertyPath: m_Name
@@ -20334,9 +20344,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myAudioSource: {fileID: 0}
   pitchRange: {x: 0.9, y: 1.1}
-  moveSpeed: 50
+  moveSpeed: 75
   heightMin: 45
-  heigtMax: 150
+  heigtMax: 1000
   xMin: -100
   xMax: 100
   guns: []
@@ -20452,7 +20462,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1605485583
 GameObject:
@@ -20597,6 +20607,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pilot: {fileID: 1261894561}
   xDistAtStart: 0
+  yDistAtStart: 0
+  followY: 1
 --- !u!1 &1745871978
 GameObject:
   m_ObjectHideFlags: 0
@@ -29855,6 +29867,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pilot: {fileID: 1261894561}
   xDistAtStart: 0
+  yDistAtStart: 0
+  followY: 1
 --- !u!1001 &2007082561
 Prefab:
   m_ObjectHideFlags: 0
