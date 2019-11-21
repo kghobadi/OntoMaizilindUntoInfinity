@@ -8,12 +8,21 @@ public class Lightning : AudioHandler {
     public AudioClip[] thunderStrikes;
 
     public float lightningTimer, lightningFreq = 15f;
+    public bool lightningCloud;
+    public float lightningChance = 33f;
 
     public override void Awake()
     {
         base.Awake();
         Random.InitState((int)System.DateTime.Now.Ticks);
         lightningParticles = GetComponent<ParticleSystem>();
+
+        float randomChance = Random.Range(0f, 100f);
+
+        if(randomChance < lightningChance)
+        {
+            lightningCloud = true;
+        }
     }
 
     void Start () {
@@ -21,10 +30,13 @@ public class Lightning : AudioHandler {
     }
 	
 	void Update () {
-        lightningTimer -= Time.deltaTime;
-		if(lightningTimer < 0)
+        if (lightningCloud)
         {
-            Thunderstrike();
+            lightningTimer -= Time.deltaTime;
+            if (lightningTimer < 0)
+            {
+                Thunderstrike();
+            }
         }
 	}
 

@@ -7,14 +7,12 @@ public class BombTrigger : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-       
         if(other.gameObject.tag == "Plane")
         {
             Bomber bomber = other.gameObject.GetComponent<Bomber>();
 
-            bomber.StartCoroutine(bomber.SpawnBombs());
+            bomber.DropBombs();
             Debug.Log("triggering bombs");
-            
         }
     }
 }

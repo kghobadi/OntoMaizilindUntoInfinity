@@ -7,6 +7,7 @@ using UnityEngine.Video;
 public class Television : MonoBehaviour {
     VideoPlayer vidPlayer;
     public GameObject planes;
+    public GameObject sirens;
 
 	void Start () {
         vidPlayer = GetComponent<VideoPlayer>();
@@ -17,6 +18,7 @@ public class Television : MonoBehaviour {
         {
             vidPlayer.Stop();
             planes.SetActive(true);
+            sirens.SetActive(true);
         }
 	}
 }

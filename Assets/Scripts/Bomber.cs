@@ -12,15 +12,20 @@ public class Bomber : MonoBehaviour {
 	}
 	
 	void Update () {
-        OVRInput.Update();
-        if (Input.GetKeyDown(KeyCode.Space) || OVRInput.GetDown(OVRInput.Button.One))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             StartCoroutine(SpawnBombs());
         }
 	}
 
+    //public bomb call 
+    public void DropBombs()
+    {
+        StartCoroutine(SpawnBombs());
+    }
+
     //spawn a random count of bombs to drop
-    public IEnumerator SpawnBombs()
+    IEnumerator SpawnBombs()
     {
         bombing = true;
 
