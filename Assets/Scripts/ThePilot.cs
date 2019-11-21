@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ThePilot : AudioHandler {
 
@@ -10,14 +11,18 @@ public class ThePilot : AudioHandler {
     public float moveSpeed;
     public float heightMin, heigtMax;
     public float xMin, xMax;
-
+    public AudioClip outOfAmmoClick;
     bool input;
     //weapons 
     public Gun[] guns;
-    public float weaponsTimer, firingInterval;
+    public float weaponsTimerL, firingIntervalL;
+    public float weaponsTimerR, firingIntervalR;
 
     public bool zoomedIn;
     public GameObject fpCam,cockpit, zoCam;
+
+    public int bulletCount = 1800;
+    public TMP_Text bText;
 
     public override void Awake()
     {
@@ -26,7 +31,7 @@ public class ThePilot : AudioHandler {
         planeAnimator = GetComponent<Animator>();
         animationScript = GetComponent<PilotAnimation>();
         guns = GetComponentsInChildren<Gun>();
-
+        bText.text = bulletCount.ToString();
         SwitchViews(zoomedIn);
     }
     
@@ -36,9 +41,10 @@ public class ThePilot : AudioHandler {
 
         FireWeapons();
 
-        weaponsTimer -= Time.deltaTime;
+        weaponsTimerL -= Time.deltaTime;
+        weaponsTimerR -= Time.deltaTime;
 
-        if(Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
             ToggleViews();
         }
@@ -76,23 +82,95 @@ public class ThePilot : AudioHandler {
         if (Input.GetKey(KeyCode.Space))
         {
             //check can fire 
-            if(weaponsTimer < 0)
+            if(weaponsTimerL < 0 || weaponsTimerR < 0)
             {
-                for (int i = 0; i < guns.Length; i++)
+                //if we have bullets left 
+                if(bulletCount > 0)
                 {
-                    guns[i].SpawnBullet();
+                    //guns fire 
+                    for (int i = 0; i < guns.Length; i++)
+                    {
+                        guns[i].SpawnBullet();
+                    }
+                    //lose a bullet for every gun fired 
+                    bulletCount -= guns.Length;
+                    //set bullet text 
+                    bText.text = bulletCount.ToString();
+                }
+                //click click 
+                else
+                {
+                    PlaySoundRandomPitch(outOfAmmoClick, 1f);
                 }
 
-                weaponsTimer = firingInterval;
+                weaponsTimerL = firingIntervalL;
+                weaponsTimerR = firingIntervalR;
             }
-            
+        }
+
+        //fire left gun 
+        if (Input.GetMouseButton(0))
+        {
+            //check can fire 
+            if (weaponsTimerL < 0)
+            {
+                //if we have bullets left 
+                if (bulletCount > 0)
+                {
+                    //guns fire 
+                    guns[0].SpawnBullet();
+                    //lose a bullet for every gun fired 
+                    bulletCount--;
+                    //set bullet text 
+                    bText.text = bulletCount.ToString();
+                }
+                //click click 
+                else
+                {
+                    PlaySoundRandomPitch(outOfAmmoClick, 1f);
+                }
+
+                weaponsTimerL = firingIntervalL;
+            }
+        }
+
+        //fire right gun 
+        if (Input.GetMouseButton(1))
+        {
+            //check can fire 
+            if (weaponsTimerR < 0)
+            {
+                //if we have bullets left 
+                if (bulletCount > 0)
+                {
+                    //guns fire 
+                    guns[1].SpawnBullet();
+                    //lose a bullet for every gun fired 
+                    bulletCount --;
+                    //set bullet text 
+                    bText.text = bulletCount.ToString();
+                }
+                //click click 
+                else
+                {
+                    PlaySoundRandomPitch(outOfAmmoClick, 1f);
+                }
+
+                weaponsTimerR = firingIntervalR;
+            }
         }
     }
 
     void Movement()
     {
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+
+        float mouseX = Input.GetAxis("Mouse X");
+        float mouseY = Input.GetAxis("Mouse Y");
+
         //LEFT
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (horizontal < 0 || mouseX < 0)
         {
             transform.position = Vector3.MoveTowards(transform.position, 
                 new Vector3(xMin, transform.position.y, transform.position.z), moveSpeed * Time.deltaTime); 
@@ -100,13 +178,8 @@ public class ThePilot : AudioHandler {
             animationScript.SetAnimator("left");
             input = true;
         }
-        if (Input.GetKeyUp(KeyCode.LeftArrow))
-        {
-            input = false;
-        }
-
         //RIGHT
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (horizontal > 0 || mouseX > 0)
         {
             transform.position = Vector3.MoveTowards(transform.position, 
                 new Vector3(xMax, transform.position.y, transform.position.z), moveSpeed * Time.deltaTime);
@@ -114,13 +187,8 @@ public class ThePilot : AudioHandler {
             animationScript.SetAnimator("right");
             input = true;
         }
-        if (Input.GetKeyUp(KeyCode.RightArrow))
-        {
-            input = false;
-        }
-
         //UP
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (vertical > 0 || mouseY > 0)
         {
             transform.position = Vector3.MoveTowards(transform.position, 
                 new Vector3(transform.position.x, heigtMax, transform.position.z), moveSpeed * Time.deltaTime);
@@ -128,13 +196,8 @@ public class ThePilot : AudioHandler {
             animationScript.SetAnimator("up");
             input = true;
         }
-        if (Input.GetKeyUp(KeyCode.UpArrow))
-        {
-            input = false;
-        }
-
         //DOWN
-        if (Input.GetKey(KeyCode.DownArrow))
+        if ( vertical < 0 || mouseY < 0)
         {
             transform.position = Vector3.MoveTowards(transform.position, 
                 new Vector3(transform.position.x, heightMin, transform.position.z), moveSpeed * Time.deltaTime);
@@ -142,7 +205,9 @@ public class ThePilot : AudioHandler {
             animationScript.SetAnimator("down");
             input = true;
         }
-        if (Input.GetKeyUp(KeyCode.DownArrow))
+
+        //no input 
+        if(vertical ==0 && horizontal == 0 && mouseX == 0 && mouseY == 0)
         {
             input = false;
         }
