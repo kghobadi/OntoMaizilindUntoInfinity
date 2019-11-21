@@ -6,6 +6,7 @@ public class ThePilot : AudioHandler {
 
     Animator planeAnimator;
     PilotAnimation animationScript;
+    MeshRenderer planeRender;
     public float moveSpeed;
     public float heightMin, heigtMax;
     public float xMin, xMax;
@@ -15,12 +16,18 @@ public class ThePilot : AudioHandler {
     public Gun[] guns;
     public float weaponsTimer, firingInterval;
 
+    public bool zoomedIn;
+    public GameObject fpCam,cockpit, zoCam;
+
     public override void Awake()
     {
         base.Awake();
+        planeRender = GetComponent<MeshRenderer>();
         planeAnimator = GetComponent<Animator>();
         animationScript = GetComponent<PilotAnimation>();
         guns = GetComponentsInChildren<Gun>();
+
+        SwitchViews(zoomedIn);
     }
     
 	//could play sounds when moving 
@@ -30,6 +37,37 @@ public class ThePilot : AudioHandler {
         FireWeapons();
 
         weaponsTimer -= Time.deltaTime;
+
+        if(Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+        {
+            ToggleViews();
+        }
+    }
+
+    void ToggleViews()
+    {
+        zoomedIn = !zoomedIn;
+        SwitchViews(zoomedIn);
+    }
+
+    void SwitchViews(bool fpORzoom)
+    {
+        //first person
+        if (fpORzoom)
+        {
+            fpCam.SetActive(true);
+            cockpit.SetActive(true);
+            zoCam.SetActive(false);
+            planeRender.enabled = false;
+        }
+        //zoomed out 
+        else
+        {
+            fpCam.SetActive(false);
+            cockpit.SetActive(false);
+            zoCam.SetActive(true);
+            planeRender.enabled = true;
+        }
     }
 
     void FireWeapons()
