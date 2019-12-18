@@ -13,5 +13,6 @@ public class Gun : AudioHandler {
 
         GameObject bullet = bulletPooler.GrabObject();
         bullet.transform.position = transform.position;
+        bullet.GetComponent<Bullet>().shotPos = transform.position;
     }
 }

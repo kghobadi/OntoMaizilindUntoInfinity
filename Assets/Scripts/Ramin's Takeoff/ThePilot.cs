@@ -85,7 +85,7 @@ public class ThePilot : AudioHandler {
             if(weaponsTimerL < 0 || weaponsTimerR < 0)
             {
                 //if we have bullets left 
-                if(bulletCount > 0)
+                if(bulletCount > 1)
                 {
                     //guns fire 
                     for (int i = 0; i < guns.Length; i++)

@@ -43,14 +43,19 @@ public class Television : MonoBehaviour {
         }
 
         //end speech, activate sirens & planes 
-		if(vidPlayer.frame >= (long)vidPlayer.frameCount - 3)
+		if(vidPlayer.frame >= (long)vidPlayer.frameCount - 3 && shahSpeech.currentLine >= shahSpeech.endAtLine -1)
         {
-            vidPlayer.Stop();
-            planes.SetActive(true);
-            sirens.SetActive(true);
-            speechPanel.FadeOut();
+            EndSpeech();
         }
 	}
+
+    void EndSpeech()
+    {
+        vidPlayer.Stop();
+        planes.SetActive(true);
+        sirens.SetActive(true);
+        speechPanel.FadeOut();
+    }
 
     //switch mutes on TV & Radio sources
     void SwitchDeviceAudio()

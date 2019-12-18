@@ -14,7 +14,7 @@ public class FadeSprite : MonoBehaviour {
 
     //these will be on during the fades
     public bool fadingIn, fadingOut, keepActive, fadeOutImmediately;
-
+    public float fadeInAmount = 1f, fadeOutAmount = 0f;
     //controls the speed of the fade
     public float fadeInWait, fadeOutWait, fadeInSpeed = 0.75f, fadeOutSpeed = 1f;
 
@@ -51,7 +51,7 @@ public class FadeSprite : MonoBehaviour {
         //when fadingIn, this is called every frame
         if (fadingIn)
         {
-            if(alphaValue.a < 1)
+            if(alphaValue.a < fadeInAmount)
             {
                 alphaValue.a += fadeInSpeed * Time.deltaTime;
                 thisSR.color = alphaValue;
@@ -69,7 +69,7 @@ public class FadeSprite : MonoBehaviour {
         //when fading out, this is called every frame and eventually turns off object
         if (fadingOut)
         {
-            if (alphaValue.a > 0)
+            if (alphaValue.a > fadeOutAmount)
             {
 
                 alphaValue.a -= fadeOutSpeed * Time.deltaTime;

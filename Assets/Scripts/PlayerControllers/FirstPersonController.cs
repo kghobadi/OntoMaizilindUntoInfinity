@@ -34,9 +34,13 @@ public class FirstPersonController : MonoBehaviour
     //to shorten if statement
     public List<string> audioTags = new List<string>();
 
+    public bool canMove = true;
     public bool moving;
 
     Vector3 lastPosition;
+
+    //for start of radio room
+    public GameObject startCam;
 
     void Start()
     {
@@ -48,49 +52,66 @@ public class FirstPersonController : MonoBehaviour
 
     void Update()
     {
-        //when hold mouse 1, you begin to move in that direction
-        if (Input.GetMouseButton(0))
+        if (canMove)
         {
-            moving = true;
+            //when hold mouse 1, you begin to move in that direction
+            if (Input.GetMouseButton(0))
+            {
+                moving = true;
 
-            movement = new Vector3(0, 0, currentSpeed);
+                movement = new Vector3(0, 0, currentSpeed);
 
-            SprintSpeed();
+                SprintSpeed();
+            }
+            //move backwards
+            else if (Input.GetMouseButton(1))
+            {
+                moving = true;
+
+                movement = new Vector3(0, 0, -currentSpeed);
+
+                SprintSpeed();
+            }
+            //WASD controls
+            else if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) ||
+                Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+            {
+                moving = true;
+
+                float moveForwardBackward = Input.GetAxis("Vertical") * currentSpeed;
+                float moveLeftRight = Input.GetAxis("Horizontal") * currentSpeed;
+
+                movement = new Vector3(moveLeftRight, 0, moveForwardBackward);
+
+                SprintSpeed();
+
+            }
+            //when not moving
+            else
+            {
+                moving = false;
+                movement = Vector3.zero;
+                currentSpeed = walkSpeed;
+            }
+
+            //actual movement
+            if (moving)
+            {
+                if (startCam)
+                    DeactivateStartCam();
+
+                movement = transform.rotation * movement;
+                player.Move(movement * Time.deltaTime);
+
+                player.Move(new Vector3(0, -0.5f, 0));
+            }
         }
-        //move backwards
-        else if (Input.GetMouseButton(1))
-        {
-            moving = true;
+    }
 
-            movement = new Vector3(0, 0, -currentSpeed);
-
-            SprintSpeed();
-        }
-        //WASD controls
-        else if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) ||
-            Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
-        {
-            moving = true;
-
-            float moveForwardBackward = Input.GetAxis("Vertical") * currentSpeed;
-            float moveLeftRight = Input.GetAxis("Horizontal") * currentSpeed;
-
-            movement = new Vector3(moveLeftRight, 0, moveForwardBackward);
-
-            SprintSpeed();
-        }
-        //when not moving
-        else
-        {
-            moving = false;
-            movement = Vector3.zero;
-            currentSpeed = walkSpeed;
-        }
-
-        movement = transform.rotation * movement;
-        player.Move(movement * Time.deltaTime);
-
-        player.Move(new Vector3(0, -0.5f, 0));
+    void DeactivateStartCam()
+    {
+        if(startCam.activeSelf)
+            startCam.SetActive(false);
     }
     
     //increases move speed while player is moving over time

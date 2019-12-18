@@ -6,7 +6,11 @@ public class Bullet : MonoBehaviour {
 
     ThePilot pilot;
     public float bulletSpeed;
+    public float speedOverTime = 10f;
     public float origSpeed;
+
+    public Vector3 shotPos;
+    public float shotDist = 500f;
 
     void Awake()
     {
@@ -16,13 +20,13 @@ public class Bullet : MonoBehaviour {
 
     void Update () {
         //move forward on Z axis 
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + new Vector3(0, 0, 10), bulletSpeed * Time.deltaTime);
-        bulletSpeed += 1f;
+        transform.position = Vector3.MoveTowards(transform.position, shotPos + new Vector3(0, 0, shotDist + 1f), bulletSpeed * Time.deltaTime);
+        bulletSpeed += speedOverTime;
 
         //return to pool once it has traveled too far 
-        if(Vector3.Distance(transform.position, pilot.transform.position) > 250f)
+        if(Vector3.Distance(transform.position, pilot.transform.position) > shotDist)
         {
-            GetComponent<PooledObject>().ReturnToPool();
+            ResetBullet();
         }
 	}
 
@@ -31,12 +35,16 @@ public class Bullet : MonoBehaviour {
         //return bullet and death cloud to their pools on impact 
         if(other.gameObject.tag == "DeathCloud")
         {
-            //reset b speed & cloud scale
-            bulletSpeed = origSpeed;
+            //reset cloud scale && send to poolers
             other.gameObject.transform.localScale = other.gameObject.GetComponent<Cloud>().origScale;
-            //send to poolers
             other.gameObject.GetComponent<PooledObject>().ReturnToPool();
-            GetComponent<PooledObject>().ReturnToPool();
+            ResetBullet();
         }
+    }
+
+    void ResetBullet()
+    {
+        GetComponent<PooledObject>().ReturnToPool();
+        bulletSpeed = origSpeed;
     }
 }
