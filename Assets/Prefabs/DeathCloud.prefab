@@ -138,7 +138,7 @@ AudioSource:
   m_GameObject: {fileID: 1950859025301064}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 243245761698304166, guid: 44cea40f08940944983694f8bd40ac83,
+  OutputAudioMixerGroup: {fileID: 243931155023850290, guid: d87b47ce31deb1f44bbe100832f18eb4,
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
@@ -253,11 +253,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myAudioSource: {fileID: 0}
   pitchRange: {x: 0.9, y: 1.1}
+  voiceCounter: 0
+  voices: []
+  currentSound: 0
   thunderStrikes:
   - {fileID: 8300000, guid: 8c307b2dbcd3ad54faf715e40edb2c29, type: 3}
   - {fileID: 8300000, guid: 5226c53616a454546a2af9e529a29f0e, type: 3}
   lightningTimer: 0
   lightningFreq: 15
+  lightningCloud: 0
+  lightningChance: 33
 --- !u!198 &198655145568423834
 ParticleSystem:
   m_ObjectHideFlags: 1
