@@ -30,6 +30,8 @@ public class CameraSwitcher : MonoBehaviour {
             {
                 //set the body's parent to the host game obj
                 cameraObjects[i].GetComponent<CamObject>().myBody.transform.SetParent(cameraObjects[i].transform);
+                //disable ground cam script
+                cameraObjects[i].GetComponent<CamObject>().camObj.GetComponent<GroundCamera>().enabled = false;
                 //turn on that persons Citizen Ai
                 cameraObjects[i].GetComponent<Citizen>().enabled = true;
                 //turn off that persons FPC
@@ -45,6 +47,10 @@ public class CameraSwitcher : MonoBehaviour {
 	}
 	
 	void Update () {
+        //resets current cam when people are destroyed
+        if(currentCam > cameraObjects.Count - 1)
+            currentCam = cameraObjects.IndexOf(currentCamObj);
+
         //switch through cam objects down
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
@@ -70,6 +76,8 @@ public class CameraSwitcher : MonoBehaviour {
         {
             //set the body's parent to the host game obj
             currentCamObj.GetComponent<CamObject>().myBody.transform.SetParent(currentCamObj.transform);
+            //disable ground cam script
+            cameraObjects[currentCam].GetComponent<CamObject>().camObj.GetComponent<GroundCamera>().enabled = false;
             //turn on that persons Citizen Ai
             currentCamObj.GetComponent<Citizen>().enabled = true;
             //turn off that persons FPC
@@ -131,6 +139,8 @@ public class CameraSwitcher : MonoBehaviour {
         {
             //set the body's parent to its camera
             cameraObjects[currentCam].GetComponent<CamObject>().myBody.transform.SetParent(cameraObjects[currentCam].GetComponent<CamObject>().camObj.transform);
+            //enable ground cam script
+            cameraObjects[currentCam].GetComponent<CamObject>().camObj.GetComponent<GroundCamera>().enabled = true;
             //turn off that persons Citizen Ai
             cameraObjects[currentCam].GetComponent<Citizen>().enabled = false;
             //turn on that persons FPC
