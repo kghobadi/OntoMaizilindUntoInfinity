@@ -6600,10 +6600,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planes: {fileID: 1940757204}
   sirens: {fileID: 849291360}
-  speechPanel: {fileID: 0}
+  speechPanel: {fileID: 590775803}
   radio: {fileID: 998896588}
   shahSpeech: {fileID: 325564876}
   transitionLines: 080000000f00000019000000
+  advance: {fileID: 1957278046}
+  speechEnded: 0
+  changeSceneTimer: 0
+  timeUntilChange: 30
 --- !u!82 &735344751
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8214,7 +8218,6 @@ GameObject:
   - component: {fileID: 925286577}
   - component: {fileID: 925286576}
   - component: {fileID: 925286578}
-  - component: {fileID: 925286579}
   m_Layer: 0
   m_Name: WorldManager
   m_TagString: WorldManager
@@ -8260,17 +8263,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraObjects: []
   currentCam: 0
---- !u!114 &925286579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 925286575}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1d549f9805004d45ab1cbad77ac839f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  advance: {fileID: 0}
+  transitionAmount: 3
 --- !u!1 &932305538
 GameObject:
   m_ObjectHideFlags: 0
@@ -18367,6 +18361,46 @@ Transform:
   - {fileID: 93103020}
   m_Father: {fileID: 0}
   m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1957278045
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1957278047}
+  - component: {fileID: 1957278046}
+  m_Layer: 0
+  m_Name: AdvanceScene
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1957278046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1957278045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1d549f9805004d45ab1cbad77ac839f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1957278047
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1957278045}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1966289068
 Prefab:

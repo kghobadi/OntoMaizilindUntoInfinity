@@ -9,6 +9,7 @@ public class PostProcessor : MonoBehaviour
     AudioSpectrum spectrum;
 
     //post processing profiler references
+    [Header("Post Processing")]
     public PostProcessingProfile myPost;
     public ColorGradingModel.Settings colorGrader;
 
@@ -28,6 +29,7 @@ public class PostProcessor : MonoBehaviour
     public bool colorShiftingOn;
 
     //nuclear bomb stuff 
+    [Header("Nuclear Bombs")]
     public Transform explosionParent;
     public GameObject nuclearBomb;
     public int bombLevelRef;
@@ -36,6 +38,10 @@ public class PostProcessor : MonoBehaviour
     public bool canSpawnBombs = true;
     public float bombTimer, bombTimerTotal = 0.1f;
     public Camera player;
+
+    [Header("Transition")]
+    public AdvanceScene advance;
+    public AudioSource music;
 
     //calibrate all the post processing values at start because these change outside playmode
     void Start()
@@ -107,6 +113,12 @@ public class PostProcessor : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             colorShiftingOn = !colorShiftingOn;
+        }
+
+        //restart gane when music is over 
+        if(music.isPlaying == false)
+        {
+            advance.Restart();
         }
     }
 

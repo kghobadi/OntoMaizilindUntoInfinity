@@ -18,6 +18,11 @@ public class Television : MonoBehaviour {
     public int [] transitionLines;
     int currentTransition = 0;
 
+    [Header("Scene Transition")]
+    public AdvanceScene advance;
+    public bool speechEnded;
+    public float changeSceneTimer = 0f, timeUntilChange = 30f;
+
 
 	void Awake () {
         vidPlayer = GetComponent<VideoPlayer>();
@@ -33,6 +38,7 @@ public class Television : MonoBehaviour {
 
     void Update () {
 
+        //switching audio back and forth between radio & tv
         if(currentTransition < transitionLines.Length)
         {
             if (shahSpeech.currentLine == transitionLines[currentTransition])
@@ -43,9 +49,26 @@ public class Television : MonoBehaviour {
         }
 
         //end speech, activate sirens & planes 
-		if(vidPlayer.frame >= (long)vidPlayer.frameCount - 3 && shahSpeech.currentLine >= shahSpeech.endAtLine -1)
+		if(vidPlayer.frame >= (long)vidPlayer.frameCount - 3)
         {
             EndSpeech();
+        }
+
+        //fade out graphic 
+        if(shahSpeech.currentLine == shahSpeech.endAtLine)
+        {
+            speechPanel.FadeOut();
+        }
+
+        //time until loading next scene 
+        if (speechEnded)
+        {
+            changeSceneTimer += Time.deltaTime;
+
+            if(changeSceneTimer > timeUntilChange)
+            {
+                advance.LoadNextScene();
+            }
         }
 	}
 
@@ -54,7 +77,8 @@ public class Television : MonoBehaviour {
         vidPlayer.Stop();
         planes.SetActive(true);
         sirens.SetActive(true);
-        speechPanel.FadeOut();
+       
+        speechEnded = true;
     }
 
     //switch mutes on TV & Radio sources

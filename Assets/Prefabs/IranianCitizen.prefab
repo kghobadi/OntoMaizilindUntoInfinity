@@ -2080,7 +2080,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 10
   MaxDistance: 300
   Pan2D: 0
@@ -2239,11 +2239,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentSpeed: 0
-  walkSpeed: 25
-  sprintSpeed: 50
+  walkSpeed: 50
+  sprintSpeed: 100
   scrollSpeed: 2
-  sprintTimerMax: 0.25
-  footStepTimerTotal: 0.5
+  sprintTimerMax: 0.15
+  footStepTimerTotal: 0.25
   currentFootsteps:
   - {fileID: 8300000, guid: 40d2e27a4bd3dd3419fd5a23f28044bb, type: 3}
   - {fileID: 8300000, guid: f237f5821f3242e4fb095be7da745a6c, type: 3}
@@ -2302,7 +2302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb52e68f8f33edb489b6a3920486db52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSpeed: 15
+  currentSpeed: 25
   rotationSpeed: 25
   citizenSounds: {fileID: 0}
   face: {fileID: 212677591547552720}

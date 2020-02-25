@@ -24,6 +24,9 @@ public class ThePilot : AudioHandler {
     public int bulletCount = 1800;
     public TMP_Text bText;
 
+    public AdvanceScene advance;
+    public AudioSource music;
+
     public override void Awake()
     {
         base.Awake();
@@ -47,6 +50,11 @@ public class ThePilot : AudioHandler {
         if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
             ToggleViews();
+        }
+
+        if(music.isPlaying  == false)
+        {
+            advance.LoadNextScene();
         }
     }
 
@@ -194,8 +202,12 @@ public class ThePilot : AudioHandler {
                 new Vector3(transform.position.x, heightMin, transform.position.z), moveSpeed * Time.deltaTime);
         }
 
+        //always MOVE FORWARD 
+        transform.position = Vector3.MoveTowards(transform.position,
+               new Vector3(transform.position.x, transform.position.y, transform.position.z + 100f), moveSpeed * Time.deltaTime);
+
         //no input -- IDLE
-        if(vertical ==0 && horizontal == 0 && mouseX == 0 && mouseY == 0)
+        if (vertical ==0 && horizontal == 0 && mouseX == 0 && mouseY == 0)
         {
             animationScript.SetAnimator("idle");
         }

@@ -8,6 +8,10 @@ public class CameraSwitcher : MonoBehaviour {
     GameObject currentCamObj;
     public int currentCam = 0;
 
+    [Header("Transition")]
+    public AdvanceScene advance;
+    public int transitionAmount = 3;
+
 	void Start () {
 
         //collect all humans and add them to cameraObjects list if they are not in it already
@@ -66,6 +70,12 @@ public class CameraSwitcher : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Alpha0) && currentCam != 0)
         {
             SwitchCam(false, 0);
+        }
+
+        //when there is all but one camera left, advance scene 
+        if(cameraObjects.Count <= transitionAmount)
+        {
+            advance.LoadNextScene();
         }
 	}
 

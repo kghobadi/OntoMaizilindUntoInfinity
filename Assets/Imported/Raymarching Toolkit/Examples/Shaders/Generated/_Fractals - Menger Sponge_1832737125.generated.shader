@@ -13,7 +13,7 @@
                               
 
   This shader was automatically generated from
-  Raymarching Toolkit\Assets\Shaders\RaymarchTemplate.shader
+  Imported\Raymarching Toolkit\Assets\Shaders\RaymarchTemplate.shader
   
   for Raymarcher named 'Raymarcher' in scene 'Fractals - Menger Sponge'.
 
@@ -1210,74 +1210,48 @@ float fersertWaves(float3 p, float height) {
 }
 
 // Light Light
-uniform float4 Light_48763893PosAndRange;
-uniform float4 Light_48763893ColorAndIntensity;
-uniform float3 Light_48763893Direction;
-uniform float Light_48763893Penumbra;
-uniform int Light_48763893ShadowSteps;
+uniform float4 Light_53255386PosAndRange;
+uniform float4 Light_53255386ColorAndIntensity;
+uniform float3 Light_53255386Direction;
+uniform float Light_53255386Penumbra;
+uniform int Light_53255386ShadowSteps;
 // Light Light2
-uniform float4 Light2_48763796PosAndRange;
-uniform float4 Light2_48763796ColorAndIntensity;
-uniform float3 Light2_48763796Direction;
-uniform float Light2_48763796Penumbra;
-uniform int Light2_48763796ShadowSteps;
+uniform float4 Light2_53254638PosAndRange;
+uniform float4 Light2_53254638ColorAndIntensity;
+uniform float3 Light2_53254638Direction;
+uniform float Light2_53254638Penumbra;
+uniform int Light2_53254638ShadowSteps;
 // Light Light3
-uniform float4 Light3_48763854PosAndRange;
-uniform float4 Light3_48763854ColorAndIntensity;
-uniform float3 Light3_48763854Direction;
-uniform float Light3_48763854Penumbra;
-uniform int Light3_48763854ShadowSteps;
+uniform float4 Light3_53254675PosAndRange;
+uniform float4 Light3_53254675ColorAndIntensity;
+uniform float3 Light3_53254675Direction;
+uniform float Light3_53254675Penumbra;
+uniform int Light3_53254675ShadowSteps;
 
 // UNIFORMS AND FUNCTIONS
-uniform float x_48763887_d6b53711_x;
-uniform float x_48763887_d6b53711_y;
-uniform float x_48763887_d6b53711_z;
-uniform float3 x_48763887_d6b53711_separation;
-uniform float3 x_48763887_d6b53711_noisedisplacement;
-uniform sampler2D x_48763887_d6b53711_noisetex;
-float3 modifier_Repeat(float3 p , float _INP_x, float _INP_y, float _INP_z, float3 _INP_separation, float3 _INP_noisedisplacement, sampler2D _INP_noisetex) {
-    // Generated from Assets/Raymarching Toolkit/Assets/Snippets/Modifiers/Repeat.asset
-    float3 repeat = _INP_separation;
-    float3 op = _INP_separation * .5 + p;
-    float3 cell = floor(op / _INP_separation);
-    float3 result = sign(op / repeat) * (op % repeat) - 0.5 * repeat;
-    result = lerp(p, result, float3(_INP_x, _INP_y, _INP_z));
-    
-    // noise
-    _INP_noisedisplacement = clamp(_INP_noisedisplacement, 0, _INP_separation * .5);
-    float np = ((cell.z + cell.x + cell.y) / 100) * 2;
-    float n = 0.5 + (tex2Dlod(_INP_noisetex, float4(np % 1, 0, 0, 0)).r - 0.5) * 2;
-    //n = cnoise(float2(np,0));
-    // translate
-    result += n * _INP_noisedisplacement;
-    
-    return result;
-}
-uniform float4x4 _48763887Matrix;
-uniform float4x4 _48763887InverseMatrix;
-uniform float x_48763889_1d59cc68_freq;
-uniform float x_48763889_1d59cc68_intensity;
-uniform float x_48763889_1d59cc68_speed;
+uniform float x_53255382_1d59cc68_freq;
+uniform float x_53255382_1d59cc68_intensity;
+uniform float x_53255382_1d59cc68_speed;
 float3 modifier_Displacement(float3 p , float _INP_freq, float _INP_intensity, float _INP_speed) {
-    // Generated from Assets/Raymarching Toolkit/Assets/Snippets/Modifiers/Displacement.asset
+    // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Modifiers/Displacement.asset
     float timeOffset = _Time.z * _INP_speed;
     return p + sin(_INP_freq*p.x + timeOffset)*sin(_INP_freq*p.y + timeOffset)*sin(_INP_freq*p.z + timeOffset)*_INP_intensity;
 }
-uniform float4x4 _48763889Matrix;
-uniform float4x4 _48763889InverseMatrix;
-uniform float x_48763767_6492bb9b_radius;
+uniform float4x4 _53255382Matrix;
+uniform float4x4 _53255382InverseMatrix;
+uniform float x_53254609_6492bb9b_radius;
 float object_Sphere(float3 p , float _INP_radius) {
-    // Generated from Assets/Raymarching Toolkit/Assets/Snippets/Objects/Sphere.asset
+    // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Objects/Sphere.asset
     return length(p) - _INP_radius;
 }
-uniform float3 x_48763862_80f5e9c6_boxsize;
-uniform int x_48763862_80f5e9c6_steps;
-uniform float x_48763862_80f5e9c6_mult;
-uniform float x_48763862_80f5e9c6_mult2;
-uniform float x_48763862_80f5e9c6_modf;
-uniform float2 x_48763862_80f5e9c6_twist;
+uniform float3 x_53255355_80f5e9c6_boxsize;
+uniform int x_53255355_80f5e9c6_steps;
+uniform float x_53255355_80f5e9c6_mult;
+uniform float x_53255355_80f5e9c6_mult2;
+uniform float x_53255355_80f5e9c6_modf;
+uniform float2 x_53255355_80f5e9c6_twist;
 float object_FractalMenger(float3 p , float3 _INP_boxsize, int _INP_steps, float _INP_mult, float _INP_mult2, float _INP_modf, float2 _INP_twist) {
-    // Generated from Assets/Raymarching Toolkit/Assets/Snippets/Objects/Fractal Menger.asset
+    // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Objects/Fractal Menger.asset
     float d = box(p,_INP_boxsize);
     
     float s = 1.0;
@@ -1301,20 +1275,20 @@ float object_FractalMenger(float3 p , float3 _INP_boxsize, int _INP_steps, float
     return float3(d,1.0,1.0);
 }
 // uniforms for Sphere
-uniform float4x4 _48763767Matrix;
-uniform float _48763767MinScale;
+uniform float4x4 _53254609Matrix;
+uniform float _53254609MinScale;
 // uniforms for Fractal
-uniform float4x4 _48763862Matrix;
-uniform float _48763862MinScale;
-uniform float4 x_48763767_da843a44_color;
+uniform float4x4 _53255355Matrix;
+uniform float _53255355MinScale;
+uniform float4 x_53254609_da843a44_color;
 float3 material_SimpleColor(inout float3 normal, float3 p, float3 rayDir, float4 _INP_color) {
-    // Generated from Assets/Raymarching Toolkit/Assets/Snippets/Materials/SimpleColor.asset
+    // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Materials/SimpleColor.asset
     return _INP_color;
 }
-uniform float x_48763862_c17e50ff_scale;
-uniform sampler2D x_48763862_c17e50ff_mytex;
+uniform float x_53255355_c17e50ff_scale;
+uniform sampler2D x_53255355_c17e50ff_mytex;
 float3 material_Texture(inout float3 normal, float3 p, float3 rayDir, float _INP_scale, sampler2D _INP_mytex) {
-    // Generated from Assets/Raymarching Toolkit/Assets/Snippets/Materials/Texture.asset
+    // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Materials/Texture.asset
     return tex3D_2D(p * _INP_scale, normal, _INP_mytex).rgb;
 }
 float3 MaterialFunc(float nf, inout float3 normal, float3 p, float3 rayDir, out float objectID)
@@ -1322,11 +1296,11 @@ float3 MaterialFunc(float nf, inout float3 normal, float3 p, float3 rayDir, out 
     objectID = ceil(nf) / (float)2;
     [branch] if (nf <= 1) {
     //    objectID = 0.5;
-        return material_SimpleColor(normal, objPos(_48763767Matrix, p), rayDir, x_48763767_da843a44_color);
+        return material_SimpleColor(normal, objPos(_53254609Matrix, p), rayDir, x_53254609_da843a44_color);
     }
     else if(nf <= 2) {
     //    objectID = 1;
-        return material_Texture(normal, objPos(_48763862Matrix, p), rayDir, x_48763862_c17e50ff_scale, x_48763862_c17e50ff_mytex);
+        return material_Texture(normal, objPos(_53255355Matrix, p), rayDir, x_53255355_c17e50ff_scale, x_53255355_c17e50ff_mytex);
     }
         objectID = 0;
         return float3(1.0, 0.0, 1.0);
@@ -1336,11 +1310,10 @@ float2 map(float3 p) {
 	float2 result = float2(1.0, 0.0);
 	
 {
-    float _48763767Distance = object_Sphere(objPos(_48763767Matrix, p), x_48763767_6492bb9b_radius) * _48763767MinScale;
-    float3 p_48763887 = objPos(_48763887InverseMatrix, modifier_Repeat(objPos(_48763887Matrix, p), x_48763887_d6b53711_x, x_48763887_d6b53711_y, x_48763887_d6b53711_z, x_48763887_d6b53711_separation, x_48763887_d6b53711_noisedisplacement, x_48763887_d6b53711_noisetex));
-    float3 p_48763889 = objPos(_48763889InverseMatrix, modifier_Displacement(objPos(_48763889Matrix, p_48763887), x_48763889_1d59cc68_freq, x_48763889_1d59cc68_intensity, x_48763889_1d59cc68_speed));
-    float _48763862Distance = object_FractalMenger(objPos(_48763862Matrix, p_48763889), x_48763862_80f5e9c6_boxsize, x_48763862_80f5e9c6_steps, x_48763862_80f5e9c6_mult, x_48763862_80f5e9c6_mult2, x_48763862_80f5e9c6_modf, x_48763862_80f5e9c6_twist) * _48763862MinScale;
-    result = opSubtract(float2(_48763767Distance, /*material ID*/0.5), float2(_48763862Distance, /*material ID*/1.5));
+    float _53254609Distance = object_Sphere(objPos(_53254609Matrix, p), x_53254609_6492bb9b_radius) * _53254609MinScale;
+    float3 p_53255382 = objPos(_53255382InverseMatrix, modifier_Displacement(objPos(_53255382Matrix, p), x_53255382_1d59cc68_freq, x_53255382_1d59cc68_intensity, x_53255382_1d59cc68_speed));
+    float _53255355Distance = object_FractalMenger(objPos(_53255355Matrix, p_53255382), x_53255355_80f5e9c6_boxsize, x_53255355_80f5e9c6_steps, x_53255355_80f5e9c6_mult, x_53255355_80f5e9c6_mult2, x_53255355_80f5e9c6_modf, x_53255355_80f5e9c6_twist) * _53255355MinScale;
+    result = opSubtract(float2(_53254609Distance, /*material ID*/0.5), float2(_53255355Distance, /*material ID*/1.5));
     }
 	return result;
 }
@@ -1355,23 +1328,23 @@ float3 getLights(in float3 color, in float3 pos, in float3 normal) {
 	
 {
 LightInfo light;
-light.posAndRange = Light_48763893PosAndRange;
-light.colorAndIntensity = Light_48763893ColorAndIntensity;
-light.direction = Light_48763893Direction;
+light.posAndRange = Light_53255386PosAndRange;
+light.colorAndIntensity = Light_53255386ColorAndIntensity;
+light.direction = Light_53255386Direction;
 lightValue += getDirectionalLight(input, light);
 }
 {
 LightInfo light;
-light.posAndRange = Light2_48763796PosAndRange;
-light.colorAndIntensity = Light2_48763796ColorAndIntensity;
-light.direction = Light2_48763796Direction;
+light.posAndRange = Light2_53254638PosAndRange;
+light.colorAndIntensity = Light2_53254638ColorAndIntensity;
+light.direction = Light2_53254638Direction;
 lightValue += getDirectionalLight(input, light);
 }
 {
 LightInfo light;
-light.posAndRange = Light3_48763854PosAndRange;
-light.colorAndIntensity = Light3_48763854ColorAndIntensity;
-light.direction = Light3_48763854Direction;
+light.posAndRange = Light3_53254675PosAndRange;
+light.colorAndIntensity = Light3_53254675ColorAndIntensity;
+light.direction = Light3_53254675Direction;
 lightValue += getDirectionalLight(input, light);
 }
 	return lightValue;

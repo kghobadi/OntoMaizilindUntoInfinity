@@ -12,15 +12,20 @@ public class Bullet : MonoBehaviour {
     public Vector3 shotPos;
     public float shotDist = 500f;
 
+    [HideInInspector]
+    public TrailRenderer bulletTrail;
+
     void Awake()
     {
         pilot = GameObject.FindGameObjectWithTag("Player").GetComponent<ThePilot>();
+        bulletTrail = GetComponent<TrailRenderer>();
+        bulletSpeed += pilot.moveSpeed;
         origSpeed = bulletSpeed;
     }
 
     void Update () {
         //move forward on Z axis 
-        transform.position = Vector3.MoveTowards(transform.position, shotPos + new Vector3(0, 0, shotDist + 1f), bulletSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, shotPos + new Vector3(0, 0, shotDist + 100f), bulletSpeed * Time.deltaTime);
         bulletSpeed += speedOverTime;
 
         //return to pool once it has traveled too far 
@@ -46,5 +51,6 @@ public class Bullet : MonoBehaviour {
     {
         GetComponent<PooledObject>().ReturnToPool();
         bulletSpeed = origSpeed;
+        bulletTrail.Clear();
     }
 }
