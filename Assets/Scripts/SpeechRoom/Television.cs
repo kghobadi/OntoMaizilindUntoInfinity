@@ -49,7 +49,7 @@ public class Television : MonoBehaviour {
         }
 
         //end speech, activate sirens & planes 
-		if(vidPlayer.frame >= (long)vidPlayer.frameCount - 3)
+		if(vidPlayer.frame >= (long)vidPlayer.frameCount - 3  && shahSpeech.currentLine > shahSpeech.endAtLine - 1)
         {
             EndSpeech();
         }

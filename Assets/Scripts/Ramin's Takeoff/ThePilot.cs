@@ -109,6 +109,8 @@ public class ThePilot : AudioHandler {
                 else
                 {
                     PlaySoundRandomPitch(outOfAmmoClick, 1f);
+
+                    advance.LoadNextScene();
                 }
 
                 weaponsTimerL = firingIntervalL;
