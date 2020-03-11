@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using InControl;
 
 public class Bomber : MonoBehaviour {
 
@@ -12,7 +13,10 @@ public class Bomber : MonoBehaviour {
 	}
 	
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Space))
+        //get input device 
+        var inputDevice = InputManager.ActiveDevice;
+
+        if (Input.GetKeyDown(KeyCode.Space) || inputDevice.Action1.WasPressed)
         {
             StartCoroutine(SpawnBombs());
         }

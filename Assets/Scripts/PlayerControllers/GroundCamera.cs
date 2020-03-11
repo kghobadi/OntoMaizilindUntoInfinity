@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using InControl;
 
 public class GroundCamera : MonoBehaviour
 {
@@ -23,10 +24,24 @@ public class GroundCamera : MonoBehaviour
 
     void Update()
     {
+        //get input device 
+        var inputDevice = InputManager.ActiveDevice;
+
         Cursor.lockState = CursorLockMode.Locked;
 
-        var newRotate = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+        var newRotate = new Vector2(0,0);
 
+        //controller 
+        if (inputDevice.DeviceClass == InputDeviceClass.Controller)
+        {
+            newRotate = new Vector2(inputDevice.RightStickX, inputDevice.RightStickY);
+        }
+        //mouse
+        else
+        {
+            newRotate = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+        }
+        
         newRotate = Vector2.Scale(newRotate, new Vector2(sensitivityX * smoothing, sensitivityY * smoothing));
         smoothV.x = Mathf.Lerp(smoothV.x, newRotate.x, 1f / smoothing);
         smoothV.y = Mathf.Lerp(smoothV.y, newRotate.y, 1f / smoothing);

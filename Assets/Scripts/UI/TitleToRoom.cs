@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using InControl;
 
 public class TitleToRoom : MonoBehaviour {
     //for all the text refs
@@ -28,7 +29,10 @@ public class TitleToRoom : MonoBehaviour {
 
     void Update ()
     {
-        if (Input.GetMouseButtonDown(0))
+        //get input device 
+        var inputDevice = InputManager.ActiveDevice;
+
+        if (Input.GetMouseButtonDown(0) || inputDevice.Action1.WasPressed)
         {
             //click to start poem
             if (!readingPoem)

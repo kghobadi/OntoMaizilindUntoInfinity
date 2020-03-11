@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using InControl;
 
 public class CameraSwitcher : MonoBehaviour {
     //camera objects list, current obj, and int to count them
@@ -51,17 +52,20 @@ public class CameraSwitcher : MonoBehaviour {
 	}
 	
 	void Update () {
+        //get input device 
+        var inputDevice = InputManager.ActiveDevice;
+
         //resets current cam when people are destroyed
-        if(currentCam > cameraObjects.Count - 1)
+        if (currentCam > cameraObjects.Count - 1)
             currentCam = cameraObjects.IndexOf(currentCamObj);
 
         //switch through cam objects down
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift) || inputDevice.DPadLeft.WasPressed || inputDevice.DPadDown.WasPressed)
         {
             SwitchCam(false, -1);
         }
         //switch through cam objects up
-        if (Input.GetKeyDown(KeyCode.RightShift))
+        if (Input.GetKeyDown(KeyCode.RightShift) || inputDevice.DPadRight.WasPressed || inputDevice.DPadUp.WasPressed)
         {
             SwitchCam(true, -1);
         }

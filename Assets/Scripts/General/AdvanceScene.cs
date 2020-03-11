@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using InControl;
 
 public class AdvanceScene : MonoBehaviour {
     
 	void Update ()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        //get input device 
+        var inputDevice = InputManager.ActiveDevice;
+
+        //change scene 
+        if (Input.GetKeyDown(KeyCode.Return) || inputDevice.Command.WasPressed)
         {
             LoadNextScene();
         }

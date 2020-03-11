@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using InControl;
 
 public class FirstPersonController : MonoBehaviour
 {
@@ -47,51 +48,24 @@ public class FirstPersonController : MonoBehaviour
         player = GetComponent<CharacterController>();
         playerAudSource = GetComponent<AudioSource>();
         mouseLook = GetComponentInChildren<GroundCamera>();
-        
     }
 
     void Update()
     {
+        //get input device 
+        var inputDevice = InputManager.ActiveDevice;
+
         if (canMove)
         {
-            //when hold mouse 1, you begin to move in that direction
-            if (Input.GetMouseButton(0))
+            //controller 
+            if (inputDevice.DeviceClass == InputDeviceClass.Controller)
             {
-                moving = true;
-
-                movement = new Vector3(0, 0, currentSpeed);
-
-                SprintSpeed();
+                ControllerMovement();
             }
-            //move backwards
-            else if (Input.GetMouseButton(1))
-            {
-                moving = true;
-
-                movement = new Vector3(0, 0, -currentSpeed);
-
-                SprintSpeed();
-            }
-            //WASD controls
-            else if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) ||
-                Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
-            {
-                moving = true;
-
-                float moveForwardBackward = Input.GetAxis("Vertical") * currentSpeed;
-                float moveLeftRight = Input.GetAxis("Horizontal") * currentSpeed;
-
-                movement = new Vector3(moveLeftRight, 0, moveForwardBackward);
-
-                SprintSpeed();
-
-            }
-            //when not moving
+            //mouse & keyboard 
             else
             {
-                moving = false;
-                movement = Vector3.zero;
-                currentSpeed = walkSpeed;
+                MouseKeyboardMovement();
             }
 
             //actual movement
@@ -105,6 +79,76 @@ public class FirstPersonController : MonoBehaviour
 
                 player.Move(new Vector3(0, -0.5f, 0));
             }
+        }
+    }
+
+    void ControllerMovement()
+    {  
+        //get input device 
+        var inputDevice = InputManager.ActiveDevice;
+
+        //moving 
+        if (inputDevice.LeftStickY != 0 && inputDevice.LeftStickX != 0)
+        {
+            moving = true;
+
+            float moveForwardBackward = inputDevice.LeftStickY * currentSpeed;
+            float moveLeftRight = inputDevice.LeftStickX * currentSpeed;
+
+            movement = new Vector3(moveLeftRight, 0, moveForwardBackward);
+
+            SprintSpeed();
+
+        }
+        //when not moving
+        else
+        {
+            moving = false;
+            movement = Vector3.zero;
+            currentSpeed = walkSpeed;
+        }
+    }
+
+    void MouseKeyboardMovement()
+    {
+        //when hold mouse 1, you begin to move in that direction
+        if (Input.GetMouseButton(0))
+        {
+            moving = true;
+
+            movement = new Vector3(0, 0, currentSpeed);
+
+            SprintSpeed();
+        }
+        //move backwards
+        else if (Input.GetMouseButton(1))
+        {
+            moving = true;
+
+            movement = new Vector3(0, 0, -currentSpeed);
+
+            SprintSpeed();
+        }
+        //WASD controls
+        else if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) ||
+            Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+        {
+            moving = true;
+
+            float moveForwardBackward = Input.GetAxis("Vertical") * currentSpeed;
+            float moveLeftRight = Input.GetAxis("Horizontal") * currentSpeed;
+
+            movement = new Vector3(moveLeftRight, 0, moveForwardBackward);
+
+            SprintSpeed();
+
+        }
+        //when not moving
+        else
+        {
+            moving = false;
+            movement = Vector3.zero;
+            currentSpeed = walkSpeed;
         }
     }
 

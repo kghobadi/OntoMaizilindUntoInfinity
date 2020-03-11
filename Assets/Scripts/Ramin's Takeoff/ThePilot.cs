@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using InControl;
 
 public class ThePilot : AudioHandler {
 
@@ -40,6 +41,9 @@ public class ThePilot : AudioHandler {
     
 	//could play sounds when moving 
 	void Update () {
+        //get input device 
+        var inputDevice = InputManager.ActiveDevice;
+
         Movement();
 
         FireWeapons();
@@ -47,7 +51,10 @@ public class ThePilot : AudioHandler {
         weaponsTimerL -= Time.deltaTime;
         weaponsTimerR -= Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+        //switch views
+        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift) 
+            ||  inputDevice.DPadLeft.WasPressed || inputDevice.DPadRight.WasPressed
+            || inputDevice.DPadUp.WasPressed || inputDevice.DPadDown.WasPressed)
         {
             ToggleViews();
         }
@@ -86,8 +93,11 @@ public class ThePilot : AudioHandler {
 
     void FireWeapons()
     {
+        //get input device 
+        var inputDevice = InputManager.ActiveDevice;
+
         //fire on space 
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) || inputDevice.Action1)
         {
             //check can fire 
             if(weaponsTimerL < 0 || weaponsTimerR < 0)
@@ -119,7 +129,7 @@ public class ThePilot : AudioHandler {
         }
 
         //fire left gun 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) || inputDevice.LeftTrigger || inputDevice.LeftBumper)
         {
             //check can fire 
             if (weaponsTimerL < 0)
@@ -145,7 +155,7 @@ public class ThePilot : AudioHandler {
         }
 
         //fire right gun 
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1) || inputDevice.RightTrigger || inputDevice.RightBumper)
         {
             //check can fire 
             if (weaponsTimerR < 0)
@@ -173,9 +183,25 @@ public class ThePilot : AudioHandler {
 
     void Movement()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        //get input device 
+        var inputDevice = InputManager.ActiveDevice;
 
+        float horizontal;
+        float vertical;
+
+        //controller 
+        if (inputDevice.DeviceClass == InputDeviceClass.Controller)
+        {
+            horizontal = inputDevice.LeftStickX;
+            vertical = inputDevice.LeftStickY;
+        }
+        //keyboard
+        else
+        {
+            horizontal = Input.GetAxis("Horizontal");
+            vertical = Input.GetAxis("Vertical");
+        }
+        
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 

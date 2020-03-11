@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PostProcessing;
+using InControl;
 
 public class camMouseLook : MonoBehaviour
 {
@@ -44,13 +45,27 @@ public class camMouseLook : MonoBehaviour
     }
 
     void Update()
-    {
+    { 
+        //get input device 
+        var inputDevice = InputManager.ActiveDevice;
+
         //for viewing with cam
         if (isActive)
         {
             Cursor.lockState = CursorLockMode.Locked;
 
-            var newRotate = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+            var newRotate = new Vector2(0, 0);
+
+            //controller 
+            if (inputDevice.DeviceClass == InputDeviceClass.Controller)
+            {
+                newRotate = new Vector2(inputDevice.RightStickX, inputDevice.RightStickY);
+            }
+            //mouse
+            else
+            {
+                newRotate = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+            }
 
             newRotate = Vector2.Scale(newRotate, new Vector2(sensitivityX * smoothing, sensitivityY * smoothing));
             smoothV.x = Mathf.Lerp(smoothV.x, newRotate.x, 1f / smoothing);
@@ -64,28 +79,20 @@ public class camMouseLook : MonoBehaviour
         }
 
         //left click to float camera forward through space
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) || inputDevice.LeftStickY > 0)
         {
             Vector3 forward = transform.forward * 10 + character.transform.position;
             character.transform.position = Vector3.MoveTowards(character.transform.position, forward, moveSpeed * Time.deltaTime);
         }
         //right click to float camera backward through space
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1) || inputDevice.LeftStickY < 0)
         {
             Vector3 backward = -transform.forward * 10 + character.transform.position;
             character.transform.position = Vector3.MoveTowards(character.transform.position, backward, moveSpeed * Time.deltaTime);
         }
 
-        //scroll mousewheel to adjust FOV
-        if (Input.GetAxis("Mouse ScrollWheel") > 0)
-        {
-            mainCam.fieldOfView += fovSpeed;
-        }
-        if (Input.GetAxis("Mouse ScrollWheel") < 0)
-        {
-            mainCam.fieldOfView -= fovSpeed;
-        }
-
+        FovControls();
+        
         //for camera transition animation
         if (lerping)
         {
@@ -95,7 +102,23 @@ public class camMouseLook : MonoBehaviour
                 lerping = false;
             }
         }
+    }
 
+    void FovControls()
+    {
+        //scroll mousewheel to adjust FOV
+        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        {
+            mainCam.fieldOfView += fovSpeed;
+        }
+        if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        {
+            mainCam.fieldOfView -= fovSpeed;
+        }
+    }
+
+    void LerpControls()
+    {
         //cam pos 0
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
