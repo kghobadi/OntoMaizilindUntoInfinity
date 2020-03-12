@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DestructibleBuilding : MonoBehaviour {
 
@@ -49,6 +50,11 @@ public class DestructibleBuilding : MonoBehaviour {
             {
                 Fall();
             }
+        }
+
+        if (other.gameObject.tag == "Explosion" && SceneManager.GetActiveScene().buildIndex == 3)
+        {
+            gameObject.SetActive(false);
         }
     }
 

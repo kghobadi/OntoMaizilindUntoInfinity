@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 65166254553178784}
   - component: {fileID: 114204485434223294}
   - component: {fileID: 54890980426293750}
+  - component: {fileID: 114545562061234144}
   m_Layer: 0
   m_Name: tehran building 1
   m_TagString: Building
@@ -137,7 +138,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1960878091322164}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 80, y: 160, z: 80}
@@ -159,3 +160,19 @@ MonoBehaviour:
   totalHeight: 0
   falling: 0
   fallSpeed: 3
+--- !u!114 &114545562061234144
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1960878091322164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 106bb28251681024f8fb7f2f4b9df46f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialOptions:
+  - {fileID: 2100000, guid: 4d9612acfffcb7e4f8c2706658542f05, type: 2}
+  - {fileID: 2100000, guid: 328167e0a999fb04bbf29bf60de9c316, type: 2}
+  - {fileID: 2100000, guid: 485a801d9591bca4f966fcd65ed80edb, type: 2}
+  - {fileID: 2100000, guid: ae00de6f2941ce44988ed0176249260e, type: 2}
