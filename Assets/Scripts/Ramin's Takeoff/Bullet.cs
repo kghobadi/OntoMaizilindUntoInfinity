@@ -11,6 +11,7 @@ public class Bullet : MonoBehaviour {
 
     public Vector3 shotPos;
     public float shotDist = 500f;
+    public PooledObject pooledObj;
 
     [HideInInspector]
     public TrailRenderer bulletTrail;
@@ -19,6 +20,12 @@ public class Bullet : MonoBehaviour {
     {
         pilot = GameObject.FindGameObjectWithTag("Player").GetComponent<ThePilot>();
         bulletTrail = GetComponent<TrailRenderer>();
+    }
+
+    private void Start()
+    {
+        pooledObj = GetComponent<PooledObject>();
+
         bulletSpeed += pilot.moveSpeed;
         origSpeed = bulletSpeed;
     }
@@ -47,9 +54,10 @@ public class Bullet : MonoBehaviour {
         }
     }
 
-    void ResetBullet()
+    //can be called by Deities
+    public void ResetBullet()
     {
-        GetComponent<PooledObject>().ReturnToPool();
+        pooledObj.ReturnToPool();
         bulletSpeed = origSpeed;
         bulletTrail.Clear();
     }

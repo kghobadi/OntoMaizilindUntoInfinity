@@ -22,6 +22,7 @@ AudioMixerController:
     - 8dbbc5f393589d04d9ad30697f9e429f
     - 21387839ede6f7a4cb89e754975d80d1
     - 5c4f9f055a13c7a4eb6724f2d0176b38
+    - 7ea937143f8527846abb16be24464105
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500003}
@@ -38,6 +39,7 @@ AudioMixerGroupController:
   - {fileID: 243745175752654874}
   - {fileID: 243903259820813314}
   - {fileID: 243931155023850290}
+  - {fileID: 243051623149598312}
   m_Volume: c0f7ae23dff5e484cb11aef9ae95ae6e
   m_Pitch: 0b8d8e2d5c1f88442bb32d0434f971e6
   m_Effects:
@@ -107,6 +109,23 @@ AudioMixerSnapshotController:
     a84b451ca6844d94393554738ff1b82e: -4.9356413
     0e72eb0fb8b74d84e8896d414f6313c8: -19.928473
   m_TransitionOverrides: {}
+--- !u!243 &243051623149598312
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Deities
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 7ea937143f8527846abb16be24464105
+  m_Children: []
+  m_Volume: 4133c590034d596438a53baa7e6cd16f
+  m_Pitch: 7843e86d910528e4c92680cf266cbe03
+  m_Effects:
+  - {fileID: 244903652594729534}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
 --- !u!243 &243745175752654874
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -193,6 +212,19 @@ AudioMixerEffectController:
   m_EffectID: 65b71817ab52f8041a165fe40f6709d3
   m_EffectName: Attenuation
   m_MixLevel: 5d1864d75a2346747b8f3743faca6aec
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!244 &244903652594729534
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_EffectID: 71f47086ef9a14641885f3b25e2e5a26
+  m_EffectName: Attenuation
+  m_MixLevel: 0b05b24b4cceca743befbf28411339ac
   m_Parameters: []
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0

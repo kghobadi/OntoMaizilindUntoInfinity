@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoveTowards : MonoBehaviour {
     public float moveSpeed;
-    public float origSpeed;
+    [HideInInspector] public float origSpeed;
 
     public bool moving;
     public Vector3 destination;
