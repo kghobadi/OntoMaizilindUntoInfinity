@@ -5,35 +5,41 @@ using TMPro;
 using InControl;
 
 public class ThePilot : AudioHandler {
-
-    Animator planeAnimator;
-    PilotAnimation animationScript;
+    
+    PilotAnimation _Animations;
+    PilotView pView;
     MeshRenderer planeRender;
+    AdvanceScene advance;
+
+    [Header("Movement & Inputs")]
     public float moveSpeed;
     public float heightMin, heigtMax;
     public float xMin, xMax;
-    public AudioClip outOfAmmoClick;
     bool input;
     //weapons 
+    [Header("Weapons")]
     public Gun[] guns;
-    public float weaponsTimerL, firingIntervalL;
-    public float weaponsTimerR, firingIntervalR;
-
+    [Tooltip("Time between bullets firing left")]
+    public float weaponsTimerL, firingIntervalL = 0.05f;
+    [Tooltip("Time between bullets firing right")]
+    public float weaponsTimerR, firingIntervalR = 0.05f;
+    [Header("Pilot Views")]
     public bool zoomedIn;
     public GameObject fpCam,cockpit, zoCam;
-
+    [Header("Cockpit UI")]
     public int bulletCount = 1800;
     public TMP_Text bText;
-
-    public AdvanceScene advance;
+    [Header("Audio")]
     public AudioSource music;
+    public AudioClip outOfAmmoClick;
 
     public override void Awake()
     {
         base.Awake();
         planeRender = GetComponent<MeshRenderer>();
-        planeAnimator = GetComponent<Animator>();
-        animationScript = GetComponent<PilotAnimation>();
+        _Animations = GetComponent<PilotAnimation>();
+        advance = FindObjectOfType<AdvanceScene>();
+        pView = FindObjectOfType<PilotView>();
         guns = GetComponentsInChildren<Gun>();
         bText.text = bulletCount.ToString();
         SwitchViews(zoomedIn);
@@ -80,6 +86,10 @@ public class ThePilot : AudioHandler {
             cockpit.SetActive(true);
             zoCam.SetActive(false);
             planeRender.enabled = false;
+            //set animator 
+            //_Animations.SetAnimator("idle");
+            //_Animations.Animator.enabled = false;
+            pView.isActive = true;
         }
         //zoomed out 
         else
@@ -88,6 +98,8 @@ public class ThePilot : AudioHandler {
             cockpit.SetActive(false);
             zoCam.SetActive(true);
             planeRender.enabled = true;
+            //_Animations.Animator.enabled = true;
+            pView.isActive = false;
         }
     }
 
@@ -201,10 +213,17 @@ public class ThePilot : AudioHandler {
             horizontal = Input.GetAxis("Horizontal");
             vertical = Input.GetAxis("Vertical");
         }
-        
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
 
+        //set mouse vars
+        float mouseX = 0;
+        float mouseY = 0;
+        //if we are not in first person;
+        if (!zoomedIn)
+        {
+            mouseX = Input.GetAxis("Mouse X");
+            mouseY = Input.GetAxis("Mouse Y");
+        }
+      
         //LEFT
         if (horizontal < 0 || mouseX < 0)
         {
@@ -237,21 +256,21 @@ public class ThePilot : AudioHandler {
         //no input -- IDLE
         if (vertical ==0 && horizontal == 0 && mouseX == 0 && mouseY == 0)
         {
-            animationScript.SetAnimator("idle");
+            _Animations.SetAnimator("idle");
         }
         //set animator floats for blend WASD
         else if (vertical != 0 || horizontal != 0)
         {
-            animationScript.SetAnimator("moving");
-            animationScript.characterAnimator.SetFloat("Move X", horizontal);
-            animationScript.characterAnimator.SetFloat("Move Y", vertical);
+            _Animations.SetAnimator("moving");
+            _Animations.characterAnimator.SetFloat("Move X", horizontal);
+            _Animations.characterAnimator.SetFloat("Move Y", vertical);
         }
         //set animator floats for blend  MOUSE
         else if (mouseX != 0 || mouseY != 0)
         {
-            animationScript.SetAnimator("moving");
-            animationScript.characterAnimator.SetFloat("Move X", mouseX);
-            animationScript.characterAnimator.SetFloat("Move Y", mouseY);
+            _Animations.SetAnimator("moving");
+            _Animations.characterAnimator.SetFloat("Move X", mouseX);
+            _Animations.characterAnimator.SetFloat("Move Y", mouseY);
         }
     }
 

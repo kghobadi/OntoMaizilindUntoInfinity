@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Deity : MonoBehaviour {
 
-    MoveTowards mover;
+    [HideInInspector] public MoveTowards mover;
     ThePilot pilot;
     DeityHealth _Health;
     DeityAnimations _Animations;

@@ -49,7 +49,7 @@ public class CloudGenerator : MonoBehaviour
         if(spawnTimer < 0)
         {
             //randomize spawn center on x axis 
-            transform.position = new Vector3(origPos.x + Random.Range(-15f, 15f),
+            transform.position = new Vector3(transform.position.x + Random.Range(-15f, 15f),
                 transform.position.y, transform.position.z);
 
             //generation patterns 
