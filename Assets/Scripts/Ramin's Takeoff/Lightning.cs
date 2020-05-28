@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Lightning : AudioHandler {
+    Transform pilot;
+    ThePilot the_Pilot;
+    float distFromPlayer;
 
     ParticleSystem lightningParticles;
     public AudioClip[] thunderStrikes;
+    public float zappingDist = 15f;
 
     public float lightningTimer, lightningFreq = 15f;
     public bool lightningCloud;
@@ -14,22 +18,36 @@ public class Lightning : AudioHandler {
     public override void Awake()
     {
         base.Awake();
+
+        the_Pilot = FindObjectOfType<ThePilot>();
+        pilot = the_Pilot.transform;
+
+        LightningCheck();
+    }
+
+    //decide whether this cloud will produce lightning 
+    void LightningCheck()
+    {
         Random.InitState((int)System.DateTime.Now.Ticks);
         lightningParticles = GetComponent<ParticleSystem>();
 
         float randomChance = Random.Range(0f, 100f);
 
-        if(randomChance < lightningChance)
+        if (randomChance < lightningChance)
         {
             lightningCloud = true;
         }
     }
 
-    void Start () {
+    void Start ()
+    {
         lightningTimer = lightningFreq + Random.Range(-10, 10);
     }
 	
-	void Update () {
+	void Update ()
+    {
+        distFromPlayer = Vector3.Distance(transform.position, pilot.position);
+        //only some clouds are chosen 
         if (lightningCloud)
         {
             lightningTimer -= Time.deltaTime;
@@ -40,10 +58,17 @@ public class Lightning : AudioHandler {
         }
 	}
 
+    //lightning and thunder all in one 
     void Thunderstrike()
     {
         lightningParticles.Play();
         PlayRandomSoundRandomPitch(thunderStrikes, 1f);
         lightningTimer = lightningFreq + Random.Range(-10, 10);
+
+        //disable player controls when close
+        if(distFromPlayer < zappingDist)
+        {
+            the_Pilot.InitiateZap();
+        }
     }
 }

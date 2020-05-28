@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class DestructibleBuilding : MonoBehaviour {
-    
+    ThePilot the_pilot;
 
     public int health;
     public int healthMultiplier;
@@ -23,15 +23,22 @@ public class DestructibleBuilding : MonoBehaviour {
     [Header("Deity Reactions")]
     public ParticleSystem explosionParticles;
     public ParticleSystem smokeParticles;
-    
-	void Start () {
+
+    void Awake()
+    {
+        the_pilot = FindObjectOfType<ThePilot>();
         buildingMesh = GetComponentInChildren<MeshRenderer>();
+    }
+
+    void Start ()
+    {
         totalHeight = buildingMesh.bounds.extents.y * 2;
         health = segments * healthMultiplier;
     }
 	
-    //controls falling
-	void Update () {
+	void Update ()
+    {
+        //controls falling
         if (falling)
         {
             transform.position = Vector3.MoveTowards(transform.position, nextPos, fallSpeed * Time.deltaTime);
@@ -39,6 +46,16 @@ public class DestructibleBuilding : MonoBehaviour {
             if(Vector3.Distance(transform.position, nextPos) < 0.25f)
             {
                 falling = false;
+            }
+        }
+
+        //pilot is in the scene 
+        if(the_pilot != null)
+        {
+            //disable when i am behind the pilot 
+            if(transform.position.z < (the_pilot.transform.position.z - 25f))
+            {
+                gameObject.SetActive(false);
             }
         }
 	}

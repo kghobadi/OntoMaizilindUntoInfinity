@@ -15,6 +15,9 @@ public class ThePilot : AudioHandler {
     public float moveSpeed;
     public float heightMin, heigtMax;
     public float xMin, xMax;
+    public bool controlsActive = true;
+    public ParticleSystem zaps;
+    IEnumerator zap;
     bool input;
     //weapons 
     [Header("Weapons")]
@@ -32,6 +35,7 @@ public class ThePilot : AudioHandler {
     [Header("Audio")]
     public AudioSource music;
     public AudioClip outOfAmmoClick;
+    public AudioClip zapped;
 
     public override void Awake()
     {
@@ -103,13 +107,42 @@ public class ThePilot : AudioHandler {
         }
     }
 
+    //called by lightning to zap the plane 
+    public void InitiateZap()
+    {
+        if (zap != null)
+            StopCoroutine(zap);
+
+        zap = Zap();
+
+        StartCoroutine(zap);
+
+        Debug.Log("zapped!");
+    }
+
+    //fries the controls and weapons for a period of time 
+    IEnumerator Zap()
+    {
+        controlsActive = false;
+
+        zaps.Play();
+
+        PlaySoundRandomPitch(zapped, 1f);
+
+        yield return new WaitForSeconds(2f);
+
+        controlsActive = true;
+
+        zaps.Stop();
+    }
+
     void FireWeapons()
     {
         //get input device 
         var inputDevice = InputManager.ActiveDevice;
 
         //fire on space 
-        if (Input.GetKey(KeyCode.Space) || inputDevice.Action1)
+        if ((Input.GetKey(KeyCode.Space) || inputDevice.Action1) && controlsActive)
         {
             //check can fire 
             if(weaponsTimerL < 0 || weaponsTimerR < 0)
@@ -141,7 +174,7 @@ public class ThePilot : AudioHandler {
         }
 
         //fire left gun 
-        if (Input.GetMouseButton(0) || inputDevice.LeftTrigger || inputDevice.LeftBumper)
+        if ((Input.GetMouseButton(0) || inputDevice.LeftTrigger || inputDevice.LeftBumper) && controlsActive)
         {
             //check can fire 
             if (weaponsTimerL < 0)
@@ -167,7 +200,7 @@ public class ThePilot : AudioHandler {
         }
 
         //fire right gun 
-        if (Input.GetMouseButton(1) || inputDevice.RightTrigger || inputDevice.RightBumper)
+        if ((Input.GetMouseButton(1) || inputDevice.RightTrigger || inputDevice.RightBumper) && controlsActive)
         {
             //check can fire 
             if (weaponsTimerR < 0)
@@ -223,32 +256,36 @@ public class ThePilot : AudioHandler {
             mouseX = Input.GetAxis("Mouse X");
             mouseY = Input.GetAxis("Mouse Y");
         }
-      
-        //LEFT
-        if (horizontal < 0 || mouseX < 0)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, 
-                new Vector3(xMin, transform.position.y, transform.position.z), moveSpeed * Time.deltaTime); 
-        }
-        //RIGHT
-        if (horizontal > 0 || mouseX > 0)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, 
-                new Vector3(xMax, transform.position.y, transform.position.z), moveSpeed * Time.deltaTime);
-        }
-        //UP
-        if (vertical > 0 || mouseY > 0)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, 
-                new Vector3(transform.position.x, heigtMax, transform.position.z), moveSpeed * Time.deltaTime);
-        }
-        //DOWN
-        if ( vertical < 0 || mouseY < 0)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, 
-                new Vector3(transform.position.x, heightMin, transform.position.z), moveSpeed * Time.deltaTime);
-        }
 
+        //controls must be active
+        if (controlsActive)
+        {
+            //LEFT
+            if (horizontal < 0 || mouseX < 0)
+            {
+                transform.position = Vector3.MoveTowards(transform.position,
+                    new Vector3(xMin, transform.position.y, transform.position.z), moveSpeed * Time.deltaTime);
+            }
+            //RIGHT
+            if (horizontal > 0 || mouseX > 0)
+            {
+                transform.position = Vector3.MoveTowards(transform.position,
+                    new Vector3(xMax, transform.position.y, transform.position.z), moveSpeed * Time.deltaTime);
+            }
+            //UP
+            if (vertical > 0 || mouseY > 0)
+            {
+                transform.position = Vector3.MoveTowards(transform.position,
+                    new Vector3(transform.position.x, heigtMax, transform.position.z), moveSpeed * Time.deltaTime);
+            }
+            //DOWN
+            if (vertical < 0 || mouseY < 0)
+            {
+                transform.position = Vector3.MoveTowards(transform.position,
+                    new Vector3(transform.position.x, heightMin, transform.position.z), moveSpeed * Time.deltaTime);
+            }
+        }
+        
         //always MOVE FORWARD 
         transform.position = Vector3.MoveTowards(transform.position,
                new Vector3(transform.position.x, transform.position.y, transform.position.z + 100f), moveSpeed * Time.deltaTime);
@@ -258,20 +295,26 @@ public class ThePilot : AudioHandler {
         {
             _Animations.SetAnimator("idle");
         }
-        //set animator floats for blend WASD
-        else if (vertical != 0 || horizontal != 0)
+
+        //must have controls active to animate in a direction
+        if (controlsActive)
         {
-            _Animations.SetAnimator("moving");
-            _Animations.characterAnimator.SetFloat("Move X", horizontal);
-            _Animations.characterAnimator.SetFloat("Move Y", vertical);
+             //set animator floats for blend WASD
+            if (vertical != 0 || horizontal != 0)
+            {
+                _Animations.SetAnimator("moving");
+                _Animations.characterAnimator.SetFloat("Move X", horizontal);
+                _Animations.characterAnimator.SetFloat("Move Y", vertical);
+            }
+            //set animator floats for blend  MOUSE
+            if (mouseX != 0 || mouseY != 0)
+            {
+                _Animations.SetAnimator("moving");
+                _Animations.characterAnimator.SetFloat("Move X", mouseX);
+                _Animations.characterAnimator.SetFloat("Move Y", mouseY);
+            }
         }
-        //set animator floats for blend  MOUSE
-        else if (mouseX != 0 || mouseY != 0)
-        {
-            _Animations.SetAnimator("moving");
-            _Animations.characterAnimator.SetFloat("Move X", mouseX);
-            _Animations.characterAnimator.SetFloat("Move Y", mouseY);
-        }
+       
     }
 
 }
