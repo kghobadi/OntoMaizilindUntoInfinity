@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
-
+using UnityEngine.Audio;
 
 public class Television : MonoBehaviour {
     VideoPlayer vidPlayer;
+    CameraSwitcher camSwitcher;
     public GameObject planes;
     public GameObject sirens;
+    public GameObject citizens;
+    public AudioSource music;
     public FadeUI speechPanel;
+    public FadeUI shiftToChange;
 
     [Header("Audio Switching during Speech")]
     public GameObject radio;
@@ -17,17 +21,14 @@ public class Television : MonoBehaviour {
     public DialogueText shahSpeech;
     public int [] transitionLines;
     int currentTransition = 0;
-
-    [Header("Scene Transition")]
-    public AdvanceScene advance;
     public bool speechEnded;
-    public float changeSceneTimer = 0f, timeUntilChange = 30f;
-
+    public AudioMixerSnapshot bombing;
 
 	void Awake () {
         vidPlayer = GetComponent<VideoPlayer>();
         tvSource = GetComponent<AudioSource>();
         radioSource = radio.GetComponent<AudioSource>();
+        camSwitcher = FindObjectOfType<CameraSwitcher>();
 	}
 
     void Start()
@@ -54,21 +55,16 @@ public class Television : MonoBehaviour {
             EndSpeech();
         }
 
+        //debug
+        if (Input.GetKeyDown(KeyCode.RightControl))
+        {
+            EndSpeech();
+        }
+
         //fade out graphic 
         if(shahSpeech.currentLine == shahSpeech.endAtLine)
         {
             speechPanel.FadeOut();
-        }
-
-        //time until loading next scene 
-        if (speechEnded)
-        {
-            changeSceneTimer += Time.deltaTime;
-
-            if(changeSceneTimer > timeUntilChange)
-            {
-                advance.LoadNextScene();
-            }
         }
 	}
 
@@ -77,6 +73,12 @@ public class Television : MonoBehaviour {
         vidPlayer.Stop();
         planes.SetActive(true);
         sirens.SetActive(true);
+        citizens.SetActive(true);
+        music.Play();
+
+        camSwitcher.canShift = true;
+        shiftToChange.FadeIn();
+        bombing.TransitionTo(3f);
        
         speechEnded = true;
     }

@@ -5,53 +5,55 @@ using InControl;
 
 public class CameraSwitcher : MonoBehaviour {
     //camera objects list, current obj, and int to count them
-    public List<GameObject> cameraObjects = new List<GameObject>();
-    GameObject currentCamObj;
+    public List<CamObject> cameraObjects = new List<CamObject>();
+    CamObject currentCamObj;
     public int currentCam = 0;
+    public GameObject citizensParent;
+    public FadeUI shiftPress;
+    public bool canShift;
+    public GameObject radioRoom;
 
     [Header("Transition")]
-    public AdvanceScene advance;
     public int transitionAmount = 3;
+    AdvanceScene advance;
 
-	void Start () {
-
-        //collect all humans and add them to cameraObjects list if they are not in it already
-        GameObject[] humans = GameObject.FindGameObjectsWithTag("Human");
-
-        //go through and add them
-        for(int i = 0; i < humans.Length; i++)
+    void Awake()
+    {
+        //find all CamObjects in scene 
+        CamObject[] cams = FindObjectsOfType<CamObject>();
+        for(int i = 0; i < cams.Length; i++)
         {
-            if (!cameraObjects.Contains(humans[i]))
-            {
-                cameraObjects.Add(humans[i]);
-            }
+            cameraObjects.Add(cams[i]);
         }
-        
+
+        //get advance scene comp
+        advance = FindObjectOfType<AdvanceScene>();
+        if(advance == null)
+        {
+            advance = gameObject.AddComponent<AdvanceScene>();
+        }
+    }
+
+    void Start ()
+    {
         //loop through the cam objects list and set start settings for objects
         for (int i = 1; i < cameraObjects.Count; i++)
         {
-            //do this to human cameras only
-            if (cameraObjects[i].GetComponent<CamObject>().myCamType == CamObject.CamType.HUMAN)
-            {
-                //set the body's parent to the host game obj
-                cameraObjects[i].GetComponent<CamObject>().myBody.transform.SetParent(cameraObjects[i].transform);
-                //disable ground cam script
-                cameraObjects[i].GetComponent<CamObject>().camObj.GetComponent<GroundCamera>().enabled = false;
-                //turn on that persons Citizen Ai
-                cameraObjects[i].GetComponent<Citizen>().enabled = true;
-                //turn off that persons FPC
-                cameraObjects[i].GetComponent<FirstPersonController>().enabled = false;
-                //turn off the person's camera
-                cameraObjects[i].GetComponent<CamObject>().camObj.enabled = false;
-                cameraObjects[i].GetComponent<CamObject>().camObj.GetComponent<AudioListener>().enabled = false;
-            }
+            DisableCamObj(cameraObjects[i]);
         }
+
+        //turn off citizens for now
+        citizensParent.SetActive(false);
 
         //set current cam obj at start
         currentCamObj = cameraObjects[currentCam];
+
+        //cant shift yet
+        canShift = false;
 	}
 	
-	void Update () {
+	void Update ()
+    {
         //get input device 
         var inputDevice = InputManager.ActiveDevice;
 
@@ -59,21 +61,25 @@ public class CameraSwitcher : MonoBehaviour {
         if (currentCam > cameraObjects.Count - 1)
             currentCam = cameraObjects.IndexOf(currentCamObj);
 
-        //switch through cam objects down
-        if (Input.GetKeyDown(KeyCode.LeftShift) || inputDevice.DPadLeft.WasPressed || inputDevice.DPadDown.WasPressed)
+        //only while shift ability active 
+        if (canShift)
         {
-            SwitchCam(false, -1);
-        }
-        //switch through cam objects up
-        if (Input.GetKeyDown(KeyCode.RightShift) || inputDevice.DPadRight.WasPressed || inputDevice.DPadUp.WasPressed)
-        {
-            SwitchCam(true, -1);
-        }
+            //switch through cam objects down
+            if (Input.GetKeyDown(KeyCode.LeftShift) || inputDevice.DPadLeft.WasPressed || inputDevice.DPadDown.WasPressed)
+            {
+                SwitchCam(false, -1);
+            }
+            //switch through cam objects up
+            if (Input.GetKeyDown(KeyCode.RightShift) || inputDevice.DPadRight.WasPressed || inputDevice.DPadUp.WasPressed)
+            {
+                SwitchCam(true, -1);
+            }
 
-        //directly switch to planes
-        if (Input.GetKeyDown(KeyCode.Alpha0) && currentCam != 0)
-        {
-            SwitchCam(false, 0);
+            //directly switch to planes
+            if (Input.GetKeyDown(KeyCode.Alpha0) && currentCam != 0)
+            {
+                SwitchCam(false, 0);
+            }
         }
 
         //when there is all but one camera left, advance scene 
@@ -85,25 +91,14 @@ public class CameraSwitcher : MonoBehaviour {
 
     public void SwitchCam(bool upOrDown, int num)
     {
-        //deal with current cam object
-        if(currentCamObj.GetComponent<CamObject>().myCamType == CamObject.CamType.HUMAN)
-        {
-            //set the body's parent to the host game obj
-            currentCamObj.GetComponent<CamObject>().myBody.transform.SetParent(currentCamObj.transform);
-            //disable ground cam script
-            cameraObjects[currentCam].GetComponent<CamObject>().camObj.GetComponent<GroundCamera>().enabled = false;
-            //turn on that persons Citizen Ai
-            currentCamObj.GetComponent<Citizen>().enabled = true;
-            //turn off that persons FPC
-            currentCamObj.GetComponent<FirstPersonController>().enabled = false;
-            //turn off the person's camera
-            currentCamObj.GetComponent<CamObject>().camObj.enabled = false;
-            currentCamObj.GetComponent<CamObject>().camObj.GetComponent<AudioListener>().enabled = false;
-        }
-        else
-        {
-            currentCamObj.SetActive(false);
-        }
+        DisableCamObj(cameraObjects[currentCam]);
+
+        //fade out shift press UI
+        if (shiftPress.gameObject.activeSelf)
+            shiftPress.FadeOut();
+        //disable radio room 
+        if (radioRoom.activeSelf)
+            radioRoom.SetActive(false);
 
         //increment currentCam
 
@@ -147,28 +142,58 @@ public class CameraSwitcher : MonoBehaviour {
                 }
             }
         }
-        
+
+        EnableCamObj(cameraObjects[currentCam]);
+    }
+
+    //enables a camObj as current cam obj
+    void EnableCamObj(CamObject cam)
+    {
         //turn on new cam obj
-        if (cameraObjects[currentCam].GetComponent<CamObject>().myCamType == CamObject.CamType.HUMAN)
+        if (cam.myCamType == CamObject.CamType.HUMAN)
         {
             //set the body's parent to its camera
-            cameraObjects[currentCam].GetComponent<CamObject>().myBody.transform.SetParent(cameraObjects[currentCam].GetComponent<CamObject>().camObj.transform);
+            cam.myBody.transform.SetParent(cam.camObj.transform);
             //enable ground cam script
-            cameraObjects[currentCam].GetComponent<CamObject>().camObj.GetComponent<GroundCamera>().enabled = true;
+            cam.camObj.GetComponent<GroundCamera>().enabled = true;
             //turn off that persons Citizen Ai
-            cameraObjects[currentCam].GetComponent<Citizen>().enabled = false;
+            cam.GetComponent<Citizen>().enabled = false;
             //turn on that persons FPC
-            cameraObjects[currentCam].GetComponent<FirstPersonController>().enabled = true;
+            cam.GetComponent<FirstPersonController>().enabled = true;
             //turn on the person's camera
-            cameraObjects[currentCam].GetComponent<CamObject>().camObj.enabled = true;
-            cameraObjects[currentCam].GetComponent<CamObject>().camObj.GetComponent<AudioListener>().enabled = true;
+            cam.camObj.enabled = true;
+            cam.camObj.GetComponent<AudioListener>().enabled = true;
         }
         else
         {
-            cameraObjects[currentCam].SetActive(true);
+            cam.gameObject.SetActive(true);
         }
 
         //reset current cam obj
         currentCamObj = cameraObjects[currentCam];
+    }
+
+    //disables a cam obj
+    void DisableCamObj(CamObject cam)
+    {
+        //deal with current cam object
+        if (cam.myCamType == CamObject.CamType.HUMAN)
+        {
+            //set the body's parent to the host game obj
+            cam.myBody.transform.SetParent(cam.transform);
+            //disable ground cam script
+            cam.camObj.GetComponent<GroundCamera>().enabled = false;
+            //turn on that persons Citizen Ai
+            cam.GetComponent<Citizen>().enabled = true;
+            //turn off that persons FPC
+            cam.GetComponent<FirstPersonController>().enabled = false;
+            //turn off the person's camera
+            cam.camObj.enabled = false;
+            cam.camObj.GetComponent<AudioListener>().enabled = false;
+        }
+        else
+        {
+            cam.gameObject.SetActive(false);
+        }
     }
 }

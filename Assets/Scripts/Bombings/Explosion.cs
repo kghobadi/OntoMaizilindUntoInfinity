@@ -45,7 +45,7 @@ public class Explosion : MonoBehaviour {
         //audio stopped playing after explosion 
         if (explosionAudio.isPlaying == false && explosionAudio.clip == explosions[randomFall])
         {
-            Debug.Log("just a fire burning///");
+            //Debug.Log("just a fire burning///");
             explosionAudio.Stop();
             explosionAudio.clip = fireBurning;
             explosionAudio.outputAudioMixerGroup = fireGroup;
@@ -72,7 +72,7 @@ public class Explosion : MonoBehaviour {
             }
 
             //remove this human from cam objects list
-            camSwitcher.cameraObjects.Remove(other.gameObject);
+            camSwitcher.cameraObjects.Remove(other.gameObject.GetComponent<CamObject>());
 
             //destroy the human
             Destroy(other.gameObject);

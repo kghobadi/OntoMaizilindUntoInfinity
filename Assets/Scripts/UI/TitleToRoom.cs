@@ -5,7 +5,7 @@ using InControl;
 
 public class TitleToRoom : MonoBehaviour {
     //for all the text refs
-    public FadeUItmp omFade, uiFade, actFade, dwFade, poemFader;
+    public FadeUI omFade, uiFade, actFade, dwFade, poemFader;
     public LerpScale omScale, uiScale;
     public MoveUI omMove, uiMove, dwMove;
     public Animator scribeAnimator;
