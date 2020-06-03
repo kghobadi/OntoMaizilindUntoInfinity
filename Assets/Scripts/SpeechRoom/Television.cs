@@ -59,6 +59,10 @@ public class Television : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.RightControl))
         {
             EndSpeech();
+
+            shahSpeech.DisableDialogue();
+
+            shahSpeech.hostObj.SetActive(false); 
         }
 
         //fade out graphic 

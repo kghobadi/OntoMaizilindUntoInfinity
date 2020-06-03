@@ -19,16 +19,21 @@ public class Explosion : MonoBehaviour {
     //particles
     ParticleSystem explosionParts;
     ParticleSystem.MainModule eMain;
-    
-    void Start () {
+
+    void Awake()
+    {
         //world man and add to list
-        worldMan = GameObject.FindGameObjectWithTag("WorldManager").GetComponent<WorldManager>();
-        worldMan.explosionsToDelete.Add(gameObject);
-        camSwitcher = worldMan.GetComponent<CameraSwitcher>();
+        worldMan = FindObjectOfType<WorldManager>();
+        camSwitcher = FindObjectOfType<CameraSwitcher>();
 
         //component refs
         explosionAudio = GetComponent<AudioSource>();
         explosionParts = GetComponent<ParticleSystem>();
+    }
+    
+    void Start () {
+        //set particles 
+        worldMan.explosionsToDelete.Add(gameObject);
         eMain = explosionParts.main;
 
         //set explode sound
@@ -41,7 +46,8 @@ public class Explosion : MonoBehaviour {
         explosionParts.Play();
     }
 	
-	void Update () {
+	void Update ()
+    {
         //audio stopped playing after explosion 
         if (explosionAudio.isPlaying == false && explosionAudio.clip == explosions[randomFall])
         {
@@ -50,8 +56,12 @@ public class Explosion : MonoBehaviour {
             explosionAudio.clip = fireBurning;
             explosionAudio.outputAudioMixerGroup = fireGroup;
             explosionAudio.loop = true;
+        }
 
-            //should only play this sound if current player is near
+        //on fire buring 
+        if(explosionAudio.clip == fireBurning)
+        {
+            //float dist = Vector3.Distance(transform.position, )
         }
 	}
 

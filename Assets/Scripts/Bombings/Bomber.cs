@@ -4,12 +4,16 @@ using UnityEngine;
 using InControl;
 
 public class Bomber : MonoBehaviour {
+    ObjectPooler bombPooler;
 
     public GameObject bombPrefab;
     public bool bombing;
 
-	void Start () {
-		
+    public float bombInterval = 0.45f;
+
+	void Awake ()
+    {
+        bombPooler = FindObjectOfType<ObjectPooler>();
 	}
 	
 	void Update () {
@@ -39,12 +43,21 @@ public class Bomber : MonoBehaviour {
 
         for(int i = 0; i < randomBcount; i++)
         {
-            Vector3 spawnPos = transform.position - new Vector3(0, 7, 0) + Random.insideUnitSphere * 25f;
-            GameObject bomb = Instantiate(bombPrefab,spawnPos, Quaternion.identity);
-
-            yield return new WaitForSeconds(0.5f);
+            DropBomb();
+            //wait
+            yield return new WaitForSeconds(bombInterval);
         }
 
         bombing = false;
+    }
+
+    void DropBomb()
+    {
+        //find spawn pos and grab obj 
+        Vector3 spawnPos = transform.position - new Vector3(0, 7, 0) + Random.insideUnitSphere * 25f;
+        GameObject bomb = bombPooler.GrabObject();
+        //set pos and enable force
+        bomb.transform.position = spawnPos;
+        bomb.GetComponent<Rigidbody>().isKinematic = false;
     }
 }
