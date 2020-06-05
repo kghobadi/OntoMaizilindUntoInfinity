@@ -18,7 +18,8 @@ public class Television : MonoBehaviour {
     public GameObject radio;
     AudioSource tvSource;
     AudioSource radioSource;
-    public DialogueText shahSpeech;
+    public MonologueManager shahSpeech;
+    public MonologueReader shahReader;
     public int [] transitionLines;
     int currentTransition = 0;
     public bool speechEnded;
@@ -42,7 +43,7 @@ public class Television : MonoBehaviour {
         //switching audio back and forth between radio & tv
         if(currentTransition < transitionLines.Length)
         {
-            if (shahSpeech.currentLine == transitionLines[currentTransition])
+            if (shahReader.currentLine == transitionLines[currentTransition])
             {
                 SwitchDeviceAudio();
                 currentTransition++;
@@ -50,7 +51,7 @@ public class Television : MonoBehaviour {
         }
 
         //end speech, activate sirens & planes 
-		if(vidPlayer.frame >= (long)vidPlayer.frameCount - 3  && shahSpeech.currentLine > shahSpeech.endAtLine - 1)
+		if(vidPlayer.frame >= (long)vidPlayer.frameCount - 3  && shahReader.currentLine > shahReader.endAtLine - 1)
         {
             EndSpeech();
         }
@@ -60,13 +61,13 @@ public class Television : MonoBehaviour {
         {
             EndSpeech();
 
-            shahSpeech.DisableDialogue();
+            shahSpeech.DisableMonologue();
 
-            shahSpeech.hostObj.SetActive(false); 
+            shahReader.hostObj.SetActive(false); 
         }
 
         //fade out graphic 
-        if(shahSpeech.currentLine == shahSpeech.endAtLine)
+        if(shahReader.currentLine == shahReader.endAtLine)
         {
             speechPanel.FadeOut();
         }

@@ -9360,7 +9360,7 @@ GameObject:
   - component: {fileID: 325564873}
   - component: {fileID: 325564875}
   - component: {fileID: 325564874}
-  - component: {fileID: 325564876}
+  - component: {fileID: 325564877}
   m_Layer: 0
   m_Name: Shah's Speech
   m_TagString: Untagged
@@ -9405,38 +9405,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: "Welcome.\r\nIt is 5:00, and we must thank Allah for Iran is still here.
-    \r\nBut I fear it will not be much longer. \r\nOur time has come. \r\nIn thirty
-    minutes, American planes will overshadow our beloved city. \r\nThe storm they
-    fabricated has concealed them.\r\nI will not lie to you, not on this day, not
-    on my life. \r\nFor without it, you would not see me speak. \r\nYou would not
-    hear me speak. \r\nI want you all to know that the world will remember us for
-    our courage and not our sins. \r\nWe did what Allah asked of us and never surrendered.
-    \r\nIn time, we will have our retribution. \r\nIn the infinite afterlife, we will
-    haunt this Earth as a specter of our own preeminent destruction. \r\nThe Western
-    powers brought the toxins of industry into this world. \r\nThey will be left behind
-    to rot in their own stench. \r\nThat great cloud of darkness which hangs above
-    us is a sign not of our doom but of theirs. \r\nWe have cast no stones but those
-    which were necessary to preserve our own livelihood. \r\nThis is the final act
-    of idolatry that Allah will tolerate. \r\nFor it has been foretold, written in
-    blood, not in vain, in our hearts and souls.\r\nThat we shall return at the curtain\u2019s
-    fall and after the completion of the Great Flight. \r\nOur silver seed will rise
-    up and meet their storm. \r\nThis vessel will transport our people and our bloodlines
-    far far away into the outskirts of space. \r\nOn those fringes, we shall be safe
-    from human retaliation. \r\nWe will rebuild our society in Allah's glorious light.
-    \r\nFor the star which sits at the center is one much like our own. \r\nThis is
-    why, my dear people, we must perish in eternal fire. \r\nOur sacrifice will create
-    an impenetrable barrier that will surround our silver seed. \r\nWhen that barrier
-    reaches the new atmosphere we will be revived on impact. \r\nOver the course of
-    1,000 years, our civilization will be rebuilt and we shall return. \r\nWe shall
-    return. \r\nAnd in this new world, we will be sure to live in harmony with our
-    natural surroundings. \r\nFor we will be but visitors stranded in an ecosystem
-    which has up until this point known no human disease. \r\nSo, I beg of you, when
-    the bombs fall you must rise to meet them. \r\nYour will must be unbreakable.
-    \r\nYour spirits, by the almighty Allah, will be invulnerable to western weaponry.
-    \r\nTheir treachery will be their demise. \r\nAnd so, they forfeit the reigns
-    of our human existence to us. \r\nThis is our escape. This is our fate. \r\nI
-    will leave you to it\u2026\r\nInshallah, Iran!"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f220f71c3225df469c3cb471fa7c713, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -9537,7 +9506,7 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 325564872}
   m_CullTransparentMesh: 0
---- !u!114 &325564876
+--- !u!114 &325564877
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9545,34 +9514,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 325564872}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 765c837a189b90f46bb7355c8e1efad3, type: 3}
+  m_Script: {fileID: 11500000, guid: 350b53e990ff5c743abc5cb0f8a6be46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hostObj: {fileID: 590775799}
+  monoManager: {fileID: 0}
+  theText: {fileID: 0}
+  the_Text: {fileID: 0}
+  usesTMP: 0
   textLines: []
   currentLine: 0
   endAtLine: 0
+  canSkip: 0
   hasFinished: 0
-  typeSpeed: 0.085
-  resetDistance: 25
-  waitToStart: 1
-  timeUntilStart: 9
-  waitTime: 4.5
+  timeBetweenLetters: 0
+  timeBetweenLines: 0
   conversational: 0
   waitTimes: []
-  enableAtStart: 1
-  lockPlayer: 0
-  hasVoiceAudio: 0
-  usesAllLetters: 0
-  countsUp: 0
-  speakFreq: 4
-  myVoices: []
-  currentVoice: 0
-  currentSound: 0
-  myGibberishSounds: []
-  letters: 
-  capitalLetters: 
-  spokenSounds: []
 --- !u!1001 &328510520
 Prefab:
   m_ObjectHideFlags: 0
@@ -16343,8 +16301,9 @@ GameObject:
   - component: {fileID: 590775802}
   - component: {fileID: 590775801}
   - component: {fileID: 590775803}
+  - component: {fileID: 590775804}
   m_Layer: 0
-  m_Name: Panel
+  m_Name: Speech Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16417,7 +16376,7 @@ MonoBehaviour:
   uiType: 0
   fadingIn: 0
   fadingOut: 0
-  keepActive: 0
+  keepActive: 1
   fadeOutImmediately: 0
   fadeInAmount: 1
   fadeOutAmount: 0
@@ -16426,6 +16385,26 @@ MonoBehaviour:
   fadeInSpeed: 0.5
   fadeOutSpeed: 0.5
   shownAtStart: 1
+--- !u!114 &590775804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 590775799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f421ec52e220e54f9f1d3d88e633cb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wmManager: {fileID: 0}
+  npcController: {fileID: 0}
+  textBack: {fileID: 590775803}
+  currentMonologue: 0
+  allMyMonologues:
+  - {fileID: 11400000, guid: 89fb45f3b63953d49acd7babc4152a74, type: 2}
+  inMonologue: 0
+  mTrigger: {fileID: 0}
+  enableOnStart: 1
 --- !u!1 &599397474
 GameObject:
   m_ObjectHideFlags: 0
@@ -20518,7 +20497,8 @@ MonoBehaviour:
   speechPanel: {fileID: 590775803}
   shiftToChange: {fileID: 1278781630}
   radio: {fileID: 998896588}
-  shahSpeech: {fileID: 325564876}
+  shahSpeech: {fileID: 590775804}
+  shahReader: {fileID: 325564877}
   transitionLines: 09000000100000001a000000
   speechEnded: 0
   bombing: {fileID: 24500006, guid: 44cea40f08940944983694f8bd40ac83, type: 2}
@@ -24724,6 +24704,7 @@ GameObject:
   - component: {fileID: 925286576}
   - component: {fileID: 925286578}
   - component: {fileID: 925286579}
+  - component: {fileID: 925286580}
   m_Layer: 0
   m_Name: WorldManager
   m_TagString: WorldManager
@@ -24788,6 +24769,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debug: 1
   speedUp: 10
+--- !u!114 &925286580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 925286575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dba3aed31c712946baf99228efed024, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allMonologues:
+  - monoName: The Shah's Speech
+    monologue: {fileID: 11400000, guid: 89fb45f3b63953d49acd7babc4152a74, type: 2}
+    mTrigger: {fileID: 0}
 --- !u!1 &925533792
 GameObject:
   m_ObjectHideFlags: 0
@@ -34312,12 +34308,12 @@ Prefab:
     - target: {fileID: 114804160481618326, guid: 1ff10a67d98b8c84a857eabb3b4ca19d,
         type: 2}
       propertyPath: _savedGUID
-      value: 47744299
+      value: 47744297
       objectReference: {fileID: 0}
     - target: {fileID: 114804160481618326, guid: 1ff10a67d98b8c84a857eabb3b4ca19d,
         type: 2}
       propertyPath: hash.lastHash
-      value: 1982711084
+      value: 1982711076
       objectReference: {fileID: 0}
     - target: {fileID: 114804160481618326, guid: 1ff10a67d98b8c84a857eabb3b4ca19d,
         type: 2}

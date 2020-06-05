@@ -6,6 +6,7 @@ public class SpeakerSound : AudioHandler
 {
     //audio stuff
     [Header("Speaker Bools")]
+    [Tooltip("enables voice audio")]
     public bool hasVoiceAudio;
     public bool usesAllLetters, countsUp;
     public int speakFreq = 4;
@@ -33,7 +34,7 @@ public class SpeakerSound : AudioHandler
             {
                 if (!voices[voiceCounter].isPlaying)
                 {
-                    PlaySoundUp(spokenSounds);
+                    PlaySoundUp(spokenSounds, 1f);
                 }
             }
         }
