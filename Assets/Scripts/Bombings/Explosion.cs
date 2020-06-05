@@ -4,13 +4,14 @@ using UnityEngine;
 using UnityEngine.Audio;
 
 //explosion is produced by the bomb class
-public class Explosion : MonoBehaviour {
+public class Explosion : AudioHandler {
     //world manager ref
     WorldManager worldMan;
     CameraSwitcher camSwitcher;
 
     //audio vars
     AudioSource explosionAudio;
+    [Header("Sounds")]
     public AudioClip[] explosions;
     public AudioClip fireBurning;
     public AudioMixerGroup fireGroup;
@@ -20,8 +21,10 @@ public class Explosion : MonoBehaviour {
     ParticleSystem explosionParts;
     ParticleSystem.MainModule eMain;
 
-    void Awake()
+    public override void Awake()
     {
+        base.Awake();
+
         //world man and add to list
         worldMan = FindObjectOfType<WorldManager>();
         camSwitcher = FindObjectOfType<CameraSwitcher>();
@@ -35,35 +38,70 @@ public class Explosion : MonoBehaviour {
         //set particles 
         worldMan.explosionsToDelete.Add(gameObject);
         eMain = explosionParts.main;
-
-        //set explode sound
-        randomFall = Random.Range(0, explosions.Length);
-        explosionAudio.clip = explosions[randomFall];
-        explosionAudio.Play();
-
-        //duration of particle efx should be audio length * speed of simulation (0.5f)
-        eMain.duration = explosionAudio.clip.length * eMain.simulationSpeed;
+        
+        //play particles 
         explosionParts.Play();
+
+        //audio 
+        StartCoroutine(ExplodeThenFireSounds());
     }
-	
+
+    IEnumerator ExplodeThenFireSounds()
+    {
+        ExplosionSound();
+
+        yield return new WaitForSeconds(explosionAudio.clip.length);
+
+        FireSound();
+    }
+    
 	void Update ()
     {
-        //audio stopped playing after explosion 
-        if (explosionAudio.isPlaying == false && explosionAudio.clip == explosions[randomFall])
-        {
-            //Debug.Log("just a fire burning///");
-            explosionAudio.Stop();
-            explosionAudio.clip = fireBurning;
-            explosionAudio.outputAudioMixerGroup = fireGroup;
-            explosionAudio.loop = true;
-        }
-
         //on fire buring 
         if(explosionAudio.clip == fireBurning)
         {
-            //float dist = Vector3.Distance(transform.position, )
+            AudioCheck();
         }
 	}
+
+    void ExplosionSound()
+    {
+        //set explode sound
+        randomFall = Random.Range(0, explosions.Length);
+        explosionAudio.clip = explosions[randomFall];
+        explosionAudio.PlayOneShot(explosions[randomFall]);
+    }
+
+    //stop audio source and set fire sound to loop 
+    void FireSound()
+    {
+        explosionAudio.Stop();
+        explosionAudio.clip = fireBurning;
+        explosionAudio.outputAudioMixerGroup = fireGroup;
+        explosionAudio.loop = true;
+    }
+
+    //checks whether to play looping audio based on distance from current player 
+    void AudioCheck()
+    {
+        //grab current player 
+        Transform currentPlayer = camSwitcher.cameraObjects[camSwitcher.currentCam].transform;
+        //dist check
+        float dist = Vector3.Distance(transform.position, currentPlayer.position);
+
+        //close enough -- play audio 
+        if (dist < 150f)
+        {
+            if (explosionAudio.isPlaying == false)
+                explosionAudio.Play();
+        }
+        //disable audio
+        else
+        {
+            if (explosionAudio.isPlaying)
+                explosionAudio.Stop();
+        }
+    }
 
     //could add to this so that when it overlaps with other explosion fire, they combine into one thing
     private void OnTriggerEnter(Collider other)

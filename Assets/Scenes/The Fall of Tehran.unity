@@ -1191,6 +1191,11 @@ Prefab:
       propertyPath: MinDistance
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 20377777381553340, guid: 22b56e175ecc54c48a618a7834a61507,
+        type: 2}
+      propertyPath: far clip plane
+      value: 5000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22b56e175ecc54c48a618a7834a61507, type: 2}
   m_IsPrefabAsset: 0
@@ -9400,38 +9405,38 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: "Welcome.\nIt is 5:00, and we must thank Allah for Iran is still here. \r\nBut
-    I fear it will not be much longer. \r\nOur time has come. \r\nIn thirty minutes,
-    American planes will overshadow our beloved city. \r\nThe storm they fabricated
-    has concealed them.\nI will not lie to you, not on this day, not on my life. \r\nFor
-    without it, you would not see me speak. \r\nYou would not hear me speak. \r\nI
-    want you all to know that the world will remember us for our courage and not our
-    sins. \r\nWe did what Allah asked of us and never surrendered. \r\nIn time, we
-    will have our retribution. \r\nIn the infinite afterlife, we will haunt this Earth
-    as a specter of our own preeminent destruction. \r\nThe Western powers brought
-    the toxins of industry into this world. \nThey will be left behind to rot in their
-    own stench. \r\nThat great cloud of darkness which hangs above us is a sign not
-    of our doom but of theirs. \r\nWe have cast no stones but those which were necessary
-    to preserve our own livelihood. \r\nThis is the final act of idolatry that Allah
-    will tolerate. \r\nFor it has been foretold, written in blood, not in vain, in
-    our hearts and souls, that we shall return at the curtain\u2019s fall and after
-    the completion of the Great Flight. \r\nOur silver seed will rise up and meet
-    their storm. \r\nThis vessel will transport our people and our bloodlines far
-    far away into the outskirts of space. \r\nOn those fringes, we shall be safe from
-    human retaliation. \r\nWe will rebuild our society in Allah's glorious light.
+  m_text: "Welcome.\r\nIt is 5:00, and we must thank Allah for Iran is still here.
+    \r\nBut I fear it will not be much longer. \r\nOur time has come. \r\nIn thirty
+    minutes, American planes will overshadow our beloved city. \r\nThe storm they
+    fabricated has concealed them.\r\nI will not lie to you, not on this day, not
+    on my life. \r\nFor without it, you would not see me speak. \r\nYou would not
+    hear me speak. \r\nI want you all to know that the world will remember us for
+    our courage and not our sins. \r\nWe did what Allah asked of us and never surrendered.
+    \r\nIn time, we will have our retribution. \r\nIn the infinite afterlife, we will
+    haunt this Earth as a specter of our own preeminent destruction. \r\nThe Western
+    powers brought the toxins of industry into this world. \r\nThey will be left behind
+    to rot in their own stench. \r\nThat great cloud of darkness which hangs above
+    us is a sign not of our doom but of theirs. \r\nWe have cast no stones but those
+    which were necessary to preserve our own livelihood. \r\nThis is the final act
+    of idolatry that Allah will tolerate. \r\nFor it has been foretold, written in
+    blood, not in vain, in our hearts and souls.\r\nThat we shall return at the curtain\u2019s
+    fall and after the completion of the Great Flight. \r\nOur silver seed will rise
+    up and meet their storm. \r\nThis vessel will transport our people and our bloodlines
+    far far away into the outskirts of space. \r\nOn those fringes, we shall be safe
+    from human retaliation. \r\nWe will rebuild our society in Allah's glorious light.
     \r\nFor the star which sits at the center is one much like our own. \r\nThis is
     why, my dear people, we must perish in eternal fire. \r\nOur sacrifice will create
     an impenetrable barrier that will surround our silver seed. \r\nWhen that barrier
-    reaches the new atmosphere we will be revived on impact. \nOver the course of
+    reaches the new atmosphere we will be revived on impact. \r\nOver the course of
     1,000 years, our civilization will be rebuilt and we shall return. \r\nWe shall
     return. \r\nAnd in this new world, we will be sure to live in harmony with our
     natural surroundings. \r\nFor we will be but visitors stranded in an ecosystem
     which has up until this point known no human disease. \r\nSo, I beg of you, when
     the bombs fall you must rise to meet them. \r\nYour will must be unbreakable.
     \r\nYour spirits, by the almighty Allah, will be invulnerable to western weaponry.
-    Their treachery will be their demise. \r\nAnd so, they forfeit the reigns of our
-    human existence to us. \r\nThis is our escape. This is our fate. \r\nI will leave
-    you to it\u2026\r\n"
+    \r\nTheir treachery will be their demise. \r\nAnd so, they forfeit the reigns
+    of our human existence to us. \r\nThis is our escape. This is our fate. \r\nI
+    will leave you to it\u2026\r\nInshallah, Iran!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f220f71c3225df469c3cb471fa7c713, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -9544,7 +9549,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hostObj: {fileID: 590775799}
-  textAsset: {fileID: 4900000, guid: 7aae281a8a94e1f4ca7cfa86969f19ee, type: 3}
   textLines: []
   currentLine: 0
   endAtLine: 0
@@ -34308,13 +34312,24 @@ Prefab:
     - target: {fileID: 114804160481618326, guid: 1ff10a67d98b8c84a857eabb3b4ca19d,
         type: 2}
       propertyPath: _savedGUID
-      value: 3399921890
+      value: 47744299
       objectReference: {fileID: 0}
     - target: {fileID: 114804160481618326, guid: 1ff10a67d98b8c84a857eabb3b4ca19d,
         type: 2}
       propertyPath: hash.lastHash
-      value: 1516839367
+      value: 1982711084
       objectReference: {fileID: 0}
+    - target: {fileID: 114804160481618326, guid: 1ff10a67d98b8c84a857eabb3b4ca19d,
+        type: 2}
+      propertyPath: shape.inputs.Array.data[1].vector4Value.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114804160481618326, guid: 1ff10a67d98b8c84a857eabb3b4ca19d,
+        type: 2}
+      propertyPath: material.snippet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3f06f9be2742d0846bb8f8053712d079,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ff10a67d98b8c84a857eabb3b4ca19d, type: 2}
   m_IsPrefabAsset: 0

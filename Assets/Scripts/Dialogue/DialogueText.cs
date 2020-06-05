@@ -11,7 +11,6 @@ public class DialogueText : MonoBehaviour
     GameObject player;
     camMouseLook camControl;
     public GameObject hostObj;
-    public TextAsset textAsset;
     //text component and string array of its lines
     TMP_Text theText;
     public string[] textLines;
@@ -163,7 +162,7 @@ public class DialogueText : MonoBehaviour
 
     public void ResetStringText()
     {
-        textLines = (textAsset.text.Split('\n'));
+        textLines = (theText.text.Split('\n'));
 
         endAtLine = textLines.Length;
     }
