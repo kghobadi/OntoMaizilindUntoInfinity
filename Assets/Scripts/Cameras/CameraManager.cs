@@ -20,7 +20,7 @@ using UnityEngine;
 
         private void Awake()
         {
-            cameras = GetComponentsInChildren<GameCamera>(true);
+            cameras = FindObjectsOfType<GameCamera>();
         }
 
         // Start is called before the first frame update

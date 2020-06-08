@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using InControl;
+using Cameras;
 
 public class CameraSwitcher : MonoBehaviour {
+    CameraManager camManager;
+
     //camera objects list, current obj, and int to count them
     public List<CamObject> cameraObjects = new List<CamObject>();
     CamObject currentCamObj;
@@ -19,6 +22,9 @@ public class CameraSwitcher : MonoBehaviour {
 
     void Awake()
     {
+        //camera manager ref 
+        camManager = FindObjectOfType<CameraManager>();
+
         //find all CamObjects in scene 
         CamObject[] cams = FindObjectsOfType<CamObject>();
         for(int i = 0; i < cams.Length; i++)
@@ -94,14 +100,20 @@ public class CameraSwitcher : MonoBehaviour {
         DisableCamObj(cameraObjects[currentCam]);
 
         //fade out shift press UI
-        if (shiftPress.gameObject.activeSelf)
-            shiftPress.FadeOut();
+        if (shiftPress)
+        {
+            if (shiftPress.gameObject.activeSelf)
+                shiftPress.FadeOut();
+        }
+
         //disable radio room 
-        if (radioRoom.activeSelf)
-            radioRoom.SetActive(false);
-
+        if (radioRoom)
+        {
+            if (radioRoom.activeSelf)
+                radioRoom.SetActive(false);
+        }
+       
         //increment currentCam
-
         //use the passed int
         if (num >= 0)
         {
@@ -154,15 +166,14 @@ public class CameraSwitcher : MonoBehaviour {
         {
             //set the body's parent to its camera
             cam.myBody.transform.SetParent(cam.camObj.transform);
+            //set new cam
+            camManager.Set(cam.camObj);
             //enable ground cam script
             cam.camObj.GetComponent<GroundCamera>().enabled = true;
             //turn off that persons Citizen Ai
             cam.GetComponent<Citizen>().enabled = false;
             //turn on that persons FPC
             cam.GetComponent<FirstPersonController>().enabled = true;
-            //turn on the person's camera
-            cam.camObj.enabled = true;
-            cam.camObj.GetComponent<AudioListener>().enabled = true;
         }
         else
         {
@@ -187,9 +198,6 @@ public class CameraSwitcher : MonoBehaviour {
             cam.GetComponent<Citizen>().enabled = true;
             //turn off that persons FPC
             cam.GetComponent<FirstPersonController>().enabled = false;
-            //turn off the person's camera
-            cam.camObj.enabled = false;
-            cam.camObj.GetComponent<AudioListener>().enabled = false;
         }
         else
         {

@@ -388,7 +388,7 @@ namespace NPC
 
             //set moving 
             controller.npcState = Controller.NPCStates.MOVING;
-            npcAnimations.SetAnimator("walking");
+            npcAnimations.SetAnimator("moving");
 
             //character will wait when it arrives at point 
             if (hasMono)

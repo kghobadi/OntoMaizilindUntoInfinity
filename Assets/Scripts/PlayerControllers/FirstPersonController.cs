@@ -20,21 +20,12 @@ public class FirstPersonController : MonoBehaviour
     CharacterController player;
     GroundCamera mouseLook;
     Vector3 movement;
+    ResetNearbyAudioSources resetAudio;
 
     //for footstep sounds
     public AudioClip[] currentFootsteps/*, indoorFootsteps, gardenFootsteps, pathFootsteps*/;
     AudioSource playerAudSource;
-
-    //dictionary to sort nearby audio sources by distance 
-    [SerializeField]
-    public Dictionary<AudioSource, float> soundCreators = new Dictionary<AudioSource, float>();
-    //to shorten if statement
-    public List<GameObject> audioObjects = new List<GameObject>();
-    //listener range
-    public float listeningRadius;
-    //to shorten if statement
-    public List<string> audioTags = new List<string>();
-
+    
     public bool canMove = true;
     public bool moving;
 
@@ -48,6 +39,7 @@ public class FirstPersonController : MonoBehaviour
         player = GetComponent<CharacterController>();
         playerAudSource = GetComponent<AudioSource>();
         mouseLook = GetComponentInChildren<GroundCamera>();
+        resetAudio = GetComponent<ResetNearbyAudioSources>();
     }
 
     void Update()
@@ -73,11 +65,13 @@ public class FirstPersonController : MonoBehaviour
             {
                 if (startCam)
                     DeactivateStartCam();
-
+                
                 movement = transform.rotation * movement;
                 player.Move(movement * Time.deltaTime);
 
                 player.Move(new Vector3(0, -0.5f, 0));
+
+                resetAudio.ResetNearbyAudio();
             }
         }
     }
@@ -186,46 +180,4 @@ public class FirstPersonController : MonoBehaviour
         currentFootsteps[n] = currentFootsteps[0];
         currentFootsteps[0] = playerAudSource.clip;
     }
-    
-    //this function shifts all audio source priorities dynamically
-    void ResetNearbyAudioSources()
-    {
-        //empty dictionary and audioObjects
-        soundCreators.Clear();
-        audioObjects.Clear();
-        //overlap sphere to find nearby sound creators
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, listeningRadius);
-        int i = 0;
-        while (i < hitColliders.Length)
-        {
-            GameObject audioObj = hitColliders[i].gameObject;
-
-            //check to see if obj has desired tag
-            //that the object is both active and not already part of our audioObjects list
-            //and that the object has an audio source
-            if (audioTags.Contains(audioObj.tag) &&
-                audioObj.activeSelf && !audioObjects.Contains(audioObj) &&
-                audioObj.GetComponent<AudioSource>() != null)
-            {
-                    //check distance and add to list
-                    float distanceAway = Vector3.Distance(hitColliders[i].transform.position, transform.position);
-                    //add to audiosource and distance to dictionary
-                    soundCreators.Add(audioObj.GetComponent<AudioSource>(), distanceAway);
-                    //add to list of objects
-                    audioObjects.Add(audioObj);
-                
-            }
-            i++;
-        }
-
-        int priority = 0;
-        //sort the dictionary by order of ascending distance away
-        foreach (KeyValuePair<AudioSource, float> item in soundCreators.OrderBy(key => key.Value))
-        {
-            // do something with item.Key and item.Value
-            item.Key.priority = priority;
-            priority++;
-        }
-    }
-
 }

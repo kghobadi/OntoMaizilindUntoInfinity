@@ -2,25 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 using InControl;
+using Cameras;
 
 public class TitleToRoom : MonoBehaviour {
+    CameraManager camManager;
     //for all the text refs
-    public FadeUI omFade, uiFade, actFade, dwFade, poemFader;
+    [Header("Title Canvas Refs")]
+    public FadeUI omFade;
+    public FadeUI uiFade, actFade, dwFade, poemFader;
     public LerpScale omScale, uiScale;
     public MoveUI omMove, uiMove, dwMove;
     public Animator scribeAnimator;
     public FadeSprite scribeFade;
-    //time until game starts 
-    public float poemTime = 10f;
-    float poemTimer= 0, poemTimeNecessary = 15f;
-
+    public FadeSprite blackground;
+    
     //player
+    [Header("Player/Room Refs")]
     public FirstPersonController player;
     //other game objs involved in transition
-    public GameObject startCam, roomCam;
+    public GameCamera startCam, roomCam;
     public GameObject tv, radio, textPanel;
-    public FadeSprite blackground;
+
+    [Header("Transition Vars")]
+    public float poemTime = 10f;   //time until game starts 
+    float poemTimer = 0, poemTimeNecessary = 15f;
     public bool readingPoem, startedTransition, transitioned;
+
+
+    void Awake()
+    {
+        camManager = FindObjectOfType<CameraManager>();
+    }
 
     void Start()
     {
@@ -99,8 +111,7 @@ public class TitleToRoom : MonoBehaviour {
         scribeFade.FadeOut();
 
         //activate room stuff 
-        startCam.SetActive(false);
-        roomCam.SetActive(true);
+        camManager.Set(roomCam);
         tv.SetActive(true);
         radio.SetActive(true);
         textPanel.SetActive(true);
