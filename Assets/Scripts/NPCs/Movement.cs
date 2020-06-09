@@ -21,13 +21,12 @@ namespace NPC
         [HideInInspector]
         public NavMeshAgent myNavMesh;
         Vector3 origPosition;
-        public Transform startingPos;
         public MovementPath startBehavior;
         public Vector3 targetPosition;
         float distFromPlayer;
+        public bool AIenabled = true;
 
         //state timers 
-        public float normalSpeed = 8f;
         public float stateTimer, actionTimer;
         public float idleTime, actionTime;
         public float interactDistance;
@@ -50,7 +49,7 @@ namespace NPC
 
         [Header("Random Settings")]
         public float movementRadius;
-
+        
         void Awake()
         {
             GetRefs();
@@ -59,7 +58,7 @@ namespace NPC
         void GetRefs()
         {
             controller = GetComponent<Controller>();
-            npcAnimations = GetComponent<Animations>();
+            npcAnimations = GetComponentInChildren<Animations>();
             npcSounds = GetComponent<Sounds>();
             mainCam = Camera.main;
             myNavMesh = GetComponent<NavMeshAgent>();
@@ -70,6 +69,8 @@ namespace NPC
         void Start()
         { 
             origPosition = transform.position;
+            myNavMesh.speed += Random.Range(-5f, 10f);
+            ResetMovement(startBehavior);
             SetIdle();
         }
 
@@ -77,18 +78,19 @@ namespace NPC
         {
             //player ref
             currentPlayer = controller.camSwitcher.cameraObjects[controller.camSwitcher.currentCam].gameObject;
-            //set moveSpeed in animator
-            npcAnimations.characterAnimator.SetFloat("MoveSpeed", myNavMesh.velocity.magnitude);
-            //dist from player 
-            DistanceCheck();
-            //idle state
-            Idle();
-            //moving state
-            Moving();
-            //talking state
-            Talking();
+            if (AIenabled)
+            {
+                //dist from player 
+                DistanceCheck();
+                //idle state
+                Idle();
+                //moving state
+                Moving();
+                //talking state
+                Talking();
+            }
         }
-
+        
         //checks distance from player && runs corresponding behaviors
         void DistanceCheck()
         {
@@ -230,7 +232,7 @@ namespace NPC
                     if (npcSounds.idleSounds.Length > 0)
                         npcSounds.PlayRandomSoundRandomPitch(npcSounds.idleSounds, npcSounds.myAudioSource.volume);
 
-                    npcAnimations.Animator.SetTrigger("action1");
+                    //npcAnimations.Animator.SetTrigger("action1");
 
                     actionTimer = actionTime;
                 }

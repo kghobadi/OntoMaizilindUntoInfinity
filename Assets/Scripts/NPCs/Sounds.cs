@@ -11,6 +11,30 @@ namespace NPC
         public AudioClip goodbye, react, action;
         public AudioClip[] idleSounds;
         public AudioClip[] walkingSounds;
+        public AudioClip[] screams;
+
+        [Header("Face Animations")]
+        public SpriteRenderer face;
+        public Sprite normalFace, screaming;
+
+        private void Update()
+        {
+            FaceSwap();
+        }
+
+        //swaps face sprite for screaming
+        void FaceSwap()
+        {
+            if (myAudioSource.isPlaying)
+            {
+                face.sprite = screaming;
+            }
+            else
+            {
+                face.sprite = normalFace;
+            }
+        }
+
     }
 }
 

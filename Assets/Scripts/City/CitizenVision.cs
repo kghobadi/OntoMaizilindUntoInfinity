@@ -1,24 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NPC;
 
 public class CitizenVision : MonoBehaviour {
 
     public Transform citizenParent;
 
-    Citizen citizenScript;
+    Sounds sounds;
 
     void Awake()
     {
-        citizenScript = citizenParent.GetComponent<Citizen>();   
+        sounds = citizenParent.GetComponent<Sounds>();   
     }
 
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Bomb" || other.gameObject.tag == "Explosion")
         {
-            if(citizenScript.citizenSounds.myAudioSource.isPlaying == false)
-                citizenScript.citizenSounds.PlayRandomSoundRandomPitch(citizenScript.citizenSounds.screams, 1f);
+            if(sounds.myAudioSource.isPlaying == false)
+                sounds.PlayRandomSoundRandomPitch(sounds.screams, 1f);
         }
     }
 }

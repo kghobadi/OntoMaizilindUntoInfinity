@@ -40,6 +40,9 @@ GameObject:
   - component: {fileID: 114204485434223294}
   - component: {fileID: 54890980426293750}
   - component: {fileID: 114545562061234144}
+  - component: {fileID: 65091340434941296}
+  - component: {fileID: 208082953037414130}
+  - component: {fileID: 65951151670755400}
   m_Layer: 0
   m_Name: tehran building 1
   m_TagString: Building
@@ -54,7 +57,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1960878091322164}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 105.9, y: 12, z: 74.79091}
+  m_LocalPosition: {x: 103.5, y: -5.1, z: -29.5}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_Children:
   - {fileID: 4349852195100264}
@@ -131,6 +134,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &65091340434941296
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1960878091322164}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 80, y: 160, z: 80}
+  m_Center: {x: 0, y: 40, z: 0}
 --- !u!65 &65166254553178784
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -139,6 +154,18 @@ BoxCollider:
   m_GameObject: {fileID: 1960878091322164}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 80, y: 160, z: 80}
+  m_Center: {x: 0, y: 40, z: 0}
+--- !u!65 &65951151670755400
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1960878091322164}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 80, y: 160, z: 80}
@@ -174,7 +201,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   materialOptions:
-  - {fileID: 2100000, guid: 4d9612acfffcb7e4f8c2706658542f05, type: 2}
-  - {fileID: 2100000, guid: 328167e0a999fb04bbf29bf60de9c316, type: 2}
-  - {fileID: 2100000, guid: 485a801d9591bca4f966fcd65ed80edb, type: 2}
-  - {fileID: 2100000, guid: ae00de6f2941ce44988ed0176249260e, type: 2}
+  - {fileID: 2100000, guid: f25fec2b214db2748b836d45aa11077d, type: 2}
+  - {fileID: 2100000, guid: 84f5e1bbe77209b42aec93c08d3a8bb4, type: 2}
+  - {fileID: 2100000, guid: 0bca4ec90565ee542be4a85a1e97324b, type: 2}
+  - {fileID: 2100000, guid: be894e9c639a07247b2b032e02b478a6, type: 2}
+  - {fileID: 2100000, guid: 3d0a8a0307caa26458f6a2fd26720337, type: 2}
+--- !u!208 &208082953037414130
+NavMeshObstacle:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1960878091322164}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 40, y: 80, z: 40}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5

@@ -54,7 +54,8 @@ public class MonologueManager : MonoBehaviour
     void Start()
     {
         //set text to first string in my list of monologues 
-        SetMonologueSystem(0);
+        if(allMyMonologues.Count > 0)
+            SetMonologueSystem(0);
 
         //play mono 0 
         if (enableOnStart)

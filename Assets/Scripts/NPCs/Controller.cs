@@ -40,16 +40,19 @@ namespace NPC
         private void Awake()
         {
             moveManager = FindObjectOfType<NPCMovementManager>();
+
             //npc component refs 
             npcAnimations = GetComponent<Animations>();
             npcMovement = GetComponent<Movement>();
             npcSounds = GetComponent<Sounds>();
+
             //prob need to fetch monologue text from children 
             npcMonologues = GetComponent<MonologueManager>();
-            npcMonologues.npcController = this;
             if (npcMonologues == null)
                 npcMonologues = GetComponentInChildren<MonologueManager>();
-
+            if (npcMonologues)
+                npcMonologues.npcController = this;
+            
             //player refs
             camSwitcher = FindObjectOfType<CameraSwitcher>();
             camManager = FindObjectOfType<CameraManager>();

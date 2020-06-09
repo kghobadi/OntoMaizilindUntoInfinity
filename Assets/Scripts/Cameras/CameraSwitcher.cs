@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using InControl;
 using Cameras;
+using UnityEngine.AI;
+using NPC;
 
 public class CameraSwitcher : MonoBehaviour {
     CameraManager camManager;
 
     //camera objects list, current obj, and int to count them
     public List<CamObject> cameraObjects = new List<CamObject>();
-    CamObject currentCamObj;
+    [HideInInspector] public CamObject currentCamObj;
     public int currentCam = 0;
     public GameObject citizensParent;
     public FadeUI shiftPress;
     public bool canShift;
+    public bool debug;
     public GameObject radioRoom;
 
     [Header("Transition")]
@@ -47,15 +50,22 @@ public class CameraSwitcher : MonoBehaviour {
         {
             DisableCamObj(cameraObjects[i]);
         }
-
-        //turn off citizens for now
-        citizensParent.SetActive(false);
-
+        
         //set current cam obj at start
         currentCamObj = cameraObjects[currentCam];
 
-        //cant shift yet
-        canShift = false;
+        if (!debug)
+        {
+            //turn off citizens for now
+            citizensParent.SetActive(false);
+
+            //cant shift yet
+            canShift = false;
+        }
+        else
+        {
+            canShift = true;
+        }
 	}
 	
 	void Update ()
@@ -171,7 +181,9 @@ public class CameraSwitcher : MonoBehaviour {
             //enable ground cam script
             cam.camObj.GetComponent<GroundCamera>().enabled = true;
             //turn off that persons Citizen Ai
-            cam.GetComponent<Citizen>().enabled = false;
+            cam.GetComponent<NavMeshAgent>().enabled = false;
+            //turn off that persons Citizen Ai
+            cam.GetComponent<Movement>().AIenabled = false;
             //turn on that persons FPC
             cam.GetComponent<FirstPersonController>().enabled = true;
         }
@@ -195,7 +207,9 @@ public class CameraSwitcher : MonoBehaviour {
             //disable ground cam script
             cam.camObj.GetComponent<GroundCamera>().enabled = false;
             //turn on that persons Citizen Ai
-            cam.GetComponent<Citizen>().enabled = true;
+            cam.GetComponent<NavMeshAgent>().enabled = true;
+            //turn off that persons Citizen Ai
+            cam.GetComponent<Movement>().AIenabled = true;
             //turn off that persons FPC
             cam.GetComponent<FirstPersonController>().enabled = false;
         }
