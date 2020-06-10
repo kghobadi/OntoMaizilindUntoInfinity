@@ -10,6 +10,7 @@ public class CamObject : MonoBehaviour {
     public CamType myCamType;
     public GameCamera camObj;
     public GameObject headset, myBody;
+    public FadeUI shiftUI;
 
     public enum CamType
     {

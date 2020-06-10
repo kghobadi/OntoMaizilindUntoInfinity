@@ -16,6 +16,8 @@ public class CameraSwitcher : MonoBehaviour {
     public GameObject citizensParent;
     public FadeUI shiftPress;
     public bool canShift;
+    public float shiftDistLimit = 250f;
+    float shiftResetTimer = 0f, shiftReset = 1f;
     public bool debug;
     public GameObject radioRoom;
 
@@ -70,12 +72,32 @@ public class CameraSwitcher : MonoBehaviour {
 	
 	void Update ()
     {
-        //get input device 
-        var inputDevice = InputManager.ActiveDevice;
-
         //resets current cam when people are destroyed
         if (currentCam > cameraObjects.Count - 1)
             currentCam = cameraObjects.IndexOf(currentCamObj);
+
+        //only allow shift controls when bomber view 
+        if(currentCamObj.myCamType == CamObject.CamType.BOMBER)
+            ShiftControls();
+
+        //only reset canShift if citizens are active 
+        if (citizensParent.activeSelf)
+        {
+            ShiftReset();
+        }
+
+        //when there is all but one camera left, advance scene 
+        if(cameraObjects.Count <= transitionAmount)
+        {
+            advance.LoadNextScene();
+        }
+	}
+
+    //allows user to shift through list of perspectives 
+    void ShiftControls()
+    {
+        //get input device 
+        var inputDevice = InputManager.ActiveDevice;
 
         //only while shift ability active 
         if (canShift)
@@ -97,13 +119,20 @@ public class CameraSwitcher : MonoBehaviour {
                 SwitchCam(false, 0);
             }
         }
+    }
 
-        //when there is all but one camera left, advance scene 
-        if(cameraObjects.Count <= transitionAmount)
+    //resets shift ability after it is used 
+    void ShiftReset()
+    {
+        if(canShift == false)
         {
-            advance.LoadNextScene();
+            shiftResetTimer -= Time.deltaTime;
+            if(shiftResetTimer < 0)
+            {
+                canShift = true;
+            }
         }
-	}
+    }
 
     public void SwitchCam(bool upOrDown, int num)
     {
@@ -166,6 +195,10 @@ public class CameraSwitcher : MonoBehaviour {
         }
 
         EnableCamObj(cameraObjects[currentCam]);
+
+        //start shift reset 
+        canShift = false;
+        shiftResetTimer = shiftReset;
     }
 
     //enables a camObj as current cam obj
