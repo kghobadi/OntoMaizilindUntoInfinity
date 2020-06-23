@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4188559225919002}
   - component: {fileID: 137652447456905448}
+  - component: {fileID: 114951246038025694}
   m_Layer: 0
   m_Name: pSphere5
   m_TagString: Untagged
@@ -1651,7 +1652,6 @@ MonoBehaviour:
   sensitivityY: 1
   smoothing: 2
   currentCamObj: {fileID: 0}
-  shiftDistLimit: 500
   shiftable:
     serializedVersion: 2
     m_Bits: 4096
@@ -2119,6 +2119,21 @@ MonoBehaviour:
   inMonologue: 0
   mTrigger: {fileID: 0}
   enableOnStart: 0
+--- !u!114 &114951246038025694
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1020820112671462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 106bb28251681024f8fb7f2f4b9df46f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialOptions:
+  - {fileID: 2100000, guid: 0bca4ec90565ee542be4a85a1e97324b, type: 2}
+  - {fileID: 2100000, guid: 84f5e1bbe77209b42aec93c08d3a8bb4, type: 2}
+  - {fileID: 2100000, guid: 3d0a8a0307caa26458f6a2fd26720337, type: 2}
 --- !u!137 &137652447456905448
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

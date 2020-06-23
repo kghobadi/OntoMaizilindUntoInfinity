@@ -56,8 +56,10 @@ public class Bomber : MonoBehaviour {
         //find spawn pos and grab obj 
         Vector3 spawnPos = transform.position - new Vector3(0, 7, 0) + Random.insideUnitSphere * 25f;
         GameObject bomb = bombPooler.GrabObject();
-        //set pos and enable force
+        //set pos 
         bomb.transform.position = spawnPos;
-        bomb.GetComponent<Rigidbody>().isKinematic = false;
+        //enable force
+        Bomb bombScript = bomb.GetComponent<Bomb>();
+        bombScript.SetBombFall();
     }
 }

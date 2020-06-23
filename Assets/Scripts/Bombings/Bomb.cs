@@ -13,6 +13,7 @@ public class Bomb : MonoBehaviour {
     Rigidbody bombBody;
     PooledObject _pooledObj;
     public float moveSpeedOverTime;
+    public float startSpeed = 10000f;
 
     //audio vars
     AudioSource bombAudio;
@@ -46,6 +47,13 @@ public class Bomb : MonoBehaviour {
         bombAudio.clip = bombfalls[randomFall];
         bombAudio.Play();
 	}
+
+    //called by bomber
+    public void SetBombFall()
+    {
+        bombBody.isKinematic = false;
+        bombBody.AddForce(0f, startSpeed, 0f);
+    }
 
     //fall force 
 	void FixedUpdate ()

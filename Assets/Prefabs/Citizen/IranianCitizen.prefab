@@ -204,6 +204,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4667315533621448}
   - component: {fileID: 137981588971741220}
+  - component: {fileID: 114782326514602046}
   m_Layer: 12
   m_Name: polySurface1
   m_TagString: Untagged
@@ -2685,6 +2686,21 @@ MonoBehaviour:
     FarClipPlane: 5000
     Dutch: 0
   m_ComponentOwner: {fileID: 4486436694958148}
+--- !u!114 &114782326514602046
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1179466393536270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 106bb28251681024f8fb7f2f4b9df46f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialOptions:
+  - {fileID: 2100000, guid: 84f5e1bbe77209b42aec93c08d3a8bb4, type: 2}
+  - {fileID: 2100000, guid: 0bca4ec90565ee542be4a85a1e97324b, type: 2}
+  - {fileID: 2100000, guid: 3d0a8a0307caa26458f6a2fd26720337, type: 2}
 --- !u!114 &114799714807879744
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2873,7 +2889,6 @@ MonoBehaviour:
   sensitivityY: 1
   smoothing: 2
   currentCamObj: {fileID: 0}
-  shiftDistLimit: 500
   shiftable:
     serializedVersion: 2
     m_Bits: 4096
