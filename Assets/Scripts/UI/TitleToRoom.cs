@@ -15,7 +15,10 @@ public class TitleToRoom : MonoBehaviour {
     public Animator scribeAnimator;
     public FadeSprite scribeFade;
     public FadeSprite blackground;
-    
+    public MusicFader callToPrayer;
+    public GameObject[] characters;
+    public MusicFader warAmbience;
+
     //player
     [Header("Player/Room Refs")]
     public FirstPersonController player;
@@ -37,6 +40,8 @@ public class TitleToRoom : MonoBehaviour {
     void Start()
     {
         player.canMove = false;
+        tv.SetActive(false);
+        radio.gameObject.SetActive(false);
     }
 
     void Update ()
@@ -97,6 +102,7 @@ public class TitleToRoom : MonoBehaviour {
         }
     }
 
+    //transition from title to child wake up
     void Transition()
     {
         startedTransition = true;
@@ -112,10 +118,16 @@ public class TitleToRoom : MonoBehaviour {
 
         //activate room stuff 
         camManager.Set(roomCam);
-        tv.SetActive(true);
-        radio.SetActive(true);
-        textPanel.SetActive(true);
+        callToPrayer.SetSound(callToPrayer.musicTrack);
+        warAmbience.FadeOut(0f, warAmbience.fadeSpeed);
+
+        //activate all the characters in the family 
+        for(int i = 0; i < characters.Length; i++)
+        {
+            characters[i].SetActive(true);
+        }
         
+        //wait to finalize transition 
         StartCoroutine(WaitForTransition(2f));
     }
 
@@ -124,5 +136,9 @@ public class TitleToRoom : MonoBehaviour {
         yield return new WaitForSeconds(time);
         player.canMove = true;
         transitioned = true;
+
+        //enable TV and RADIO
+        tv.SetActive(true);
+        radio.SetActive(true);
     }
 }
