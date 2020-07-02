@@ -12,10 +12,15 @@ public class Television : MonoBehaviour {
     public VideoClip[] tvChannels; // news clip, cartoon clip, western clip
     public int[] channelLastFrames;
     public int currentClip = 0; //defaults to the news channel 
+
+    [Header("On Speech Start")]
+    public VideoClip staticBroadcast;
     public VideoClip theSpeech;
     public Material staticEffect;
         Material origMat;
-    public MusicFader warAmbience; 
+    public MusicFader warAmbience;
+    public Material scarySky;
+    public LerpLighting sunLerp;
 
     [Header("Objects to Activate")]
     public GameObject planes;
@@ -33,11 +38,13 @@ public class Television : MonoBehaviour {
     public MonologueReader shahReader;
     public int [] transitionLines;
     int currentTransition = 0;
+    public bool waitingForStatic;
     public bool speechStarted;
     public bool speechEnded;
     public AudioMixerSnapshot bombing;
 
-	void Awake () {
+	void Awake ()
+    {
         vidPlayer = GetComponent<VideoPlayer>();
         tvSource = GetComponent<AudioSource>();
         radioSource = radio.GetComponent<AudioSource>();
@@ -49,9 +56,8 @@ public class Television : MonoBehaviour {
     {
         //set frame array length
         channelLastFrames = new int[tvChannels.Length];
-        //tv audio to start 
-        SetVideoPlayer(tvChannels[0]);
-        //SwitchDeviceAudio();
+        //disable
+        transform.parent.gameObject.SetActive(false);
     }
 
     void Update ()
@@ -111,7 +117,8 @@ public class Television : MonoBehaviour {
                 vidPlayer.targetMaterialRenderer.material = origMat;
                 vidPlayer.Play();
                 //set to previous last frame 
-                vidPlayer.frame = channelLastFrames[currentClip];
+                if(channelLastFrames[currentClip] > 0)
+                    vidPlayer.frame = channelLastFrames[currentClip];
             }
 
             //debug to start speech
@@ -154,17 +161,48 @@ public class Television : MonoBehaviour {
     //called when either we have triggered all the monologues or a timer? 
     public void StartSpeech()
     {
+        //only works if it hasn't been called already 
+        if(waitingForStatic == false && speechStarted == false)
+            StartCoroutine(WaitForStatic());
+    }
+
+    IEnumerator WaitForStatic()
+    {
         //set audio mutes -- tv on, radio off
         tvSource.mute = false;
-        radioSource.mute = true;
+        radioSource.mute = false;
+
+        //radio 
+        radioSource.Stop();
+        radioSource.clip = radio.staticBroadcast;
+        radioSource.volume = 1f;
+        radioSource.Play();
 
         //set vid player, ambience, and enable mono
-        SetVideoPlayer(theSpeech);
+        SetVideoPlayer(staticBroadcast);
         warAmbience.FadeIn(1f, warAmbience.fadeSpeed);
+
+        //sky and sun
+        RenderSettings.skybox = scarySky;
+        sunLerp.SetLightLerp(sunLerp.sunScary, sunLerp.sunNice);
+
+        waitingForStatic = true;
+
+        yield return new WaitForSeconds((float)staticBroadcast.length);
+
+        SpeechBegins();
+    }
+
+    //speech actually starts
+    void SpeechBegins()
+    {
+        //set vid player and enable mono
+        SetVideoPlayer(theSpeech);
         shahSpeech.gameObject.SetActive(true);
         shahSpeech.EnableMonologue();
 
         //set radio audio
+        radioSource.mute = true;
         radioSource.Stop();
         radioSource.clip = radio.shahSpeech;
         radioSource.volume = 1f;

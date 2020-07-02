@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//use this script to pass an NPC a new path! 
 namespace Cameras
 {
     //Can use this scriptable object to create various types of tasks for NPCs to assign the player from their Task Manager

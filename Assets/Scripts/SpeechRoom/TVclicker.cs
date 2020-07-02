@@ -19,13 +19,25 @@ public class TVclicker : AudioHandler {
 
     private void OnMouseEnter()
     {
-        if(!hasClicked && tv.speechStarted == false)
+        if(!hasClicked && tv.speechStarted == false && tv.waitingForStatic == false)
             clicker.FadeIn();
+    }
+
+    private void OnMouseOver()
+    {
+        if (tv.waitingForStatic)
+        {
+            if(clicker.fadingOut == false)
+            {
+                clicker.keepActive = false;
+                clicker.FadeOut();
+            }
+        }
     }
 
     private void OnMouseDown()
     {
-        if(tv.speechStarted == false)
+        if(tv.speechStarted == false && tv.waitingForStatic == false)
         {
             tv.SwitchChannel();
 

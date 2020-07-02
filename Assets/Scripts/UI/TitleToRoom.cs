@@ -6,6 +6,8 @@ using Cameras;
 
 public class TitleToRoom : MonoBehaviour {
     CameraManager camManager;
+    Clock clock;
+    DebugTime timeline;
     //for all the text refs
     [Header("Title Canvas Refs")]
     public FadeUI omFade;
@@ -18,13 +20,18 @@ public class TitleToRoom : MonoBehaviour {
     public MusicFader callToPrayer;
     public GameObject[] characters;
     public MusicFader warAmbience;
+    public Material niceSky;
+    public LerpLighting sunLerp;
 
     //player
     [Header("Player/Room Refs")]
     public FirstPersonController player;
     //other game objs involved in transition
     public GameCamera startCam, roomCam;
-    public GameObject tv, radio, textPanel;
+    public GameObject  textPanel;
+    Television tele;
+    Radio radioScript;
+    GameObject tv, radio;
 
     [Header("Transition Vars")]
     public float poemTime = 10f;   //time until game starts 
@@ -34,14 +41,21 @@ public class TitleToRoom : MonoBehaviour {
 
     void Awake()
     {
+        //managers
         camManager = FindObjectOfType<CameraManager>();
+        clock = FindObjectOfType<Clock>();
+        timeline = FindObjectOfType<DebugTime>();
+        //tv ref
+        tele = FindObjectOfType<Television>();
+        tv = tele.transform.parent.gameObject;
+        //radio ref
+        radioScript = FindObjectOfType<Radio>();
+        radio = radioScript.gameObject;
     }
 
     void Start()
     {
         player.canMove = false;
-        tv.SetActive(false);
-        radio.gameObject.SetActive(false);
     }
 
     void Update ()
@@ -120,9 +134,14 @@ public class TitleToRoom : MonoBehaviour {
         camManager.Set(roomCam);
         callToPrayer.SetSound(callToPrayer.musicTrack);
         warAmbience.FadeOut(0f, warAmbience.fadeSpeed);
+        clock.gameObject.SetActive(true);
+        timeline.StartTimeline();
+
+        //set sun
+        sunLerp.SetLightLerp(sunLerp.sunNice, sunLerp.sunNice);
 
         //activate all the characters in the family 
-        for(int i = 0; i < characters.Length; i++)
+        for (int i = 0; i < characters.Length; i++)
         {
             characters[i].SetActive(true);
         }
@@ -139,6 +158,10 @@ public class TitleToRoom : MonoBehaviour {
 
         //enable TV and RADIO
         tv.SetActive(true);
+        tele.SetVideoPlayer(tele.tvChannels[0]);
         radio.SetActive(true);
+
+        //change skybox
+        RenderSettings.skybox = niceSky;
     }
 }
