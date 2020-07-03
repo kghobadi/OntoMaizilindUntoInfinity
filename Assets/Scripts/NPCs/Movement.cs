@@ -35,12 +35,20 @@ namespace NPC
         [Header("Monologue Wait")]
         public bool waitingToGiveMonologue;
         public float monologueWaitTimer = 0f, monoWaitTime = 30f;
-        
+
         //chosen in editor 
+        [Tooltip("Chosen by the Movement Path assigned to the NPC")]
         public NPCMovementTypes npcType;
         public enum NPCMovementTypes
         {
             WAYPOINT, RANDOM, IDLE, PATHFINDER,
+        }
+
+        [Tooltip("Various idle animation types!")]
+        public IdleType idleType;
+        public enum IdleType
+        {
+            STANDING, SITTING,
         }
 
         [Header("Wanderer Settings")]
@@ -78,6 +86,7 @@ namespace NPC
         {
             //player ref
             currentPlayer = controller.camSwitcher.cameraObjects[controller.camSwitcher.currentCam].gameObject;
+
             if (AIenabled)
             {
                 //dist from player 
@@ -249,6 +258,11 @@ namespace NPC
             {
                 movementRadius = movementManager.movementPaths[newMove.pathIndex].moveRadius;
             }
+            //IDlE -- set new idle type?
+            else if(npcType == NPCMovementTypes.IDLE)
+            {
+                idleType = movementManager.movementPaths[newMove.pathIndex].idleType;
+            }
             //pathfinder or waypoint looper 
             else if(npcType == NPCMovementTypes.PATHFINDER || npcType == NPCMovementTypes.WAYPOINT)
             {
@@ -318,8 +332,23 @@ namespace NPC
         {
             myNavMesh.isStopped = true;
             ResetStateTimer(idleTime);
+            CheckIdleType();
             npcAnimations.SetAnimator("idle");
             controller.npcState = Controller.NPCStates.IDLE;
+        }
+
+        //switch idle type in animator!
+        void CheckIdleType()
+        {
+            switch (idleType)
+            {
+                case IdleType.STANDING:
+                    npcAnimations.Animator.SetFloat("IdleType", 0f);
+                    break;
+                case IdleType.SITTING:
+                    npcAnimations.Animator.SetFloat("IdleType", 1f);
+                    break;
+            }
         }
         
         //resets state timer to float time + random range 

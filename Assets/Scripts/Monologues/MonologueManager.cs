@@ -230,12 +230,14 @@ public class MonologueManager : MonoBehaviour
         if (mono.repeatsAtFinish)
         {
             //reset the monologue trigger after 3 sec 
-            mTrigger.WaitToReset(5f);
+            if(mTrigger)
+                mTrigger.WaitToReset(5f);
         }
         //disable the monologue trigger, it's done 
         else
         {
-            mTrigger.gameObject.SetActive(false);
+            if(mTrigger)
+                mTrigger.gameObject.SetActive(false);
         }
 
         //if this monologue has a new monologue to activate

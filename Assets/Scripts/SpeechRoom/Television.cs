@@ -66,7 +66,7 @@ public class Television : MonoBehaviour {
         if (speechStarted)
         {
             //our player is prepared but not playin 
-            if (vidPlayer.isPrepared && vidPlayer.isPlaying == false)
+            if (vidPlayer.isPrepared && vidPlayer.isPlaying == false && speechEnded == false)
             {
                 //set mat to playable and play 
                 vidPlayer.targetMaterialRenderer.material = origMat;

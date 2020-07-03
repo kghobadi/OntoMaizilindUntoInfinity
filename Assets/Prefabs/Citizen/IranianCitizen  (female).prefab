@@ -1835,6 +1835,7 @@ MonoBehaviour:
   monologueWaitTimer: 0
   monoWaitTime: 30
   npcType: 0
+  idleType: 0
   waypoints: []
   waypointCounter: 0
   movementRadius: 0
@@ -2022,7 +2023,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterAnimator: {fileID: 0}
-  animationBools: []
+  animationBools:
+  - idle
+  - moving
   talkingAnimations: 0
 --- !u!114 &114873527699019934
 MonoBehaviour:

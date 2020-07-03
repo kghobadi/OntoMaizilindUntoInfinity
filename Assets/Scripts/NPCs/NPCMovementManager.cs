@@ -15,6 +15,8 @@ public struct MovementPaths
     public Transform[] movementPoints;
     //or a radius 
     public float moveRadius;
+    [Tooltip("If this is an IDLE move type, designate the Idle Type")]
+    public Movement.IdleType idleType;
 }
 
 public class NPCMovementManager : MonoBehaviour
