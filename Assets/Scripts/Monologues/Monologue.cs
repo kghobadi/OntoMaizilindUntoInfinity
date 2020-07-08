@@ -36,7 +36,7 @@ public class Monologue : ScriptableObject
     [Tooltip("Use this for Monologues that do not assign tasks to activate a new dialogue after a certain amount of time")]
     public bool triggersMonologues;
     [Tooltip("If there are monologue Managers we directly call to")]
-    public MonologueManager[] monologueManagers;
+    public int[] monologueManagerIndeces;
     [Tooltip("Array values correspond to the specific monologue within manager array of which we will activate")]
     public int[] monologueIndecesWithinManager;
     [Tooltip("Indeces of the Monologue Triggers to activate from within WorldMonoManager")]

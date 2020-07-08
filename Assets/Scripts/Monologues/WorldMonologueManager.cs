@@ -13,4 +13,11 @@ public struct Monologues
 public class WorldMonologueManager : MonoBehaviour
 {
     public Monologues[] allMonologues;
+    public MonologueManager[] allMonoManagers;
+
+    private void Awake()
+    {
+        if (allMonoManagers.Length == 0)
+            allMonoManagers = FindObjectsOfType<MonologueManager>();
+    }
 }

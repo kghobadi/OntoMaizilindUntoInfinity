@@ -11,8 +11,8 @@ public class MonologueTrigger : MonoBehaviour
     CameraSwitcher camSwitcher;
 
     //general
-    [Tooltip("Only need this if the Trigger first becomes active when an NPC moves into it")]
-    public GameObject speakerHost;
+    public string playerTag = "Human";
+
     [Tooltip("Defaults to true, uncheck if player can only activate once an NPC enters it")]
     public bool canActivate = true;
     [Tooltip("Check to auto activate when player enters trigger")]
@@ -23,8 +23,7 @@ public class MonologueTrigger : MonoBehaviour
     public bool playerInZone;
     [Tooltip("Check to display talking head UI")]
     public bool displayUI;
-    [Tooltip("Will attach to NPC upon activation")]
-    public bool parentToNPC;
+  
     int activationCount = 0;
     
     //monologues
@@ -32,9 +31,18 @@ public class MonologueTrigger : MonoBehaviour
     public MonologueManager[] myMonologues;
     [Tooltip("Indeces of above Mono Managers to set")]
     public int[] monoNumbers;
+
+    [Header("NPC stuff")]
+    [Tooltip("Only need this if the Trigger first becomes active when an NPC moves into it")]
+    public GameObject speakerHost;
+    [Tooltip("NPC movement system -- generally the same as speaker host?")]
     public Movement npcMovement;
+    [Tooltip("Point which Npc will move to to deliver mono")]
     public Transform monologuePoint;
+    [Tooltip("How long NPC should wait")]
     public float npcWait = 0;
+    [Tooltip("Will attach to NPC upon activation")]
+    public bool parentToNPC;
 
     private void Awake()
     {
@@ -63,7 +71,11 @@ public class MonologueTrigger : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        //player ref 
+        CamObject cam = camSwitcher.cameraObjects[camSwitcher.currentCam];
+        currentPlayer = cam.gameObject;
+
+        if (other.gameObject == currentPlayer)
         {
             if (!playerInZone && canActivate)
                 PlayerEnteredZone();
@@ -72,7 +84,11 @@ public class MonologueTrigger : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        //player ref 
+        CamObject cam = camSwitcher.cameraObjects[camSwitcher.currentCam];
+        currentPlayer = cam.gameObject;
+
+        if (other.gameObject == currentPlayer)
         {
             PlayerExitedZone();
         }

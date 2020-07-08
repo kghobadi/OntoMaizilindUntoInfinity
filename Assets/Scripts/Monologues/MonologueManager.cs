@@ -37,6 +37,9 @@ public class MonologueManager : MonoBehaviour
     [Tooltip("Check to Enable monologue at index 0 at start")]
     public bool enableOnStart;
 
+    [Tooltip("Sprite Object with head")]
+    public Transform head;
+
     void Awake()
     {
         camSwitcher = FindObjectOfType<CameraSwitcher>();
@@ -132,11 +135,30 @@ public class MonologueManager : MonoBehaviour
         CamObject cam = camSwitcher.cameraObjects[camSwitcher.currentCam];
         currentPlayer = cam.gameObject;
 
+        //set mono
+        Monologue mono = allMyMonologues[currentMonologue];
+
         //lock player movement
-        if (allMyMonologues[currentMonologue].lockPlayer)
+        if (mono.lockPlayer)
         {
             
         }
+
+        //body looks at?
+        //if (mono.bodyLookAt)
+        //{
+        //    Vector3 bodyLook = new Vector3(mono.bodyLookAt.position.x, transform.position.y, mono.bodyLookAt.position.z);
+
+        //    transform.LookAt(bodyLook);
+        //}
+
+        ////head looks at? 
+        //if (mono.headLookAt)
+        //{
+        //    Vector3 headLook = new Vector3(mono.headLookAt.position.x, head.position.y, mono.headLookAt.position.z);
+
+        //    transform.LookAt(headLook);
+        //}
 
         //is this an npc?
         if (npcController)
@@ -253,10 +275,10 @@ public class MonologueManager : MonoBehaviour
             }
 
             //loop thru other managers to activate
-            for(int i = 0; i < mono.monologueManagers.Length; i++)
+            for (int i = 0; i < mono.monologueManagerIndeces.Length; i++)
             {
                 //get manager
-                MonologueManager otherMonoManager = mono.monologueManagers[i];
+                MonologueManager otherMonoManager = wmManager.allMonoManagers[mono.monologueManagerIndeces[i]];
                 //set manager to new monologue from within its list
                 otherMonoManager.SetMonologueSystem(mono.monologueIndecesWithinManager[i]);
                 //enable it?
