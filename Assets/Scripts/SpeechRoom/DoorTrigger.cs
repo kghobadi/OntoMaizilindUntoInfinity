@@ -17,9 +17,9 @@ public class DoorTrigger : AudioHandler {
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Human")
+        if(other.gameObject.tag == "Human" || other.gameObject.tag == "Player")
         {
-            Debug.Log("person entered " + gameObject.name);
+            //Debug.Log("person entered " + gameObject.name);
             if(doorAnimator.GetBool("opened") == false)
             {
                 doorAnimator.SetBool("opened", true);
@@ -31,7 +31,7 @@ public class DoorTrigger : AudioHandler {
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Human")
+        if (other.gameObject.tag == "Human" || other.gameObject.tag == "Player")
         {
             if (doorAnimator.GetBool("opened") == true)
             {
@@ -39,7 +39,7 @@ public class DoorTrigger : AudioHandler {
 
                 PlaySoundRandomPitch(doorClose, 1f);
             }
-            Debug.Log("person exited " + gameObject.name);
+            //Debug.Log("person exited " + gameObject.name);
         }
     }
 }

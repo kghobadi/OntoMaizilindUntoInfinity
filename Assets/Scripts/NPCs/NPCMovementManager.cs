@@ -22,4 +22,6 @@ public struct MovementPaths
 public class NPCMovementManager : MonoBehaviour
 {
     public MovementPaths[] movementPaths;
+
+    public Transform [] lookAtObjects;
 }

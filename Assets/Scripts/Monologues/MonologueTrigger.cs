@@ -56,7 +56,7 @@ public class MonologueTrigger : MonoBehaviour
         currentPlayer = cam.gameObject;
 
         //player entered 
-        if (other.gameObject == currentPlayer)
+        if (other.gameObject == currentPlayer || other.gameObject.tag == "Player")
         {
             if (!playerInZone && canActivate)
                 PlayerEnteredZone();
@@ -75,7 +75,7 @@ public class MonologueTrigger : MonoBehaviour
         CamObject cam = camSwitcher.cameraObjects[camSwitcher.currentCam];
         currentPlayer = cam.gameObject;
 
-        if (other.gameObject == currentPlayer)
+        if (other.gameObject == currentPlayer || other.gameObject.tag == "Player")
         {
             if (!playerInZone && canActivate)
                 PlayerEnteredZone();
@@ -88,7 +88,7 @@ public class MonologueTrigger : MonoBehaviour
         CamObject cam = camSwitcher.cameraObjects[camSwitcher.currentCam];
         currentPlayer = cam.gameObject;
 
-        if (other.gameObject == currentPlayer)
+        if (other.gameObject == currentPlayer || other.gameObject.tag == "Player")
         {
             PlayerExitedZone();
         }
@@ -114,7 +114,9 @@ public class MonologueTrigger : MonoBehaviour
         if (!hasActivated)
         {
             playerInZone = true;
-            SetNPCWait();
+
+            if(npcMovement)
+                SetNPCWait();
         }
     }
 
@@ -177,13 +179,16 @@ public class MonologueTrigger : MonoBehaviour
     {
         playerInZone = false;
 
-        //this is a repeat, so don't wait forever..
-        if(activationCount > 0 && npcMovement.GetComponent<MonologueManager>().inMonologue == false)
+        if (npcMovement)
         {
-            npcMovement.waitingToGiveMonologue = false;
-            npcMovement.monologueWaitTimer = 0;
-            if(npcMovement.waypointCounter > 0)
-                npcMovement.waypointCounter--;
+            //this is a repeat, so don't wait forever..
+            if (activationCount > 0 && npcMovement.GetComponent<MonologueManager>().inMonologue == false)
+            {
+                npcMovement.waitingToGiveMonologue = false;
+                npcMovement.monologueWaitTimer = 0;
+                if (npcMovement.waypointCounter > 0)
+                    npcMovement.waypointCounter--;
+            }
         }
     }
 

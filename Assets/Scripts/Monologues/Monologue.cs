@@ -55,6 +55,14 @@ public class Monologue : ScriptableObject
     [Header("NPC changes")]
     [Tooltip("After this Monologue finishes, the manager will set NPC movement using this")]
     public MovementPath newMovement;
+    [Tooltip("Check this to make character body look at something when they start mono")]
+    public bool bodyLooks;
+    [Tooltip("Int of obj to look at within LookAtObjs of NPCMovementManager")]
+    public int bodyLookAt;
+    [Tooltip("Check this to make character head look at something when they start mono")]
+    public bool headLooks;
+    [Tooltip("Int of obj to look at within LookAtObjs of NPCMovementManager")]
+    public int headLookAt;
     //new animation state?
     //new vo?
 }

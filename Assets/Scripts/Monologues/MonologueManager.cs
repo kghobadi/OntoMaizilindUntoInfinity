@@ -39,6 +39,8 @@ public class MonologueManager : MonoBehaviour
 
     [Tooltip("Sprite Object with head")]
     public Transform head;
+    Vector3 origBodyRot;
+    Vector3 origHeadRot;
 
     void Awake()
     {
@@ -145,20 +147,28 @@ public class MonologueManager : MonoBehaviour
         }
 
         //body looks at?
-        //if (mono.bodyLookAt)
-        //{
-        //    Vector3 bodyLook = new Vector3(mono.bodyLookAt.position.x, transform.position.y, mono.bodyLookAt.position.z);
+        if (mono.bodyLooks)
+        {
+            origBodyRot = transform.localEulerAngles;
 
-        //    transform.LookAt(bodyLook);
-        //}
+            Vector3 point = npcController.moveManager.lookAtObjects[mono.bodyLookAt].position;
 
-        ////head looks at? 
-        //if (mono.headLookAt)
-        //{
-        //    Vector3 headLook = new Vector3(mono.headLookAt.position.x, head.position.y, mono.headLookAt.position.z);
+            Vector3 bodyLook = new Vector3(point.x, transform.position.y, point.z);
 
-        //    transform.LookAt(headLook);
-        //}
+            transform.LookAt(bodyLook);
+        }
+
+        //head looks at? 
+        if (mono.headLooks)
+        {
+            origHeadRot = head.transform.localEulerAngles;
+
+            Vector3 point = npcController.moveManager.lookAtObjects[mono.headLookAt].position;
+
+            Vector3 headLook = new Vector3(point.x, head.position.y, point.z);
+
+            head.transform.LookAt(headLook);
+        }
 
         //is this an npc?
         if (npcController)
@@ -233,6 +243,18 @@ public class MonologueManager : MonoBehaviour
             
         }
 
+        //body looks at?
+        if (mono.bodyLooks)
+        {
+            transform.localEulerAngles = origBodyRot;
+        }
+
+        //head looks at? 
+        if (mono.headLooks)
+        {
+            head.transform.localEulerAngles = origHeadRot;
+        }
+
         //check for cinematic to enable 
         if (mono.playsCinematic)
         {
@@ -246,8 +268,7 @@ public class MonologueManager : MonoBehaviour
                 npcController.cineManager.allCinematics[mono.cTriggers[i].cIndex].cTrigger.gameObject.SetActive(true);
             }
         }
-
-      
+        
         //if this monologue repeats at finish
         if (mono.repeatsAtFinish)
         {
