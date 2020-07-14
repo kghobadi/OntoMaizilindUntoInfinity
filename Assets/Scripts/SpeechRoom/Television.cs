@@ -66,13 +66,14 @@ public class Television : MonoBehaviour {
         if (speechStarted)
         {
             //our player is prepared but not playin 
-            if (vidPlayer.isPrepared && vidPlayer.isPlaying == false && speechEnded == false)
+            if (vidPlayer.isPrepared && vidPlayer.isPlaying == false && waitingForStatic)
             {
                 //set mat to playable and play 
                 vidPlayer.targetMaterialRenderer.material = origMat;
                 vidPlayer.Play();
                 //play radio and enable monologue at the same time 
                 radioSource.Play();
+                waitingForStatic = false;
             }
 
             //switching audio back and forth between radio & tv
@@ -86,7 +87,7 @@ public class Television : MonoBehaviour {
             }
 
             //end speech, activate sirens & planes 
-            if (vidPlayer.isPlaying && vidPlayer.frame >= (long)vidPlayer.frameCount - 3 && shahReader.currentLine > shahReader.endAtLine - 1)
+            if ((vidPlayer.isPlaying && vidPlayer.frame >= (long)vidPlayer.frameCount - 3) || shahReader.currentLine > shahReader.endAtLine - 1)
             {
                 EndSpeech();
             }
@@ -178,7 +179,7 @@ public class Television : MonoBehaviour {
         radioSource.volume = 1f;
         radioSource.Play();
 
-        //set vid player, ambience, and enable mono
+        //set vid player, ambience
         SetVideoPlayer(staticBroadcast);
         warAmbience.FadeIn(1f, warAmbience.fadeSpeed);
 
@@ -186,10 +187,11 @@ public class Television : MonoBehaviour {
         RenderSettings.skybox = scarySky;
         sunLerp.SetLightLerp(sunLerp.sunScary, sunLerp.sunNice);
 
+        //wait for static to end
         waitingForStatic = true;
-
         yield return new WaitForSeconds((float)staticBroadcast.length);
 
+        //speech truly begins
         SpeechBegins();
     }
 

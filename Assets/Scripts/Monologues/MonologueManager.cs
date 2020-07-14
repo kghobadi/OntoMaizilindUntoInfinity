@@ -243,18 +243,22 @@ public class MonologueManager : MonoBehaviour
             
         }
 
-        //body looks at?
-        if (mono.bodyLooks)
+        //return to orignal look rotations
+        if (mono.returnToOriginalRotation)
         {
-            transform.localEulerAngles = origBodyRot;
-        }
+            //body looks at?
+            if (mono.bodyLooks)
+            {
+                transform.localEulerAngles = origBodyRot;
+            }
 
-        //head looks at? 
-        if (mono.headLooks)
-        {
-            head.transform.localEulerAngles = origHeadRot;
+            //head looks at? 
+            if (mono.headLooks)
+            {
+                head.transform.localEulerAngles = origHeadRot;
+            }
         }
-
+        
         //check for cinematic to enable 
         if (mono.playsCinematic)
         {

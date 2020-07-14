@@ -63,6 +63,8 @@ public class Monologue : ScriptableObject
     public bool headLooks;
     [Tooltip("Int of obj to look at within LookAtObjs of NPCMovementManager")]
     public int headLookAt;
+    [Tooltip("Uncheck this to make the NPC continue looking at new points")]
+    public bool returnToOriginalRotation = true;
     //new animation state?
     //new vo?
 }
