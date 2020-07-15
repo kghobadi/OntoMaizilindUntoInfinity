@@ -127,6 +127,12 @@ public class MonologueTrigger : MonoBehaviour
             //Debug.Log("can activate!");
             canActivate = true;
 
+            //npc just begins monologue 
+            if (autoActivate)
+            {
+                ActivateMonologue();
+            }
+
             SetNPCWait();
         }
     }

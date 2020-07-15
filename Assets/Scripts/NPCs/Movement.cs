@@ -25,6 +25,7 @@ namespace NPC
         public Vector3 targetPosition;
         float distFromPlayer;
         public bool AIenabled = true;
+        public Transform lookAtTransform;
 
         //state timers 
         public float stateTimer, actionTimer;
@@ -124,6 +125,12 @@ namespace NPC
             if (controller.npcState == Controller.NPCStates.IDLE)
             {
                 stateTimer -= Time.deltaTime;
+
+                //only look at if we set it to 
+                if (lookAtTransform)
+                {
+                    LookAtObject(lookAtTransform.position, true);
+                }
 
                 //NPC will perform its action 
                 ActionCountdown();
@@ -271,6 +278,20 @@ namespace NPC
 
                 waitingToGiveMonologue = false;
             }
+        }
+
+        //sets the npc look at  
+        public void SetLook(Transform point)
+        {
+            lookAtTransform = point;
+        }
+
+        //set npc look at using move manager array 
+        public void SetLookAt(int pointInManager)
+        {
+            Transform point = movementManager.lookAtObjects[pointInManager];
+
+            lookAtTransform = point;
         }
 
         //MOVING state

@@ -29,6 +29,10 @@ public class Television : MonoBehaviour {
     public AudioSource music;
     public FadeUI speechPanel;
     public FadeUI shiftToChange;
+    public BoxCollider frontDoorCollider;
+    public GameObject backBuilding;
+    public GameObject stairwell;
+    public GameObject corridor;
 
     [Header("Audio Switching during Speech")]
     public Radio radio;
@@ -58,6 +62,8 @@ public class Television : MonoBehaviour {
         channelLastFrames = new int[tvChannels.Length];
         //disable
         transform.parent.gameObject.SetActive(false);
+        stairwell.SetActive(false);
+        corridor.SetActive(false);
     }
 
     void Update ()
@@ -76,15 +82,16 @@ public class Television : MonoBehaviour {
                 waitingForStatic = false;
             }
 
+            //OLD METHOD -- using checkpoints now 
             //switching audio back and forth between radio & tv
-            if (currentTransition < transitionLines.Length)
-            {
-                if (shahReader.currentLine == transitionLines[currentTransition])
-                {
-                    SwitchDeviceAudio();
-                    currentTransition++;
-                }
-            }
+            //if (currentTransition < transitionLines.Length)
+            //{
+            //    if (shahReader.currentLine == transitionLines[currentTransition])
+            //    {
+            //        SwitchDeviceAudio();
+            //        currentTransition++;
+            //    }
+            //}
 
             //end speech, activate sirens & planes 
             if ((vidPlayer.isPlaying && vidPlayer.frame >= (long)vidPlayer.frameCount - 3) || shahReader.currentLine > shahReader.endAtLine - 1)
@@ -209,6 +216,12 @@ public class Television : MonoBehaviour {
         radioSource.clip = radio.shahSpeech;
         radioSource.volume = 1f;
 
+        //enable front door, disable back building, enable corridor and stairwell
+        frontDoorCollider.enabled = true;
+        backBuilding.SetActive(false);
+        stairwell.SetActive(true);
+        corridor.SetActive(true);
+
         speechStarted = true;
     }
 
@@ -216,20 +229,20 @@ public class Television : MonoBehaviour {
     void EndSpeech()
     {
         vidPlayer.Stop();
-        planes.SetActive(true);
+        //planes.SetActive(true);
         sirens.SetActive(true);
         citizens.SetActive(true);
-        music.Play();
+        //music.Play();
 
         camSwitcher.canShift = true;
-        shiftToChange.FadeIn();
+        //shiftToChange.FadeIn();
         bombing.TransitionTo(3f);
        
         speechEnded = true;
     }
 
     //switch mutes on TV & Radio sources
-    void SwitchDeviceAudio()
+    public void SwitchDeviceAudio()
     {
         tvSource.mute = !tvSource.mute;
         radioSource.mute = !radioSource.mute;
