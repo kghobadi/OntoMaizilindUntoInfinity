@@ -55,6 +55,8 @@ public class Monologue : ScriptableObject
     [Header("NPC changes")]
     [Tooltip("After this Monologue finishes, the manager will set NPC movement using this")]
     public MovementPath newMovement;
+    [Tooltip("Uses NPC movement script idle look at to change body rotation")]
+    public int newIdleLook = -1; 
     [Tooltip("Check this to make character body look at something when they start mono")]
     public bool bodyLooks;
     [Tooltip("Int of obj to look at within LookAtObjs of NPCMovementManager")]

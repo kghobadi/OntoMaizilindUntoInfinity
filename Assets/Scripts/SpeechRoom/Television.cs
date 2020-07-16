@@ -229,11 +229,12 @@ public class Television : MonoBehaviour {
     void EndSpeech()
     {
         vidPlayer.Stop();
+        vidPlayer.targetMaterialRenderer.material = staticEffect;
         //planes.SetActive(true);
         sirens.SetActive(true);
         citizens.SetActive(true);
         //music.Play();
-
+        
         camSwitcher.canShift = true;
         //shiftToChange.FadeIn();
         bombing.TransitionTo(3f);

@@ -5,16 +5,25 @@ using UnityEngine;
 public class TVclicker : AudioHandler {
 
     Television tv;
+    float dist;
+    Transform player;
 
     [Header("Sounds")]
     public AudioClip[] staticClicks;
 
     public FadeUI clicker;
     public bool hasClicked;
+    public float necDist = 7f;
 
     void Start()
     {
         tv = FindObjectOfType<Television>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+    }
+
+    private void Update()
+    {
+        dist = Vector3.Distance(transform.position, player.position);
     }
 
     private void OnMouseEnter()

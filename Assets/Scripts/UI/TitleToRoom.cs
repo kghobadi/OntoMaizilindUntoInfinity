@@ -135,7 +135,7 @@ public class TitleToRoom : MonoBehaviour {
         callToPrayer.SetSound(callToPrayer.musicTrack);
         warAmbience.FadeOut(0f, warAmbience.fadeSpeed);
         clock.gameObject.SetActive(true);
-        timeline.StartTimeline();
+        //timeline.StartTimeline();
 
         //set sun
         sunLerp.SetLightLerp(sunLerp.sunNice, sunLerp.sunNice);

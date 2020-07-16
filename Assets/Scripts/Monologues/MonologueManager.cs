@@ -146,6 +146,12 @@ public class MonologueManager : MonoBehaviour
             
         }
 
+        //assign new idle look at 
+        if (mono.newIdleLook >= 0)
+        {
+            npcController.Movement.SetLookAt(mono.newIdleLook);
+        }
+
         //body looks at?
         if (mono.bodyLooks)
         {
