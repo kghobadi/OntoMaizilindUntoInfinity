@@ -1390,133 +1390,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac12200863f3e644b3738f1654b9a87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isActive: 0
   sensitivityX: 1
   sensitivityY: 1
-  smoothing: 2
-  isActive: 0
-  moveSpeed: 50
-  fovSpeed: 5
-  lerpLocations: []
-  lerping: 0
-  lerpSpeed: 15
-  myPost: {fileID: 11400000, guid: 2a0a05be4a734124c80ec02493df5486, type: 2}
-  colorGrader:
-    tonemapping:
-      tonemapper: 0
-      neutralBlackIn: 0
-      neutralWhiteIn: 0
-      neutralBlackOut: 0
-      neutralWhiteOut: 0
-      neutralWhiteLevel: 0
-      neutralWhiteClip: 0
-    basic:
-      postExposure: 0
-      temperature: 0
-      tint: 0
-      hueShift: 0
-      saturation: 0
-      contrast: 0
-    channelMixer:
-      red: {x: 0, y: 0, z: 0}
-      green: {x: 0, y: 0, z: 0}
-      blue: {x: 0, y: 0, z: 0}
-      currentEditingChannel: 0
-    colorWheels:
-      mode: 0
-      log:
-        slope: {r: 0, g: 0, b: 0, a: 0}
-        power: {r: 0, g: 0, b: 0, a: 0}
-        offset: {r: 0, g: 0, b: 0, a: 0}
-      linear:
-        lift: {r: 0, g: 0, b: 0, a: 0}
-        gamma: {r: 0, g: 0, b: 0, a: 0}
-        gain: {r: 0, g: 0, b: 0, a: 0}
-    curves:
-      master:
-        curve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_Loop: 0
-        m_ZeroValue: 0
-        m_Range: 0
-      red:
-        curve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_Loop: 0
-        m_ZeroValue: 0
-        m_Range: 0
-      green:
-        curve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_Loop: 0
-        m_ZeroValue: 0
-        m_Range: 0
-      blue:
-        curve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_Loop: 0
-        m_ZeroValue: 0
-        m_Range: 0
-      hueVShue:
-        curve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_Loop: 0
-        m_ZeroValue: 0
-        m_Range: 0
-      hueVSsat:
-        curve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_Loop: 0
-        m_ZeroValue: 0
-        m_Range: 0
-      satVSsat:
-        curve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_Loop: 0
-        m_ZeroValue: 0
-        m_Range: 0
-      lumVSsat:
-        curve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_Loop: 0
-        m_ZeroValue: 0
-        m_Range: 0
-      e_CurrentEditingCurve: 0
-      e_CurveY: 0
-      e_CurveR: 0
-      e_CurveG: 0
-      e_CurveB: 0
+  invertX: 0
+  invertY: 1
+  moveSpeed: 1
+  fovSpeed: 1
+  speedOverTime: 0.001
 --- !u!81 &425266900
 AudioListener:
   m_ObjectHideFlags: 0
@@ -2926,6 +2807,7 @@ GameObject:
   - component: {fileID: 925286576}
   - component: {fileID: 925286578}
   - component: {fileID: 925286579}
+  - component: {fileID: 925286580}
   m_Layer: 0
   m_Name: WorldManager
   m_TagString: WorldManager
@@ -2992,6 +2874,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToRestart: 5
   restartTimer: 0
+--- !u!114 &925286580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 925286575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4fd13d0c361e024dbfa1c6da6ebeac7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 1
+  speedUp: 10
+  checkpoints: []
+  events: []
+  beginOnStart: 1
+  timelineStart: 0
+  timing: 0
+  gameTime: 0
+  pressing: 0
 --- !u!1001 &927709359
 Prefab:
   m_ObjectHideFlags: 0
@@ -4125,12 +4027,12 @@ Prefab:
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 2}
       propertyPath: _savedGUID
-      value: 47805646
+      value: 1569708709
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 2}
       propertyPath: hash.lastHash
-      value: 969143331
+      value: 559027083
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 2}
@@ -6859,7 +6761,7 @@ Prefab:
     - target: {fileID: 2300000, guid: d3a062e3917f421419eee73ddc2ac2a9, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: cd4ea11d83cf68b41b449fe6b1e28625, type: 2}
+      objectReference: {fileID: 2100000, guid: 284bceaaa56dc9e4bbdf9169e6760b8c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3a062e3917f421419eee73ddc2ac2a9, type: 3}
   m_IsPrefabAsset: 0
@@ -7171,6 +7073,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2088938828}
   - component: {fileID: 2088938827}
+  - component: {fileID: 2088938829}
   m_Layer: 0
   m_Name: AirPlayer
   m_TagString: Player
@@ -7210,6 +7113,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!143 &2088938829
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2088938826}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &2144742806
 Prefab:
   m_ObjectHideFlags: 0

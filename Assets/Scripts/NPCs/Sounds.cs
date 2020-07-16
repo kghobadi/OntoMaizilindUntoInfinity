@@ -15,7 +15,13 @@ namespace NPC
 
         [Header("Face Animations")]
         public SpriteRenderer face;
+        FaceAnimation _faceAnim;
         public Sprite normalFace, screaming;
+
+        private void Start()
+        {
+            _faceAnim = face.GetComponent<FaceAnimation>();
+        }
 
         private void Update()
         {
@@ -27,11 +33,17 @@ namespace NPC
         {
             if (myAudioSource.isPlaying)
             {
-                face.sprite = screaming;
+                if (_faceAnim)
+                    _faceAnim.SetAnimator("talking");
+                else
+                    face.sprite = screaming;
             }
             else
             {
-                face.sprite = normalFace;
+                if (_faceAnim)
+                    _faceAnim.SetAnimator("idle");
+                else
+                    face.sprite = normalFace;
             }
         }
 

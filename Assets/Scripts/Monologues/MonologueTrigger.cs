@@ -21,10 +21,6 @@ public class MonologueTrigger : MonoBehaviour
     public bool hasActivated;
     [Tooltip("True when player is within trigger")]
     public bool playerInZone;
-    [Tooltip("Check to display talking head UI")]
-    public bool displayUI;
-  
-    int activationCount = 0;
     
     //monologues
     [Tooltip("Monologue Managers of the NPCs whose monologues should be activated")]
@@ -41,8 +37,6 @@ public class MonologueTrigger : MonoBehaviour
     public Transform monologuePoint;
     [Tooltip("How long NPC should wait")]
     public float npcWait = 0;
-    [Tooltip("Will attach to NPC upon activation")]
-    public bool parentToNPC;
 
     private void Awake()
     {
@@ -62,8 +56,8 @@ public class MonologueTrigger : MonoBehaviour
                 PlayerEnteredZone();
         }
 
-        //can activate true when speaker arrives 
-        if (other.gameObject == speakerHost)
+        //npc entered trigger -- activate 
+        if ((other.gameObject == speakerHost || other.gameObject.tag == "Human") && canActivate == false)
         {
             NPCEnteredZone();
         }
@@ -79,6 +73,12 @@ public class MonologueTrigger : MonoBehaviour
         {
             if (!playerInZone && canActivate)
                 PlayerEnteredZone();
+        }
+
+        //npc entered trigger -- activate 
+        if ((other.gameObject == speakerHost || other.gameObject.tag == "Human") && canActivate == false)
+        {
+            NPCEnteredZone();
         }
     }
 
@@ -132,8 +132,6 @@ public class MonologueTrigger : MonoBehaviour
             {
                 ActivateMonologue();
             }
-
-            SetNPCWait();
         }
     }
 
@@ -143,7 +141,7 @@ public class MonologueTrigger : MonoBehaviour
         if (npcMovement.waitingToGiveMonologue == false)
         {
             //tell npc to go to monologue point 
-            if (monologuePoint && activationCount == 0)
+            if (monologuePoint)
             {
                 npcMovement.SetIdle();
                 npcMovement.NavigateToPoint(monologuePoint.position, true);
@@ -171,12 +169,7 @@ public class MonologueTrigger : MonoBehaviour
             }
             
             hasActivated = true;
-            activationCount++;
             autoActivate = false;
-
-            //follow NPC 
-            if (parentToNPC)
-                transform.SetParent(myMonologues[0].transform);
         }
     }
     
@@ -184,18 +177,6 @@ public class MonologueTrigger : MonoBehaviour
     public void PlayerExitedZone()
     {
         playerInZone = false;
-
-        if (npcMovement)
-        {
-            //this is a repeat, so don't wait forever..
-            if (activationCount > 0 && npcMovement.GetComponent<MonologueManager>().inMonologue == false)
-            {
-                npcMovement.waitingToGiveMonologue = false;
-                npcMovement.monologueWaitTimer = 0;
-                if (npcMovement.waypointCounter > 0)
-                    npcMovement.waypointCounter--;
-            }
-        }
     }
 
     //called when monologue text script is reset

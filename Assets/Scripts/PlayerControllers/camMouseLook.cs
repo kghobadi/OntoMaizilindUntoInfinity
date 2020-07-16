@@ -3,104 +3,118 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PostProcessing;
 using InControl;
+using Cameras;
 
 public class camMouseLook : MonoBehaviour
 {
+    //player and maincam
+    Transform player;
     Camera mainCam;
+    CharacterController astralBody;
+    DebugTime timeDebug;
 
     //for viewing
     Vector2 mouseLook;
     Vector2 smoothV;
-    public float sensitivityX;
-    public float sensitivityY;
-    public float smoothing = 2.0f;
-    GameObject character;
-    public bool isActive;
-    public float moveSpeed;
-    public float fovSpeed;
-
-    //for lerping
-    public Transform[] lerpLocations;
-    public bool lerping;
-    public float lerpSpeed;
-    private Vector3 originPoint, transitionPoint;
-
-    //post processing profiler references
-    public PostProcessingProfile myPost;
-    public ColorGradingModel.Settings colorGrader;
     
+    [Header("Old FPS movement")]
+    public bool isActive;
+    float hRot, vRot;
+    public float sensitivityX = 1f;
+    public float sensitivityY = 1f;
+    public bool invertX, invertY;
 
-    void Start()
+    [Header("Astral Body Movement")]
+    public float moveSpeed = 10f;
+    public float fovSpeed = 1f;
+    public float speedOverTime = 0.05f;
+
+    void Awake()
     {
         mainCam = Camera.main;
-        character = transform.parent.gameObject;
+        astralBody = transform.parent.GetComponent<CharacterController>();
+        timeDebug = FindObjectOfType<DebugTime>();
+
         isActive = true;
-
-        //pp stuff
-        colorGrader = myPost.colorGrading.settings;
-
-        colorGrader.basic.hueShift = 0;
-
-        myPost.colorGrading.settings = colorGrader;
     }
 
     void Update()
-    { 
+    {
+        if (isActive)
+        {
+            CameraRotation();
+
+            WASDmovement();
+
+            ClickMovement();
+
+            FovControls();
+
+            moveSpeed += (timeDebug.gameTime * Time.deltaTime) * speedOverTime;
+        }
+    }
+
+    public void Activate()
+    {
+        isActive = true;
+    }
+
+    public void Deactivate()
+    {
+        isActive = false;
+    }
+    
+    void WASDmovement()
+    {
+        //create empty force vector for this frame 
+        Vector3 force = Vector3.zero;
+        float horizontalMovement;
+        float forwardMovement;
+
         //get input device 
         var inputDevice = InputManager.ActiveDevice;
 
-        //for viewing with cam
-        if (isActive)
+        //controller 
+        if (inputDevice.DeviceClass == InputDeviceClass.Controller)
         {
-            Cursor.lockState = CursorLockMode.Locked;
-
-            var newRotate = new Vector2(0, 0);
-
-            //controller 
-            if (inputDevice.DeviceClass == InputDeviceClass.Controller)
-            {
-                newRotate = new Vector2(inputDevice.RightStickX, inputDevice.RightStickY);
-            }
-            //mouse
-            else
-            {
-                newRotate = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
-            }
-
-            newRotate = Vector2.Scale(newRotate, new Vector2(sensitivityX * smoothing, sensitivityY * smoothing));
-            smoothV.x = Mathf.Lerp(smoothV.x, newRotate.x, 1f / smoothing);
-            smoothV.y = Mathf.Lerp(smoothV.y, newRotate.y, 1f / smoothing);
-            mouseLook += smoothV;
-            
-            mouseLook.y = Mathf.Clamp(mouseLook.y, -90f, 90f);
-
-            transform.localRotation = Quaternion.AngleAxis(-mouseLook.y, Vector3.right);
-            character.transform.localRotation = Quaternion.AngleAxis(mouseLook.x, character.transform.up);
+            // 3 axes 
+            horizontalMovement = inputDevice.LeftStickX;
+            forwardMovement = inputDevice.LeftStickY;
         }
+        //mouse & keyboard
+        else
+        {
+            // 3 axes 
+            horizontalMovement = Input.GetAxis("Horizontal");
+            forwardMovement = Input.GetAxis("Vertical");
+        }
+
+        //add forward force 
+        force += transform.forward * forwardMovement;
+        //add x force 
+        force += transform.right * horizontalMovement;
+
+        //actual move command 
+        if (astralBody.enabled)
+            astralBody.Move(force * moveSpeed);
+    }
+
+    void ClickMovement()
+    {
+        //get input device 
+        var inputDevice = InputManager.ActiveDevice;
 
         //left click to float camera forward through space
-        if (Input.GetMouseButton(0) || inputDevice.LeftStickY > 0)
+        if (Input.GetMouseButton(0) || inputDevice.DPadY > 0)
         {
-            Vector3 forward = transform.forward * 10 + character.transform.position;
-            character.transform.position = Vector3.MoveTowards(character.transform.position, forward, moveSpeed * Time.deltaTime);
+            Vector3 forward = transform.forward * moveSpeed;
+            astralBody.Move(forward);
         }
         //right click to float camera backward through space
-        if (Input.GetMouseButton(1) || inputDevice.LeftStickY < 0)
+        if (Input.GetMouseButton(1) || inputDevice.DPadY < 0)
         {
-            Vector3 backward = -transform.forward * 10 + character.transform.position;
-            character.transform.position = Vector3.MoveTowards(character.transform.position, backward, moveSpeed * Time.deltaTime);
-        }
-
-        FovControls();
-        
-        //for camera transition animation
-        if (lerping)
-        {
-            character.transform.position = Vector3.Lerp(character.transform.position, transitionPoint, Time.deltaTime * lerpSpeed);
-            if (Vector3.Distance(character.transform.position, transitionPoint) < 0.1f)
-            {
-                lerping = false;
-            }
+            Vector3 backward = -transform.forward * moveSpeed;
+            astralBody.Move(backward);
         }
     }
 
@@ -117,66 +131,40 @@ public class camMouseLook : MonoBehaviour
         }
     }
 
-    void LerpControls()
+    //only camera rotation 
+    void CameraRotation()
     {
-        //cam pos 0
-        if (Input.GetKeyDown(KeyCode.Alpha0))
+        //get input device 
+        var inputDevice = InputManager.ActiveDevice;
+
+        //controller 
+        if (inputDevice.DeviceClass == InputDeviceClass.Controller)
         {
-            LerpCamera(lerpLocations[0].position);
+            hRot = sensitivityX * inputDevice.RightStickX;
+            vRot = sensitivityY * inputDevice.RightStickY;
         }
-        //cam pos 1
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        //mouse
+        else
         {
-            LerpCamera(lerpLocations[1].position);
+            hRot = sensitivityX * Input.GetAxis("Mouse X");
+            vRot = sensitivityY * Input.GetAxis("Mouse Y");
         }
-        //cam pos 2
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            LerpCamera(lerpLocations[2].position);
-        }
-        //cam pos 3
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            LerpCamera(lerpLocations[3].position);
-        }
-        //cam pos 4
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            LerpCamera(lerpLocations[4].position);
-        }
-        //cam pos 5
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            LerpCamera(lerpLocations[5].position);
-        }
-        //cam pos 6
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            LerpCamera(lerpLocations[6].position);
-        }
-        //cam pos 7
-        if (Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            LerpCamera(lerpLocations[7].position);
-        }
-        //cam pos 8
-        if (Input.GetKeyDown(KeyCode.Alpha8))
-        {
-            LerpCamera(lerpLocations[8].position);
-        }
-        //cam pos 9
-        if (Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            LerpCamera(lerpLocations[9].position);
-        }
+
+        //neg value 
+        if (invertX)
+            hRot *= -1f;
+        //neg value 
+        if (invertY)
+            vRot *= -1f;
+
+        //Rotates Player on "X" Axis Acording to Mouse Input
+        transform.parent.Rotate(0, hRot, 0);
+        //Rotates Player on "Y" Axis Acording to Mouse Input
+        transform.Rotate(vRot, 0, 0);
     }
 
-    //called to set lerp
-    public void LerpCamera(Vector3 position)
+    private void OnDisable()
     {
-        originPoint = character.transform.position;
-        transitionPoint = position;
-        lerping = true;
-    }
 
+    }
 }
