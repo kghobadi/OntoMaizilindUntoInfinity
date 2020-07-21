@@ -46,8 +46,11 @@ public class MonologueTrigger : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         //player ref 
-        CamObject cam = camSwitcher.cameraObjects[camSwitcher.currentCam];
-        currentPlayer = cam.gameObject;
+        if (camSwitcher)
+        {
+            CamObject cam = camSwitcher.cameraObjects[camSwitcher.currentCam];
+            currentPlayer = cam.gameObject;
+        }
 
         //player entered 
         if (other.gameObject == currentPlayer || other.gameObject.tag == "Player")
@@ -66,8 +69,12 @@ public class MonologueTrigger : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         //player ref 
-        CamObject cam = camSwitcher.cameraObjects[camSwitcher.currentCam];
-        currentPlayer = cam.gameObject;
+        if (camSwitcher)
+        {
+            CamObject cam = camSwitcher.cameraObjects[camSwitcher.currentCam];
+            currentPlayer = cam.gameObject;
+        }
+        
 
         if (other.gameObject == currentPlayer || other.gameObject.tag == "Player")
         {
@@ -85,8 +92,11 @@ public class MonologueTrigger : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         //player ref 
-        CamObject cam = camSwitcher.cameraObjects[camSwitcher.currentCam];
-        currentPlayer = cam.gameObject;
+        if (camSwitcher)
+        {
+            CamObject cam = camSwitcher.cameraObjects[camSwitcher.currentCam];
+            currentPlayer = cam.gameObject;
+        }
 
         if (other.gameObject == currentPlayer || other.gameObject.tag == "Player")
         {

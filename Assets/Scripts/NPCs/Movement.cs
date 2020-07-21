@@ -73,12 +73,19 @@ namespace NPC
             myNavMesh = GetComponent<NavMeshAgent>();
             movementManager = FindObjectOfType<NPCMovementManager>();
             monoManager = GetComponent<MonologueManager>();
+
+            //player ref
+            if (controller.camSwitcher)
+                currentPlayer = controller.camSwitcher.cameraObjects[controller.camSwitcher.currentCam].gameObject;
+            else
+                currentPlayer = GameObject.FindGameObjectWithTag("Player");
         }
 
         void Start()
         { 
             origPosition = transform.position;
-            myNavMesh.speed += Random.Range(-5f, 10f);
+            if(myNavMesh)
+                myNavMesh.speed += Random.Range(-5f, 10f);
             ResetMovement(startBehavior);
             SetIdle();
         }
@@ -86,8 +93,9 @@ namespace NPC
         void Update()
         {
             //player ref
-            currentPlayer = controller.camSwitcher.cameraObjects[controller.camSwitcher.currentCam].gameObject;
-
+            if(controller.camSwitcher)
+                currentPlayer = controller.camSwitcher.cameraObjects[controller.camSwitcher.currentCam].gameObject;
+                
             if (AIenabled)
             {
                 //dist from player 
@@ -351,7 +359,8 @@ namespace NPC
         //stops movement
         public virtual void SetIdle()
         {
-            myNavMesh.isStopped = true;
+            if(myNavMesh)
+                myNavMesh.isStopped = true;
             ResetStateTimer(idleTime);
             CheckIdleType();
             npcAnimations.SetAnimator("idle");

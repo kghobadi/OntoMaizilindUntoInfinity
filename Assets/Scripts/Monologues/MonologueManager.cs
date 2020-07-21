@@ -134,8 +134,11 @@ public class MonologueManager : MonoBehaviour
         }
 
         //player ref 
-        CamObject cam = camSwitcher.cameraObjects[camSwitcher.currentCam];
-        currentPlayer = cam.gameObject;
+        if (camSwitcher)
+        {
+            CamObject cam = camSwitcher.cameraObjects[camSwitcher.currentCam];
+            currentPlayer = cam.gameObject;
+        }
 
         //set mono
         Monologue mono = allMyMonologues[currentMonologue];
@@ -240,8 +243,12 @@ public class MonologueManager : MonoBehaviour
         }
 
         //player ref 
-        CamObject cam = camSwitcher.cameraObjects[camSwitcher.currentCam];
-        currentPlayer = cam.gameObject;
+        if (camSwitcher)
+        {
+            CamObject cam = camSwitcher.cameraObjects[camSwitcher.currentCam];
+            currentPlayer = cam.gameObject;
+        }
+       
 
         //unlock player
         if (mono.lockPlayer)
