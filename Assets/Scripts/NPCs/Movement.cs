@@ -268,15 +268,17 @@ namespace NPC
         {
             npcType = movementManager.movementPaths[newMove.pathIndex].moveType;
 
+            idleType = movementManager.movementPaths[newMove.pathIndex].idleType;
+
             //random npc move type 
-            if(npcType == NPCMovementTypes.RANDOM)
+            if (npcType == NPCMovementTypes.RANDOM)
             {
                 movementRadius = movementManager.movementPaths[newMove.pathIndex].moveRadius;
             }
             //IDlE -- set new idle type?
             else if(npcType == NPCMovementTypes.IDLE)
             {
-                idleType = movementManager.movementPaths[newMove.pathIndex].idleType;
+                
             }
             //pathfinder or waypoint looper 
             else if(npcType == NPCMovementTypes.PATHFINDER || npcType == NPCMovementTypes.WAYPOINT)

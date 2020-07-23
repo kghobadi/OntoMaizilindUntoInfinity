@@ -5,22 +5,52 @@ using UnityEngine;
 public class ActivationTrigger : MonoBehaviour {
 
     public bool hasTriggered;
+    public bool playerOnly;
+    public bool waitToTrigger;
+    public float waitTime = 5f;
 
     public GameObject[] objectsToActivate;
     public GameObject[] objectsToDeactivate;
+
 
     void OnTriggerEnter(Collider other)
     {
         if (!hasTriggered)
         {
-            if (other.gameObject.tag == "Human" || other.gameObject.tag == "Player")
+            if (playerOnly)
             {
-                SetTrigger();
+                if (other.gameObject.tag == "Player")
+                {
+                    if (waitToTrigger)
+                        StartCoroutine(WaitToTrigger());
+                    else
+                        SetTrigger();
 
-                Debug.Log(other.gameObject.name + " triggered " + gameObject.name);
+                    Debug.Log(other.gameObject.name + " triggered " + gameObject.name);
+                }
             }
+            else
+            {
+                if (other.gameObject.tag == "Human" || other.gameObject.tag == "Player")
+                {
+                    if (waitToTrigger)
+                        StartCoroutine(WaitToTrigger());
+                    else 
+                        SetTrigger();
+
+                    Debug.Log(other.gameObject.name + " triggered " + gameObject.name);
+                }
+            }
+           
         }
         
+    }
+
+    IEnumerator WaitToTrigger()
+    {
+        yield return new WaitForSeconds(waitTime);
+
+        SetTrigger();
     }
 
     void SetTrigger()
