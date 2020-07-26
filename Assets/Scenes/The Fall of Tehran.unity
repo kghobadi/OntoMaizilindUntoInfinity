@@ -8689,8 +8689,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 160742219}
-  m_LocalRotation: {x: 0, y: -0.8720387, z: 0, w: 0.48943695}
-  m_LocalPosition: {x: 85.276855, y: 127.53002, z: -16.456692}
+  m_LocalRotation: {x: 0, y: 0.9364275, z: 0.35086125, w: 0}
+  m_LocalPosition: {x: 120.14, y: 157.5, z: -64.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 437780188}
@@ -8726,7 +8726,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 40
+  field of view: 60
   orthographic: 0
   orthographic size: 10
   m_Depth: -1
@@ -11651,12 +11651,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 197790996}
   m_Mesh: {fileID: 4300006, guid: dc0fa0ce08d3ec44b9855974c6f5b1cf, type: 3}
---- !u!114 &198617863 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114939006769563730, guid: deff53372be8a5a4f88580aa9cd783f6,
-    type: 2}
-  m_PrefabInternal: {fileID: 1685940986}
-  m_Script: {fileID: 11500000, guid: 4913aa6ab6e589845a191be5e79dcc18, type: 3}
 --- !u!1 &200749885
 GameObject:
   m_ObjectHideFlags: 0
@@ -22250,7 +22244,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 371836779}
-  - component: {fileID: 371836780}
   m_Layer: 0
   m_Name: Title
   m_TagString: Untagged
@@ -22281,43 +22274,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &371836780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 371836778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5ab47c0020911649b29425951d50a28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  omFade: {fileID: 196953128}
-  uiFade: {fileID: 1780031459}
-  actFade: {fileID: 1100941654}
-  dwFade: {fileID: 420085927}
-  poemFader: {fileID: 1664290406}
-  omScale: {fileID: 196953127}
-  uiScale: {fileID: 1780031458}
-  omMove: {fileID: 196953126}
-  uiMove: {fileID: 1780031457}
-  dwMove: {fileID: 420085926}
-  scribeAnimator: {fileID: 1644606140}
-  scribeFade: {fileID: 1644606142}
-  blackground: {fileID: 437780190}
-  callToPrayer: {fileID: 1253761586}
-  characters: []
-  warAmbience: {fileID: 1605485586}
-  niceSky: {fileID: 2100000, guid: 2c3c711febae1e74db9e3fc2b089c4c3, type: 2}
-  sunLerp: {fileID: 170076736}
-  player: {fileID: 1511833480}
-  startCam: {fileID: 455191058}
-  roomCam: {fileID: 2128215351}
-  textPanel: {fileID: 590775799}
-  poemTime: 30
-  readingPoem: 0
-  startedTransition: 0
-  transitioned: 0
 --- !u!1 &372106739
 GameObject:
   m_ObjectHideFlags: 0
@@ -23763,7 +23719,7 @@ MonoBehaviour:
   sensitivityX: 1
   sensitivityY: 1
   smoothing: 2
-  currentCamObj: {fileID: 198617863}
+  currentCamObj: {fileID: 949056676}
   shiftable:
     serializedVersion: 2
     m_Bits: 4096
@@ -31482,7 +31438,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &544991633
 Transform:
   m_ObjectHideFlags: 0
@@ -46824,6 +46780,7 @@ GameObject:
   - component: {fileID: 925286580}
   - component: {fileID: 925286582}
   - component: {fileID: 925286581}
+  - component: {fileID: 925286583}
   m_Layer: 0
   m_Name: WorldManager
   m_TagString: WorldManager
@@ -46890,7 +46847,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 1
-  speedUp: 10
+  speedUp: 15
   checkpoints:
   - {fileID: 11400000, guid: 8d6d022671bf76e4191a536b8fe3c6f6, type: 2}
   - {fileID: 11400000, guid: 243b49c4859333448a86a8290abc067c, type: 2}
@@ -47165,17 +47122,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1312217083}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   beginOnStart: 0
@@ -47329,6 +47275,43 @@ MonoBehaviour:
   - {fileID: 1884531694}
   - {fileID: 1573721772}
   - {fileID: 0}
+--- !u!114 &925286583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 925286575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5ab47c0020911649b29425951d50a28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  omFade: {fileID: 196953128}
+  uiFade: {fileID: 1780031459}
+  actFade: {fileID: 1100941654}
+  dwFade: {fileID: 420085927}
+  poemFader: {fileID: 1664290406}
+  omScale: {fileID: 196953127}
+  uiScale: {fileID: 1780031458}
+  omMove: {fileID: 196953126}
+  uiMove: {fileID: 1780031457}
+  dwMove: {fileID: 420085926}
+  scribeAnimator: {fileID: 1644606140}
+  scribeFade: {fileID: 1644606142}
+  blackground: {fileID: 437780190}
+  callToPrayer: {fileID: 1253761586}
+  characters: []
+  warAmbience: {fileID: 1605485586}
+  niceSky: {fileID: 2100000, guid: 2c3c711febae1e74db9e3fc2b089c4c3, type: 2}
+  sunLerp: {fileID: 170076736}
+  player: {fileID: 1511833480}
+  startCam: {fileID: 455191058}
+  roomCam: {fileID: 2128215351}
+  textPanel: {fileID: 590775799}
+  poemTime: 30
+  readingPoem: 0
+  startedTransition: 0
+  transitioned: 0
 --- !u!1 &925533792
 GameObject:
   m_ObjectHideFlags: 0
@@ -48276,6 +48259,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 948585987}
   m_Mesh: {fileID: 4300006, guid: 2d46a26a4ab425341821405dc170ddb6, type: 3}
+--- !u!114 &949056676 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114939006769563730, guid: deff53372be8a5a4f88580aa9cd783f6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1118939497}
+  m_Script: {fileID: 11500000, guid: 4913aa6ab6e589845a191be5e79dcc18, type: 3}
 --- !u!1001 &952329132
 Prefab:
   m_ObjectHideFlags: 0
@@ -72009,7 +71998,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1482072127
 Transform:
   m_ObjectHideFlags: 0
