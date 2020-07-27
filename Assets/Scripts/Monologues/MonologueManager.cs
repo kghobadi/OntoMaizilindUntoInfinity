@@ -39,6 +39,7 @@ public class MonologueManager : MonoBehaviour
 
     [Tooltip("Sprite Object with head")]
     public Transform head;
+    Transform origIdleLook;
     Vector3 origBodyRot;
     Vector3 origHeadRot;
 
@@ -152,6 +153,8 @@ public class MonologueManager : MonoBehaviour
         //assign new idle look at 
         if (mono.newIdleLook >= 0)
         {
+            //grab original look
+            origIdleLook = npcController.Movement.lookAtTransform;
             npcController.Movement.SetLookAt(mono.newIdleLook);
         }
 
@@ -259,6 +262,10 @@ public class MonologueManager : MonoBehaviour
         //return to orignal look rotations
         if (mono.returnToOriginalRotation)
         {
+            //reset lookat point 
+            if(mono.newIdleLook >= 0)
+                npcController.Movement.SetLook(origIdleLook);
+
             //body looks at?
             if (mono.bodyLooks)
             {

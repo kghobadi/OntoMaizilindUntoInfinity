@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class EventTrigger : MonoBehaviour {
 
     public bool hasTriggered;
+    public bool playerOnly;
     public UnityEvent[] events;
 
     [Header("If trigger can activate repeatedly")]
@@ -16,10 +17,21 @@ public class EventTrigger : MonoBehaviour {
     {
         if (!hasTriggered)
         {
-            if (other.gameObject.tag == "Human" || other.gameObject.tag == "Player")
+            if (playerOnly)
             {
-                SetTrigger();
+                if (other.gameObject.tag == "Player")
+                {
+                    SetTrigger();
+                }
             }
+            else
+            {
+                if (other.gameObject.tag == "Human" || other.gameObject.tag == "Player")
+                {
+                    SetTrigger();
+                }
+            }
+           
         }
     }
 
