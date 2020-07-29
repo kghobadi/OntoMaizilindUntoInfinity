@@ -10,6 +10,7 @@ public class Bomber : MonoBehaviour {
     public bool bombing;
 
     public float bombInterval = 0.45f;
+    public int bombMin = 5, bombMax = 15;
 
 	void Awake ()
     {
@@ -37,7 +38,7 @@ public class Bomber : MonoBehaviour {
     {
         bombing = true;
 
-        int randomBcount = Random.Range(2, 5);
+        int randomBcount = Random.Range(bombMin, bombMax);
 
         //Debug.Log("Spawning " + randomBcount + " bombs");
 
