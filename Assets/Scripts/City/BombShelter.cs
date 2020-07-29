@@ -6,6 +6,9 @@ public class BombShelter : MonoBehaviour {
 
     CameraSwitcher camSwitcher;
 
+    public Transform[] sittingPoints;
+    public NPC.MovementPath sittingBehavior;
+
     private void Awake()
     {
         camSwitcher = FindObjectOfType<CameraSwitcher>();
@@ -21,12 +24,24 @@ public class BombShelter : MonoBehaviour {
 
     void EnterShelter(CamObject person)
     {
+        //switches sif this is the player 
         if(person == camSwitcher.currentCamObj)
         {
             camSwitcher.SwitchCam(true, -1);
         }
 
-        person.gameObject.SetActive(false);
+        //set navigation to random spot 
+        Transform randomSpot = sittingPoints[ Random.Range(0, sittingPoints.Length)];
+        Vector2 radius = Random.insideUnitCircle * 15;
+        Vector3 sittingPoint = new Vector3(randomSpot.position.x + radius.x, randomSpot.position.y, randomSpot.position.z + radius.y);
+        NPC.Movement mover = person.GetComponent<NPC.Movement>();
+        mover.NavigateToPoint(sittingPoint, false);
+
+        //prepare AI to sit at point
+        mover.resetsMovement = true;
+        mover.newMovement = sittingBehavior;
+
+        //remove from switcher list 
         camSwitcher.cameraObjects.Remove(person);
     }
 }

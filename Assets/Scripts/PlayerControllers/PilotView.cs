@@ -8,17 +8,18 @@ public class PilotView : MonoBehaviour
 {
     Camera mainCam;
 
-    //for viewing
-    Vector2 mouseLook;
-    Vector2 smoothV;
-    public float sensitivityX;
-    public float sensitivityY;
-    public float smoothing = 2.0f;
+    [Header("FPS Camera Controls")]
     public bool isActive;
+    float hRot, vRot;
+    public float sensitivityX = 1f;
+    public float sensitivityY = 1f;
+    public bool invertX, invertY;
 
     void Awake()
     {
         mainCam = Camera.main;
+
+        isActive = true;
     }
 
     void Update()
@@ -29,31 +30,39 @@ public class PilotView : MonoBehaviour
         //for viewing with cam
         if (isActive)
         {
-            Cursor.lockState = CursorLockMode.Locked;
-
-            var newRotate = new Vector2(0, 0);
-
-            //controller 
-            if (inputDevice.DeviceClass == InputDeviceClass.Controller)
-            {
-                newRotate = new Vector2(inputDevice.RightStickX, inputDevice.RightStickY);
-            }
-            //mouse
-            else
-            {
-                newRotate = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
-            }
-
-            newRotate = Vector2.Scale(newRotate, new Vector2(sensitivityX * smoothing, sensitivityY * smoothing));
-            smoothV.x = Mathf.Lerp(smoothV.x, newRotate.x, 1f / smoothing);
-            smoothV.y = Mathf.Lerp(smoothV.y, newRotate.y, 1f / smoothing);
-            mouseLook += smoothV;
-
-            mouseLook.y = Mathf.Clamp(mouseLook.y, -90f, 90f);
-
-            transform.localRotation = Quaternion.AngleAxis(-mouseLook.y, Vector3.right);
-            transform.localRotation = Quaternion.AngleAxis(mouseLook.x, transform.up);
+            CameraRotation();
         }
     }
-    
+
+    void CameraRotation()
+    {
+        //get input device 
+        var inputDevice = InputManager.ActiveDevice;
+
+        //controller 
+        if (inputDevice.DeviceClass == InputDeviceClass.Controller)
+        {
+            hRot = sensitivityX * inputDevice.RightStickX;
+            vRot = sensitivityY * inputDevice.RightStickY;
+        }
+        //mouse
+        else
+        {
+            hRot = sensitivityX * Input.GetAxis("Mouse X");
+            vRot = sensitivityY * Input.GetAxis("Mouse Y");
+        }
+
+        //neg value 
+        if (invertX)
+            hRot *= -1f;
+        //neg value 
+        if (invertY)
+            vRot *= -1f;
+
+        //Rotates Player on "X" Axis Acording to Mouse Input
+        transform.parent.Rotate(0, hRot, 0);
+        //Rotates Player on "Y" Axis Acording to Mouse Input
+        transform.Rotate(vRot, 0, 0);
+    }
+
 }

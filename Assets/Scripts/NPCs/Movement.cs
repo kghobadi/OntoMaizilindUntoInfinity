@@ -27,6 +27,10 @@ namespace NPC
         public bool AIenabled = true;
         public Transform lookAtTransform;
 
+        [Tooltip("Can set this true so that at the end of a moving state, we reset Movement")]
+        public bool resetsMovement;
+        public MovementPath newMovement;
+        
         //state timers 
         public float stateTimer, actionTimer;
         public float idleTime, actionTime;
@@ -288,6 +292,8 @@ namespace NPC
 
                 waitingToGiveMonologue = false;
             }
+
+            resetsMovement = false;
         }
 
         //sets the npc look at  
@@ -316,6 +322,10 @@ namespace NPC
                 //stop running after we are close to position
                 if (Vector3.Distance(transform.position, targetPosition) < myNavMesh.stoppingDistance + 3f)
                 {
+                    //can be called by triggers or smth
+                    if (resetsMovement)
+                        ResetMovement(newMovement);
+
                     SetIdle();
                 }
             }

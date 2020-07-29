@@ -22,12 +22,17 @@ public class DestructibleBuilding : MonoBehaviour {
 
     [Header("Deity Reactions")]
     public ParticleSystem explosionParticles;
-    public ParticleSystem smokeParticles;
+    public GameObject smokePrefab;
+    ParticleSystem smokeParticles;
 
     void Awake()
     {
         the_pilot = FindObjectOfType<ThePilot>();
         buildingMesh = GetComponentInChildren<MeshRenderer>();
+
+        //instantiate and parent smoke to me, get particle
+        GameObject smoke = Instantiate(smokePrefab, transform);
+        smokeParticles = smoke.GetComponent<ParticleSystem>();
     }
 
     void Start ()
