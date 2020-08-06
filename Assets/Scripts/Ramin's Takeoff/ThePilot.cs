@@ -46,7 +46,7 @@ public class ThePilot : AudioHandler {
         pView = FindObjectOfType<PilotView>();
         guns = GetComponentsInChildren<Gun>();
         bText.text = bulletCount.ToString();
-        SwitchViews(zoomedIn);
+        SwitchViews(false);
     }
     
 	//could play sounds when moving 
@@ -75,7 +75,17 @@ public class ThePilot : AudioHandler {
         }
     }
 
-    void ToggleViews()
+    public void EnableControls()
+    {
+        controlsActive = true;
+    }
+
+    public void DisableControls()
+    {
+        controlsActive = false;
+    }
+
+    public void ToggleViews()
     {
         zoomedIn = !zoomedIn;
         SwitchViews(zoomedIn);
@@ -94,6 +104,7 @@ public class ThePilot : AudioHandler {
             //_Animations.SetAnimator("idle");
             //_Animations.Animator.enabled = false;
             pView.isActive = true;
+            zoomedIn = true;
         }
         //zoomed out 
         else
@@ -104,6 +115,7 @@ public class ThePilot : AudioHandler {
             planeRender.enabled = true;
             //_Animations.Animator.enabled = true;
             pView.isActive = false;
+            zoomedIn = false;
         }
     }
 

@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class DestructibleBuilding : MonoBehaviour {
     ThePilot the_pilot;
+  
 
     public int health;
     public int healthMultiplier;
@@ -21,7 +22,9 @@ public class DestructibleBuilding : MonoBehaviour {
     MeshRenderer buildingMesh;
 
     [Header("Deity Reactions")]
-    public ParticleSystem explosionParticles;
+    EffectsManager effectsMan;
+    public GameObject explosionPrefab;
+    ParticleSystem explosionParticles;
     public GameObject smokePrefab;
     ParticleSystem smokeParticles;
 
@@ -29,10 +32,21 @@ public class DestructibleBuilding : MonoBehaviour {
     {
         the_pilot = FindObjectOfType<ThePilot>();
         buildingMesh = GetComponentInChildren<MeshRenderer>();
+        effectsMan = FindObjectOfType<EffectsManager>();
 
+        //set smoke effect
+        if (smokePrefab == null)
+            smokePrefab = effectsMan.smokePrefab;
         //instantiate and parent smoke to me, get particle
         GameObject smoke = Instantiate(smokePrefab, transform);
         smokeParticles = smoke.GetComponent<ParticleSystem>();
+
+        //set explosion effect
+        if (explosionPrefab == null)
+            explosionPrefab = effectsMan.deityExplosionPrefab;
+        //instantiate and parent explosion to me, get particle
+        GameObject explosion = Instantiate(explosionPrefab, transform);
+        explosionParticles = explosion.GetComponent<ParticleSystem>();
     }
 
     void Start ()

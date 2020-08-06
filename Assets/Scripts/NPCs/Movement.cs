@@ -96,7 +96,7 @@ namespace NPC
 
         void Update()
         {
-            //player ref
+            //player ref -- this is giving OutOfRange Exception when player dies? or switches? 
             if(controller.camSwitcher)
                 currentPlayer = controller.camSwitcher.cameraObjects[controller.camSwitcher.currentCam].gameObject;
                 
