@@ -53,7 +53,7 @@ namespace NPC
         public IdleType idleType;
         public enum IdleType
         {
-            STANDING, SITTING,
+            STANDING, SITTING, PRAYING
         }
 
         [Header("Wanderer Settings")]
@@ -388,6 +388,9 @@ namespace NPC
                     npcAnimations.Animator.SetFloat("IdleType", 0f);
                     break;
                 case IdleType.SITTING:
+                    npcAnimations.Animator.SetFloat("IdleType", 0.5f);
+                    break;
+                case IdleType.PRAYING:
                     npcAnimations.Animator.SetFloat("IdleType", 1f);
                     break;
             }

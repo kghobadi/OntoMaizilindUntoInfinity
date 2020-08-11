@@ -31,6 +31,7 @@ AudioMixerController:
     - f5f56bd49d3aae84182fb1c33c14351f
     - 3613febb82f9b4b48a9b8cec652d89c6
     - ece35ce887e849b45a69976f2464e184
+    - bc27899192caf1b40b20f6a33ae03883
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 245546334685037046}
@@ -54,6 +55,7 @@ AudioMixerGroupController:
   - {fileID: 243273641058515164}
   - {fileID: 243829135913825840}
   - {fileID: 243409233222874050}
+  - {fileID: 243140156889484370}
   m_Volume: 2dbb05134c18b3a4faf55c221f654a25
   m_Pitch: c8f71d7cbbb0b3f4889418437f3708f7
   m_Effects:
@@ -103,6 +105,23 @@ AudioMixerGroupController:
   m_Pitch: 409ced4a1eb3c2c479e50cb378bf4f6c
   m_Effects:
   - {fileID: 244115782955747104}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
+--- !u!243 &243140156889484370
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Phone
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: bc27899192caf1b40b20f6a33ae03883
+  m_Children: []
+  m_Volume: 04fcc75f342d1624d9771205b935a6b3
+  m_Pitch: 50475254720e53f438c40e4dbae59500
+  m_Effects:
+  - {fileID: 244907699387777290}
   m_UserColorIndex: 0
   m_Mute: 0
   m_Solo: 0
@@ -407,6 +426,19 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!244 &244907699387777290
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_EffectID: 14166782f85c41b4f8595dac423c80b4
+  m_EffectName: Attenuation
+  m_MixLevel: 5b04cd844c259904ba31a154aba57d3f
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!244 &244999957632722050
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -457,4 +489,5 @@ AudioMixerSnapshotController:
     00a9e4c9b8e28e444bea16bd48f9f4e4: 5.1526933
     1293af2e9f4fdd84eb7a57777ccee0f5: -3.1841109
     b9b9bbde045714545b82a4a1c7f510d4: -3.1841109
+    04fcc75f342d1624d9771205b935a6b3: -1.2918884
   m_TransitionOverrides: {}

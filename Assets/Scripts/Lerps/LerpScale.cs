@@ -45,4 +45,10 @@ public class LerpScale : MonoBehaviour {
         lerpSpeed = speed;
         lerping = true;
     }
+
+    //can be called from anywhere 
+    public void SetLerp()
+    {
+        lerping = true;
+    }
 }

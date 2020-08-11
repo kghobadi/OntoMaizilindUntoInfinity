@@ -7,12 +7,17 @@ public class EventTrigger : MonoBehaviour {
 
     public bool hasTriggered;
     public bool playerOnly;
+    public bool npcOnly;
     public UnityEvent[] events;
+
+    [Header("Wait times")]
+    public bool waits;
+    public float waitTime = 5f;
 
     [Header("If trigger can activate repeatedly")]
     public bool repeats;
     public float resetTime = 5f;
-
+    
     void OnTriggerEnter(Collider other)
     {
         if (!hasTriggered)
@@ -24,7 +29,14 @@ public class EventTrigger : MonoBehaviour {
                     SetTrigger();
                 }
             }
-            else
+            else if (npcOnly)
+            {
+                if (other.gameObject.tag == "Human")
+                {
+                    SetTrigger();
+                }
+            }
+            else if(!playerOnly && !npcOnly)
             {
                 if (other.gameObject.tag == "Human" || other.gameObject.tag == "Player")
                 {
@@ -37,14 +49,34 @@ public class EventTrigger : MonoBehaviour {
 
     void SetTrigger()
     {
+        if (waits)
+        {
+            StartCoroutine(WaitToTrigger());
+        }
+        else
+        {
+            Activate();
+        }
+
+        hasTriggered = true;
+    }
+
+    IEnumerator WaitToTrigger()
+    {
+        yield return new WaitForSeconds(waitTime);
+
+        Activate();
+    }
+
+    void Activate()
+    {
         //invoke the events
-        for(int i = 0; i < events.Length; i++)
+        for (int i = 0; i < events.Length; i++)
         {
             events[i].Invoke();
         }
 
-        hasTriggered = true;
-
+        //call repeat if necessary 
         if (repeats)
             StartCoroutine(Reset());
     }

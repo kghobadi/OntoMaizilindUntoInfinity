@@ -7,7 +7,7 @@ public class BombShelter : MonoBehaviour {
     CameraSwitcher camSwitcher;
 
     public Transform[] sittingPoints;
-    public NPC.MovementPath sittingBehavior;
+    public NPC.MovementPath prayingBehavior;
 
     private void Awake()
     {
@@ -39,7 +39,7 @@ public class BombShelter : MonoBehaviour {
 
         //prepare AI to sit at point
         mover.resetsMovement = true;
-        mover.newMovement = sittingBehavior;
+        mover.newMovement = prayingBehavior;
 
         //remove from switcher list 
         camSwitcher.cameraObjects.Remove(person);
