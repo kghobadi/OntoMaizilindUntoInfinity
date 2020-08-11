@@ -80,7 +80,7 @@ namespace NPC
 
             //player ref
             if (controller.camSwitcher)
-                currentPlayer = controller.camSwitcher.cameraObjects[controller.camSwitcher.currentCam].gameObject;
+                currentPlayer = controller.camSwitcher.currentPlayer;
             else
                 currentPlayer = GameObject.FindGameObjectWithTag("Player");
         }
@@ -97,8 +97,8 @@ namespace NPC
         void Update()
         {
             //player ref -- this is giving OutOfRange Exception when player dies? or switches? 
-            if(controller.camSwitcher)
-                currentPlayer = controller.camSwitcher.cameraObjects[controller.camSwitcher.currentCam].gameObject;
+            if (controller.camSwitcher)
+                currentPlayer = controller.camSwitcher.currentPlayer;
                 
             if (AIenabled)
             {

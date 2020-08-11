@@ -11,8 +11,11 @@ public class BombTrigger : MonoBehaviour {
         {
             Bomber bomber = other.gameObject.GetComponent<Bomber>();
 
-            bomber.DropBombs();
-            Debug.Log("triggering bombs");
+            if(bomber.bombing == false)
+            {
+                bomber.DropBombs();
+                Debug.Log("triggering bombs");
+            }
         }
     }
 }

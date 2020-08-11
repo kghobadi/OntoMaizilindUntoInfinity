@@ -48,8 +48,7 @@ public class MonologueTrigger : MonoBehaviour
         //player ref 
         if (camSwitcher)
         {
-            CamObject cam = camSwitcher.cameraObjects[camSwitcher.currentCam];
-            currentPlayer = cam.gameObject;
+            currentPlayer = camSwitcher.currentPlayer;
         }
 
         //player entered 
@@ -71,11 +70,9 @@ public class MonologueTrigger : MonoBehaviour
         //player ref 
         if (camSwitcher)
         {
-            CamObject cam = camSwitcher.cameraObjects[camSwitcher.currentCam];
-            currentPlayer = cam.gameObject;
+            currentPlayer = camSwitcher.currentPlayer;
         }
         
-
         if (other.gameObject == currentPlayer || other.gameObject.tag == "Player")
         {
             if (!playerInZone && canActivate)
@@ -94,8 +91,7 @@ public class MonologueTrigger : MonoBehaviour
         //player ref 
         if (camSwitcher)
         {
-            CamObject cam = camSwitcher.cameraObjects[camSwitcher.currentCam];
-            currentPlayer = cam.gameObject;
+            currentPlayer = camSwitcher.currentPlayer;
         }
 
         if (other.gameObject == currentPlayer || other.gameObject.tag == "Player")

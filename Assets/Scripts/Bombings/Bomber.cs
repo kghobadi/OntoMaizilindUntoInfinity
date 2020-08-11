@@ -4,17 +4,19 @@ using UnityEngine;
 using InControl;
 
 public class Bomber : MonoBehaviour {
-    ObjectPooler bombPooler;
+    EffectsManager effectsMan;
 
     public GameObject bombPrefab;
     public bool bombing;
 
     public float bombInterval = 0.45f;
+    public float spawnRadius = 25f;
     public int bombMin = 5, bombMax = 15;
+    ////int bombsToDrop;
 
 	void Awake ()
     {
-        bombPooler = FindObjectOfType<ObjectPooler>();
+        effectsMan = FindObjectOfType<EffectsManager>();
 	}
 	
 	void Update () {
@@ -55,8 +57,8 @@ public class Bomber : MonoBehaviour {
     void DropBomb()
     {
         //find spawn pos and grab obj 
-        Vector3 spawnPos = transform.position - new Vector3(0, 7, 0) + Random.insideUnitSphere * 25f;
-        GameObject bomb = bombPooler.GrabObject();
+        Vector3 spawnPos = transform.position - new Vector3(0, 7, 0) + Random.insideUnitSphere * spawnRadius;
+        GameObject bomb =  effectsMan.bombPooler.GrabObject();
         //set pos 
         bomb.transform.position = spawnPos;
         //enable force

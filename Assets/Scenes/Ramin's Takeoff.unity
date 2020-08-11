@@ -24004,6 +24004,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hasTriggered: 0
   playerOnly: 0
+  npcOnly: 0
   events:
   - m_PersistentCalls:
       m_Calls:
@@ -24152,6 +24153,8 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  waits: 0
+  waitTime: 5
   repeats: 0
   resetTime: 5
 --- !u!1001 &858049087
@@ -24374,7 +24377,7 @@ Prefab:
     - target: {fileID: 224324740304502706, guid: 0520d190841ed434bba87e98d542fb5a,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -165.1
+      value: -410
       objectReference: {fileID: 0}
     - target: {fileID: 224324740304502706, guid: 0520d190841ed434bba87e98d542fb5a,
         type: 2}
@@ -24399,12 +24402,12 @@ Prefab:
     - target: {fileID: 114242659764529166, guid: 0520d190841ed434bba87e98d542fb5a,
         type: 2}
       propertyPath: m_fontSize
-      value: 12
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 114242659764529166, guid: 0520d190841ed434bba87e98d542fb5a,
         type: 2}
       propertyPath: m_fontSizeBase
-      value: 12
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 114242659764529166, guid: 0520d190841ed434bba87e98d542fb5a,
         type: 2}
@@ -24429,7 +24432,7 @@ Prefab:
     - target: {fileID: 114242659764529166, guid: 0520d190841ed434bba87e98d542fb5a,
         type: 2}
       propertyPath: m_textInfo.lineCount
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 82960169804152974, guid: 0520d190841ed434bba87e98d542fb5a,
         type: 2}
@@ -24437,6 +24440,46 @@ Prefab:
       value: 
       objectReference: {fileID: 243223692894791854, guid: d87b47ce31deb1f44bbe100832f18eb4,
         type: 2}
+    - target: {fileID: 114487222626999412, guid: 0520d190841ed434bba87e98d542fb5a,
+        type: 2}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114487222626999412, guid: 0520d190841ed434bba87e98d542fb5a,
+        type: 2}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 114487222626999412, guid: 0520d190841ed434bba87e98d542fb5a,
+        type: 2}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
+    - target: {fileID: 224261836978530556, guid: 0520d190841ed434bba87e98d542fb5a,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 224324740304502706, guid: 0520d190841ed434bba87e98d542fb5a,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 82960169804152974, guid: 0520d190841ed434bba87e98d542fb5a,
+        type: 2}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 82960169804152974, guid: 0520d190841ed434bba87e98d542fb5a,
+        type: 2}
+      propertyPath: m_Volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82960169804152974, guid: 0520d190841ed434bba87e98d542fb5a,
+        type: 2}
+      propertyPath: Priority
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114801743937296034, guid: 0520d190841ed434bba87e98d542fb5a, type: 2}
     - {fileID: 195532497863442258, guid: 0520d190841ed434bba87e98d542fb5a, type: 2}
@@ -25164,7 +25207,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 947ee6088a7bac347af6049355fda610, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smokePrefab: {fileID: 0}
+  smokePrefab: {fileID: 1979314067050386, guid: 430099940cce75245955973c78f8f11f,
+    type: 2}
+  deityExplosionPrefab: {fileID: 1149019820068336, guid: 812988f0f12f15a4f9a3ff174921b2a1,
+    type: 2}
+  bombPooler: {fileID: 0}
+  explosionPooler: {fileID: 0}
 --- !u!1 &925918689
 GameObject:
   m_ObjectHideFlags: 0
@@ -36903,6 +36951,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hasTriggered: 0
   playerOnly: 0
+  npcOnly: 0
   events:
   - m_PersistentCalls:
       m_Calls:
@@ -36919,6 +36968,8 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  waits: 0
+  waitTime: 5
   repeats: 0
   resetTime: 5
 --- !u!1 &1831252202
@@ -48556,12 +48607,12 @@ Prefab:
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 2}
       propertyPath: _savedGUID
-      value: 1568938853
+      value: 354223769
       objectReference: {fileID: 0}
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 2}
       propertyPath: hash.lastHash
-      value: 770094860
+      value: 1647669283
       objectReference: {fileID: 0}
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 2}

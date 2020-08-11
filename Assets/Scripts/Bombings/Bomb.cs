@@ -6,6 +6,7 @@ using UnityEngine;
 public class Bomb : MonoBehaviour {
     //world manager ref
     WorldManager worldMan;
+    EffectsManager effectsMan;
     CameraSwitcher camSwitcher;
 
     //physics vars
@@ -26,7 +27,8 @@ public class Bomb : MonoBehaviour {
     void Awake()
     {
         //world man and add to list
-        worldMan = GameObject.FindGameObjectWithTag("WorldManager").GetComponent<WorldManager>();
+        worldMan = FindObjectOfType<WorldManager>();
+        effectsMan = FindObjectOfType<EffectsManager>();
         camSwitcher = worldMan.GetComponent<CameraSwitcher>();
 
         //get comp refs
@@ -83,7 +85,11 @@ public class Bomb : MonoBehaviour {
     {
         //Debug.Log("bomb went off");
         Vector3 spawnPos = transform.position;
-        GameObject explosion = Instantiate(explosionPrefab, spawnPos, Quaternion.Euler(-90, 0, 0), explosionParent);
+        GameObject explosion = effectsMan.explosionPooler.GrabObject();
+        //set pos & angle & parent
+        explosion.transform.position = spawnPos;
+        explosion.transform.localEulerAngles = new Vector3(-90, 0, 0);
+        explosion.transform.SetParent(explosionParent); 
 
         if(obj != null)
         {

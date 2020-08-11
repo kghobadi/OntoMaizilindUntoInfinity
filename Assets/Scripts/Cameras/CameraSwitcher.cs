@@ -10,16 +10,22 @@ public class CameraSwitcher : MonoBehaviour {
     CameraManager camManager;
 
     //camera objects list, current obj, and int to count them
+    [Tooltip("Check to test citizens at Start")]
+    public bool debug;
+
+    [Header("Camera Objects")]
     public List<CamObject> cameraObjects = new List<CamObject>();
-    [HideInInspector] public CamObject currentCamObj;
-    public int currentCam = 0;
+    public CamObject currentCamObj;
+    public GameObject currentPlayer;
+    public int currentCam = 1;
     public GameObject citizensParent;
+    public MovementPath toMosque;
+
+    [Header("Shifting Perspectives")]
     public FadeUI shiftPress;
     public bool canShift;
     public float shiftDistLimit = 250f;
     float shiftResetTimer = 0f, shiftReset = 1f;
-    public bool debug;
-    public GameObject radioRoom;
 
     [Header("Transition")]
     public int transitionAmount = 3;
@@ -34,7 +40,8 @@ public class CameraSwitcher : MonoBehaviour {
         CamObject[] cams = FindObjectsOfType<CamObject>();
         for(int i = 0; i < cams.Length; i++)
         {
-            cameraObjects.Add(cams[i]);
+            if(cameraObjects.Contains(cams[i]) == false)
+                cameraObjects.Add(cams[i]);
         }
 
         //get advance scene comp
@@ -48,13 +55,14 @@ public class CameraSwitcher : MonoBehaviour {
     void Start ()
     {
         //loop through the cam objects list and set start settings for objects
-        for (int i = 1; i < cameraObjects.Count; i++)
+        for (int i = 2; i < cameraObjects.Count; i++)
         {
             DisableCamObj(cameraObjects[i]);
         }
         
         //set current cam obj at start
         currentCamObj = cameraObjects[currentCam];
+        currentPlayer = currentCamObj.gameObject;
 
         if (!debug)
         {
@@ -136,6 +144,7 @@ public class CameraSwitcher : MonoBehaviour {
 
     public void SwitchCam(bool upOrDown, int num)
     {
+        //disable current cam
         DisableCamObj(cameraObjects[currentCam]);
 
         //fade out shift press UI
@@ -143,13 +152,6 @@ public class CameraSwitcher : MonoBehaviour {
         {
             if (shiftPress.gameObject.activeSelf)
                 shiftPress.FadeOut();
-        }
-
-        //disable radio room 
-        if (radioRoom)
-        {
-            if (radioRoom.activeSelf)
-                radioRoom.SetActive(false);
         }
        
         //increment currentCam
@@ -194,6 +196,7 @@ public class CameraSwitcher : MonoBehaviour {
             }
         }
 
+        //enable new cam
         EnableCamObj(cameraObjects[currentCam]);
 
         //start shift reset 
@@ -207,16 +210,16 @@ public class CameraSwitcher : MonoBehaviour {
         //turn on new cam obj
         if (cam.myCamType == CamObject.CamType.HUMAN)
         {
+            //turn off that persons NavMeshAgent
+            cam.GetComponent<NavMeshAgent>().enabled = false;
+            //turn off that persons AI movement 
+            cam.GetComponent<Movement>().AIenabled = false;
             //set the body's parent to its camera
             cam.myBody.transform.SetParent(cam.camObj.transform);
             //set new cam
             camManager.Set(cam.camObj);
             //enable ground cam script
             cam.camObj.GetComponent<GroundCamera>().enabled = true;
-            //turn off that persons Citizen Ai
-            cam.GetComponent<NavMeshAgent>().enabled = false;
-            //turn off that persons Citizen Ai
-            cam.GetComponent<Movement>().AIenabled = false;
             //turn on that persons FPC
             cam.GetComponent<FirstPersonController>().enabled = true;
         }
@@ -227,6 +230,7 @@ public class CameraSwitcher : MonoBehaviour {
 
         //reset current cam obj
         currentCamObj = cameraObjects[currentCam];
+        currentPlayer = currentCamObj.gameObject;
     }
 
     //disables a cam obj
@@ -239,12 +243,14 @@ public class CameraSwitcher : MonoBehaviour {
             cam.myBody.transform.SetParent(cam.transform);
             //disable ground cam script
             cam.camObj.GetComponent<GroundCamera>().enabled = false;
-            //turn on that persons Citizen Ai
-            cam.GetComponent<NavMeshAgent>().enabled = true;
-            //turn off that persons Citizen Ai
-            cam.GetComponent<Movement>().AIenabled = true;
             //turn off that persons FPC
             cam.GetComponent<FirstPersonController>().enabled = false;
+            //turn on that persons NavMeshAgent  
+            cam.GetComponent<NavMeshAgent>().enabled = true;
+            //turn on AI movement and reset movement 
+            cam.GetComponent<Movement>().AIenabled = true;
+            cam.GetComponent<Movement>().ResetMovement(cam.GetComponent<Movement>().startBehavior);
+            cam.GetComponent<Movement>().SetIdle();
         }
         else
         {
