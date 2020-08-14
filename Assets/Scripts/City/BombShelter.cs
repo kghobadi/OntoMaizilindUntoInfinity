@@ -15,6 +15,7 @@ public class BombShelter : MonoBehaviour {
     public NPC.MovementPath prayingBehavior;
 
     [Header("Projection Transition")]
+    public bool projecting;
     public GameObject projector;
     public VideoPlayer projection;
     public MonologueManager imamSpeech;
@@ -71,6 +72,9 @@ public class BombShelter : MonoBehaviour {
         //projector obj
         projector.SetActive(true);
 
+        //set bool
+        projecting = true;
+
         //start video
         projection.Play();
 
@@ -94,7 +98,7 @@ public class BombShelter : MonoBehaviour {
         //shift from player cam to transition viewer 
         camManager.Set(transitionViewer);
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(10f);
 
         //load 
         advance.LoadNextScene();

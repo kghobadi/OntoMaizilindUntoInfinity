@@ -56,6 +56,8 @@ namespace NPC
             STANDING, SITTING, PRAYING
         }
 
+        SpiritTrail spiritTrail;
+
         [Header("Wanderer Settings")]
         public Transform[] waypoints;
         public int waypointCounter = 0;
@@ -77,6 +79,7 @@ namespace NPC
             myNavMesh = GetComponent<NavMeshAgent>();
             movementManager = FindObjectOfType<NPCMovementManager>();
             monoManager = GetComponent<MonologueManager>();
+            spiritTrail = GetComponentInChildren<SpiritTrail>();
 
             //player ref
             if (controller.camSwitcher)
@@ -156,6 +159,18 @@ namespace NPC
                         //idle action?
 
                         stateTimer = idleTime;
+                    }
+
+                    //if we are praying, start the Spiritus
+                    if(idleType == IdleType.PRAYING)
+                    {
+                        if (spiritTrail)
+                        {
+                            if(spiritTrail.activated == false)
+                            {
+                                spiritTrail.EnableSpirit();
+                            }
+                        }
                     }
                 }
                 //Set destination based on npc type 

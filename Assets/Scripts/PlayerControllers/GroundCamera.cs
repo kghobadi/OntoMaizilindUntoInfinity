@@ -30,8 +30,8 @@ public class GroundCamera : MonoBehaviour
     {
         CameraMovement();
 
-        if (camSwitcher.canShift)
-            RaycastForward();
+        //if (camSwitcher.canShift)
+        //    RaycastForward();
 
         ShiftCheck();
     }

@@ -24,6 +24,10 @@ public class Bomb : MonoBehaviour {
     public GameObject explosionPrefab;
     public Transform explosionParent;
 
+    //only for kill player bomb
+    [HideInInspector] public MoveTowards moveTowards;
+    [HideInInspector] public Transform playerDest;
+
     void Awake()
     {
         //world man and add to list
@@ -61,6 +65,13 @@ public class Bomb : MonoBehaviour {
 	void FixedUpdate ()
     {
         bombBody.AddForce(0, -moveSpeedOverTime, 0);
+
+        //we have a movetowards
+        if (moveTowards)
+        {
+            if(moveTowards.enabled)
+                moveTowards.MoveTo(playerDest.position, 500f);
+        }
 
         //y check 
         if(transform.position.y < 0f)
@@ -103,6 +114,11 @@ public class Bomb : MonoBehaviour {
 
     void ResetBomb()
     {
+        //check for moveTowarsd
+        if (moveTowards)
+        {
+            moveTowards.enabled = false;
+        }
         //zero velocity
         bombBody.velocity = Vector3.zero;
         //disable forces 

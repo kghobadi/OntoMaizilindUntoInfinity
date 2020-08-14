@@ -5,7 +5,9 @@ using InControl;
 
 public class Bomber : MonoBehaviour {
     EffectsManager effectsMan;
+    CameraSwitcher camSwitcher;
 
+    public bool captain;
     public GameObject bombPrefab;
     public bool bombing;
 
@@ -17,6 +19,7 @@ public class Bomber : MonoBehaviour {
 	void Awake ()
     {
         effectsMan = FindObjectOfType<EffectsManager>();
+        camSwitcher = FindObjectOfType<CameraSwitcher>();
 	}
 	
 	void Update () {
@@ -54,6 +57,7 @@ public class Bomber : MonoBehaviour {
         bombing = false;
     }
 
+    //drops a bomb below plane 
     void DropBomb()
     {
         //find spawn pos and grab obj 
@@ -64,5 +68,40 @@ public class Bomber : MonoBehaviour {
         //enable force
         Bomb bombScript = bomb.GetComponent<Bomb>();
         bombScript.SetBombFall();
+    }
+
+    //spawn bombs directly above player location
+    public void KillPlayer()
+    {
+        //get player transform 
+        Transform playerT = camSwitcher.currentPlayer.transform;
+
+        //find spawn pos and grab obj 
+        Vector3 spawnPos = new Vector3(playerT.position.x, transform.position.y, playerT.position.z)
+            + Random.insideUnitSphere * spawnRadius / 3;
+        GameObject bomb = effectsMan.bombPooler.GrabObject();
+        //set pos 
+        bomb.transform.position = spawnPos;
+        //enable force
+        Bomb bombScript = bomb.GetComponent<Bomb>();
+        bombScript.SetBombFall();
+
+        //set move towards comp
+        MoveTowards moveTo = bomb.GetComponent<MoveTowards>();
+        if (moveTo == null)
+        {
+            //add move towards
+            moveTo = bomb.AddComponent<MoveTowards>();
+            moveTo.MoveTo(playerT.position, 500f);
+            //set homing missle hehe 
+            bombScript.moveTowards = moveTo;
+            bombScript.playerDest = playerT;
+        }
+        //already has it, just enable/set 
+        else
+        {
+            moveTo.enabled = true;
+            moveTo.MoveTo(playerT.position, 500f);
+        }
     }
 }

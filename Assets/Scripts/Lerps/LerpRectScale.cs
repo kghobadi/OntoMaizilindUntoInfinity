@@ -44,18 +44,36 @@ public class LerpRectScale : MonoBehaviour
             }
         }
     }
-
-    //can be called from anywhere 
-    public void SetScaler(float speed, Vector3 newScale)
-    {
-        desiredScale = newScale;
-        lerpSpeed = speed;
-        lerping = true;
-    }
-
+    
+    //LERPS
     //can be called from anywhere 
     public void SetLerp()
     {
+        lerping = true;
+    }
+    //set lerp with new scale
+    public void SetLerpV(Vector3 newScale)
+    {
+        desiredScale = newScale;
+        lerping = true;
+    }
+    //set lerp with new scale factor
+    public void SetLerpVM(float scaleFactor)
+    {
+        desiredScale = rectTransform.localScale * scaleFactor;
+        lerping = true;
+    }
+    //set lerp with new speed
+    public void SetLerpS(float speed)
+    {
+        lerpSpeed = speed;
+        lerping = true;
+    }
+    //can be called from anywhere 
+    public void SetLerpAll(float speed, Vector3 newScale)
+    {
+        desiredScale = newScale;
+        lerpSpeed = speed;
         lerping = true;
     }
 }
