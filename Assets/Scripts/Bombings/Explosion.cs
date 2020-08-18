@@ -106,8 +106,8 @@ public class Explosion : AudioHandler {
     //could add to this so that when it overlaps with other explosion fire, they combine into one thing
     private void OnTriggerEnter(Collider other)
     {
-        //kill a human
-        if (other.gameObject.tag == "Human")
+        //kill a human/player
+        if (other.gameObject.tag == "Human" || other.gameObject.tag == "Player")
         {
             Debug.Log("human burnssss");
 

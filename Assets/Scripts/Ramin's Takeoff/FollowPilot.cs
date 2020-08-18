@@ -80,4 +80,10 @@ public class FollowPilot : MonoBehaviour {
         else if (followType == FollowType.MOVETOWARDS)
             mover.MoveTo(target, mover.moveSpeed);
     }
+
+    //allows you to overwrite dist
+    public void ResetZDist(float newDist)
+    {
+        zDistAtStart = newDist;
+    }
 }

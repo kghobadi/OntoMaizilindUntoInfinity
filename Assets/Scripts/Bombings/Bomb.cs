@@ -84,7 +84,7 @@ public class Bomb : MonoBehaviour {
     
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Building" || other.gameObject.tag == "Ground" || other.gameObject.tag == "Car" || other.gameObject.tag == "Human")
+        if (other.gameObject.tag == "Building" || other.gameObject.tag == "Ground" || other.gameObject.tag == "Car" || other.gameObject.tag == "Human" || other.gameObject.tag == "Player") 
         {
             SpawnExplosion(other.gameObject);
 

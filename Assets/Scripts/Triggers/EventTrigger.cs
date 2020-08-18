@@ -47,7 +47,7 @@ public class EventTrigger : MonoBehaviour {
         }
     }
 
-    void SetTrigger()
+    public void SetTrigger()
     {
         if (waits)
         {

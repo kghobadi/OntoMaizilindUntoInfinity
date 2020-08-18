@@ -25,6 +25,8 @@ public class LerpMaterial : MonoBehaviour {
     public bool resetsScale;
     [Tooltip("Check this to reset parent at end")]
     public bool resetParent;
+    [Tooltip("Check this to reset parent at end")]
+    public bool loadScene;
     [Tooltip("Start value = floatToLerp when Lerp is called")]
     public float startValue;
     [Tooltip("Value actively lerping to set mats float towards end value")]
@@ -38,6 +40,11 @@ public class LerpMaterial : MonoBehaviour {
     Transform origParent;
     Vector3 origScale;
 
+    //for loading scene 
+    AdvanceScene advance;
+    //halftone
+    HalftoneEffect halftone;
+
     void Awake()
     {
         if (mRenderer == null)
@@ -48,6 +55,10 @@ public class LerpMaterial : MonoBehaviour {
         {
             lerpMat = mRenderer.material;
         }
+
+        advance = FindObjectOfType<AdvanceScene>();
+
+        halftone = GetComponent<HalftoneEffect>();
     }
 
     //do we want to lerp on start?
@@ -75,7 +86,8 @@ public class LerpMaterial : MonoBehaviour {
     //call to begin lerp 
     public void Lerp(float desiredValue, float speed)
     {
-        lerpMat = mRenderer.material;
+        if(lerpMat == null)
+            lerpMat = mRenderer.material;
         startValue = lerpMat.GetFloat(floatToLerp);
         endValue = desiredValue;
         lerpSpeed = speed;
@@ -83,6 +95,15 @@ public class LerpMaterial : MonoBehaviour {
         lerpingMat = true;
     }
 	
+    //call to begin basic lerp 
+    public void LerpBasic(float desiredValue)
+    {
+        startValue = lerpMat.GetFloat(floatToLerp);
+        endValue = desiredValue;
+
+        lerpingMat = true;
+    }
+
 	void Update ()
     {
         //lerp is under way!
@@ -107,7 +128,7 @@ public class LerpMaterial : MonoBehaviour {
             float dist = Mathf.Abs(endValue - lerpValue);
 
             //close enough, let's finish im
-            if (dist < 0.1f)
+            if (dist < 0.01f)
             {
                 //hard set float to end value
                 lerpMat.SetFloat(floatToLerp, endValue);
@@ -126,6 +147,11 @@ public class LerpMaterial : MonoBehaviour {
                 {
                     ResetScale();
                 }
+                //load
+                if (loadScene)
+                {
+                    advance.LoadNextScene();
+                }
 
                 //stop lerping
                 lerpingMat = false;
@@ -136,7 +162,13 @@ public class LerpMaterial : MonoBehaviour {
     //can be called to disable renderer
     public void DisableRenderer()
     {
-        mRenderer.enabled = false;
+        if(mRenderer)
+            mRenderer.enabled = false;
+
+        if (halftone)
+        {
+            halftone.enabled = false;
+        }
     }
 
     //resets my parent to my start parent 

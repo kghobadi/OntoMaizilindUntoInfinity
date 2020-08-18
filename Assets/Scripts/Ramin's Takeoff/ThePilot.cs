@@ -16,6 +16,7 @@ public class ThePilot : AudioHandler {
     public float heightMin, heigtMax;
     public float xMin, xMax;
     public bool controlsActive = true;
+    public bool countingBullets;
     public ParticleSystem zaps;
     IEnumerator zap;
     bool input;
@@ -36,6 +37,9 @@ public class ThePilot : AudioHandler {
     public AudioSource music;
     public AudioClip outOfAmmoClick;
     public AudioClip zapped;
+
+    [Tooltip("We trigger this when the player runs out of bullets")]
+    public EventTrigger triggerApocalypse;
 
     public override void Awake()
     {
@@ -89,6 +93,18 @@ public class ThePilot : AudioHandler {
     {
         zoomedIn = !zoomedIn;
         SwitchViews(zoomedIn);
+    }
+
+    //resets min height 
+    public void ResetMinHeight(float newHeight)
+    {
+        heightMin = newHeight;
+    }
+
+    //start the countdown
+    public void StartCountingBullets()
+    {
+        countingBullets = true;
     }
 
     void SwitchViews(bool fpORzoom)
@@ -167,17 +183,23 @@ public class ThePilot : AudioHandler {
                     {
                         guns[i].SpawnBullet();
                     }
-                    //lose a bullet for every gun fired 
-                    bulletCount -= guns.Length;
-                    //set bullet text 
-                    bText.text = bulletCount.ToString();
+
+                    //only counting once deities appear 
+                    if (countingBullets)
+                    {
+                        //lose a bullet for every gun fired 
+                        bulletCount -= guns.Length;
+                        //set bullet text 
+                        bText.text = bulletCount.ToString();
+                    }
                 }
                 //click click 
                 else
                 {
                     PlaySoundRandomPitch(outOfAmmoClick, 1f);
 
-                    advance.LoadNextScene();
+                    //this will need to be replaced by transition 
+                    triggerApocalypse.SetTrigger();
                 }
 
                 weaponsTimerL = firingIntervalL;

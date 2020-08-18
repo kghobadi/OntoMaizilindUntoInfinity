@@ -36,17 +36,21 @@ public class DestructibleBuilding : MonoBehaviour {
 
         //set smoke effect
         if (smokePrefab == null)
+        {
             smokePrefab = effectsMan.smokePrefab;
-        //instantiate and parent smoke to me, get particle
-        GameObject smoke = Instantiate(smokePrefab, transform);
-        smokeParticles = smoke.GetComponent<ParticleSystem>();
-
+            //instantiate and parent smoke to me, get particle
+            GameObject smoke = Instantiate(smokePrefab, transform);
+            smokeParticles = smoke.GetComponent<ParticleSystem>();
+        }
+            
         //set explosion effect
         if (explosionPrefab == null)
+        {
             explosionPrefab = effectsMan.deityExplosionPrefab;
-        //instantiate and parent explosion to me, get particle
-        GameObject explosion = Instantiate(explosionPrefab, transform);
-        explosionParticles = explosion.GetComponent<ParticleSystem>();
+            //instantiate and parent explosion to me, get particle
+            GameObject explosion = Instantiate(explosionPrefab, transform);
+            explosionParticles = explosion.GetComponent<ParticleSystem>();
+        }
     }
 
     void Start ()
@@ -95,7 +99,7 @@ public class DestructibleBuilding : MonoBehaviour {
         }
        
         //immediately explode 
-        if(other.tag == "Deity" && health > 0)
+        if(other.gameObject.tag == "Deity" && health > 0)
         {
             //play efx
             explosionParticles.Play();
@@ -104,7 +108,7 @@ public class DestructibleBuilding : MonoBehaviour {
             DeitySound dSound = FindObjectOfType<DeitySound>();
             dSound.PlaySoundMultipleAudioSources(dSound.explosionSounds);
             //fall and set 0 hp
-            Fall();
+            FallBelow();
             health = 0;
         }
 
@@ -119,6 +123,13 @@ public class DestructibleBuilding : MonoBehaviour {
     void Fall()
     {
         nextPos = transform.position - new Vector3(0, totalHeight / segments, 0);
+        falling = true;
+        Debug.Log("falling");
+    }
+
+    void FallBelow()
+    {
+        nextPos = transform.position - new Vector3(0, totalHeight * 3, 0);
         falling = true;
         Debug.Log("falling");
     }

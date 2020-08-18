@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DeityHealth : MonoBehaviour {
+    DeityManager deityMan;
     DeitySound _Sounds;
     DeityAnimations _Animations;
     Deity deity;
     MeshRenderer mRender;
     FollowPilot follower;
 
+    [Tooltip("Check if this is Deity VII")]
+    public bool destroyerOfWorlds;
     public int healthPoints = 133;
     public ObjectPooler splosionPooler;
 
@@ -27,6 +30,7 @@ public class DeityHealth : MonoBehaviour {
 
     private void Awake()
     {
+        deityMan = FindObjectOfType<DeityManager>();
         _Sounds = GetComponent<DeitySound>();
         _Animations = GetComponentInParent<DeityAnimations>();
         deity = GetComponentInParent<Deity>();
@@ -93,6 +97,10 @@ public class DeityHealth : MonoBehaviour {
         deity.mover.MoveTo(crashPoint, fallSpeed);
         //change health state
         healthState = HealthStates.FALLING;
+        //remove from deity list 
+        deityMan.deities.Remove(this);
+        //alien sound 
+        _Sounds.PlayRandomSoundRandomPitch(_Sounds.deathSounds, _Sounds.myAudioSource.volume);
     }
 
     //when i hit the ground and explode
@@ -101,8 +109,6 @@ public class DeityHealth : MonoBehaviour {
         mRender.material = deathMat;
         exploded.Play();
         healthState = HealthStates.CRASHED;
-        //alien sound 
-        _Sounds.PlayRandomSoundRandomPitch(_Sounds.deathSounds, _Sounds.myAudioSource.volume);
     }
 
     //finds point below deity to move to 

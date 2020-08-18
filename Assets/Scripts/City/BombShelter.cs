@@ -32,7 +32,7 @@ public class BombShelter : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Human")
+        if(other.gameObject.tag == "Human" || other.gameObject.tag == "Player")
         {
             EnterShelter(other.gameObject.GetComponent<CamObject>());
         }

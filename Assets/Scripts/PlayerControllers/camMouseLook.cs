@@ -23,6 +23,7 @@ public class camMouseLook : MonoBehaviour
     public float sensitivityX = 1f;
     public float sensitivityY = 1f;
     public bool invertX, invertY;
+    public bool clickMovement;
 
     [Header("Astral Body Movement")]
     public float moveSpeed = 10f;
@@ -46,7 +47,8 @@ public class camMouseLook : MonoBehaviour
 
             WASDmovement();
 
-            ClickMovement();
+            if(clickMovement)
+                ClickMovement();
 
             FovControls();
 
