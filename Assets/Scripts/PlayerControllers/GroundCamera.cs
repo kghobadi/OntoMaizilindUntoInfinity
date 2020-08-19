@@ -5,6 +5,7 @@ using InControl;
 
 public class GroundCamera : MonoBehaviour
 {
+    PauseMenu pauseMenu;
     CameraSwitcher camSwitcher;
     Transform mainCam;
     GameObject character;
@@ -23,12 +24,23 @@ public class GroundCamera : MonoBehaviour
         player = transform.parent;
         fpc = player.GetComponent<FirstPersonController>();
         mainCam = Camera.main.transform;
+        pauseMenu = FindObjectOfType<PauseMenu>();
         camSwitcher = FindObjectOfType<CameraSwitcher>();
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
     {
-        CameraMovement();
+        if (pauseMenu)
+        {
+            if (pauseMenu.paused == false)
+                CameraMovement();
+        }
+        else
+        {
+            CameraMovement();
+        }
 
         //if (camSwitcher.canShift)
         //    RaycastForward();
@@ -40,8 +52,6 @@ public class GroundCamera : MonoBehaviour
     {
         //get input device 
         var inputDevice = InputManager.ActiveDevice;
-
-        Cursor.lockState = CursorLockMode.Locked;
 
         var newRotate = new Vector2(0, 0);
 

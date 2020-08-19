@@ -6,6 +6,7 @@ using InControl;
 
 public class PilotView : MonoBehaviour
 {
+    PauseMenu pauseMenu;
     Camera mainCam;
 
     [Header("FPS Camera Controls")]
@@ -18,7 +19,7 @@ public class PilotView : MonoBehaviour
     void Awake()
     {
         mainCam = Camera.main;
-
+        pauseMenu = FindObjectOfType<PauseMenu>();
         isActive = true;
     }
 
@@ -28,7 +29,7 @@ public class PilotView : MonoBehaviour
         var inputDevice = InputManager.ActiveDevice;
 
         //for viewing with cam
-        if (isActive)
+        if (isActive && pauseMenu.paused == false)
         {
             CameraRotation();
         }

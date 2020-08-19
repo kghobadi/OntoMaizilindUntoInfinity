@@ -13,6 +13,7 @@ public class ThePilot : AudioHandler {
 
     [Header("Movement & Inputs")]
     public float moveSpeed;
+    public float strafeSpeed = 125f;
     public float heightMin, heigtMax;
     public float xMin, xMax;
     public bool controlsActive = true;
@@ -298,25 +299,25 @@ public class ThePilot : AudioHandler {
             if (horizontal < 0 || mouseX < 0)
             {
                 transform.position = Vector3.MoveTowards(transform.position,
-                    new Vector3(xMin, transform.position.y, transform.position.z), moveSpeed * Time.deltaTime);
+                    new Vector3(xMin, transform.position.y, transform.position.z), strafeSpeed * Time.deltaTime);
             }
             //RIGHT
             if (horizontal > 0 || mouseX > 0)
             {
                 transform.position = Vector3.MoveTowards(transform.position,
-                    new Vector3(xMax, transform.position.y, transform.position.z), moveSpeed * Time.deltaTime);
+                    new Vector3(xMax, transform.position.y, transform.position.z), strafeSpeed * Time.deltaTime);
             }
             //UP
             if (vertical > 0 || mouseY > 0)
             {
                 transform.position = Vector3.MoveTowards(transform.position,
-                    new Vector3(transform.position.x, heigtMax, transform.position.z), moveSpeed * Time.deltaTime);
+                    new Vector3(transform.position.x, heigtMax, transform.position.z), strafeSpeed * Time.deltaTime);
             }
             //DOWN
             if (vertical < 0 || mouseY < 0)
             {
                 transform.position = Vector3.MoveTowards(transform.position,
-                    new Vector3(transform.position.x, heightMin, transform.position.z), moveSpeed * Time.deltaTime);
+                    new Vector3(transform.position.x, heightMin, transform.position.z), strafeSpeed * Time.deltaTime);
             }
         }
         

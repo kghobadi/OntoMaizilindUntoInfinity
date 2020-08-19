@@ -27,11 +27,19 @@ public class AdvanceScene : MonoBehaviour {
         }
 
         //restart game
+        //HoldToRestart();
+	}
+
+    void HoldToRestart()
+    { 
+        //get input device 
+        var inputDevice = InputManager.ActiveDevice;
+
         if (Input.GetKey(KeyCode.Delete) || (inputDevice.Command))
         {
             restartTimer += Time.deltaTime;
 
-            if(restartTimer > timeToRestart)
+            if (restartTimer > timeToRestart)
             {
                 Restart();
             }
@@ -40,7 +48,7 @@ public class AdvanceScene : MonoBehaviour {
         {
             restartTimer = 0;
         }
-	}
+    }
 
     public void LoadPreviousScene()
     {
@@ -55,5 +63,10 @@ public class AdvanceScene : MonoBehaviour {
     public void Restart()
     {
         SceneManager.LoadScene(0);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 }

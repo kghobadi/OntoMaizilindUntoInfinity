@@ -99,6 +99,8 @@ public class DeityHealth : MonoBehaviour {
         healthState = HealthStates.FALLING;
         //remove from deity list 
         deityMan.deities.Remove(this);
+        //stop strafing
+        deity.strafe = false;
         //alien sound 
         _Sounds.PlayRandomSoundRandomPitch(_Sounds.deathSounds, _Sounds.myAudioSource.volume);
     }

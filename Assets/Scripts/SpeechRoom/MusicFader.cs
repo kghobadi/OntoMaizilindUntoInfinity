@@ -77,4 +77,16 @@ public class MusicFader : MonoBehaviour {
         currentFadeSpeed = speed;
         fadingVolOut = true;
     }
+
+    //fade in
+    public void FadeInBasic()
+    {
+        fadingVolIn = true;
+    }
+
+    //fades out  
+    public void FadeOutBasic()
+    {
+        fadingVolOut = true;
+    }
 }

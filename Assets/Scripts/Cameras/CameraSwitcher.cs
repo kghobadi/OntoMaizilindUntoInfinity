@@ -19,6 +19,7 @@ public class CameraSwitcher : MonoBehaviour {
     public GameObject currentPlayer;
     public int currentCam = 1;
     public GameObject citizensParent;
+    public GameObject bombers;
     public MovementPath toMosque;
 
     [Header("Shifting Perspectives")]
@@ -85,7 +86,7 @@ public class CameraSwitcher : MonoBehaviour {
             currentCam = cameraObjects.IndexOf(currentCamObj);
 
         //only allow shift controls when bomber view 
-        if(currentCamObj.myCamType == CamObject.CamType.BOMBER)
+        if(debug)
             ShiftControls();
 
         //only reset canShift if citizens are active 
@@ -94,10 +95,11 @@ public class CameraSwitcher : MonoBehaviour {
             ShiftReset();
         }
 
-        //when there is all but one camera left, advance scene 
+        //when there is all but one camera left, turn off bombers 
         if(cameraObjects.Count <= transitionAmount)
         {
-            advance.LoadNextScene();
+            if(bombers.activeSelf)
+                bombers.SetActive(false);
         }
 	}
 

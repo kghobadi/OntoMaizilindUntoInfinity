@@ -12,12 +12,13 @@ public class FadeUI : MonoBehaviour
     //set this in editor to decide which component to grab
     public enum UIType
     {
-        IMAGE, TEXT, TMPTEXT,
+        IMAGE, RAWIMAGE, TEXT, TMPTEXT,
     }
     public UIType uiType;
 
     //store image/text + color
     Image thisImage;
+    RawImage rawImage;
     Text thisText;
     TMP_Text tmpText;
     Color alphaValue;
@@ -37,18 +38,27 @@ public class FadeUI : MonoBehaviour
         thisImage = GetComponent<Image>();
         if (thisImage == null)
         {
-            thisText = GetComponent<Text>();
+            rawImage = GetComponent<RawImage>();
 
-            //it's a TMP TEXT
-            if (thisText == null)
+            if(rawImage == null)
             {
-                tmpText = GetComponent<TMP_Text>();
-                uiType = UIType.TMPTEXT;
+                thisText = GetComponent<Text>();
+
+                //it's a TMP TEXT
+                if (thisText == null)
+                {
+                    tmpText = GetComponent<TMP_Text>();
+                    uiType = UIType.TMPTEXT;
+                }
+                //its a Text
+                else
+                {
+                    uiType = UIType.TEXT;
+                }
             }
-            //its a Text
             else
             {
-                uiType = UIType.TEXT;
+                uiType = UIType.RAWIMAGE;
             }
         }
         //its an image
@@ -130,6 +140,9 @@ public class FadeUI : MonoBehaviour
             case UIType.IMAGE:
                 alphaValue = thisImage.color;
                 break;
+            case UIType.RAWIMAGE:
+                alphaValue = rawImage.color;
+                break;
             case UIType.TEXT:
                 alphaValue = thisText.color;
                 break;
@@ -146,6 +159,9 @@ public class FadeUI : MonoBehaviour
         {
             case UIType.IMAGE:
                 thisImage.color = alphaValue;
+                break;
+            case UIType.RAWIMAGE:
+                rawImage.color = alphaValue;
                 break;
             case UIType.TEXT:
                 thisText.color = alphaValue;

@@ -38,23 +38,30 @@ public class DestructibleBuilding : MonoBehaviour {
         if (smokePrefab == null)
         {
             smokePrefab = effectsMan.smokePrefab;
-            //instantiate and parent smoke to me, get particle
-            GameObject smoke = Instantiate(smokePrefab, transform);
-            smokeParticles = smoke.GetComponent<ParticleSystem>();
         }
-            
+
         //set explosion effect
         if (explosionPrefab == null)
         {
             explosionPrefab = effectsMan.deityExplosionPrefab;
-            //instantiate and parent explosion to me, get particle
-            GameObject explosion = Instantiate(explosionPrefab, transform);
-            explosionParticles = explosion.GetComponent<ParticleSystem>();
         }
+    }
+
+    void GenerateEffects()
+    {
+        //instantiate and parent smoke to me, get particle
+        GameObject smoke = Instantiate(smokePrefab, transform);
+        smokeParticles = smoke.GetComponent<ParticleSystem>();
+
+        //instantiate and parent explosion to me, get particle
+        GameObject explosion = Instantiate(explosionPrefab, transform);
+        explosionParticles = explosion.GetComponent<ParticleSystem>();
     }
 
     void Start ()
     {
+        GenerateEffects();
+
         totalHeight = buildingMesh.bounds.extents.y * 2;
         health = segments * healthMultiplier;
     }

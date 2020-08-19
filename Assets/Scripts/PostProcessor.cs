@@ -38,9 +38,6 @@ public class PostProcessor : MonoBehaviour
     public bool canSpawnBombs = true;
     public float bombTimer, bombTimerTotal = 0.1f;
     public Camera player;
-
-    [Header("Transition")]
-    public AdvanceScene advance;
     public AudioSource music;
 
     //calibrate all the post processing values at start because these change outside playmode
@@ -74,17 +71,13 @@ public class PostProcessor : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(spectrum.MeanLevels[globalLevelRef] * 100);
-
         if (colorShiftingOn)
         {
             ColorMultipliers();
         }
-
-
+        
         myPost.colorGrading.settings = colorGrader;
-
-
+        
         //check if music was loud enough to spawn bomb 
         Debug.Log("nuclear level = " + (spectrum.MeanLevels[bombLevelRef] * 100));
         if(spectrum.MeanLevels[bombLevelRef] * 100 > bombMin && canSpawnBombs)
@@ -113,12 +106,6 @@ public class PostProcessor : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             colorShiftingOn = !colorShiftingOn;
-        }
-
-        //restart gane when music is over 
-        if(music.isPlaying == false)
-        {
-            advance.Restart();
         }
     }
 

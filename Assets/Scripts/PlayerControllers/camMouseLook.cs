@@ -12,6 +12,7 @@ public class camMouseLook : MonoBehaviour
     Camera mainCam;
     CharacterController astralBody;
     DebugTime timeDebug;
+    PauseMenu pauseMenu;
 
     //for viewing
     Vector2 mouseLook;
@@ -35,13 +36,14 @@ public class camMouseLook : MonoBehaviour
         mainCam = Camera.main;
         astralBody = transform.parent.GetComponent<CharacterController>();
         timeDebug = FindObjectOfType<DebugTime>();
+        pauseMenu = FindObjectOfType<PauseMenu>();
 
         isActive = true;
     }
 
     void Update()
     {
-        if (isActive)
+        if (isActive && pauseMenu.paused == false)
         {
             CameraRotation();
 
