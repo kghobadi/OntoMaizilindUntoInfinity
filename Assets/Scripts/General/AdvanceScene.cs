@@ -60,6 +60,19 @@ public class AdvanceScene : MonoBehaviour {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    //waits to load 
+    public void WaitToLoadNextScene(float time)
+    {
+        StartCoroutine(WaitToLoad(time));
+    }
+
+    IEnumerator WaitToLoad(float wait)
+    {
+        yield return new WaitForSeconds(wait);
+
+        LoadNextScene();
+    }
+
     public void Restart()
     {
         SceneManager.LoadScene(0);

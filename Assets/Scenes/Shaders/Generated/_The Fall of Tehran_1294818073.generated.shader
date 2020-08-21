@@ -1213,8 +1213,8 @@ float fersertWaves(float3 p, float height) {
 // no light uniforms in scene
 
 // UNIFORMS AND FUNCTIONS
-uniform float2 x_2937100313_1ec48586_freq;
-uniform float2 x_2937100313_1ec48586_extranoise;
+uniform float2 x_47899704_1ec48586_freq;
+uniform float2 x_47899704_1ec48586_extranoise;
 float object_Desert(float3 p , float2 _INP_freq, float2 _INP_extranoise) {
     // Generated from Assets/Imported/Raymarching Toolkit/Examples/Assets/Desert/Desert.asset
     float disp = 1.0;
@@ -1225,17 +1225,17 @@ float object_Desert(float3 p , float2 _INP_freq, float2 _INP_extranoise) {
     return p.y + disp;
 }
 // uniforms for Terrain
-uniform float4x4 _2937100313Matrix;
-uniform float _2937100313MinScale;
-uniform sampler2D x_2937100313_3f06f9be_textureMap;
-uniform float x_2937100313_3f06f9be_textureMapSize;
-uniform sampler2D x_2937100313_3f06f9be_bumpmap;
-uniform float x_2937100313_3f06f9be_bumpfactor;
-uniform float x_2937100313_3f06f9be_bumpmapsize;
-uniform float4 x_2937100313_3f06f9be_color;
-uniform float x_2937100313_3f06f9be_angle;
-uniform float2 x_2937100313_3f06f9be_flatnessmask1;
-uniform float2 x_2937100313_3f06f9be_flatnessmask2;
+uniform float4x4 _47899704Matrix;
+uniform float _47899704MinScale;
+uniform sampler2D x_47899704_3f06f9be_textureMap;
+uniform float x_47899704_3f06f9be_textureMapSize;
+uniform sampler2D x_47899704_3f06f9be_bumpmap;
+uniform float x_47899704_3f06f9be_bumpfactor;
+uniform float x_47899704_3f06f9be_bumpmapsize;
+uniform float4 x_47899704_3f06f9be_color;
+uniform float x_47899704_3f06f9be_angle;
+uniform float2 x_47899704_3f06f9be_flatnessmask1;
+uniform float2 x_47899704_3f06f9be_flatnessmask2;
 float3 material_DesertMaterial(inout float3 normal, float3 p, float3 rayDir, sampler2D _INP_textureMap, float _INP_textureMapSize, sampler2D _INP_bumpmap, float _INP_bumpfactor, float _INP_bumpmapsize, float4 _INP_color, float _INP_angle, float2 _INP_flatnessmask1, float2 _INP_flatnessmask2) {
     // Generated from Assets/Imported/Raymarching Toolkit/Examples/Assets/Desert/Desert Material.asset
     float3 col = triplanarTex3D(p * _INP_textureMapSize, normal, _INP_textureMap);
@@ -1256,7 +1256,7 @@ float3 MaterialFunc(float nf, inout float3 normal, float3 p, float3 rayDir, out 
     objectID = ceil(nf) / (float)1;
     [branch] if (nf <= 1) {
     //    objectID = 1;
-        return material_DesertMaterial(normal, objPos(_2937100313Matrix, p), rayDir, x_2937100313_3f06f9be_textureMap, x_2937100313_3f06f9be_textureMapSize, x_2937100313_3f06f9be_bumpmap, x_2937100313_3f06f9be_bumpfactor, x_2937100313_3f06f9be_bumpmapsize, x_2937100313_3f06f9be_color, x_2937100313_3f06f9be_angle, x_2937100313_3f06f9be_flatnessmask1, x_2937100313_3f06f9be_flatnessmask2);
+        return material_DesertMaterial(normal, objPos(_47899704Matrix, p), rayDir, x_47899704_3f06f9be_textureMap, x_47899704_3f06f9be_textureMapSize, x_47899704_3f06f9be_bumpmap, x_47899704_3f06f9be_bumpfactor, x_47899704_3f06f9be_bumpmapsize, x_47899704_3f06f9be_color, x_47899704_3f06f9be_angle, x_47899704_3f06f9be_flatnessmask1, x_47899704_3f06f9be_flatnessmask2);
     }
         objectID = 0;
         return float3(1.0, 0.0, 1.0);
@@ -1266,8 +1266,8 @@ float2 map(float3 p) {
 	float2 result = float2(1.0, 0.0);
 	
 {
-    float _2937100313Distance = object_Desert(objPos(_2937100313Matrix, p), x_2937100313_1ec48586_freq, x_2937100313_1ec48586_extranoise) * _2937100313MinScale;
-    result = float2(_2937100313Distance, /*material ID*/0.5);
+    float _47899704Distance = object_Desert(objPos(_47899704Matrix, p), x_47899704_1ec48586_freq, x_47899704_1ec48586_extranoise) * _47899704MinScale;
+    result = float2(_47899704Distance, /*material ID*/0.5);
     }
 	return result;
 }

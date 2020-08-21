@@ -36,7 +36,7 @@ public class Bullet : MonoBehaviour {
         bulletSpeed += speedOverTime;
 
         //return to pool once it has traveled too far 
-        if(Vector3.Distance(transform.position, pilot.transform.position) > shotDist)
+        if(Vector3.Distance(transform.position, shotPos) > shotDist)
         {
             ResetBullet();
         }

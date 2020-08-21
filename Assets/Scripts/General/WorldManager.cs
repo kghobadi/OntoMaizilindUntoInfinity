@@ -11,28 +11,42 @@ public class WorldManager : MonoBehaviour {
         Cursor.visible = false;
     }
 
-    void Update () {
-        //quit app
-        if (Input.GetKeyDown(KeyCode.Escape))
+    public void DisableAllExplosions()
+    {
+        //if there is something in the list 
+        if (explosionsToDelete.Count > 0)
         {
-            Application.Quit();
-        }
-
-        //delete all explosion prefabs and 
-        if (Input.GetKeyDown(KeyCode.Delete))
-        {
-            //if there is something in the list 
-            if(explosionsToDelete.Count > 0)
+            for (int i = 0; i < explosionsToDelete.Count; i++)
             {
-                for (int i = 0; i < explosionsToDelete.Count; i++)
-                {
-                    Destroy(explosionsToDelete[i]);
-                }
-
-                //clear the list immediately
-                explosionsToDelete.Clear();
+                explosionsToDelete[i].SetActive(false);
             }
-            
         }
-	}
+    }
+
+    public void EnableAllExplosions()
+    {
+        //if there is something in the list 
+        if (explosionsToDelete.Count > 0)
+        {
+            for (int i = 0; i < explosionsToDelete.Count; i++)
+            {
+                explosionsToDelete[i].SetActive(true);
+            }
+        }
+    }
+
+    public void DeleteAllExplosions()
+    {
+        //if there is something in the list 
+        if (explosionsToDelete.Count > 0)
+        {
+            for (int i = 0; i < explosionsToDelete.Count; i++)
+            {
+                Destroy(explosionsToDelete[i]);
+            }
+
+            //clear the list immediately
+            explosionsToDelete.Clear();
+        }
+    }
 }

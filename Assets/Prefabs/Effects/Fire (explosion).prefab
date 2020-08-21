@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 114989493958515442}
   - component: {fileID: 135632602746709026}
   - component: {fileID: 208796155691105966}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Fire (explosion)
   m_TagString: Explosion
   m_Icon: {fileID: 0}
@@ -189,7 +189,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1526890976868756}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 67.36667, y: 0.5, z: 1383.2147}
+  m_LocalPosition: {x: 52.95036, y: 0.5, z: -1160.9131}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4710559002112862}
@@ -339,7 +339,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 15
+  m_Radius: 20
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!198 &198458412060833624
 ParticleSystem:
@@ -349,7 +349,7 @@ ParticleSystem:
   m_GameObject: {fileID: 1162018690560834}
   serializedVersion: 5
   lengthInSec: 1
-  simulationSpeed: 5
+  simulationSpeed: 10
   stopAction: 0
   looping: 0
   prewarm: 0
@@ -420,8 +420,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 3
-      minScalar: 2
+      scalar: 5
+      minScalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1554,15 +1554,15 @@ ParticleSystem:
         serializedVersion: 2
         key0: {r: 1, g: 0.33636326, b: 0, a: 1}
         key1: {r: 1, g: 0.58146167, b: 0.05098039, a: 0.9372549}
-        key2: {r: 0, g: 0, b: 0, a: 0.16078432}
-        key3: {r: 0, g: 0, b: 0, a: 0}
+        key2: {r: 1, g: 0.953807, b: 0.05098039, a: 0.16078432}
+        key3: {r: 0, g: 0, b: 0, a: 0.16078432}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
         ctime1: 65535
-        ctime2: 0
+        ctime2: 65535
         ctime3: 0
         ctime4: 0
         ctime5: 0
@@ -1571,7 +1571,7 @@ ParticleSystem:
         atime0: 0
         atime1: 50308
         atime2: 65535
-        atime3: 0
+        atime3: 65535
         atime4: 0
         atime5: 0
         atime6: 0
@@ -2815,7 +2815,7 @@ ParticleSystem:
     strength:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 8
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -4883,7 +4883,7 @@ ParticleSystem:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1526890976868756}
   serializedVersion: 5
-  lengthInSec: 2.5
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   looping: 1
@@ -5008,8 +5008,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 25
-      minScalar: 15
+      scalar: 40
+      minScalar: 25
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5440,7 +5440,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 1000
+    maxNumParticles: 150
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -5530,7 +5530,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 3
+      value: 8
       mode: 0
       spread: 0
       speed:
@@ -6269,8 +6269,8 @@ ParticleSystem:
     enabled: 1
     x:
       serializedVersion: 2
-      minMaxState: 2
-      scalar: 3
+      minMaxState: 0
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -6322,8 +6322,8 @@ ParticleSystem:
         m_RotationOrder: 4
     y:
       serializedVersion: 2
-      minMaxState: 2
-      scalar: 1
+      minMaxState: 0
+      scalar: 3
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -6375,7 +6375,7 @@ ParticleSystem:
         m_RotationOrder: 4
     z:
       serializedVersion: 2
-      minMaxState: 2
+      minMaxState: 0
       scalar: 1
       minScalar: 0
       maxCurve:
@@ -6536,7 +6536,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 3
       scalar: 2
-      minScalar: 5
+      minScalar: 4
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -7350,7 +7350,7 @@ ParticleSystem:
     strength:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 8
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -7507,7 +7507,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     separateAxes: 0
-    frequency: 0.5
+    frequency: 2
     damping: 1
     octaves: 1
     octaveMultiplier: 0.5
@@ -8732,7 +8732,7 @@ ParticleSystem:
     widthOverTrail:
       serializedVersion: 2
       minMaxState: 1
-      scalar: 1
+      scalar: 1.25
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -9419,7 +9419,7 @@ ParticleSystem:
   m_GameObject: {fileID: 1530041115891174}
   serializedVersion: 5
   lengthInSec: 1
-  simulationSpeed: 5
+  simulationSpeed: 10
   stopAction: 0
   looping: 0
   prewarm: 0
@@ -9490,8 +9490,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 3
-      minScalar: 2
+      scalar: 5
+      minScalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10624,15 +10624,15 @@ ParticleSystem:
         serializedVersion: 2
         key0: {r: 1, g: 0.33636326, b: 0, a: 1}
         key1: {r: 1, g: 0.58146167, b: 0.05098039, a: 0.9372549}
-        key2: {r: 0, g: 0, b: 0, a: 0.16078432}
-        key3: {r: 0, g: 0, b: 0, a: 0}
+        key2: {r: 1, g: 0.953807, b: 0.05098039, a: 0.16078432}
+        key3: {r: 0, g: 0, b: 0, a: 0.16078432}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
         ctime1: 65535
-        ctime2: 0
+        ctime2: 65535
         ctime3: 0
         ctime4: 0
         ctime5: 0
@@ -10641,7 +10641,7 @@ ParticleSystem:
         atime0: 0
         atime1: 50308
         atime2: 65535
-        atime3: 0
+        atime3: 65535
         atime4: 0
         atime5: 0
         atime6: 0
@@ -11885,7 +11885,7 @@ ParticleSystem:
     strength:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 8
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -13954,7 +13954,7 @@ ParticleSystem:
   m_GameObject: {fileID: 1310824740658012}
   serializedVersion: 5
   lengthInSec: 1
-  simulationSpeed: 5
+  simulationSpeed: 10
   stopAction: 0
   looping: 0
   prewarm: 0
@@ -14025,8 +14025,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 3
-      minScalar: 2
+      scalar: 5
+      minScalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -15159,15 +15159,15 @@ ParticleSystem:
         serializedVersion: 2
         key0: {r: 1, g: 0.33636326, b: 0, a: 1}
         key1: {r: 1, g: 0.58146167, b: 0.05098039, a: 0.9372549}
-        key2: {r: 0, g: 0, b: 0, a: 0.16078432}
-        key3: {r: 0, g: 0, b: 0, a: 0}
+        key2: {r: 1, g: 0.953807, b: 0.05098039, a: 0.16078432}
+        key3: {r: 0, g: 0, b: 0, a: 0.16078432}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
         ctime1: 65535
-        ctime2: 0
+        ctime2: 65535
         ctime3: 0
         ctime4: 0
         ctime5: 0
@@ -15176,7 +15176,7 @@ ParticleSystem:
         atime0: 0
         atime1: 50308
         atime2: 65535
-        atime3: 0
+        atime3: 65535
         atime4: 0
         atime5: 0
         atime6: 0
@@ -16420,7 +16420,7 @@ ParticleSystem:
     strength:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 8
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -18489,7 +18489,7 @@ ParticleSystem:
   m_GameObject: {fileID: 1995750088778876}
   serializedVersion: 5
   lengthInSec: 1
-  simulationSpeed: 5
+  simulationSpeed: 10
   stopAction: 0
   looping: 0
   prewarm: 0
@@ -18560,8 +18560,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 3
-      minScalar: 2
+      scalar: 5
+      minScalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -19694,15 +19694,15 @@ ParticleSystem:
         serializedVersion: 2
         key0: {r: 1, g: 0.33636326, b: 0, a: 1}
         key1: {r: 1, g: 0.58146167, b: 0.05098039, a: 0.9372549}
-        key2: {r: 0, g: 0, b: 0, a: 0.16078432}
-        key3: {r: 0, g: 0, b: 0, a: 0}
+        key2: {r: 1, g: 0.953807, b: 0.05098039, a: 0.16078432}
+        key3: {r: 0, g: 0, b: 0, a: 0.16078432}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
         ctime1: 65535
-        ctime2: 0
+        ctime2: 65535
         ctime3: 0
         ctime4: 0
         ctime5: 0
@@ -19711,7 +19711,7 @@ ParticleSystem:
         atime0: 0
         atime1: 50308
         atime2: 65535
-        atime3: 0
+        atime3: 65535
         atime4: 0
         atime5: 0
         atime6: 0
@@ -20955,7 +20955,7 @@ ParticleSystem:
     strength:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 8
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -23024,7 +23024,7 @@ ParticleSystem:
   m_GameObject: {fileID: 1026644903039990}
   serializedVersion: 5
   lengthInSec: 1
-  simulationSpeed: 5
+  simulationSpeed: 10
   stopAction: 0
   looping: 0
   prewarm: 0
@@ -23095,8 +23095,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 3
-      minScalar: 2
+      scalar: 5
+      minScalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -24229,15 +24229,15 @@ ParticleSystem:
         serializedVersion: 2
         key0: {r: 1, g: 0.33636326, b: 0, a: 1}
         key1: {r: 1, g: 0.58146167, b: 0.05098039, a: 0.9372549}
-        key2: {r: 0, g: 0, b: 0, a: 0.16078432}
-        key3: {r: 0, g: 0, b: 0, a: 0}
+        key2: {r: 1, g: 0.953807, b: 0.05098039, a: 0.16078432}
+        key3: {r: 0, g: 0, b: 0, a: 0.16078432}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
         ctime1: 65535
-        ctime2: 0
+        ctime2: 65535
         ctime3: 0
         ctime4: 0
         ctime5: 0
@@ -24246,7 +24246,7 @@ ParticleSystem:
         atime0: 0
         atime1: 50308
         atime2: 65535
-        atime3: 0
+        atime3: 65535
         atime4: 0
         atime5: 0
         atime6: 0
@@ -25490,7 +25490,7 @@ ParticleSystem:
     strength:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 8
       minScalar: 1
       maxCurve:
         serializedVersion: 2

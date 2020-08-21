@@ -58,7 +58,11 @@ public class FadeSprite : MonoBehaviour {
             }
             else
             {
+                alphaValue.a = fadeInAmount;
+                thisSR.color = alphaValue;
+
                 fadingIn = false;
+                
                 if (fadeOutImmediately)
                 {
                     StartCoroutine(WaitToFadeOut());
@@ -71,7 +75,6 @@ public class FadeSprite : MonoBehaviour {
         {
             if (alphaValue.a > fadeOutAmount)
             {
-
                 alphaValue.a -= fadeOutSpeed * Time.deltaTime;
                 thisSR.color = alphaValue;
             }

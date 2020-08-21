@@ -6,11 +6,14 @@ using Cameras;
 
 public class BombShelter : MonoBehaviour {
 
+    WorldManager worldMan;
     CameraSwitcher camSwitcher;
     CameraManager camManager;
     AdvanceScene advance;
+    LoadSceneAsync loadScene;
 
     public Transform[] sittingPoints;
+    public Transform[] spiritPoints;
     public float sittingRadius = 25f;
     public NPC.MovementPath prayingBehavior;
 
@@ -25,9 +28,11 @@ public class BombShelter : MonoBehaviour {
  
     private void Awake()
     {
+        worldMan = FindObjectOfType<WorldManager>();
         camSwitcher = FindObjectOfType<CameraSwitcher>();
         camManager = FindObjectOfType<CameraManager>();
         advance = FindObjectOfType<AdvanceScene>();
+        loadScene = FindObjectOfType<LoadSceneAsync>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -51,11 +56,22 @@ public class BombShelter : MonoBehaviour {
         else
         {
             //set navigation to random spot 
-            Transform randomSpot = sittingPoints[Random.Range(0, sittingPoints.Length)];
+            int spotIndex = Random.Range(0, sittingPoints.Length);
+            Transform randomSpot = sittingPoints[spotIndex];
             Vector2 radius = Random.insideUnitCircle * sittingRadius;
             Vector3 sittingPoint = new Vector3(randomSpot.position.x + radius.x, randomSpot.position.y, randomSpot.position.z + radius.y);
             NPC.Movement mover = person.GetComponent<NPC.Movement>();
             mover.NavigateToPoint(sittingPoint, false);
+
+            //assign spirit trail a corner of the screen corresponding to sitting point 
+            if(mover.spiritTrail != null)
+                mover.spiritTrail.projectionDisplayCorner = spiritPoints[spotIndex];
+            //needed to grab it since its null
+            else
+            {
+                SpiritTrail trail = mover.GetComponentInChildren<SpiritTrail>();
+                trail.projectionDisplayCorner = spiritPoints[spotIndex];
+            }
 
             //prepare AI to sit at point
             mover.resetsMovement = true;
@@ -82,6 +98,9 @@ public class BombShelter : MonoBehaviour {
         imamSpeech.SetMonologueSystem(0);
         imamSpeech.EnableMonologue();
 
+        //world man should disable explosions outside
+        worldMan.DisableAllExplosions();
+
         //start transition coroutine
         StartCoroutine(WaitToTransition());
     }
@@ -89,6 +108,9 @@ public class BombShelter : MonoBehaviour {
     IEnumerator WaitToTransition()
     {
         yield return new WaitForSeconds(timeTilTransition);
+
+        //disable player char FPS
+        camSwitcher.currentCamObj.GetComponent<FirstPersonController>().enabled = false;
 
         //shift from player cam to projection viewer 
         camManager.Set(projectionViewer);
@@ -100,7 +122,11 @@ public class BombShelter : MonoBehaviour {
 
         yield return new WaitForSeconds(10f);
 
-        //load 
-        advance.LoadNextScene();
+        //finish async load 
+        if (loadScene.preparing)
+            loadScene.TransitionImmediate();
+        //load now
+        else
+            advance.LoadNextScene();
     }
 }

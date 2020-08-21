@@ -1383,6 +1383,7 @@ GameObject:
   - component: {fileID: 425266899}
   - component: {fileID: 425266902}
   - component: {fileID: 425266904}
+  - component: {fileID: 425266906}
   - component: {fileID: 425266903}
   - component: {fileID: 425266905}
   m_Layer: 0
@@ -1544,6 +1545,31 @@ MonoBehaviour:
   - 0
   - 1
   setOnStart: 1
+--- !u!114 &425266906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 425266897}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4e749a892bd87a4eb33d224a19c4e68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mRenderer: {fileID: 0}
+  lerpMat: {fileID: 2100000, guid: a71a5b56e042b6a4ebfa15c424849d4a, type: 2}
+  floatToLerp: _effectStrength
+  moveTowardsOrLerp: 0
+  lerpOnStart: 1
+  lerpingMat: 0
+  disableOnFinish: 0
+  resetsScale: 0
+  resetParent: 0
+  loadScene: 0
+  startValue: 1
+  lerpValue: 0
+  endValue: 0
+  lerpSpeed: 0.1
 --- !u!1001 &452691513
 Prefab:
   m_ObjectHideFlags: 0
@@ -3964,12 +3990,12 @@ Prefab:
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 2}
       propertyPath: _savedGUID
-      value: 2852133719
+      value: 1565922274
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 2}
       propertyPath: hash.lastHash
-      value: -299436318
+      value: 1362902680
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 2}
@@ -7433,7 +7459,6 @@ GameObject:
   - component: {fileID: 2088938828}
   - component: {fileID: 2088938827}
   - component: {fileID: 2088938829}
-  - component: {fileID: 2088938830}
   m_Layer: 0
   m_Name: AirPlayer
   m_TagString: Player
@@ -7490,31 +7515,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2088938830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2088938826}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4e749a892bd87a4eb33d224a19c4e68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mRenderer: {fileID: 0}
-  lerpMat: {fileID: 2100000, guid: a71a5b56e042b6a4ebfa15c424849d4a, type: 2}
-  floatToLerp: _effectStrength
-  moveTowardsOrLerp: 0
-  lerpOnStart: 1
-  lerpingMat: 0
-  disableOnFinish: 0
-  resetsScale: 0
-  resetParent: 0
-  loadScene: 0
-  startValue: 1
-  lerpValue: 0
-  endValue: 0
-  lerpSpeed: 0.1
 --- !u!1001 &2144742806
 Prefab:
   m_ObjectHideFlags: 0

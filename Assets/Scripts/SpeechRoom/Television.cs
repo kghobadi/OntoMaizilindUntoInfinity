@@ -7,6 +7,7 @@ using UnityEngine.Audio;
 public class Television : MonoBehaviour {
     VideoPlayer vidPlayer;
     CameraSwitcher camSwitcher;
+    PauseMenu pauseMenu;
 
     [Header("Channel Switching Before Speech")]
     public VideoClip[] tvChannels; // news clip, cartoon clip, western clip
@@ -53,6 +54,7 @@ public class Television : MonoBehaviour {
         tvSource = GetComponent<AudioSource>();
         radioSource = radio.GetComponent<AudioSource>();
         camSwitcher = FindObjectOfType<CameraSwitcher>();
+        pauseMenu = FindObjectOfType<PauseMenu>();
         origMat = vidPlayer.targetMaterialRenderer.material;
 	}
 
@@ -72,7 +74,7 @@ public class Television : MonoBehaviour {
         if (speechStarted)
         {
             //our player is prepared but not playin 
-            if (vidPlayer.isPrepared && vidPlayer.isPlaying == false && waitingForStatic)
+            if (vidPlayer.isPrepared && vidPlayer.isPlaying == false && waitingForStatic && pauseMenu.paused == false)
             {
                 //set mat to playable and play 
                 vidPlayer.targetMaterialRenderer.material = origMat;
@@ -82,31 +84,10 @@ public class Television : MonoBehaviour {
                 waitingForStatic = false;
             }
 
-            //OLD METHOD -- using checkpoints now 
-            //switching audio back and forth between radio & tv
-            //if (currentTransition < transitionLines.Length)
-            //{
-            //    if (shahReader.currentLine == transitionLines[currentTransition])
-            //    {
-            //        SwitchDeviceAudio();
-            //        currentTransition++;
-            //    }
-            //}
-
             //end speech, activate sirens & planes 
             if ((vidPlayer.isPlaying && vidPlayer.frame >= (long)vidPlayer.frameCount - 3) || shahReader.currentLine > shahReader.endAtLine - 1)
             {
                 EndSpeech();
-            }
-
-            //debug
-            if (Input.GetKeyDown(KeyCode.RightControl))
-            {
-                EndSpeech();
-
-                shahSpeech.DisableMonologue();
-
-                shahReader.hostObj.SetActive(false);
             }
 
             //fade out graphic 
@@ -119,7 +100,7 @@ public class Television : MonoBehaviour {
         else
         {
             //our player is prepared but not playin 
-            if (vidPlayer.isPrepared && vidPlayer.isPlaying == false)
+            if (vidPlayer.isPrepared && vidPlayer.isPlaying == false && pauseMenu.paused == false)
             {
                 //set mat to playable and play 
                 vidPlayer.targetMaterialRenderer.material = origMat;
@@ -127,12 +108,6 @@ public class Television : MonoBehaviour {
                 //set to previous last frame 
                 if(channelLastFrames[currentClip] > 0)
                     vidPlayer.frame = channelLastFrames[currentClip];
-            }
-
-            //debug to start speech
-            if (Input.GetKeyUp(KeyCode.RightControl))
-            {
-                StartSpeech();
             }
         }
 	}

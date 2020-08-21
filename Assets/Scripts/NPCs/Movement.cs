@@ -56,7 +56,8 @@ namespace NPC
             STANDING, SITTING, PRAYING
         }
 
-        SpiritTrail spiritTrail;
+        //allows mosque to access this 
+        [HideInInspector] public SpiritTrail spiritTrail;
 
         [Header("Wanderer Settings")]
         public Transform[] waypoints;

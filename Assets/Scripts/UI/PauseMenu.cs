@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 
 public class PauseMenu : MonoBehaviour {
     DebugTime debugTime;
@@ -14,7 +15,10 @@ public class PauseMenu : MonoBehaviour {
     [Tooltip("Anything in this array will pause")]
     public AudioSource[] pauseAudio;
 
-	void Awake ()
+    [Tooltip("Anything in this array will pause")]
+    public VideoPlayer[] pauseVideos;
+
+    void Awake ()
     {
         debugTime = FindObjectOfType<DebugTime>();
         title = FindObjectOfType<TitleToRoom>();
@@ -65,11 +69,18 @@ public class PauseMenu : MonoBehaviour {
             pauseAudio[i].UnPause();
         }
 
+        //video
+        for (int i = 0; i < pauseVideos.Length; i++)
+        {
+            pauseVideos[i].Play();
+        }
+
         paused = false;
     }
 
     public void Pause()
     {
+        //check to see we aren't waiting at Title 
         if(title != null)
         {
             if (title.transitioned)
@@ -106,7 +117,16 @@ public class PauseMenu : MonoBehaviour {
         {
             pauseAudio[i].Pause();
         }
-
+        
         paused = true;
+
+        //video
+        if(pauseVideos.Length > 0)
+        {
+            for (int i = 0; i < pauseVideos.Length; i++)
+            {
+                pauseVideos[i].Pause();
+            }
+        }
     }
 }

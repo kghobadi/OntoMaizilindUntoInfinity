@@ -7,7 +7,6 @@ using InControl;
 public class ThePilot : AudioHandler {
     
     PilotAnimation _Animations;
-    PilotView pView;
     MeshRenderer planeRender;
     AdvanceScene advance;
 
@@ -16,7 +15,9 @@ public class ThePilot : AudioHandler {
     public float strafeSpeed = 125f;
     public float heightMin, heigtMax;
     public float xMin, xMax;
+    public float mouseFactor = 3f;
     public bool controlsActive = true;
+    public bool mouseMovement;
     public bool countingBullets;
     public ParticleSystem zaps;
     IEnumerator zap;
@@ -48,7 +49,6 @@ public class ThePilot : AudioHandler {
         planeRender = GetComponent<MeshRenderer>();
         _Animations = GetComponent<PilotAnimation>();
         advance = FindObjectOfType<AdvanceScene>();
-        pView = FindObjectOfType<PilotView>();
         guns = GetComponentsInChildren<Gun>();
         bText.text = bulletCount.ToString();
         SwitchViews(false);
@@ -61,23 +61,21 @@ public class ThePilot : AudioHandler {
 
         Movement();
 
-        FireWeapons();
+        if (controlsActive)
+        {
+            FireWeapons();
+
+            //switch views
+            if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)
+                || inputDevice.DPadLeft.WasPressed || inputDevice.DPadRight.WasPressed
+                || inputDevice.DPadUp.WasPressed || inputDevice.DPadDown.WasPressed)
+            {
+                ToggleViews();
+            }
+        }
 
         weaponsTimerL -= Time.deltaTime;
         weaponsTimerR -= Time.deltaTime;
-
-        //switch views
-        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift) 
-            ||  inputDevice.DPadLeft.WasPressed || inputDevice.DPadRight.WasPressed
-            || inputDevice.DPadUp.WasPressed || inputDevice.DPadDown.WasPressed)
-        {
-            ToggleViews();
-        }
-
-        if(music.isPlaying  == false)
-        {
-            advance.LoadNextScene();
-        }
     }
 
     public void EnableControls()
@@ -120,7 +118,6 @@ public class ThePilot : AudioHandler {
             //set animator 
             //_Animations.SetAnimator("idle");
             //_Animations.Animator.enabled = false;
-            pView.isActive = true;
             zoomedIn = true;
         }
         //zoomed out 
@@ -131,7 +128,6 @@ public class ThePilot : AudioHandler {
             zoCam.SetActive(true);
             planeRender.enabled = true;
             //_Animations.Animator.enabled = true;
-            pView.isActive = false;
             zoomedIn = false;
         }
     }
@@ -171,7 +167,7 @@ public class ThePilot : AudioHandler {
         var inputDevice = InputManager.ActiveDevice;
 
         //fire on space 
-        if ((Input.GetKey(KeyCode.Space) || inputDevice.Action1) && controlsActive)
+        if ((Input.GetKey(KeyCode.Space) || inputDevice.Action1))
         {
             //check can fire 
             if(weaponsTimerL < 0 || weaponsTimerR < 0)
@@ -209,7 +205,7 @@ public class ThePilot : AudioHandler {
         }
 
         //fire left gun 
-        if ((Input.GetMouseButton(0) || inputDevice.LeftTrigger || inputDevice.LeftBumper) && controlsActive)
+        if ((Input.GetMouseButton(0) || inputDevice.LeftTrigger || inputDevice.LeftBumper))
         {
             //check can fire 
             if (weaponsTimerL < 0)
@@ -235,7 +231,7 @@ public class ThePilot : AudioHandler {
         }
 
         //fire right gun 
-        if ((Input.GetMouseButton(1) || inputDevice.RightTrigger || inputDevice.RightBumper) && controlsActive)
+        if ((Input.GetMouseButton(1) || inputDevice.RightTrigger || inputDevice.RightBumper))
         {
             //check can fire 
             if (weaponsTimerR < 0)
@@ -286,10 +282,10 @@ public class ThePilot : AudioHandler {
         float mouseX = 0;
         float mouseY = 0;
         //if we are not in first person;
-        if (!zoomedIn)
+        if (!zoomedIn && mouseMovement)
         {
-            mouseX = Input.GetAxis("Mouse X");
-            mouseY = Input.GetAxis("Mouse Y");
+            mouseX = Input.GetAxis("Mouse X") / mouseFactor;
+            mouseY = Input.GetAxis("Mouse Y") / mouseFactor;
         }
 
         //controls must be active
@@ -341,13 +337,18 @@ public class ThePilot : AudioHandler {
                 _Animations.characterAnimator.SetFloat("Move X", horizontal);
                 _Animations.characterAnimator.SetFloat("Move Y", vertical);
             }
-            //set animator floats for blend  MOUSE
-            if (mouseX != 0 || mouseY != 0)
+            //for mouse move
+            if (mouseMovement)
             {
-                _Animations.SetAnimator("moving");
-                _Animations.characterAnimator.SetFloat("Move X", mouseX);
-                _Animations.characterAnimator.SetFloat("Move Y", mouseY);
+                //set animator floats for blend  MOUSE
+                if (mouseX != 0 || mouseY != 0)
+                {
+                    _Animations.SetAnimator("moving");
+                    _Animations.characterAnimator.SetFloat("Move X", mouseX);
+                    _Animations.characterAnimator.SetFloat("Move Y", mouseY);
+                }
             }
+           
         }
        
     }

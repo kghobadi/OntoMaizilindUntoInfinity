@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114981755230187076}
   - component: {fileID: 82606976319369888}
   - component: {fileID: 54667335338003634}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: 'bomb1 '
   m_TagString: Bomb
   m_Icon: {fileID: 0}
@@ -210,6 +210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeedOverTime: 2500
+  startSpeed: 10000
   bombfalls:
   - {fileID: 8300000, guid: c08dd739c6aee6e45a9c0ec23b130c7b, type: 3}
   - {fileID: 8300000, guid: 0f701612ea5c6914190bbcf8b05b1e69, type: 3}
@@ -222,6 +223,8 @@ MonoBehaviour:
   explosionPrefab: {fileID: 1526890976868756, guid: e9fc87c514998b04abe00f77e5c33a94,
     type: 2}
   explosionParent: {fileID: 0}
+  moveTowards: {fileID: 0}
+  playerDest: {fileID: 0}
 --- !u!135 &135225201758447516
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -9,8 +9,8 @@ public class SpiritTrail : MonoBehaviour {
     TrailRenderer trail;
     MoveTowards mover;
 
-    //the projection
-    public Transform projectionDisplay;
+    //the projection corner assigned when I enter the mosque 
+    public Transform projectionDisplayCorner;
 
     //bool states
     public bool activated;
@@ -21,7 +21,6 @@ public class SpiritTrail : MonoBehaviour {
     {
         trail = GetComponent<TrailRenderer>();
         mover = GetComponent<MoveTowards>();
-        projectionDisplay = GameObject.FindGameObjectWithTag("Projector").transform;
         origPos = transform.localPosition;
 
         trail.enabled = false;
@@ -45,7 +44,7 @@ public class SpiritTrail : MonoBehaviour {
             //moved up, now to projector 
             if(mover.moving == false && toProj == false)
             {
-                mover.MoveTo(projectionDisplay.position, 25f);
+                mover.MoveTo(projectionDisplayCorner.position, 25f);
                 toProj = true;
             }
 

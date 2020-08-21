@@ -65,6 +65,7 @@ public class CameraSwitcher : MonoBehaviour {
         currentCamObj = cameraObjects[currentCam];
         currentPlayer = currentCamObj.gameObject;
 
+        //no debug
         if (!debug)
         {
             //turn off citizens for now
@@ -73,6 +74,7 @@ public class CameraSwitcher : MonoBehaviour {
             //cant shift yet
             canShift = false;
         }
+        //yes debug
         else
         {
             canShift = true;
