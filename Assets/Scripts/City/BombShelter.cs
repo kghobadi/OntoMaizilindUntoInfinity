@@ -25,6 +25,7 @@ public class BombShelter : MonoBehaviour {
     public GameCamera projectionViewer;
     public GameCamera transitionViewer;
     public float timeTilTransition = 15f;
+    public MusicFader music;
  
     private void Awake()
     {
@@ -48,7 +49,7 @@ public class BombShelter : MonoBehaviour {
         //its the player -- begin broadcast 
         if(person == camSwitcher.currentCamObj)
         {
-            BeginProjection();
+            BeginProjection(true);
             //camSwitcher.SwitchCam(true, -1);
         }
 
@@ -83,7 +84,7 @@ public class BombShelter : MonoBehaviour {
     }
 
     //called when player enters mosque 
-    void BeginProjection()
+    public void BeginProjection(bool hasBody)
     {
         //projector obj
         projector.SetActive(true);
@@ -101,8 +102,14 @@ public class BombShelter : MonoBehaviour {
         //world man should disable explosions outside
         worldMan.DisableAllExplosions();
 
+        //fade out music
+        music.FadeOut(0, 0.05f);
+
         //start transition coroutine
-        StartCoroutine(WaitToTransition());
+        if(hasBody)
+            StartCoroutine(WaitToTransition());
+        else
+            StartCoroutine(WaitToTransitionNobody());
     }
 
     IEnumerator WaitToTransition()
@@ -111,6 +118,31 @@ public class BombShelter : MonoBehaviour {
 
         //disable player char FPS
         camSwitcher.currentCamObj.GetComponent<FirstPersonController>().enabled = false;
+
+        //shift from player cam to projection viewer 
+        camManager.Set(projectionViewer);
+
+        yield return new WaitForSeconds(timeTilTransition * 2);
+
+        //shift from player cam to transition viewer 
+        camManager.Set(transitionViewer);
+
+        yield return new WaitForSeconds(10f);
+
+        //finish async load 
+        if (loadScene.preparing)
+            loadScene.TransitionImmediate();
+        //load now
+        else
+            advance.LoadNextScene();
+    }
+
+    IEnumerator WaitToTransitionNobody()
+    {
+        yield return new WaitForSeconds(0);
+
+        //disable player 
+        camSwitcher.DisableCamObj(camSwitcher.currentCamObj);
 
         //shift from player cam to projection viewer 
         camManager.Set(projectionViewer);

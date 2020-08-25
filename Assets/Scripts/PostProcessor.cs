@@ -99,13 +99,7 @@ public class PostProcessor : MonoBehaviour
         {
             MinLevelColorShifts();
             CanShiftTimers();
-            SwitchLevelRefs();
-        }
-
-        //turn color shifting on and off
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            colorShiftingOn = !colorShiftingOn;
+            //SwitchLevelRefs();
         }
     }
 
@@ -159,6 +153,13 @@ public class PostProcessor : MonoBehaviour
         //    colorGrader.basic.saturation = spectrum.MeanLevels[levelRef] * satShifter;
         //    colorGrader.basic.contrast = spectrum.MeanLevels[levelRef] * contrastShifter;
         //}
+    }
+
+    public void DisableExplosions()
+    {
+        explosionParent.gameObject.SetActive(false);
+        canSpawnBombs = false;
+        bombTimer = 100f;
     }
 
     //set level reference from audio spectrum using number keys

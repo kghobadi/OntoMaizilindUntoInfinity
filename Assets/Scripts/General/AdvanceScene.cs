@@ -9,7 +9,21 @@ public class AdvanceScene : MonoBehaviour {
     public float timeToRestart = 5f;
     public float restartTimer;
 
+    public bool debug;
+
 	void Update ()
+    {
+        if (debug)
+        {
+            //shift scenes
+            SceneShifting();
+
+            //restart game
+            HoldToRestart();
+        }
+    }
+
+    void SceneShifting()
     {
         //get input device 
         var inputDevice = InputManager.ActiveDevice;
@@ -25,10 +39,7 @@ public class AdvanceScene : MonoBehaviour {
         {
             LoadPreviousScene();
         }
-
-        //restart game
-        //HoldToRestart();
-	}
+    }
 
     void HoldToRestart()
     { 

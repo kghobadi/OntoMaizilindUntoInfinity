@@ -30,7 +30,9 @@ public class CloudGenerator : MonoBehaviour
     public float speedMin, speedMax;
     public float distanceToDestroy;
     //spawn times
-    public float spawnTimer, spawnInterval;
+    public float spawnTimer, spawnIntervalMin = 3f, spawnIntervalMax = 5f;
+    [Tooltip("Lowest Height on Y axis to spawn")]
+    public float minHeight = 250f;
 
     void Awake()
     {
@@ -40,7 +42,7 @@ public class CloudGenerator : MonoBehaviour
         //set orig pos 
         origPos = transform.position;
         //randomize spawn timer 
-        spawnTimer = spawnInterval + Random.Range(-1f, 1f);
+        spawnTimer = Random.Range(spawnIntervalMin, spawnIntervalMax);
     }
 
     void Update()
@@ -62,7 +64,8 @@ public class CloudGenerator : MonoBehaviour
                 GenerateSquare();
             }
 
-            spawnTimer = spawnInterval + Random.Range(-1f, 1f);
+            //randomize spawn timer 
+            spawnTimer = Random.Range(spawnIntervalMin, spawnIntervalMax);
         }
     }
 

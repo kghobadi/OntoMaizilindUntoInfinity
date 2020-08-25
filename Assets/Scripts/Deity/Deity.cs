@@ -22,12 +22,9 @@ public class Deity : MonoBehaviour {
 
     [Header("Strafing Movements")]
     public float moveSpeed;
-    [HideInInspector] public float origSpeed;
-
     public bool strafe;
     public bool moving;
-    public Vector3 destination;
-    public float necessaryDist = 1f;
+    public float xDestination;
 
     [Tooltip("Ship position in Deity formation")]
     public FlightPos flightPos;
@@ -42,25 +39,42 @@ public class Deity : MonoBehaviour {
 
     void Start()
     {
-        origSpeed = moveSpeed;
+        //grab orig x pos 
         origXPos = transform.position.x;
+
+        //reset count & start strafe
+        strafeCount = 0;
         strafe = true;
+
+        //set dirs & start moving 
+        SetDirections();
+        SetMove();
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (strafe)
         {
             if (moving)
             {
-                SetDestination();
+                //actual move
+                transform.Translate(moveSpeed * Time.deltaTime, 0, 0);
 
-                transform.position = Vector3.MoveTowards(transform.position, destination, Time.deltaTime * moveSpeed);
+                //Debug.Log(gameObject.name + "moving!");
 
-                if (Vector3.Distance(transform.position, destination) < necessaryDist)
+                //right
+                if (strafingDirection)
                 {
-                    moving = false;
-                    moveSpeed = origSpeed;
+                    //past dest - switch
+                    if(transform.position.x > xDestination)
+                        moving = false;
+                }
+                //left
+                else
+                {
+                    //past dest - switch
+                    if (transform.position.x < xDestination)
+                        moving = false;
                 }
             }
             else
@@ -70,56 +84,49 @@ public class Deity : MonoBehaviour {
         }
     }
 
+    void SetDirections()
+    {
+        switch (flightPos)
+        {
+            case FlightPos.CENTER:
+                //lets go right first
+                strafingDirection = true;
+                break;
+            case FlightPos.LEFT:
+                //lets go left first
+                strafingDirection = false;
+                moveSpeed = -moveSpeed;
+                break;
+            case FlightPos.RIGHT:
+                //lets go right first
+                strafingDirection = true;
+                break;
+        }
+    }
+
     public void SetMove()
     {
         //switch dir
         if(strafeCount > 0)
-            strafingDirection = !strafingDirection;
-
-        //set strafe pattern at start 
-        if (strafeCount == 0)
         {
-            switch (flightPos)
-            {
-                case FlightPos.CENTER:
-                    //lets go right first
-                    strafingDirection = true;
-                    break;
-                case FlightPos.LEFT:
-                    //lets go left first
-                    strafingDirection = false;
-                    break;
-                case FlightPos.RIGHT:
-                    //lets go right first
-                    strafingDirection = true;
-                    break;
-            }
+            strafingDirection = !strafingDirection;
+            moveSpeed = -moveSpeed;
         }
-
-        //call move
-        Move();
-
-        //inc 
-        strafeCount++;
-    }
-
-    //called each frame while moving to reevaluate move pos 
-    void SetDestination()
-    {
-        //go left
+            
+        //go right
         if (strafingDirection)
         {
-            destination = new Vector3(xMin, transform.position.y, transform.position.z);
+            xDestination = xMax;
         }
-        //go right 
+        //go left 
         else
         {
-            destination = new Vector3(xMax, transform.position.y, transform.position.z);
+            xDestination = xMin;
         }
-    }
-
-    void Move()
-    {
+        
+        //inc 
+        strafeCount++;
+        //move!
         moving = true;
     }
 }

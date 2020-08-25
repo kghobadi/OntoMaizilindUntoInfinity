@@ -18,6 +18,11 @@ public class GroundCamera : MonoBehaviour
     public float sensitivityX = 1f;
     public float sensitivityY = 1f;
     public bool invertX, invertY;
+
+    [Header("Clamp Rotation")]
+    public bool clamps;
+    public float minX, maxX;
+    public float minY, maxY;
     //public float smoothing = 2.0f;
 
     void Awake()
@@ -43,74 +48,76 @@ public class GroundCamera : MonoBehaviour
         {
             CameraRotation();
         }
-
-        //if (camSwitcher.canShift)
-        //    RaycastForward();
-
-        //ShiftCheck();
     }
 
     //only camera rotation 
     void CameraRotation()
-    {
+    { 
         //get input device 
         var inputDevice = InputManager.ActiveDevice;
 
-        //controller 
-        if (inputDevice.DeviceClass == InputDeviceClass.Controller)
+        if (clamps)
         {
-            hRot = sensitivityX * inputDevice.RightStickX;
-            vRot = sensitivityY * inputDevice.RightStickY;
+            //controller 
+            if (inputDevice.DeviceClass == InputDeviceClass.Controller)
+            {
+                hRot += inputDevice.RightStickX * sensitivityX;
+                vRot += inputDevice.RightStickY * sensitivityY;
+            }
+            //mouse
+            else
+            {
+                hRot += Input.GetAxis("Mouse X") * sensitivityX;
+                vRot += Input.GetAxis("Mouse Y") * sensitivityY;
+            }
+            //only clamp if both values are not set to 0
+            if (minY != 0 && maxY != 0)
+            {
+                //clamp Y - horizontal
+                hRot = Mathf.Clamp(hRot, minY, maxY);
+            }
+            //only clamp if both values are not set to 0
+            if(minX != 0 && maxX != 0)
+            {
+                //clamp X - vertical
+                vRot = Mathf.Clamp(vRot, minX, maxX);
+            }
+            
+            //horizontal parent axis  - Y
+            transform.parent.rotation = Quaternion.Euler(0f, hRot, 0f);
+            //vertical camera axis - X
+            transform.localRotation = Quaternion.Euler(-vRot, 0f, 0f);
         }
-        //mouse
+        //free rotations without clamp
         else
         {
-            hRot = sensitivityX * Input.GetAxis("Mouse X");
-            vRot = sensitivityY * Input.GetAxis("Mouse Y");
+            //controller 
+            if (inputDevice.DeviceClass == InputDeviceClass.Controller)
+            {
+                hRot = sensitivityX * inputDevice.RightStickX;
+                vRot = sensitivityY * inputDevice.RightStickY;
+            }
+            //mouse
+            else
+            {
+                hRot = sensitivityX * Input.GetAxis("Mouse X");
+                vRot = sensitivityY * Input.GetAxis("Mouse Y");
+            }
+
+            //neg value 
+            if (invertX)
+                hRot *= -1f;
+            //neg value 
+            if (invertY)
+                vRot *= -1f;
+
+            //Rotates Player on "X" Axis Acording to Mouse Input
+            transform.parent.Rotate(0, hRot, 0);
+            //Rotates Player on "Y" Axis Acording to Mouse Input
+            transform.Rotate(vRot, 0, 0);
         }
-
-        //neg value 
-        if (invertX)
-            hRot *= -1f;
-        //neg value 
-        if (invertY)
-            vRot *= -1f;
-
-        //Rotates Player on "X" Axis Acording to Mouse Input
-        transform.parent.Rotate(0, hRot, 0);
-        //Rotates Player on "Y" Axis Acording to Mouse Input
-        transform.Rotate(vRot, 0, 0);
     }
-
-    //void CameraMovement()
-    //{
-    //    //get input device 
-    //    var inputDevice = InputManager.ActiveDevice;
-
-    //    var newRotate = new Vector2(0, 0);
-
-    //    //controller 
-    //    if (inputDevice.DeviceClass == InputDeviceClass.Controller)
-    //    {
-    //        newRotate = new Vector2(inputDevice.RightStickX, inputDevice.RightStickY);
-    //    }
-    //    //mouse
-    //    else
-    //    {
-    //        newRotate = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
-    //    }
-
-    //    newRotate = Vector2.Scale(newRotate, new Vector2(sensitivityX * smoothing, sensitivityY * smoothing));
-    //    smoothV.x = Mathf.Lerp(smoothV.x, newRotate.x, 1f / smoothing);
-    //    smoothV.y = Mathf.Lerp(smoothV.y, newRotate.y, 1f / smoothing);
-    //    mouseLook += smoothV;
-
-    //    mouseLook.y = Mathf.Clamp(mouseLook.y, -90f, 90f);
-
-    //    transform.localRotation = Quaternion.AngleAxis(-mouseLook.y, Vector3.right);
-    //    character.transform.localRotation = Quaternion.AngleAxis(mouseLook.x, character.transform.up);
-    //}
-
+    
     void ShiftCheck()
     {
         if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) && camSwitcher.canShift)

@@ -2793,6 +2793,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToRestart: 5
   restartTimer: 0
+  debug: 0
 --- !u!114 &925286580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2804,7 +2805,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4fd13d0c361e024dbfa1c6da6ebeac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debug: 1
+  debug: 0
   speedUp: 25
   checkpoints:
   - {fileID: 11400000, guid: cc630fcfbcec4fa4999b1aa989d1a311, type: 2}
@@ -2905,6 +2906,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1738737221}
+        m_MethodName: DisableExplosions
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_PersistentCalls:
@@ -2959,6 +2971,7 @@ MonoBehaviour:
   pauseMenu: {fileID: 1496720874}
   pauseAudio:
   - {fileID: 1605485584}
+  pauseVideos: []
 --- !u!1 &932305538
 GameObject:
   m_ObjectHideFlags: 0
@@ -3990,12 +4003,12 @@ Prefab:
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 2}
       propertyPath: _savedGUID
-      value: 1565922274
+      value: 502137233
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 2}
       propertyPath: hash.lastHash
-      value: 1362902680
+      value: -637528707
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 2}
@@ -5729,6 +5742,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 82962021642073174, guid: 6539d39abe7773444a7bfbba6039a572,
+        type: 2}
+      propertyPath: m_Volume
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114996157960376362, guid: 6539d39abe7773444a7bfbba6039a572, type: 2}
     - {fileID: 114101663385045684, guid: 6539d39abe7773444a7bfbba6039a572, type: 2}
@@ -6193,6 +6211,7 @@ GameObject:
   - component: {fileID: 1738737223}
   - component: {fileID: 1738737222}
   - component: {fileID: 1738737221}
+  - component: {fileID: 1738737224}
   m_Layer: 0
   m_Name: AudioSpectrum
   m_TagString: Untagged
@@ -6360,8 +6379,8 @@ MonoBehaviour:
   bombCounter: 0
   canSpawnBombs: 1
   bombTimer: 0
-  bombTimerTotal: 1
-  player: {fileID: 0}
+  bombTimerTotal: 5
+  player: {fileID: 425266901}
   music: {fileID: 1605485584}
 --- !u!114 &1738737222
 MonoBehaviour:
@@ -6391,6 +6410,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1738737224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1738737220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4e749a892bd87a4eb33d224a19c4e68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mRenderer: {fileID: 0}
+  lerpMat: {fileID: 2100000, guid: 70e26af2f76819040a2d4618db7597bd, type: 2}
+  floatToLerp: _Teleport
+  moveTowardsOrLerp: 0
+  lerpOnStart: 0
+  lerpingMat: 0
+  disableOnFinish: 0
+  resetsScale: 0
+  resetParent: 0
+  loadScene: 0
+  startValue: 0
+  lerpValue: 0
+  endValue: 0
+  lerpSpeed: 0.5
 --- !u!1001 &1757066987
 Prefab:
   m_ObjectHideFlags: 0
@@ -7459,6 +7503,7 @@ GameObject:
   - component: {fileID: 2088938828}
   - component: {fileID: 2088938827}
   - component: {fileID: 2088938829}
+  - component: {fileID: 2088938830}
   m_Layer: 0
   m_Name: AirPlayer
   m_TagString: Player
@@ -7515,6 +7560,22 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2088938830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2088938826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94dd55f16259a354992fbf51c080bbef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 15
+  origSpeed: 0
+  moving: 0
+  destination: {x: 0, y: 0, z: 0}
+  necessaryDist: 1
 --- !u!1001 &2144742806
 Prefab:
   m_ObjectHideFlags: 0

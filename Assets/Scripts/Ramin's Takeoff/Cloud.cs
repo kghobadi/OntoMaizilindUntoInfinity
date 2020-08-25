@@ -13,6 +13,7 @@ public class Cloud : MonoBehaviour
     PooledObject poolObj;
 
     public float heightFromZero;
+    public float rotationMin = -3f, rotationMax = 3f;
     float rotateX, rotateY, rotateZ;
     [HideInInspector]
     public Vector3 origScale;
@@ -29,10 +30,15 @@ public class Cloud : MonoBehaviour
         heightFromZero = transform.position.y;
         poolObj = GetComponent<PooledObject>();
 
-        //set rotations
-        rotateX = Random.Range(-5f, 5f);
-        rotateY = Random.Range(-5f, 5f);
-        rotateZ = Random.Range(-5f, 5f);
+        RandomizeRotations();
+    }
+
+    //set rotation speeds
+    void RandomizeRotations()
+    {
+        rotateX = Random.Range(rotationMin, rotationMax);
+        rotateY = Random.Range(rotationMin, rotationMax);
+        rotateZ = Random.Range(rotationMin, rotationMax);
     }
     
     void Update()

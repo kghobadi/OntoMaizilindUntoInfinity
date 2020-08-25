@@ -31,6 +31,7 @@ public class CameraSwitcher : MonoBehaviour {
     [Header("Transition")]
     public int transitionAmount = 3;
     AdvanceScene advance;
+    BombShelter mosque;
 
     void Awake()
     {
@@ -51,6 +52,9 @@ public class CameraSwitcher : MonoBehaviour {
         {
             advance = gameObject.AddComponent<AdvanceScene>();
         }
+
+        //get mosque script 
+        mosque = FindObjectOfType<BombShelter>();
     }
 
     void Start ()
@@ -100,8 +104,13 @@ public class CameraSwitcher : MonoBehaviour {
         //when there is all but one camera left, turn off bombers 
         if(cameraObjects.Count <= transitionAmount)
         {
+            //disable the bombers 
             if(bombers.activeSelf)
                 bombers.SetActive(false);
+
+            //transition directly too mosque 
+            if(mosque.projecting == false)
+                mosque.BeginProjection(false);
         }
 	}
 
@@ -209,7 +218,7 @@ public class CameraSwitcher : MonoBehaviour {
     }
 
     //enables a camObj as current cam obj
-    void EnableCamObj(CamObject cam)
+    public void EnableCamObj(CamObject cam)
     {
         //turn on new cam obj
         if (cam.myCamType == CamObject.CamType.HUMAN)
@@ -238,7 +247,7 @@ public class CameraSwitcher : MonoBehaviour {
     }
 
     //disables a cam obj
-    void DisableCamObj(CamObject cam)
+    public void DisableCamObj(CamObject cam)
     {
         //deal with current cam object
         if (cam.myCamType == CamObject.CamType.HUMAN)

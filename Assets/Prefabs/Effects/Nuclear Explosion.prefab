@@ -39,6 +39,8 @@ GameObject:
   - component: {fileID: 198934530254271642}
   - component: {fileID: 199178168212842298}
   - component: {fileID: 65464384211893766}
+  - component: {fileID: 54780651178164982}
+  - component: {fileID: 114216639745307908}
   m_Layer: 0
   m_Name: Nuclear Explosion
   m_TagString: Explosion
@@ -46,6 +48,34 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1959810542446956
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4222648928203596}
+  m_Layer: 0
+  m_Name: ConceptionPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4222648928203596
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1959810542446956}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 109, y: 402, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4915274074240064}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4393987205095482
 Transform:
   m_ObjectHideFlags: 1
@@ -70,9 +100,25 @@ Transform:
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 4393987205095482}
+  - {fileID: 4222648928203596}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &54780651178164982
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1584442236565034}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!65 &65464384211893766
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -85,6 +131,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 200, y: 1000, z: 200}
   m_Center: {x: 0, y: -5, z: 0}
+--- !u!114 &114216639745307908
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1584442236565034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc501ada32c0d4842b1ec0ca5546fd27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &198576392893514888
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -5263,7 +5320,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 5000
+    maxNumParticles: 300
     size3D: 0
     rotation3D: 0
     gravityModifier:
