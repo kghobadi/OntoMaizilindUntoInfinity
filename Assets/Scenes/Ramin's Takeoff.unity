@@ -1973,12 +1973,26 @@ Prefab:
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Quit
       objectReference: {fileID: 0}
+    - target: {fileID: 1773722171319664, guid: 4923de8396391f34f91e444ab3c6c1ad, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4923de8396391f34f91e444ab3c6c1ad, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &458539889 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1672015912950796, guid: 4923de8396391f34f91e444ab3c6c1ad,
+    type: 2}
+  m_PrefabInternal: {fileID: 458539888}
+--- !u!1 &458539890 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1962758679684658, guid: 4923de8396391f34f91e444ab3c6c1ad,
+    type: 2}
+  m_PrefabInternal: {fileID: 458539888}
+--- !u!1 &458539891 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1773722171319664, guid: 4923de8396391f34f91e444ab3c6c1ad,
     type: 2}
   m_PrefabInternal: {fileID: 458539888}
 --- !u!1 &469070161
@@ -24284,6 +24298,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paused: 0
   pauseMenu: {fileID: 458539889}
+  quitMenu: {fileID: 458539890}
+  restartMenu: {fileID: 458539891}
   pauseAudio:
   - {fileID: 992797424}
   pauseVideos: []
@@ -43460,12 +43476,12 @@ Prefab:
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 2}
       propertyPath: _savedGUID
-      value: 447524442
+      value: 2049561228
       objectReference: {fileID: 0}
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 2}
       propertyPath: hash.lastHash
-      value: 845830266
+      value: -1689157781
       objectReference: {fileID: 0}
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 2}

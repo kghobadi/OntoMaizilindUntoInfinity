@@ -40,9 +40,21 @@ public class BombTrigger : MonoBehaviour {
                     }
 
                     //we are the planes -- transition to anything else. 
-                    if(camSwitcher.currentCam == 0)
+                    if (camSwitcher.currentCam == 0)
                     {
-                        camSwitcher.SwitchCam(true, 2);
+                        //enough people to transition back to running
+                        if (camSwitcher.cameraObjects.Count > camSwitcher.transitionAmount)
+                        {
+                            camSwitcher.SwitchCam(true, 2);
+                        }
+                        //out of people, transition directly to mosque view & begin projection    
+                        else
+                        {
+                            bombShelter.BeginProjection(false);
+                        }
+
+                        //shouldnt count this for runs -- gives player more time 
+                        bombingRuns--;
                     }
                 }
             }

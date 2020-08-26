@@ -22,6 +22,7 @@ public class TitleToRoom : MonoBehaviour {
     public MusicFader warAmbience;
     public Material niceSky;
     public LerpLighting sunLerp;
+    public GameObject quitMenu;
 
     //player
     [Header("Player/Room Refs")]
@@ -37,7 +38,8 @@ public class TitleToRoom : MonoBehaviour {
     public float poemTime = 10f;   //time until game starts 
     float poemTimer = 0, poemTimeNecessary = 15f;
     public bool readingPoem, startedTransition, transitioned;
-
+    public bool canClick;
+    float clickTimer, clickReset = 0.5f;
 
     void Awake()
     {
@@ -63,21 +65,67 @@ public class TitleToRoom : MonoBehaviour {
         //get input device 
         var inputDevice = InputManager.ActiveDevice;
 
-        if (Input.GetMouseButtonDown(0) || inputDevice.Action1.WasPressed)
+        //contiually make sure click will not go thru while quit menu open
+        if (quitMenu.activeSelf)
+            ClickReset();
+        
+        //click inputs for advancing text --> game 
+        if(canClick)
         {
-            //click to start poem
-            if (!readingPoem)
+            if (Input.GetMouseButtonDown(0) || inputDevice.Action1.WasPressed)
             {
-                ReadPoem();
-            }
-            else
-            {
-                //click for transition
-                if(poemTimer > poemTimeNecessary && !startedTransition)
+                //click to start poem
+                if (!readingPoem)
                 {
-                    Transition();
+                    ReadPoem();
+                }
+                else
+                {
+                    //click for transition
+                    if (poemTimer > poemTimeNecessary && !startedTransition)
+                    {
+                        Transition();
+                    }
                 }
             }
+
+        }
+
+        //quit menu 
+        if (!transitioned)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                //open quit menu
+                if (quitMenu.activeSelf == false)
+                {
+                    quitMenu.SetActive(true);
+
+                    Cursor.lockState = CursorLockMode.Confined;
+
+                    Cursor.visible = true;
+                }
+                //close quit menu 
+                else
+                {
+                    quitMenu.SetActive(false);
+
+                    Cursor.lockState = CursorLockMode.Locked;
+
+                    Cursor.visible = false;
+                }
+
+                ClickReset();
+            }
+        }
+
+        //click reset
+        if(canClick == false)
+        {
+            clickTimer += Time.deltaTime;
+
+            if (clickTimer > clickReset)
+                canClick = true;
         }
 
         //poem timer
@@ -86,6 +134,13 @@ public class TitleToRoom : MonoBehaviour {
             poemTimer += Time.deltaTime;
         }
 	}
+
+    public void ClickReset()
+    {
+        //start click reset 
+        canClick = false;
+        clickTimer = 0;
+    }
 
     void ReadPoem()
     {
@@ -136,6 +191,11 @@ public class TitleToRoom : MonoBehaviour {
         warAmbience.FadeOut(0f, warAmbience.fadeSpeed);
         clock.gameObject.SetActive(true);
         //timeline.StartTimeline();
+
+        //set cursor again
+        Cursor.lockState = CursorLockMode.Locked;
+
+        Cursor.visible = false;
 
         //set sun
         sunLerp.SetLightLerp(sunLerp.sunNice, sunLerp.sunNice);

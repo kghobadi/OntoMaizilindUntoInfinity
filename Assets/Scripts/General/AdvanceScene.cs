@@ -87,10 +87,14 @@ public class AdvanceScene : MonoBehaviour {
     public void Restart()
     {
         SceneManager.LoadScene(0);
+
+        Debug.Log("Restart");
     }
 
     public void Quit()
     {
         Application.Quit();
+
+        Debug.Log("QUIT");
     }
 }

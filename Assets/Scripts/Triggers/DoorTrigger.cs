@@ -5,6 +5,7 @@ using UnityEngine;
 public class DoorTrigger : AudioHandler {
 
     Animator doorAnimator;
+    public bool locked;
 
     [Header("Sounds")]
     public AudioClip doorClose;
@@ -15,11 +16,24 @@ public class DoorTrigger : AudioHandler {
         doorAnimator = GetComponent<Animator>();
     }
 
+    public void EnableDoor()
+    {
+        locked = false;
+    }
+
+    public void DisableDoor()
+    {
+        locked = true;
+    }
+
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Human" || other.gameObject.tag == "Player")
+        if (!locked)
         {
-            OpenDoor();
+            if (other.gameObject.tag == "Human" || other.gameObject.tag == "Player")
+            {
+                OpenDoor();
+            }
         }
     }
 

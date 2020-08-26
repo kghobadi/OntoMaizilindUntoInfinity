@@ -2969,6 +2969,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paused: 0
   pauseMenu: {fileID: 1496720874}
+  quitMenu: {fileID: 1496720875}
+  restartMenu: {fileID: 1496720876}
   pauseAudio:
   - {fileID: 1605485584}
   pauseVideos: []
@@ -4003,12 +4005,12 @@ Prefab:
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 2}
       propertyPath: _savedGUID
-      value: 502137233
+      value: 2049629368
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 2}
       propertyPath: hash.lastHash
-      value: -637528707
+      value: 1592443002
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 2}
@@ -5452,6 +5454,16 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1672015912950796, guid: 4923de8396391f34f91e444ab3c6c1ad,
     type: 2}
   m_PrefabInternal: {fileID: 1496720872}
+--- !u!1 &1496720875 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1962758679684658, guid: 4923de8396391f34f91e444ab3c6c1ad,
+    type: 2}
+  m_PrefabInternal: {fileID: 1496720872}
+--- !u!1 &1496720876 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1773722171319664, guid: 4923de8396391f34f91e444ab3c6c1ad,
+    type: 2}
+  m_PrefabInternal: {fileID: 1496720872}
 --- !u!1 &1497005735
 GameObject:
   m_ObjectHideFlags: 0
@@ -6379,7 +6391,7 @@ MonoBehaviour:
   bombCounter: 0
   canSpawnBombs: 1
   bombTimer: 0
-  bombTimerTotal: 5
+  bombTimerTotal: 2
   player: {fileID: 425266901}
   music: {fileID: 1605485584}
 --- !u!114 &1738737222

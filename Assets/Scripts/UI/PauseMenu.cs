@@ -11,6 +11,8 @@ public class PauseMenu : MonoBehaviour {
     bool wasTiming;
 
     public GameObject pauseMenu;
+    public GameObject quitMenu;
+    public GameObject restartMenu;
 
     [Tooltip("Anything in this array will pause")]
     public AudioSource[] pauseAudio;
@@ -50,9 +52,13 @@ public class PauseMenu : MonoBehaviour {
 
     public void Resume()
     {
+        quitMenu.SetActive(false);
+        restartMenu.SetActive(false);
         pauseMenu.SetActive(false);
 
         Cursor.lockState = CursorLockMode.Locked;
+
+        Cursor.visible = false;
 
         //set timing 
         Time.timeScale = 1f;
@@ -99,6 +105,8 @@ public class PauseMenu : MonoBehaviour {
         pauseMenu.SetActive(true);
 
         Cursor.lockState = CursorLockMode.Confined;
+
+        Cursor.visible = true;
 
         //set time
         Time.timeScale = 0f;

@@ -19,6 +19,7 @@ public class BombShelter : MonoBehaviour {
 
     [Header("Projection Transition")]
     public bool projecting;
+    bool body;
     public GameObject projector;
     public VideoPlayer projection;
     public MonologueManager imamSpeech;
@@ -71,7 +72,8 @@ public class BombShelter : MonoBehaviour {
             else
             {
                 SpiritTrail trail = mover.GetComponentInChildren<SpiritTrail>();
-                trail.projectionDisplayCorner = spiritPoints[spotIndex];
+                if(trail)
+                    trail.projectionDisplayCorner = spiritPoints[spotIndex];
             }
 
             //prepare AI to sit at point
@@ -105,44 +107,30 @@ public class BombShelter : MonoBehaviour {
         //fade out music
         music.FadeOut(0, 0.05f);
 
+        //set bool
+        body = hasBody;
+
         //start transition coroutine
         if(hasBody)
-            StartCoroutine(WaitToTransition());
+            StartCoroutine(WaitToTransition(timeTilTransition));
         else
-            StartCoroutine(WaitToTransitionNobody());
+            StartCoroutine(WaitToTransition(0f));
     }
 
-    IEnumerator WaitToTransition()
+    IEnumerator WaitToTransition(float time)
     {
-        yield return new WaitForSeconds(timeTilTransition);
+        yield return new WaitForSeconds(time);
 
-        //disable player char FPS
-        camSwitcher.currentCamObj.GetComponent<FirstPersonController>().enabled = false;
-
-        //shift from player cam to projection viewer 
-        camManager.Set(projectionViewer);
-
-        yield return new WaitForSeconds(timeTilTransition * 2);
-
-        //shift from player cam to transition viewer 
-        camManager.Set(transitionViewer);
-
-        yield return new WaitForSeconds(10f);
-
-        //finish async load 
-        if (loadScene.preparing)
-            loadScene.TransitionImmediate();
-        //load now
+        if (body)
+        {
+            //disable player char FPS
+            camSwitcher.currentCamObj.GetComponent<FirstPersonController>().enabled = false;
+        }
         else
-            advance.LoadNextScene();
-    }
-
-    IEnumerator WaitToTransitionNobody()
-    {
-        yield return new WaitForSeconds(0);
-
-        //disable player 
-        camSwitcher.DisableCamObj(camSwitcher.currentCamObj);
+        {
+            //disable player 
+            camSwitcher.DisableCamObj(camSwitcher.currentCamObj);
+        }
 
         //shift from player cam to projection viewer 
         camManager.Set(projectionViewer);
