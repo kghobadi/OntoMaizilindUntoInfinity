@@ -78,7 +78,12 @@ public class FollowPilot : MonoBehaviour {
         if (followType == FollowType.INSTANT)
             transform.position = target;
         else if (followType == FollowType.MOVETOWARDS)
-            mover.MoveTo(target, mover.moveSpeed);
+        {
+            if (mover.moving == false)
+            {
+                mover.MoveTo(target, mover.moveSpeed);
+            }
+        }
     }
 
     //allows you to overwrite dist

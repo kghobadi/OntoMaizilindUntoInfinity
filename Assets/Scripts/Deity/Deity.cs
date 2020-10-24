@@ -8,23 +8,28 @@ public class Deity : MonoBehaviour {
     ThePilot pilot;
     DeityHealth _Health;
     DeityAnimations _Animations;
+    Rigidbody deityBody;
 
+    [HideInInspector]
     public float deitySpeed = 25f;
     public Transform pilotFightPos;
 
-	void Awake ()
+    void Awake()
     {
-        mover = GetComponent<MoveTowards>();
         pilot = FindObjectOfType<ThePilot>();
         _Health = GetComponentInChildren<DeityHealth>();
         _Animations = GetComponent<DeityAnimations>();
+        deityBody = GetComponent<Rigidbody>();
     }
 
-    [Header("Strafing Movements")]
-    public float moveSpeed;
+    [Header("Movements")]
     public bool strafe;
-    public bool moving;
+    public bool moveForward;
+    public float strafeSpeed;
+    public float moveSpeed;
     public float xDestination;
+    public float maxVelocityZ = 500f;
+    public float maxVelocityX = 500f;
 
     [Tooltip("Ship position in Deity formation")]
     public FlightPos flightPos;
@@ -47,46 +52,64 @@ public class Deity : MonoBehaviour {
         strafe = true;
 
         //set dirs & start moving 
-        SetDirections();
-        SetMove();
+        SetDirections(flightPos);
+    }
+
+    private void FixedUpdate()
+    {
+        if (moveForward)
+            FlyForward();
+
+        if (strafe)
+            Strafe();
+    }
+
+    public void SetForwardSpeed(float speed)
+    {
+        moveSpeed = speed;
+    }
+
+    public void SetMaxZSpeed(float max)
+    {
+        maxVelocityZ = max;
+    }
+
+    void FlyForward()
+    {
+        if(deityBody.velocity.magnitude < maxVelocityZ)
+            deityBody.AddForce(0, 0, moveSpeed);
+    }
+
+    void Strafe()
+    {
+        if (deityBody.velocity.magnitude < maxVelocityX)
+            deityBody.AddForce(strafeSpeed, 0, 0);
     }
 
     void LateUpdate()
     {
         if (strafe)
         {
-            if (moving)
+            //right
+            if (strafingDirection)
             {
-                //actual move
-                transform.Translate(moveSpeed * Time.deltaTime, 0, 0);
-
-                //Debug.Log(gameObject.name + "moving!");
-
-                //right
-                if (strafingDirection)
-                {
-                    //past dest - switch
-                    if(transform.position.x > xDestination)
-                        moving = false;
-                }
-                //left
-                else
-                {
-                    //past dest - switch
-                    if (transform.position.x < xDestination)
-                        moving = false;
-                }
+                //past dest - switch
+                if (transform.position.x > xDestination)
+                    StrafeOpposite();
             }
+            //left
             else
             {
-                SetMove();
+                //past dest - switch
+                if (transform.position.x < xDestination)
+                    StrafeOpposite();
             }
         }
     }
 
-    void SetDirections()
+    void SetDirections(FlightPos fPos)
     {
-        switch (flightPos)
+        switch (fPos)
         {
             case FlightPos.CENTER:
                 //lets go right first
@@ -95,7 +118,7 @@ public class Deity : MonoBehaviour {
             case FlightPos.LEFT:
                 //lets go left first
                 strafingDirection = false;
-                moveSpeed = -moveSpeed;
+                strafeSpeed = -strafeSpeed;
                 break;
             case FlightPos.RIGHT:
                 //lets go right first
@@ -104,13 +127,15 @@ public class Deity : MonoBehaviour {
         }
     }
 
-    public void SetMove()
+    public void StrafeOpposite()
     {
         //switch dir
         if(strafeCount > 0)
         {
             strafingDirection = !strafingDirection;
-            moveSpeed = -moveSpeed;
+            strafeSpeed = -strafeSpeed;
+            //zero x velocity
+            deityBody.velocity = new Vector3(0, deityBody.velocity.y, deityBody.velocity.z);
         }
             
         //go right
@@ -126,7 +151,5 @@ public class Deity : MonoBehaviour {
         
         //inc 
         strafeCount++;
-        //move!
-        moving = true;
     }
 }

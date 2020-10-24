@@ -9,19 +9,20 @@ public class ThePilot : AudioHandler {
     PilotAnimation _Animations;
     MeshRenderer planeRender;
     AdvanceScene advance;
+    Rigidbody planeBody;
 
     [Header("Movement & Inputs")]
     public float moveSpeed;
     public float strafeSpeed = 125f;
+    public float maxVelocityZ = 125f;
+    public float maxVelocityXY = 100f;
     public float heightMin, heigtMax;
     public float xMin, xMax;
     public float mouseFactor = 3f;
     public bool controlsActive = true;
-    public bool mouseMovement;
     public bool countingBullets;
-    public ParticleSystem zaps;
-    IEnumerator zap;
-    bool input;
+    InputDevice inputDevice;
+
     //weapons 
     [Header("Weapons")]
     public Gun[] guns;
@@ -42,27 +43,26 @@ public class ThePilot : AudioHandler {
 
     [Tooltip("We trigger this when the player runs out of bullets")]
     public EventTrigger triggerApocalypse;
-
+  
     public override void Awake()
     {
         base.Awake();
         planeRender = GetComponent<MeshRenderer>();
         _Animations = GetComponent<PilotAnimation>();
         advance = FindObjectOfType<AdvanceScene>();
+        planeBody = GetComponent<Rigidbody>();
         guns = GetComponentsInChildren<Gun>();
         bText.text = bulletCount.ToString();
         SwitchViews(false);
     }
     
 	//could play sounds when moving 
-	void Update () {
-        //get input device 
-        var inputDevice = InputManager.ActiveDevice;
-
-        Movement();
-
+	void Update ()
+    {
         if (controlsActive)
         {
+            MovementInputs();
+
             FireWeapons();
 
             //switch views
@@ -76,6 +76,13 @@ public class ThePilot : AudioHandler {
 
         weaponsTimerL -= Time.deltaTime;
         weaponsTimerR -= Time.deltaTime;
+    }
+
+    private void FixedUpdate()
+    {
+        ApplyForces();
+
+        CheckAnimations();
     }
 
     public void EnableControls()
@@ -132,34 +139,7 @@ public class ThePilot : AudioHandler {
         }
     }
 
-    //called by lightning to zap the plane 
-    public void InitiateZap()
-    {
-        if (zap != null)
-            StopCoroutine(zap);
-
-        zap = Zap();
-
-        StartCoroutine(zap);
-
-        Debug.Log("zapped!");
-    }
-
-    //fries the controls and weapons for a period of time 
-    IEnumerator Zap()
-    {
-        controlsActive = false;
-
-        zaps.Play();
-
-        PlaySoundRandomPitch(zapped, 1f);
-
-        yield return new WaitForSeconds(2f);
-
-        controlsActive = true;
-
-        zaps.Stop();
-    }
+    #region Weapons
 
     void FireWeapons()
     {
@@ -256,14 +236,18 @@ public class ThePilot : AudioHandler {
             }
         }
     }
+    #endregion
 
-    void Movement()
+    #region Movement
+
+    //wasd input
+    float horizontal;
+    float vertical;
+
+    void MovementInputs()
     {
-        //get input device 
-        var inputDevice = InputManager.ActiveDevice;
-
-        float horizontal;
-        float vertical;
+        //set input device
+        inputDevice = InputManager.ActiveDevice;
 
         //controller 
         if (inputDevice.DeviceClass == InputDeviceClass.Controller)
@@ -277,52 +261,39 @@ public class ThePilot : AudioHandler {
             horizontal = Input.GetAxis("Horizontal");
             vertical = Input.GetAxis("Vertical");
         }
+    }
 
-        //set mouse vars
-        float mouseX = 0;
-        float mouseY = 0;
-        //if we are not in first person;
-        if (!zoomedIn && mouseMovement)
+    void ApplyForces()
+    {
+        //horizontal
+        if(planeBody.velocity.x < maxVelocityXY )
+            planeBody.AddForce(horizontal * strafeSpeed, 0, 0);
+
+        //zero vel
+        if(horizontal == 0)
         {
-            mouseX = Input.GetAxis("Mouse X") / mouseFactor;
-            mouseY = Input.GetAxis("Mouse Y") / mouseFactor;
+            planeBody.velocity = new Vector3(0, planeBody.velocity.y, planeBody.velocity.z);
         }
 
-        //controls must be active
-        if (controlsActive)
-        {
-            //LEFT
-            if (horizontal < 0 || mouseX < 0)
-            {
-                transform.position = Vector3.MoveTowards(transform.position,
-                    new Vector3(xMin, transform.position.y, transform.position.z), strafeSpeed * Time.deltaTime);
-            }
-            //RIGHT
-            if (horizontal > 0 || mouseX > 0)
-            {
-                transform.position = Vector3.MoveTowards(transform.position,
-                    new Vector3(xMax, transform.position.y, transform.position.z), strafeSpeed * Time.deltaTime);
-            }
-            //UP
-            if (vertical > 0 || mouseY > 0)
-            {
-                transform.position = Vector3.MoveTowards(transform.position,
-                    new Vector3(transform.position.x, heigtMax, transform.position.z), strafeSpeed * Time.deltaTime);
-            }
-            //DOWN
-            if (vertical < 0 || mouseY < 0)
-            {
-                transform.position = Vector3.MoveTowards(transform.position,
-                    new Vector3(transform.position.x, heightMin, transform.position.z), strafeSpeed * Time.deltaTime);
-            }
-        }
-        
-        //always MOVE FORWARD 
-        transform.position = Vector3.MoveTowards(transform.position,
-               new Vector3(transform.position.x, transform.position.y, transform.position.z + 100f), moveSpeed * Time.deltaTime);
+        //vertical
+        if (planeBody.velocity.y < maxVelocityXY)
+            planeBody.AddForce(0, vertical * strafeSpeed, 0);
 
+        //zero vel
+        if (vertical == 0)
+        {
+            planeBody.velocity = new Vector3(planeBody.velocity.x, 0, planeBody.velocity.z);
+        }
+
+        //forward
+        if (planeBody.velocity.z < maxVelocityZ)
+            planeBody.AddForce(0, 0, moveSpeed);
+    }
+
+    void CheckAnimations()
+    {
         //no input -- IDLE
-        if (vertical ==0 && horizontal == 0 && mouseX == 0 && mouseY == 0)
+        if (vertical == 0 && horizontal == 0)
         {
             _Animations.SetAnimator("idle");
         }
@@ -330,27 +301,50 @@ public class ThePilot : AudioHandler {
         //must have controls active to animate in a direction
         if (controlsActive)
         {
-             //set animator floats for blend WASD
+            //set animator floats for blend WASD
             if (vertical != 0 || horizontal != 0)
             {
                 _Animations.SetAnimator("moving");
                 _Animations.characterAnimator.SetFloat("Move X", horizontal);
                 _Animations.characterAnimator.SetFloat("Move Y", vertical);
             }
-            //for mouse move
-            if (mouseMovement)
-            {
-                //set animator floats for blend  MOUSE
-                if (mouseX != 0 || mouseY != 0)
-                {
-                    _Animations.SetAnimator("moving");
-                    _Animations.characterAnimator.SetFloat("Move X", mouseX);
-                    _Animations.characterAnimator.SetFloat("Move Y", mouseY);
-                }
-            }
-           
+
         }
-       
+    }
+    #endregion
+
+    #region ZapEffect
+    //zap effect
+    public ParticleSystem zaps;
+    IEnumerator zap;
+    
+    //called by lightning to zap the plane 
+    public void InitiateZap()
+    {
+        if (zap != null)
+            StopCoroutine(zap);
+
+        zap = Zap();
+
+        StartCoroutine(zap);
+
+        Debug.Log("zapped!");
     }
 
+    //fries the controls and weapons for a period of time 
+    IEnumerator Zap()
+    {
+        controlsActive = false;
+
+        zaps.Play();
+
+        PlaySoundRandomPitch(zapped, 1f);
+
+        yield return new WaitForSeconds(2f);
+
+        controlsActive = true;
+
+        zaps.Stop();
+    }
+    #endregion
 }
