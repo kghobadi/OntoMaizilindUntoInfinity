@@ -20,7 +20,8 @@ public class Lightning : AudioHandler {
         base.Awake();
 
         the_Pilot = FindObjectOfType<ThePilot>();
-        pilot = the_Pilot.transform;
+        if(the_Pilot)
+            pilot = the_Pilot.transform;
 
         LightningCheck();
     }
@@ -46,7 +47,8 @@ public class Lightning : AudioHandler {
 	
 	void Update ()
     {
-        distFromPlayer = Vector3.Distance(transform.position, pilot.position);
+        if(pilot)
+            distFromPlayer = Vector3.Distance(transform.position, pilot.position);
         //only some clouds are chosen 
         if (lightningCloud)
         {

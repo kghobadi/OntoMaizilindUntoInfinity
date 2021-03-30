@@ -25,7 +25,7 @@ public class NuclearCloud : MonoBehaviour {
             //consume player if nobody else has
             if(other.gameObject.tag == "Player")
             {
-                if(mover.moving == false)
+                if(mover.moving == false) // this is sometimes null, maybe bc of how player is referenced
                 {
                     ConsumePlayer();
                 }

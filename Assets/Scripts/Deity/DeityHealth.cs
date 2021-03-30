@@ -8,7 +8,6 @@ public class DeityHealth : MonoBehaviour {
     DeityAnimations _Animations;
     Deity deity;
     MeshRenderer mRender;
-    FollowPilot follower;
 
     [Tooltip("Check if this is Deity VII")]
     public bool destroyerOfWorlds;
@@ -35,7 +34,6 @@ public class DeityHealth : MonoBehaviour {
         _Animations = GetComponentInParent<DeityAnimations>();
         deity = GetComponentInParent<Deity>();
         mRender = GetComponent<MeshRenderer>();
-        follower = GetComponentInParent<FollowPilot>();
     }
 
     private void Start()
@@ -87,8 +85,6 @@ public class DeityHealth : MonoBehaviour {
 
     void Fall()
     {
-        //disable follower
-        follower.enabled = false;
         //fall anim
         _Animations.Animator.SetTrigger("fall");
         //find spot on ground in front of me to move towards at fall speed
@@ -100,7 +96,7 @@ public class DeityHealth : MonoBehaviour {
         //remove from deity list 
         deityMan.deities.Remove(this);
         //stop strafing
-        deity.strafe = false;
+        deity.SetCrash();
         //alien sound 
         _Sounds.PlayRandomSoundRandomPitch(_Sounds.deathSounds, _Sounds.myAudioSource.volume);
     }

@@ -9,19 +9,7 @@ public class Deity : MonoBehaviour {
     DeityHealth _Health;
     DeityAnimations _Animations;
     Rigidbody deityBody;
-
-    [HideInInspector]
-    public float deitySpeed = 25f;
-    public Transform pilotFightPos;
-
-    void Awake()
-    {
-        pilot = FindObjectOfType<ThePilot>();
-        _Health = GetComponentInChildren<DeityHealth>();
-        _Animations = GetComponent<DeityAnimations>();
-        deityBody = GetComponent<Rigidbody>();
-    }
-
+    
     [Header("Movements")]
     public bool strafe;
     public bool moveForward;
@@ -42,6 +30,26 @@ public class Deity : MonoBehaviour {
     public bool strafingDirection;
     public float xMin, xMax;
 
+    [Header("Deity Weapons")] 
+    public ParticleSystem destructionBeam;
+
+    [Header("Player Interaction")] 
+    public bool engagingPlayer;
+    public float engageDistance;
+    public float distanceFromPlayer;
+    public float xDistFromPlayer;
+    public float yDistFromPlayer;
+    public float zDistFromPlayer;
+
+    void Awake()
+    {
+        pilot = FindObjectOfType<ThePilot>();
+        _Health = GetComponentInChildren<DeityHealth>();
+        _Animations = GetComponent<DeityAnimations>();
+        deityBody = GetComponent<Rigidbody>();
+        mover = GetComponent<MoveTowards>();
+    }
+    
     void Start()
     {
         //grab orig x pos 
@@ -74,15 +82,21 @@ public class Deity : MonoBehaviour {
         maxVelocityZ = max;
     }
 
+    public void SetCrash()
+    {
+        moveForward = false;
+        strafe = false;
+    }
+
     void FlyForward()
     {
-        if(deityBody.velocity.magnitude < maxVelocityZ)
+        if(Mathf.Abs(deityBody.velocity.z)  < maxVelocityZ)
             deityBody.AddForce(0, 0, moveSpeed);
     }
 
     void Strafe()
     {
-        if (deityBody.velocity.magnitude < maxVelocityX)
+        if (Mathf.Abs(deityBody.velocity.x) < maxVelocityX)
             deityBody.AddForce(strafeSpeed, 0, 0);
     }
 
@@ -105,6 +119,42 @@ public class Deity : MonoBehaviour {
                     StrafeOpposite();
             }
         }
+        
+        DistanceCalcs();
+    }
+
+    void DistanceCalcs()
+    {
+        //calc distance 
+        distanceFromPlayer = Vector3.Distance(transform.position, pilot.transform.position);
+        //x dist
+        xDistFromPlayer = Mathf.Abs(transform.position.x - pilot.transform.position.x);
+        //y dist
+        yDistFromPlayer = Mathf.Abs(transform.position.y - pilot.transform.position.y);
+        //z dist
+        zDistFromPlayer = Mathf.Abs(transform.position.z - pilot.transform.position.z);
+
+        if (zDistFromPlayer < engageDistance)
+        {
+            EngagePlayer();   
+        }
+    }
+
+    public void EngagePlayer()
+    {
+        if(engagingPlayer)
+            return;
+
+        pilot.SetZVelMax(pilot.maxVelocityZfight);
+        engagingPlayer = true;
+    }
+
+    public void DisengagePlayer()
+    {
+        if(!engagingPlayer)
+            return;
+
+        engagingPlayer = false;
     }
 
     void SetDirections(FlightPos fPos)

@@ -15,10 +15,11 @@ public class ThePilot : AudioHandler {
     public float moveSpeed;
     public float strafeSpeed = 125f;
     public float maxVelocityZ = 125f;
+    public float maxVelocityZfight = 95f;
+    public float maxVelocityZspeedUp = 125f;
     public float maxVelocityXY = 100f;
     public float heightMin, heigtMax;
     public float xMin, xMax;
-    public float mouseFactor = 3f;
     public bool controlsActive = true;
     public bool countingBullets;
     InputDevice inputDevice;
@@ -47,8 +48,8 @@ public class ThePilot : AudioHandler {
     public override void Awake()
     {
         base.Awake();
-        planeRender = GetComponent<MeshRenderer>();
-        _Animations = GetComponent<PilotAnimation>();
+        _Animations = GetComponentInChildren<PilotAnimation>();
+        planeRender = _Animations.GetComponent<MeshRenderer>();
         advance = FindObjectOfType<AdvanceScene>();
         planeBody = GetComponent<Rigidbody>();
         guns = GetComponentsInChildren<Gun>();
@@ -266,19 +267,53 @@ public class ThePilot : AudioHandler {
     void ApplyForces()
     {
         //horizontal
-        if(planeBody.velocity.x < maxVelocityXY )
-            planeBody.AddForce(horizontal * strafeSpeed, 0, 0);
-
+        if (Mathf.Abs(planeBody.velocity.x) < maxVelocityXY )
+        {
+            //right
+            if (horizontal > 0)
+            {
+                if (transform.position.x < xMax)
+                    planeBody.AddForce(horizontal * strafeSpeed, 0, 0);
+                else
+                    horizontal = 0;
+            }
+            //left
+            if (horizontal < 0)
+            {
+                if (transform.position.x > xMin)
+                    planeBody.AddForce(horizontal * strafeSpeed, 0, 0);
+                else
+                    horizontal = 0;
+            }
+        }
+        
         //zero vel
         if(horizontal == 0)
         {
             planeBody.velocity = new Vector3(0, planeBody.velocity.y, planeBody.velocity.z);
         }
 
-        //vertical
+        //vertical -- this only affects upwards velocity. use Mathf.Abs() to affect downwards as well. 
         if (planeBody.velocity.y < maxVelocityXY)
-            planeBody.AddForce(0, vertical * strafeSpeed, 0);
-
+        {
+            //up
+            if (vertical > 0)
+            {
+                if (transform.position.y < heigtMax)
+                    planeBody.AddForce(0, vertical * strafeSpeed, 0);
+                else
+                    vertical = 0;
+            }
+            //down
+            if (vertical < 0)
+            {
+                if (transform.position.y > heightMin)
+                    planeBody.AddForce(0, vertical * strafeSpeed, 0);
+                else
+                    vertical = 0;
+            }
+        }
+           
         //zero vel
         if (vertical == 0)
         {
@@ -286,8 +321,14 @@ public class ThePilot : AudioHandler {
         }
 
         //forward
-        if (planeBody.velocity.z < maxVelocityZ)
+        if (Mathf.Abs(planeBody.velocity.z)  < maxVelocityZ)
             planeBody.AddForce(0, 0, moveSpeed);
+        //artificially restrict player's velocity when it exceeds max
+        else
+        {
+            Vector3 properVel = new Vector3(planeBody.velocity.x, planeBody.velocity.y, maxVelocityZ);
+            planeBody.velocity = Vector3.MoveTowards(planeBody.velocity, properVel, 15 * Time.deltaTime);
+        }
     }
 
     void CheckAnimations()
@@ -305,12 +346,17 @@ public class ThePilot : AudioHandler {
             if (vertical != 0 || horizontal != 0)
             {
                 _Animations.SetAnimator("moving");
-                _Animations.characterAnimator.SetFloat("Move X", horizontal);
-                _Animations.characterAnimator.SetFloat("Move Y", vertical);
+                _Animations.Animator.SetFloat("Move X", horizontal);
+                _Animations.Animator.SetFloat("Move Y", vertical);
             }
-
         }
     }
+
+    public void SetZVelMax(float amount)
+    {
+        maxVelocityZ = amount;
+    }
+    
     #endregion
 
     #region ZapEffect
