@@ -86,6 +86,7 @@ public class Deity : MonoBehaviour {
     {
         moveForward = false;
         strafe = false;
+        destructionBeam.Stop();
     }
 
     void FlyForward()

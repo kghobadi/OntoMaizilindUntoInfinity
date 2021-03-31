@@ -327,7 +327,7 @@ public class ThePilot : AudioHandler {
         else
         {
             Vector3 properVel = new Vector3(planeBody.velocity.x, planeBody.velocity.y, maxVelocityZ);
-            planeBody.velocity = Vector3.MoveTowards(planeBody.velocity, properVel, 15 * Time.deltaTime);
+            planeBody.velocity = Vector3.MoveTowards(planeBody.velocity, properVel, 50 * Time.deltaTime);
         }
     }
 
@@ -381,6 +381,10 @@ public class ThePilot : AudioHandler {
     IEnumerator Zap()
     {
         controlsActive = false;
+
+        //zero the inputs too
+        horizontal = 0;
+        vertical = 0;
 
         zaps.Play();
 

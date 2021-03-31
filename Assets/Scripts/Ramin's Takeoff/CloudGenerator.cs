@@ -45,6 +45,7 @@ public class CloudGenerator : MonoBehaviour
         spawnTimer = Random.Range(spawnIntervalMin, spawnIntervalMax);
     }
 
+    //so cloud spawning is frame dependent huh
     void Update()
     {
         spawnTimer -= Time.deltaTime;

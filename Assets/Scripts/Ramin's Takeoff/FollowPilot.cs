@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -40,15 +41,14 @@ public class FollowPilot : MonoBehaviour {
         yDistAtStart = transform.position.y - pilot.transform.position.y;
         zDistAtStart = transform.position.z - pilot.transform.position.z;
     }
-	
-	void Update ()
+    
+    private void FixedUpdate()
     {
         FollowThePilot();
-	}
+    }
 
     void FollowThePilot()
     {
-        Vector3 currentPos = transform.position;
         Vector3 targetPos = transform.position;
         
         //X
