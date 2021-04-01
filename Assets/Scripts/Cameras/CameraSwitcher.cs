@@ -17,7 +17,6 @@ public class CameraSwitcher : MonoBehaviour {
     public List<CamObject> cameraObjects = new List<CamObject>();
     public CamObject currentCamObj;
     public GameObject currentPlayer;
-    public int currentCam = 1;
     public GameObject citizensParent;
     public GameObject bombers;
     public MovementPath toMosque;
@@ -65,8 +64,7 @@ public class CameraSwitcher : MonoBehaviour {
             DisableCamObj(cameraObjects[i]);
         }
         
-        //set current cam obj at start
-        currentCamObj = cameraObjects[currentCam];
+        //set current player obj at start
         currentPlayer = currentCamObj.gameObject;
 
         //no debug
@@ -87,10 +85,6 @@ public class CameraSwitcher : MonoBehaviour {
 	
 	void Update ()
     {
-        //resets current cam when people are destroyed
-        if (currentCam > cameraObjects.Count - 1)
-            currentCam = cameraObjects.IndexOf(currentCamObj);
-
         //only allow shift controls when bomber view 
         if(debug)
             ShiftControls();
@@ -126,18 +120,17 @@ public class CameraSwitcher : MonoBehaviour {
             //switch through cam objects down
             if (Input.GetKeyDown(KeyCode.LeftShift) || inputDevice.DPadLeft.WasPressed || inputDevice.DPadDown.WasPressed)
             {
-                SwitchCam(false, -1);
+                SwitchCam(false);
             }
             //switch through cam objects up
             if (Input.GetKeyDown(KeyCode.RightShift) || inputDevice.DPadRight.WasPressed || inputDevice.DPadUp.WasPressed)
             {
-                SwitchCam(true, -1);
+                SwitchCam(true);
             }
-
             //directly switch to planes
-            if (Input.GetKeyDown(KeyCode.Alpha0) && currentCam != 0)
+            if (Input.GetKeyDown(KeyCode.Alpha0))
             {
-                SwitchCam(false, 0);
+                SetCam(0);
             }
         }
     }
@@ -155,10 +148,38 @@ public class CameraSwitcher : MonoBehaviour {
         }
     }
 
-    public void SwitchCam(bool upOrDown, int num)
+    public int GetCurrentCamIndex()
+    {
+        return cameraObjects.IndexOf(currentCamObj);
+    }
+
+    /// <summary>
+    /// Set player to a specific cam object index.
+    /// </summary>
+    /// <param name="num"></param>
+    public void SetCam(int num)
+    {
+        //disable current cam 
+        DisableCamObj(currentCamObj);
+        
+        //null check loop
+        while (cameraObjects[num] == null)
+        {
+            cameraObjects.RemoveAt(num);
+        }
+        
+        //enable new cam
+        EnableCamObj(cameraObjects[num]);
+    }
+
+    /// <summary>
+    /// Switch player to either the next or last index.
+    /// </summary>
+    /// <param name="upOrDown"></param>
+    public void SwitchCam(bool upOrDown)
     {
         //disable current cam
-        DisableCamObj(cameraObjects[currentCam]);
+        DisableCamObj(currentCamObj);
 
         //fade out shift press UI
         if (shiftPress)
@@ -166,60 +187,64 @@ public class CameraSwitcher : MonoBehaviour {
             if (shiftPress.gameObject.activeSelf)
                 shiftPress.FadeOut();
         }
+        
+        //get index of current cam obj
+        int currentCam = cameraObjects.IndexOf(currentCamObj);
        
         //increment currentCam
-        //use the passed int
-        if (num >= 0)
+        //count up
+        if (upOrDown)
         {
-            currentCam = num;
-        }
-        //count up or down based on bool
-        else
-        {
-            //count up
-            if (upOrDown)
+            if (currentCam < cameraObjects.Count - 1)
             {
-                if (currentCam < cameraObjects.Count - 1)
-                {
-                    currentCam++;
-                }
-                else
-                {
-                    currentCam = 0;
-                }
+                currentCam++;
             }
-            //count down
             else
             {
-                if (currentCam > 0)
+                currentCam = 0;
+            }
+        }
+        //count down
+        else
+        {
+            if (currentCam > 0)
+            {
+                if(currentCam < cameraObjects.Count - 1)
                 {
-                    if(currentCam < cameraObjects.Count - 1)
-                    {
-                        currentCam--;
-                    }
-                    else
-                    {
-                        currentCam = cameraObjects.Count - 2;
-                    }
+                    currentCam--;
                 }
                 else
                 {
-                    currentCam = cameraObjects.Count - 1;
+                    currentCam = cameraObjects.Count - 2;
                 }
             }
+            else
+            {
+                currentCam = cameraObjects.Count - 1;
+            }
+        }
+        
+        //null check loop
+        while (cameraObjects[currentCam] == null)
+        {
+            cameraObjects.RemoveAt(currentCam);
         }
 
         //enable new cam
         EnableCamObj(cameraObjects[currentCam]);
-
-        //start shift reset 
-        canShift = false;
-        shiftResetTimer = shiftReset;
     }
 
     //enables a camObj as current cam obj
     public void EnableCamObj(CamObject cam)
     {
+        //null check
+        if (cam == null)
+        {
+            Debug.Log("That person is null now!");
+            cameraObjects.Remove(cam);
+            return;
+        }
+        
         //turn on new cam obj
         if (cam.myCamType == CamObject.CamType.HUMAN)
         {
@@ -242,13 +267,25 @@ public class CameraSwitcher : MonoBehaviour {
         }
 
         //reset current cam obj
-        currentCamObj = cameraObjects[currentCam];
+        currentCamObj = cam;
         currentPlayer = currentCamObj.gameObject;
+        
+        //start shift reset 
+        canShift = false;
+        shiftResetTimer = shiftReset;
     }
 
     //disables a cam obj
     public void DisableCamObj(CamObject cam)
     {
+        //null check
+        if (cam == null)
+        {
+            Debug.Log("That person is null now!");
+            cameraObjects.Remove(cam);
+            return;
+        }
+        
         //deal with current cam object
         if (cam.myCamType == CamObject.CamType.HUMAN)
         {

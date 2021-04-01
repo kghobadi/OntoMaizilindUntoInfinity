@@ -137,7 +137,7 @@ public class MonologueManager : MonoBehaviour
         //player ref 
         if (camSwitcher)
         {
-            CamObject cam = camSwitcher.cameraObjects[camSwitcher.currentCam];
+            CamObject cam = camSwitcher.currentCamObj;
             currentPlayer = cam.gameObject;
         }
 
@@ -248,7 +248,7 @@ public class MonologueManager : MonoBehaviour
         //player ref 
         if (camSwitcher)
         {
-            CamObject cam = camSwitcher.cameraObjects[camSwitcher.currentCam];
+            CamObject cam = camSwitcher.currentCamObj;
             currentPlayer = cam.gameObject;
         }
        

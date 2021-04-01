@@ -13,12 +13,19 @@ public class AudioTrigger : MonoBehaviour {
     {
         if(other.gameObject.tag == "Human" || other.gameObject.tag == "Player")
         {
-            if (!hasActivated)
-            {
-                fadeOut.FadeOut(fadeOut.fadeOutAmount, fadeOutSpeed);
-                fadeIn.SetSound(fadeIn.musicTrack);
-                fadeIn.FadeIn(fadeIn.fadeInAmount, fadeInSpeed);
-            }
+            Activate();
+        }
+    }
+
+    public void Activate()
+    {
+        if (!hasActivated)
+        {
+            fadeOut.FadeOut(fadeOut.fadeOutAmount, fadeOutSpeed);
+            fadeIn.SetSound(fadeIn.musicTrack);
+            fadeIn.FadeIn(fadeIn.fadeInAmount, fadeInSpeed);
+
+            hasActivated = true;
         }
     }
 

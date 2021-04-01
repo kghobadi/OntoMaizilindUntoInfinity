@@ -126,7 +126,7 @@ public class GroundCamera : MonoBehaviour
             if (currentCamObj != null)
             {
                 int index = camSwitcher.cameraObjects.IndexOf(currentCamObj);
-                camSwitcher.SwitchCam(true, index);
+                camSwitcher.SetCam(index);
                 currentCamObj.shiftUI.FadeOut();
             }
         }

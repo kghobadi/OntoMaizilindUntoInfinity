@@ -25,7 +25,7 @@ namespace Cameras
 
         void OnTriggerEnter(Collider other)
         {
-            currentPlayer = camSwitcher.cameraObjects[camSwitcher.currentCam].transform;
+            currentPlayer = camSwitcher.currentPlayer.transform;
 
             if(other.gameObject == currentPlayer.gameObject && !active)
             {
@@ -44,7 +44,7 @@ namespace Cameras
 
         void OnTriggerExit(Collider other)
         {
-            currentPlayer = camSwitcher.cameraObjects[camSwitcher.currentCam].transform;
+            currentPlayer = camSwitcher.currentPlayer.transform;
 
             if (other.gameObject == currentPlayer.gameObject && active)
             {

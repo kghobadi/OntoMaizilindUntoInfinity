@@ -85,7 +85,7 @@ public class Explosion : AudioHandler {
     void AudioCheck()
     {
         //grab current player 
-        Transform currentPlayer = camSwitcher.cameraObjects[camSwitcher.currentCam].transform;
+        Transform currentPlayer = camSwitcher.currentPlayer.transform;
         //dist check
         float dist = Vector3.Distance(transform.position, currentPlayer.position);
 
@@ -115,7 +115,7 @@ public class Explosion : AudioHandler {
             if (other.gameObject.GetComponent<FirstPersonController>().enabled)
             {
                 //switch to next viewer
-                camSwitcher.SwitchCam(false, 0);
+                camSwitcher.SetCam(0);
                 Debug.Log("it was you who died");
             }
 

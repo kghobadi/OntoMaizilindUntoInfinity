@@ -34,18 +34,18 @@ public class BombTrigger : MonoBehaviour {
                     bombingRuns++;
 
                     //should we kill the player? only if player is NOT the planes  && not entered mosque yet
-                    if(bombingRuns % killPlayerFreq == 0 && camSwitcher.currentCam != 0 && !bombShelter.projecting)
+                    if(bombingRuns % killPlayerFreq == 0 && camSwitcher.GetCurrentCamIndex() != 0 && !bombShelter.projecting)
                     {
                         bomber.KillPlayer();
                     }
 
                     //we are the planes -- transition to anything else. 
-                    if (camSwitcher.currentCam == 0)
+                    if (camSwitcher.GetCurrentCamIndex() == 0)
                     {
                         //enough people to transition back to running
                         if (camSwitcher.cameraObjects.Count > camSwitcher.transitionAmount)
                         {
-                            camSwitcher.SwitchCam(true, 2);
+                            camSwitcher.SetCam(2);
                         }
                         //out of people, transition directly to mosque view & begin projection    
                         else
