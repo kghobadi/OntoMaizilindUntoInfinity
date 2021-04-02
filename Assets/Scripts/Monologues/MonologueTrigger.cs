@@ -166,7 +166,7 @@ public class MonologueTrigger : MonoBehaviour
     {
         if (!hasActivated)
         {
-            //sets monologues 
+            //sets monologues -- should have a check to wait until the character finishes their current monologue, if active. 
             for (int i = 0; i < myMonologues.Length; i++)
             {
                 myMonologues[i].mTrigger = this;
