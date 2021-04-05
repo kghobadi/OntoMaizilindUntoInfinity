@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Video;
 
 public class PauseMenu : MonoBehaviour {
@@ -8,6 +9,7 @@ public class PauseMenu : MonoBehaviour {
     TitleToRoom title;
 
     public bool paused;
+    public UnityEvent toggledPause;
     bool wasTiming;
 
     public GameObject pauseMenu;
@@ -48,6 +50,8 @@ public class PauseMenu : MonoBehaviour {
         {
             Pause();
         }
+        
+        toggledPause.Invoke();
     }
 
     public void Resume()

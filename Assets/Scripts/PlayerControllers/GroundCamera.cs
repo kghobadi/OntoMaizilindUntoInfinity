@@ -6,7 +6,8 @@ using InControl;
 public class GroundCamera : MonoBehaviour
 {
     PauseMenu pauseMenu;
-    CameraSwitcher camSwitcher;
+    CameraSwitcher camSwitcher; 
+    ObjectViewer _objectViewer;
     Transform mainCam;
     GameObject character;
     Transform player;
@@ -18,6 +19,7 @@ public class GroundCamera : MonoBehaviour
     public float sensitivityX = 1f;
     public float sensitivityY = 1f;
     public bool invertX, invertY;
+    public bool canControl = true;
 
     [Header("Clamp Rotation")]
     public bool clamps;
@@ -32,19 +34,29 @@ public class GroundCamera : MonoBehaviour
         fpc = player.GetComponent<FirstPersonController>();
         mainCam = Camera.main.transform;
         pauseMenu = FindObjectOfType<PauseMenu>();
+        pauseMenu.toggledPause.AddListener(CheckCanControl);
         camSwitcher = FindObjectOfType<CameraSwitcher>();
+        _objectViewer = FindObjectOfType<ObjectViewer>();
 
         Cursor.lockState = CursorLockMode.Locked;
+        canControl = true;
+    }
+    
+    void CheckCanControl()
+    {
+        if (pauseMenu.paused)
+        {
+            canControl = false;
+        }
+        else if(pauseMenu.paused == false && _objectViewer.viewing == false)
+        {
+            canControl = true;
+        }
     }
 
     void Update()
     {
-        if (pauseMenu)
-        {
-            if (pauseMenu.paused == false)
-                CameraRotation();
-        }
-        else
+        if (canControl)
         {
             CameraRotation();
         }

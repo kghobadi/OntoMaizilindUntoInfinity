@@ -107,7 +107,7 @@ public class FirstPersonController : MonoBehaviour
     void MouseKeyboardMovement()
     {
         //when hold mouse 1, you begin to move in that direction
-        if (Input.GetMouseButton(0))
+        /*if (Input.GetMouseButton(0))
         {
             moving = true;
 
@@ -123,9 +123,9 @@ public class FirstPersonController : MonoBehaviour
             movement = new Vector3(0, 0, -currentSpeed);
 
             SprintSpeed();
-        }
+        }*/
         //WASD controls
-        else if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) ||
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) ||
             Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
         {
             moving = true;
