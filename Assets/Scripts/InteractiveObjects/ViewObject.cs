@@ -21,7 +21,7 @@ public class ViewObject : Interactive
 	{
 		_objectViewer = FindObjectOfType<ObjectViewer>();
 		originPos = transform.position;
-		originRot = transform.rotation;
+		originRot = transform.rotation; //this may need to be a localized thing, just like with position
 		originScale = transform.localScale;
 		originParent = transform.parent;
 		sibIndex = transform.GetSiblingIndex();

@@ -81,7 +81,7 @@ public class ObjectViewer : AudioHandler
 		}
 		
 		//set rotation
-		obj.transform.rotation = viewPos.rotation;
+		obj.transform.rotation = viewPos.rotation; // this may be problematic
 		//scale
 		if (obj.scaleFactor != 1f)
 			obj.transform.localScale *= obj.scaleFactor;
