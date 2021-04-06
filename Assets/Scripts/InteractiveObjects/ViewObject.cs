@@ -12,7 +12,9 @@ public class ViewObject : Interactive
 	private Vector3 originScale;
 	private Transform originParent;
 	private int sibIndex;
+	public Collider[] colliders;
 
+	[Header("View Object Settings")]
 	public float scaleFactor = 1f;
 	public TextAsset objDescription;
 	private void Awake()
@@ -23,6 +25,7 @@ public class ViewObject : Interactive
 		originScale = transform.localScale;
 		originParent = transform.parent;
 		sibIndex = transform.GetSiblingIndex();
+		colliders = GetComponentsInChildren<Collider>();
 	}
 
 	protected override void SetActive()
@@ -64,6 +67,11 @@ public class ViewObject : Interactive
 		for (int i = 0; i < transform.childCount; i++)
 		{
 			transform.GetChild(i).gameObject.layer = 15;
+		}
+		//enable colliders
+		for (int i = 0; i < colliders.Length; i++)
+		{
+			colliders[i].enabled = true;
 		}
 	}
 }

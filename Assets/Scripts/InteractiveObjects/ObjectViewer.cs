@@ -42,6 +42,12 @@ public class ObjectViewer : AudioHandler
 		camSwitcher.currentPlayer.GetComponent<FirstPersonController>().canMove = false;
 		camSwitcher.currentCamObj.camObj.GetComponent<GroundCamera>().canControl = false;
 		
+		//disable objects colliders
+		for (int i = 0; i < obj.colliders.Length; i++)
+		{
+			obj.colliders[i].enabled = false;
+		}
+		
 		//set parent
 		obj.transform.SetParent(viewPos);
 		

@@ -3,19 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interactive : MonoBehaviour
+public class Interactive : AudioHandler
 {
 	private CameraSwitcher _cameraSwitcher;
 	
+	[Header("Interactive Object Settings")]
 	public bool active;
-	//public string name;
 	public MeshRenderer _meshRenderer;
 	public Material activeMat;
 	public Material inactiveMat;
 	public AudioClip interactSound;
 	public float distNecessary = 7.5f;
 	
-	void Start ()
+	protected virtual void Start ()
 	{
 		//cam switcher ref
 		_cameraSwitcher = FindObjectOfType<CameraSwitcher>();
@@ -27,11 +27,6 @@ public class Interactive : MonoBehaviour
 			if(_meshRenderer == null)
 				_meshRenderer = GetComponentInChildren<MeshRenderer>();
 		}
-		//game object name
-		// if (String.IsNullOrEmpty(name))
-		// {
-		// 	name = transform.parent.gameObject.name;
-		// }
 	}
 
 	float CheckDistFromPlayer()

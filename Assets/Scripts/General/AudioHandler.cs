@@ -16,11 +16,6 @@ public abstract class AudioHandler : MonoBehaviour
     public virtual void Awake()
     {
         myAudioSource = GetComponent<AudioSource>();
-
-        if (myAudioSource == null)
-        {
-            myAudioSource = gameObject.AddComponent<AudioSource>();
-        }
     }
 
     //plays a sound with vol
