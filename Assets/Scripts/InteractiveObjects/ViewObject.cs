@@ -16,11 +16,14 @@ public class ViewObject : Interactive
 
 	[Header("View Object Settings")]
 	public float scaleFactor = 1f;
+
+	public Vector3 positionOffset = Vector3.zero;
+	//how to do a rotation offset?
 	public TextAsset objDescription;
 	private void Awake()
 	{
 		_objectViewer = FindObjectOfType<ObjectViewer>();
-		originPos = transform.position;
+		originPos = transform.localPosition;
 		originRot = transform.rotation; //this may need to be a localized thing, just like with position
 		originScale = transform.localScale;
 		originParent = transform.parent;
@@ -57,7 +60,7 @@ public class ViewObject : Interactive
 		//sibling index
 		transform.SetSiblingIndex(sibIndex);
 		//pos
-		transform.position = originPos;
+		transform.localPosition = originPos;
 		//rotation
 		transform.rotation = originRot;
 		//scale

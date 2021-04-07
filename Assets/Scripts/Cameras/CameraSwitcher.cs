@@ -9,6 +9,7 @@ using NPC;
 public class CameraSwitcher : MonoBehaviour {
     CameraManager camManager;
 
+    [HideInInspector] public ObjectViewer objViewer;
     //camera objects list, current obj, and int to count them
     [Tooltip("Check to test citizens at Start")]
     public bool debug;

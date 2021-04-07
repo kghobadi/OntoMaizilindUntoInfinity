@@ -8,8 +8,14 @@ using UnityEngine;
 /// </summary>
 public class TurnOnOrOff : Interactive
 {
+    public bool isOn;
+
+    public AudioClip offSound;
+    //any game obj
 	public GameObject[] objects;
-	public bool isOn;
+	//sounds
+	public AudioSource[] audioSources;
+	public MusicFader[] musicFaders;
 
 	protected override void Interact()
 	{
@@ -20,6 +26,28 @@ public class TurnOnOrOff : Interactive
 			{
 				objects[i].SetActive(false);
 			}
+			
+			//play the sound!
+			if(offSound)
+				PlaySound(offSound, 1f);
+			else
+			{
+				//play the sound!
+				if(interactSound)
+					PlaySound(interactSound, 1f);
+			}
+
+			for (int i = 0; i < audioSources.Length; i++)
+			{
+				audioSources[i].Stop();
+			}
+			
+			for (int i = 0; i < musicFaders.Length; i++)
+			{
+				musicFaders[i].FadeOut(0f, musicFaders[i].fadeSpeed);
+			}
+			
+			
 		}
 		//off -- turn on
 		else
@@ -28,11 +56,22 @@ public class TurnOnOrOff : Interactive
 			{
 				objects[i].SetActive(true);
 			}
+			
+			//play the sound!
+			if(interactSound)
+				PlaySound(interactSound, 1f);
+			
+			for (int i = 0; i < audioSources.Length; i++)
+			{
+				audioSources[i].Play();
+			}
+			
+			for (int i = 0; i < musicFaders.Length; i++)
+			{
+				musicFaders[i].SetSound(musicFaders[i].musicTrack);
+				musicFaders[i].FadeIn(1f, musicFaders[i].fadeSpeed);
+			}
 		}
-
-		//play the sound!
-		if(interactSound)
-			PlaySound(interactSound, 1f);
 		
 		//switch bool
 		isOn = !isOn;

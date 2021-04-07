@@ -18,7 +18,7 @@ public class ObjectViewer : AudioHandler
 	private Camera mainCam;
 	private int mainCullingMask;
 	public GameObject[] viewObjectSetup;
-	
+	private bool couldMove;
 	public float mouseRotSpeedX = 1f;
 	public float mouseRotSpeedY = 1f;
 	
@@ -27,6 +27,7 @@ public class ObjectViewer : AudioHandler
 	private void Start()
 	{
 		camSwitcher = GetComponentInParent<CameraSwitcher>();
+		camSwitcher.objViewer = this;
 		mainCam = Camera.main;
 		mainCullingMask = mainCam.cullingMask;
 	}
@@ -39,6 +40,7 @@ public class ObjectViewer : AudioHandler
 		//play interact sound
 		PlaySound(obj.interactSound, 1f);
 		//disable player movement and camera controls
+		couldMove = camSwitcher.currentPlayer.GetComponent<FirstPersonController>().canMove;
 		camSwitcher.currentPlayer.GetComponent<FirstPersonController>().canMove = false;
 		camSwitcher.currentCamObj.camObj.GetComponent<GroundCamera>().canControl = false;
 		
@@ -66,14 +68,14 @@ public class ObjectViewer : AudioHandler
 			if (String.IsNullOrEmpty(obj.objDescription.text))
 			{
 				//null -- center object in vew
-				obj.transform.position = viewPos.position;
+				obj.transform.position = viewPos.position + obj.positionOffset;
 				objectDescription.enabled = false;
 			}
 			//there is a string description for the item
 			else
 			{
 				//move slightly to left
-				obj.transform.localPosition = new Vector3(objectTextOffset, 0f, 0f);
+				obj.transform.localPosition = new Vector3(objectTextOffset, 0f, 0f) + obj.positionOffset;
 				//enable text canvas and set description
 				objectDescription.enabled = true;
 				objectDescription.text = obj.objDescription.text;
@@ -81,7 +83,7 @@ public class ObjectViewer : AudioHandler
 		}
 		
 		//set rotation
-		obj.transform.rotation = viewPos.rotation; // this may be problematic
+		obj.transform.localRotation = Quaternion.identity; // this may be problematic
 		//scale
 		if (obj.scaleFactor != 1f)
 			obj.transform.localScale *= obj.scaleFactor;
@@ -111,7 +113,7 @@ public class ObjectViewer : AudioHandler
 		{
 			MouseRotateObject();
 			
-			//left click or right click to stop viewing
+			// right click to stop viewing
 			if ( Input.GetMouseButtonDown(1))
 			{
 				StopViewing();
@@ -142,7 +144,7 @@ public class ObjectViewer : AudioHandler
 		mainCam.cullingMask = mainCullingMask;
 
 		//enable player movement and camera controls
-		camSwitcher.currentPlayer.GetComponent<FirstPersonController>().canMove = true;
+		camSwitcher.currentPlayer.GetComponent<FirstPersonController>().canMove = couldMove;
 		camSwitcher.currentCamObj.camObj.GetComponent<GroundCamera>().canControl = true;
 		
 		//disable object viewer setup

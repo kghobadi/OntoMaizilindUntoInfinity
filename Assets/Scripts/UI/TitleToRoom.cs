@@ -188,6 +188,7 @@ public class TitleToRoom : MonoBehaviour {
         //activate room stuff 
         camManager.Set(roomCam);
         callToPrayer.SetSound(callToPrayer.musicTrack);
+        callToPrayer.FadeIn(callToPrayer.fadeInAmount, callToPrayer.fadeSpeed);
         warAmbience.FadeOut(0f, warAmbience.fadeSpeed);
         clock.gameObject.SetActive(true);
         //timeline.StartTimeline();

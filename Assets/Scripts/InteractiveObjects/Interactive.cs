@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Interactive : AudioHandler
 {
-	private CameraSwitcher _cameraSwitcher;
+	protected CameraSwitcher _cameraSwitcher;
 	
 	[Header("Interactive Object Settings")]
 	public bool active;
@@ -14,6 +14,8 @@ public class Interactive : AudioHandler
 	public Material inactiveMat;
 	public AudioClip interactSound;
 	public float distNecessary = 7.5f;
+	public FadeUI clickerUI;
+	public bool hasClicked;
 	
 	protected virtual void Start ()
 	{
@@ -62,6 +64,13 @@ public class Interactive : AudioHandler
 		//highlight obj
 		_meshRenderer.material = activeMat;
 		active = true;
+
+		//in case this object has clicker UI instructions
+		if (!hasClicked)
+		{
+			if(clickerUI)
+				clickerUI.FadeIn();
+		}
 	}
 
 	void OnMouseDown()
@@ -69,6 +78,15 @@ public class Interactive : AudioHandler
 		if (active)
 		{
 			Interact();
+
+			//if we have click UI, disable it and fade out permanently 
+			if (clickerUI)
+			{
+				clickerUI.keepActive = false;
+				clickerUI.FadeOut();
+			}
+				
+			hasClicked = true;
 		}
 	}
 
@@ -87,5 +105,12 @@ public class Interactive : AudioHandler
 		//unhighlight obj
 		_meshRenderer.material = inactiveMat;
 		active = false;
+		
+		//if we have ui to fade out 
+		if (clickerUI)
+		{
+			if(clickerUI.gameObject.activeSelf)
+				clickerUI.FadeOut();
+		}
 	}
 }

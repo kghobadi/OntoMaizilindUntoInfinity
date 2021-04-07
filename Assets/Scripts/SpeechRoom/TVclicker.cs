@@ -2,65 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TVclicker : AudioHandler {
+public class TVclicker : Interactive {
 
     Television tv;
-    float dist;
-    Transform player;
-
+    
     [Header("Sounds")]
     public AudioClip[] staticClicks;
 
-    public FadeUI clicker;
-    public bool hasClicked;
-    public float necDist = 7f;
-
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+        
         tv = FindObjectOfType<Television>();
-        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
-    private void Update()
+    protected override void SetActive()
     {
-        dist = Vector3.Distance(transform.position, player.position);
-    }
-
-    private void OnMouseEnter()
-    {
-        if(!hasClicked && tv.speechStarted == false && tv.waitingForStatic == false)
-            clicker.FadeIn();
-    }
-
-    private void OnMouseOver()
-    {
-        if (tv.waitingForStatic)
+        //never set active for interaction if the speech stuff has started 
+        if (tv.speechStarted == false && tv.waitingForStatic == false)
         {
-            if(clicker.fadingOut == false)
-            {
-                clicker.keepActive = false;
-                clicker.FadeOut();
-            }
+            base.SetActive();
         }
     }
 
-    private void OnMouseDown()
+    protected override void Interact()
     {
+        base.Interact();
+        
         if(tv.speechStarted == false && tv.waitingForStatic == false)
         {
             tv.SwitchChannel();
 
             PlayRandomSoundRandomPitch(staticClicks, 1f);
 
-            clicker.FadeOut();
+            if(clickerUI)
+                clickerUI.FadeOut();
 
             hasClicked = true;
         }
-    }
-
-    private void OnMouseExit()
-    {
-        if(clicker)
-            clicker.FadeOut();
     }
 }
