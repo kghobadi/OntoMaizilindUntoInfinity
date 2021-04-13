@@ -39,6 +39,7 @@ public class Television : MonoBehaviour {
     public Radio radio;
     AudioSource tvSource;
     AudioSource radioSource;
+    public AudioSource[] extraRadios;
     public MonologueManager shahSpeech;
     public MonologueReader shahReader;
     public int [] transitionLines;
@@ -81,6 +82,14 @@ public class Television : MonoBehaviour {
                 vidPlayer.Play();
                 //play radio and enable monologue at the same time 
                 radioSource.Play();
+                //extra radios
+                for (int i = 0; i < extraRadios.Length; i++)
+                {
+                    extraRadios[i].Play();
+                    //disable their click scripts
+                    extraRadios[i].GetComponent<TurnOnOrOff>().enabled = false;
+                    extraRadios[i].GetComponent<MeshCollider>().enabled = false;
+                }
                 waitingForStatic = false;
             }
 
@@ -157,9 +166,19 @@ public class Television : MonoBehaviour {
 
         //radio 
         radioSource.Stop();
+        radioSource.loop = false;
         radioSource.clip = radio.staticBroadcast;
         radioSource.volume = 1f;
         radioSource.Play();
+        
+        //extra radios
+        for (int i = 0; i < extraRadios.Length; i++)
+        {
+            extraRadios[i].Stop();
+            extraRadios[i].clip = radio.staticBroadcast;
+            extraRadios[i].volume = 1f;
+            extraRadios[i].Play();
+        }
 
         //set vid player, ambience
         SetVideoPlayer(staticBroadcast);
@@ -190,6 +209,15 @@ public class Television : MonoBehaviour {
         radioSource.Stop();
         radioSource.clip = radio.shahSpeech;
         radioSource.volume = 1f;
+        
+        //extra radios
+        for (int i = 0; i < extraRadios.Length; i++)
+        {
+            extraRadios[i].mute = true;
+            extraRadios[i].Stop();
+            extraRadios[i].clip = radio.shahSpeech;
+            extraRadios[i].volume = 1f;
+        }
 
         //enable front door, disable back building, enable corridor and stairwell
         frontDoorCollider.enabled = true;
@@ -221,5 +249,11 @@ public class Television : MonoBehaviour {
     {
         tvSource.mute = !tvSource.mute;
         radioSource.mute = !radioSource.mute;
+        
+        //extra radios
+        for (int i = 0; i < extraRadios.Length; i++)
+        {
+            extraRadios[i].mute = radioSource.mute;
+        }
     }
 }

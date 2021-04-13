@@ -46,14 +46,20 @@ namespace NPC
         public NPCMovementTypes npcType;
         public enum NPCMovementTypes
         {
-            WAYPOINT, RANDOM, IDLE, PATHFINDER,
+            WAYPOINT, RANDOM, IDLE, PATHFINDER, FINDPLAYER,
         }
 
-        [Tooltip("Various idle animation types!")]
+        [Tooltip("Various Animation Types!")]
         public IdleType idleType;
         public enum IdleType
         {
             STANDING, SITTING, PRAYING
+        }
+        
+        public RunType runType;
+        public enum RunType
+        {
+            FASTRUN, HOLDINGCHILD, 
         }
 
         //allows mosque to access this 
@@ -65,7 +71,12 @@ namespace NPC
 
         [Header("Random Settings")]
         public float movementRadius;
-        
+
+        [Header("Retrieve Player and Take to Shelter")]
+        public MovementPath toShelter;
+        public bool holdingPlayer;
+        public Transform holdingSpot;
+
         void Awake()
         {
             GetRefs();
@@ -114,6 +125,8 @@ namespace NPC
                 Moving();
                 //talking state
                 Talking();
+                //finding player
+                FindPlayer();
             }
         }
         
@@ -289,6 +302,8 @@ namespace NPC
             npcType = movementManager.movementPaths[newMove.pathIndex].moveType;
 
             idleType = movementManager.movementPaths[newMove.pathIndex].idleType;
+            
+            runType =  movementManager.movementPaths[newMove.pathIndex].runType;
 
             //random npc move type 
             if (npcType == NPCMovementTypes.RANDOM)
@@ -358,6 +373,53 @@ namespace NPC
             }
         }
 
+        //have this NPC run to wherever the player is and pick them up. 
+        void FindPlayer()
+        {
+            if (npcType == NPCMovementTypes.FINDPLAYER)
+            {
+                //are we close to player?
+                if (Vector3.Distance(transform.position, currentPlayer.transform.position) < myNavMesh.stoppingDistance + 3f)
+                {
+                    PickUpPlayer();
+                }
+                //keep loooking
+                else
+                {
+                    NavigateToPoint(currentPlayer.transform.position, false);
+                }
+            }   
+        }
+
+        void PickUpPlayer()
+        {
+            //get fps
+            FirstPersonController fps = controller.camSwitcher.currentPlayer.GetComponent<FirstPersonController>();
+
+            //disable movement
+            fps.canMove = false;
+            //set pos
+            controller.camSwitcher.currentPlayer.transform.position = holdingSpot.position;
+            controller.camSwitcher.currentPlayer.transform.SetParent(transform);
+            holdingPlayer = true;
+            //reset movement to shelter
+            ResetMovement(toShelter);
+            SetRunType(RunType.HOLDINGCHILD);
+        }
+
+        public void DropPlayer()
+        {
+            //get fps
+            FirstPersonController fps = controller.camSwitcher.currentPlayer.GetComponent<FirstPersonController>();
+
+            //enable movement
+            fps.canMove = true;
+            //set parent null
+            controller.camSwitcher.currentPlayer.transform.SetParent(null);
+            //done
+            holdingPlayer = false;
+        }
+
         //looks at object
         void LookAtObject(Vector3 pos, bool useMyY)
         {
@@ -408,6 +470,25 @@ namespace NPC
                     break;
                 case IdleType.PRAYING:
                     npcAnimations.Animator.SetFloat("IdleType", 1f);
+                    break;
+            }
+        }
+        
+        /// <summary>
+        /// changes the NPC's run type 
+        /// </summary>
+        /// <param name="run"></param>
+        public void SetRunType(RunType run)
+        {
+            runType = run;
+            
+            switch (runType)
+            {
+                case RunType.FASTRUN:
+                    npcAnimations.Animator.SetFloat("RunType", 0f);
+                    break;
+                case RunType.HOLDINGCHILD:
+                    npcAnimations.Animator.SetFloat("RunType", 1f);
                     break;
             }
         }

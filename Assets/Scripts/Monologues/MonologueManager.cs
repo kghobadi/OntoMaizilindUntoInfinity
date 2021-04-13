@@ -105,7 +105,9 @@ public class MonologueManager : MonoBehaviour
     IEnumerator WaitToSetNew(int index)
     {
         yield return new WaitUntil(() => inMonologue == false);
-        
+
+        yield return new WaitForEndOfFrame();
+
         SetMonologueSystem(index);
         
         EnableMonologue();
