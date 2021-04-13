@@ -43,6 +43,8 @@ public class MonologueManager : MonoBehaviour
     Vector3 origBodyRot;
     Vector3 origHeadRot;
 
+    private IEnumerator newMonologue;
+
     void Awake()
     {
         camSwitcher = FindObjectOfType<CameraSwitcher>();
@@ -88,6 +90,25 @@ public class MonologueManager : MonoBehaviour
         monoReader.timeBetweenLines = allMyMonologues[currentMonologue].timeBetweenLines;
         monoReader.conversational = allMyMonologues[currentMonologue].conversational;
         monoReader.waitTimes = allMyMonologues[currentMonologue].waitTimes;
+    }
+
+    //overwrites any previous wait to set New mono call
+    public void WaitToSetNewMonologue(int index)
+    {
+        if(newMonologue != null)
+            StopCoroutine(newMonologue);
+        newMonologue = WaitToSetNew(index);
+        StartCoroutine(newMonologue);
+    }
+
+    //waits until this mono manager is no longer in mono to set system and enable new monologue
+    IEnumerator WaitToSetNew(int index)
+    {
+        yield return new WaitUntil(() => inMonologue == false);
+        
+        SetMonologueSystem(index);
+        
+        EnableMonologue();
     }
 
     //has a wait for built in

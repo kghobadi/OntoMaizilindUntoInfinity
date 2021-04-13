@@ -169,9 +169,17 @@ public class MonologueTrigger : MonoBehaviour
             //sets monologues -- should have a check to wait until the character finishes their current monologue, if active. 
             for (int i = 0; i < myMonologues.Length; i++)
             {
-                myMonologues[i].mTrigger = this;
-                myMonologues[i].SetMonologueSystem(monoNumbers[i]);
-                myMonologues[i].EnableMonologue();
+                if (myMonologues[i].inMonologue)
+                {
+                    myMonologues[i].mTrigger = this;
+                    myMonologues[i].WaitToSetNewMonologue(monoNumbers[i]);
+                }
+                else
+                {
+                    myMonologues[i].mTrigger = this;
+                    myMonologues[i].SetMonologueSystem(monoNumbers[i]);
+                    myMonologues[i].EnableMonologue();
+                }
             }
             
             hasActivated = true;

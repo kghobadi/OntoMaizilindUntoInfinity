@@ -34,12 +34,20 @@ public class FirstPersonController : MonoBehaviour
     //for start of radio room
     public GameObject startCam;
 
+    [Header("Holding Objects")] 
+    public Transform holdingSpot;
+    public bool holding;
+    public PickUpObject pickUp;
+    public float holdingRadius = 2f;
+    private float normalRadius = 0.5f;
+    
     void Start()
     {
         player = GetComponent<CharacterController>();
         playerAudSource = GetComponent<AudioSource>();
         mouseLook = GetComponentInChildren<GroundCamera>();
         resetAudio = GetComponent<ResetNearbyAudioSources>();
+        normalRadius = player.radius;
     }
 
     void Update()
@@ -180,5 +188,19 @@ public class FirstPersonController : MonoBehaviour
         // move picked sound to index 0 so it's not picked next time
         currentFootsteps[n] = currentFootsteps[0];
         currentFootsteps[0] = playerAudSource.clip;
+    }
+
+    public void SetHolding(PickUpObject pickUpObject)
+    {
+        pickUp = pickUpObject;
+        player.radius = holdingRadius;
+        holding = true;
+    }
+
+    public void DropObject()
+    {
+        pickUp = null;
+        player.radius = normalRadius;
+        holding = false;
     }
 }

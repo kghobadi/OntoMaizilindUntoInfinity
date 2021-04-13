@@ -10,6 +10,7 @@ public class Interactive : AudioHandler
 	[Header("Interactive Object Settings")]
 	public bool active;
 	public MeshRenderer _meshRenderer;
+	public SkinnedMeshRenderer _SkinnedMeshRenderer;
 	public Material activeMat;
 	public Material inactiveMat;
 	public AudioClip interactSound;
@@ -28,6 +29,13 @@ public class Interactive : AudioHandler
 			_meshRenderer = GetComponent<MeshRenderer>();
 			if(_meshRenderer == null)
 				_meshRenderer = GetComponentInChildren<MeshRenderer>();
+		}
+		//get skinned mesh renderer
+		if (_SkinnedMeshRenderer == null)
+		{
+			_SkinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
+			if(_SkinnedMeshRenderer == null)
+				_SkinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
 		}
 	}
 
@@ -62,7 +70,10 @@ public class Interactive : AudioHandler
 	protected virtual void SetActive()
 	{
 		//highlight obj
-		_meshRenderer.material = activeMat;
+		if(_meshRenderer)
+			_meshRenderer.material = activeMat;
+		if (_SkinnedMeshRenderer)
+			_SkinnedMeshRenderer.material = activeMat;
 		active = true;
 
 		//in case this object has clicker UI instructions
@@ -103,7 +114,10 @@ public class Interactive : AudioHandler
 	protected virtual void SetInactive()
 	{
 		//unhighlight obj
-		_meshRenderer.material = inactiveMat;
+		if(_meshRenderer)
+			_meshRenderer.material = inactiveMat;
+		if (_SkinnedMeshRenderer)
+			_SkinnedMeshRenderer.material = inactiveMat;
 		active = false;
 		
 		//if we have ui to fade out 

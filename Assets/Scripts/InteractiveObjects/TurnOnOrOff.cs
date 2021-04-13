@@ -29,12 +29,12 @@ public class TurnOnOrOff : Interactive
 			
 			//play the sound!
 			if(offSound)
-				PlaySound(offSound, 1f);
+				_cameraSwitcher.objViewer.PlaySound(offSound, 1f);
 			else
 			{
 				//play the sound!
 				if(interactSound)
-					PlaySound(interactSound, 1f);
+					_cameraSwitcher.objViewer.PlaySound(interactSound, 1f);
 			}
 
 			for (int i = 0; i < audioSources.Length; i++)
@@ -59,7 +59,7 @@ public class TurnOnOrOff : Interactive
 			
 			//play the sound!
 			if(interactSound)
-				PlaySound(interactSound, 1f);
+				_cameraSwitcher.objViewer.PlaySound(interactSound, 1f);
 			
 			for (int i = 0; i < audioSources.Length; i++)
 			{
