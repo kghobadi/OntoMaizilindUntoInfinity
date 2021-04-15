@@ -185,4 +185,9 @@ public class FadeUI : MonoBehaviour
 
         fadingOut = true;
     }
+
+    public void SetKeepActive(bool keep)
+    {
+        keepActive = keep;
+    }
 }

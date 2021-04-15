@@ -12,6 +12,7 @@ public class TitleToRoom : MonoBehaviour {
     [Header("Title Canvas Refs")]
     public FadeUI omFade;
     public FadeUI uiFade, actFade, dwFade, poemFader;
+    public FadeUI [] howToStart;
     public LerpScale omScale, uiScale;
     public MoveUI omMove, uiMove, dwMove;
     public Animator scribeAnimator;
@@ -146,6 +147,10 @@ public class TitleToRoom : MonoBehaviour {
     {
         //fade out Act, fade in poem, scribe talks
         actFade.FadeOut();
+        for (int i = 0; i < howToStart.Length; i++)
+        {
+            howToStart[i].FadeOut();
+        }
         poemFader.FadeIn();
         scribeAnimator.SetTrigger("talk");
         //scale titles 

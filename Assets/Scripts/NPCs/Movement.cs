@@ -49,7 +49,7 @@ namespace NPC
         public NPCMovementTypes npcType;
         public enum NPCMovementTypes
         {
-            WAYPOINT, RANDOM, IDLE, PATHFINDER, FINDPLAYER,
+            WAYPOINT, RANDOM, IDLE, PATHFINDER, FINDPLAYER, FOLLOWER,
         }
 
         [Tooltip("Various Animation Types!")]
@@ -81,6 +81,9 @@ namespace NPC
         public Transform holdingSpot;
         private HeavyBreathing breathingSounds;
         public FaceAnimation faceAnimation;
+
+        [Header("Follower Logic")] 
+        public Transform followObject;
 
         void Awake()
         {
@@ -125,7 +128,7 @@ namespace NPC
             if (AIenabled)
             {
                 //dist from player 
-                DistanceCheck();
+                //DistanceCheck();
                 //idle state
                 Idle();
                 //moving state
@@ -134,6 +137,8 @@ namespace NPC
                 Talking();
                 //finding player
                 FindPlayer();
+                //Follower behavior
+                FollowObject();
             }
         }
         
@@ -155,6 +160,8 @@ namespace NPC
             }
         }
 
+        #region Idle State Methods
+
         //NPC idle state 
         void Idle()
         {
@@ -169,7 +176,7 @@ namespace NPC
                 }
 
                 //NPC will perform its action 
-                ActionCountdown();
+                //ActionCountdown();
 
                 //if we are not IDLE npc, idle state has a countdown until movement 
                 if (npcType == NPCMovementTypes.IDLE)
@@ -265,225 +272,13 @@ namespace NPC
                 }
             }
         }
-
-        //called from within Idle state only 
-        void WaitToGiveMonologue()
-        {
-            LookAtObject(currentPlayer.transform.position, true);
-
-            //dont want this to count until start view is inactive 
-            monologueWaitTimer += Time.deltaTime;
-            
-            //stop waiting for monologue IF not in monologue 
-            if (monologueWaitTimer > monoWaitTime && !monoManager.inMonologue)
-            {
-                waitingToGiveMonologue = false;
-
-                monologueWaitTimer = 0;
-
-                //deactivate monologue trigger if it does not repeat 
-                if (!monoManager.allMyMonologues[monoManager.currentMonologue].repeatsAtFinish)
-                {
-                    MonologueTrigger m_Trigger = controller.wmManager.allMonologues[monoManager.allMyMonologues[monoManager.currentMonologue].worldMonoIndex].mTrigger;
-                    
-                    m_Trigger.gameObject.SetActive(false);
-                }
-            }
-        }
-
-        //can be called during IDLE state 
-        void ActionCountdown()
-        {
-            actionTimer -= Time.deltaTime;
-
-            //play a sound (cough)
-            if (actionTimer < 0  && !controller.Monologues.inMonologue)
-            {
-                if (npcSounds.myAudioSource.isPlaying == false)
-                {
-                    if (npcSounds.idleSounds.Length > 0)
-                        npcSounds.PlayRandomSoundRandomPitch(npcSounds.idleSounds, npcSounds.myAudioSource.volume);
-
-                    //npcAnimations.Animator.SetTrigger("action1");
-
-                    actionTimer = actionTime;
-                }
-            }
-        }
-
-        //resets the AI's movement type / path 
-        public void ResetMovement(MovementPath newMove)
-        {
-            npcType = movementManager.movementPaths[newMove.pathIndex].moveType;
-
-            idleType = movementManager.movementPaths[newMove.pathIndex].idleType;
-            
-            runType =  movementManager.movementPaths[newMove.pathIndex].runType;
-
-            //random npc move type 
-            if (npcType == NPCMovementTypes.RANDOM)
-            {
-                movementRadius = movementManager.movementPaths[newMove.pathIndex].moveRadius;
-            }
-            //IDlE -- set new idle type?
-            else if(npcType == NPCMovementTypes.IDLE)
-            {
-                SetIdle();
-            }
-            //pathfinder or waypoint looper 
-            else if(npcType == NPCMovementTypes.PATHFINDER || npcType == NPCMovementTypes.WAYPOINT)
-            {
-                waypoints = movementManager.movementPaths[newMove.pathIndex].movementPoints;
-                waypointCounter = 0;
-
-                waitingToGiveMonologue = false;
-            }
-
-            resetsMovement = false;
-        }
-
-        //sets the npc look at  
-        public void SetLook(Transform point)
-        {
-            lookAtTransform = point;
-        }
-
-        //set npc look at using move manager array 
-        public void SetLookAt(int pointInManager)
-        {
-            Transform point = movementManager.lookAtObjects[pointInManager];
-
-            lookAtTransform = point;
-        }
-
-        //MOVING state
-        void Moving()
-        {
-            //state check
-            if (controller.npcState == Controller.NPCStates.MOVING)
-            {
-                //looks at targetPos when not waving 
-                LookAtObject(targetPosition, false);
-                
-                //check holding
-                if (holdingPlayer)
-                {
-                    //auto zero body's local rotation
-                    camObj.myBody.transform.localRotation = Quaternion.identity;
-                }
-
-                //stop running after we are close to position
-                if (Vector3.Distance(transform.position, targetPosition) < myNavMesh.stoppingDistance + 3f)
-                {
-                    //can be called by triggers or smth
-                    if (resetsMovement)
-                        ResetMovement(newMovement);
-
-                    SetIdle();
-                }
-            }
-        }
-
-        //Talking state --
-        // can move to targetPosition, then ready to deliver monologue until player is near 
-        void Talking()
-        {
-            //state check 
-            if(controller.npcState == Controller.NPCStates.TALKING)
-            {
-
-            }
-        }
-
-        //have this NPC run to wherever the player is and pick them up. 
-        void FindPlayer()
-        {
-            if (npcType == NPCMovementTypes.FINDPLAYER)
-            {
-                //are we close to player?
-                if (Vector3.Distance(transform.position, currentPlayer.transform.position) < myNavMesh.stoppingDistance + 3f)
-                {
-                    PickUpPlayer();
-                }
-                //keep loooking
-                else
-                {
-                    NavigateToPoint(currentPlayer.transform.position, false);
-                }
-            }   
-        }
-
-        void PickUpPlayer()
-        {
-            //get fps
-            FirstPersonController fps = controller.camSwitcher.currentPlayer.GetComponent<FirstPersonController>();
-
-            //disable movement
-            fps.DisableMovement();
-            fps.beingHeld.Invoke();
-            //set pos
-            controller.camSwitcher.currentPlayer.transform.position = holdingSpot.position;
-            controller.camSwitcher.currentPlayer.transform.SetParent(holdingSpot);
-            holdingPlayer = true;
-            //reset movement to shelter
-            ResetMovement(toShelter);
-            SetRunType(RunType.HOLDINGCHILD);
-            //nullify look at transform
-            lookAtTransform = null;
-            //set heavy breathing
-            if(breathingSounds) 
-                breathingSounds.StartBreathing();
-        }
-
-        public void DropPlayer()
-        {
-            //get fps
-            FirstPersonController fps = controller.camSwitcher.currentPlayer.GetComponent<FirstPersonController>();
-
-            //enable movement
-            fps.EnableMovement();
-            //set parent null
-            controller.camSwitcher.currentPlayer.transform.SetParent(null);
-          
-            //stop breathing
-            if(breathingSounds) 
-                breathingSounds.StopBreathing();
-            //done
-            holdingPlayer = false;
-        }
-
-        //looks at object
-        void LookAtObject(Vector3 pos, bool useMyY)
-        {
-            //empty Vector 3
-            Vector3 direction;
-
-            //use my y Pos in Look pos
-            if (useMyY)
-            {
-                //find direction from me to obj
-                Vector3 posWithMyY = new Vector3(pos.x, transform.position.y, pos.z);
-                direction = posWithMyY - transform.position;
-            }
-            //use obj y pos in Look pos
-            else
-            {
-                //find direction from me to obj
-                direction = pos - transform.position;
-            }
-           
-            //find target look
-            Quaternion targetLook = Quaternion.LookRotation(direction);
-            //actually rotate the character 
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetLook, lookSmooth * Time.deltaTime);
-        }
-
+        
         //stops movement
         public virtual void SetIdle()
         {
             if(myNavMesh)
                 myNavMesh.isStopped = true;
-            ResetStateTimer(idleTime);
+            stateTimer = idleTime;
             CheckIdleType();
             npcAnimations.SetAnimator("idle");
             controller.npcState = Controller.NPCStates.IDLE;
@@ -529,6 +324,236 @@ namespace NPC
                     break;
             }
         }
+
+        //called from within Idle state only 
+        void WaitToGiveMonologue()
+        {
+            LookAtObject(currentPlayer.transform.position, true);
+
+            //dont want this to count until start view is inactive 
+            monologueWaitTimer += Time.deltaTime;
+            
+            //stop waiting for monologue IF not in monologue 
+            if (monologueWaitTimer > monoWaitTime && !monoManager.inMonologue)
+            {
+                waitingToGiveMonologue = false;
+
+                monologueWaitTimer = 0;
+
+                //deactivate monologue trigger if it does not repeat 
+                if (!monoManager.allMyMonologues[monoManager.currentMonologue].repeatsAtFinish)
+                {
+                    MonologueTrigger m_Trigger = controller.wmManager.allMonologues[monoManager.allMyMonologues[monoManager.currentMonologue].worldMonoIndex].mTrigger;
+                    
+                    m_Trigger.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        //can be called during IDLE state 
+        void ActionCountdown()
+        {
+            actionTimer -= Time.deltaTime;
+
+            //play a sound (cough)
+            if (actionTimer < 0  && !controller.Monologues.inMonologue)
+            {
+                if (npcSounds.myAudioSource.isPlaying == false)
+                {
+                    if (npcSounds.idleSounds.Length > 0)
+                        npcSounds.PlayRandomSoundRandomPitch(npcSounds.idleSounds, npcSounds.myAudioSource.volume);
+
+                    //npcAnimations.Animator.SetTrigger("action1");
+
+                    actionTimer = actionTime;
+                }
+            }
+        }
+        
+
+        #endregion
+        
+        #region State Management
+
+        //resets the AI's movement type / path behavior
+        public void ResetMovement(MovementPath newMove)
+        {
+            npcType = movementManager.movementPaths[newMove.pathIndex].moveType;
+
+            idleType = movementManager.movementPaths[newMove.pathIndex].idleType;
+            
+            runType =  movementManager.movementPaths[newMove.pathIndex].runType;
+
+            followObject = movementManager.movementPaths[newMove.pathIndex].followObject;
+
+            //random npc move type 
+            if (npcType == NPCMovementTypes.RANDOM)
+            {
+                movementRadius = movementManager.movementPaths[newMove.pathIndex].moveRadius;
+            }
+            //IDlE -- set new idle type?
+            else if(npcType == NPCMovementTypes.IDLE)
+            {
+                SetIdle();
+            }
+            //pathfinder or waypoint looper 
+            else if(npcType == NPCMovementTypes.PATHFINDER || npcType == NPCMovementTypes.WAYPOINT)
+            {
+                waypoints = movementManager.movementPaths[newMove.pathIndex].movementPoints;
+                waypointCounter = 0;
+
+                waitingToGiveMonologue = false;
+            }
+
+            resetsMovement = false;
+        }
+
+        //resets state timer to float time + random range 
+        void ResetStateTimer(float time)
+        {
+            stateTimer = time + Random.Range(-1f, 1f);
+        }
+
+        #endregion
+
+        #region Find & Carry Player Logic
+        //have this NPC run to wherever the player is and pick them up. 
+        void FindPlayer()
+        {
+            if (npcType == NPCMovementTypes.FINDPLAYER)
+            {
+                //are we close to player?
+                if (Vector3.Distance(transform.position, currentPlayer.transform.position) < myNavMesh.stoppingDistance + 3f)
+                {
+                    PickUpPlayer();
+                }
+                //keep loooking
+                else
+                {
+                    NavigateToPoint(currentPlayer.transform.position, false);
+                }
+            }   
+        }
+
+        /// <summary>
+        /// Picks up player and attaches them to this NPC's holding spot. Triggers toShelter Movement behavior. 
+        /// </summary>
+        void PickUpPlayer()
+        {
+            //get fps
+            FirstPersonController fps = controller.camSwitcher.currentPlayer.GetComponent<FirstPersonController>();
+
+            //disable movement
+            fps.DisableMovement();
+            fps.beingHeld.Invoke();
+            //set pos
+            controller.camSwitcher.currentPlayer.transform.position = holdingSpot.position;
+            controller.camSwitcher.currentPlayer.transform.SetParent(holdingSpot);
+            holdingPlayer = true;
+            //reset movement to shelter
+            ResetMovement(toShelter);
+            SetRunType(RunType.HOLDINGCHILD);
+            //nullify look at transform
+            lookAtTransform = null;
+            //set heavy breathing
+            if(breathingSounds) 
+                breathingSounds.StartBreathing();
+        }
+
+        /// <summary>
+        /// Drops player and lets them move
+        /// </summary>
+        public void DropPlayer()
+        {
+            //get fps
+            FirstPersonController fps = controller.camSwitcher.currentPlayer.GetComponent<FirstPersonController>();
+
+            //enable movement
+            fps.EnableMovement();
+            //set parent null
+            controller.camSwitcher.currentPlayer.transform.SetParent(null);
+          
+            //stop breathing
+            if(breathingSounds) 
+                breathingSounds.StopBreathing();
+            //done
+            holdingPlayer = false;
+        }
+        #endregion
+
+        #region Look At Logic
+        //sets the npc look at  
+        public void SetLook(Transform point)
+        {
+            lookAtTransform = point;
+        }
+
+        //set npc look at using move manager array 
+        public void SetLookAt(int pointInManager)
+        {
+            Transform point = movementManager.lookAtObjects[pointInManager];
+
+            lookAtTransform = point;
+        }
+        
+        //looks at object
+        void LookAtObject(Vector3 pos, bool useMyY)
+        {
+            //empty Vector 3
+            Vector3 direction;
+
+            //use my y Pos in Look pos
+            if (useMyY)
+            {
+                //find direction from me to obj
+                Vector3 posWithMyY = new Vector3(pos.x, transform.position.y, pos.z);
+                direction = posWithMyY - transform.position;
+            }
+            //use obj y pos in Look pos
+            else
+            {
+                //find direction from me to obj
+                direction = pos - transform.position;
+            }
+           
+            //find target look
+            Quaternion targetLook = Quaternion.LookRotation(direction);
+            //actually rotate the character 
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetLook, lookSmooth * Time.deltaTime);
+        }
+
+        
+
+        #endregion
+
+        #region Movement Methods
+        //MOVING state
+        void Moving()
+        {
+            //state check
+            if (controller.npcState == Controller.NPCStates.MOVING)
+            {
+                //looks at targetPos when not waving 
+                LookAtObject(targetPosition, false);
+                
+                //check holding
+                if (holdingPlayer)
+                {
+                    //auto zero body's local rotation
+                    camObj.myBody.transform.localRotation = Quaternion.identity;
+                }
+
+                //stop running after we are close to position
+                if (Vector3.Distance(transform.position, targetPosition) < myNavMesh.stoppingDistance + 3f)
+                {
+                    //can be called by triggers or smth
+                    if (resetsMovement)
+                        ResetMovement(newMovement);
+
+                    SetIdle();
+                }
+            }
+        }
         
         /// <summary>
         /// changes the NPC's run type 
@@ -549,12 +574,21 @@ namespace NPC
             }
         }
         
-        //resets state timer to float time + random range 
-        void ResetStateTimer(float time)
+        /// <summary>
+        /// Follows the follow object set by a Follower behavior. 
+        /// </summary>
+        void FollowObject()
         {
-            stateTimer = time + Random.Range(-1f, 1f);
+            if (npcType == NPCMovementTypes.FOLLOWER)
+            {
+                //are we close to player?
+                if (Vector3.Distance(transform.position, currentPlayer.transform.position) > myNavMesh.stoppingDistance + 1f)
+                {
+                    NavigateToPoint(followObject.position, false);
+                }
+            }
         }
-
+        
         //this function sets a random point as the nav mesh destination
         //checks if the NPC can walk there before setting it
         //sets animator correctly
@@ -625,5 +659,20 @@ namespace NPC
                 waitingToGiveMonologue = true;
             }
         }
+        
+
+        #endregion
+        
+        //Talking state --
+        // can move to targetPosition, then ready to deliver monologue until player is near 
+        void Talking()
+        {
+            //state check 
+            if(controller.npcState == Controller.NPCStates.TALKING)
+            {
+
+            }
+        }
+        
     }
 }

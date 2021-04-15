@@ -8,6 +8,8 @@ public class EventTrigger : MonoBehaviour {
     public bool hasTriggered;
     public bool playerOnly;
     public bool npcOnly;
+    public bool specificObject;
+    public GameObject specificObj;
     public UnityEvent[] events;
 
     [Header("Wait times")]
@@ -36,7 +38,14 @@ public class EventTrigger : MonoBehaviour {
                     SetTrigger();
                 }
             }
-            else if(!playerOnly && !npcOnly)
+            else if (specificObject)
+            {
+                if (other.gameObject == specificObj)
+                {
+                    SetTrigger();
+                }
+            }
+            else if(!playerOnly && !npcOnly && !specificObject)
             {
                 if (other.gameObject.tag == "Human" || other.gameObject.tag == "Player")
                 {

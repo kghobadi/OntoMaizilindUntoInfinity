@@ -55,8 +55,11 @@ public class MonologueManager : MonoBehaviour
         wmManager = FindObjectOfType<WorldMonologueManager>();
         camManager = FindObjectOfType<CameraManager>();
         monoReader = GetComponentInChildren<MonologueReader>();
-        monoReader.hostObj = gameObject;
-        monoReader.monoManager = this;
+        if (monoReader)
+        {
+            monoReader.hostObj = gameObject;
+            monoReader.monoManager = this;
+        }
     }
 
     void Start()
@@ -226,6 +229,9 @@ public class MonologueManager : MonoBehaviour
     public void DisableMonologue()
     {
         StopAllCoroutines();
+        
+        if(!inMonologue)
+            return;
 
         //disable text components 
         if (monoReader.usesTMP)

@@ -38,6 +38,7 @@ public class CameraSwitcher : MonoBehaviour {
     public Transform dad;
     public MovementPath death;
     public HalftoneEffect halfTone;
+    public Material halfToneBombs;
     public GameObject spiritWritingPrefab;
     public AudioSource whiteNoise;
     public HeavyBreathing breathing;
@@ -122,7 +123,7 @@ public class CameraSwitcher : MonoBehaviour {
         //hard lock parents to their positions
         if (killedParents)
         {
-            mom.position = new Vector3(KillerExplosion.momDead.position.x, mom.position.y, KillerExplosion.momDead.position.z);
+            mom.position = new Vector3(KillerExplosion.momDead.position.x, 2.8f, KillerExplosion.momDead.position.z);
             dad.position = new Vector3(KillerExplosion.dadDead.position.x, dad.position.y, KillerExplosion.dadDead.position.z);
         }
 	}
@@ -335,7 +336,12 @@ public class CameraSwitcher : MonoBehaviour {
 
         KillerExplosion = explode;
         //turn on halftone
+        if (halfTone.halfToneMat == null)
+        {
+            halfTone.halfToneMat = halfToneBombs;
+        }
         halfTone.enabled = true;
+        halfTone.halfToneMat.SetFloat("_effectStrength", 1f);
         //set lerp mat to slowly fade it out
 
         //set mom pos stuff

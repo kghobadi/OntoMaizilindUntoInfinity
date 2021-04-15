@@ -12,16 +12,50 @@ namespace NPC
         public AudioClip[] idleSounds;
         public AudioClip[] walkingSounds;
         public AudioClip[] screams;
-
+        
+        FaceAnimation _faceAnim; 
+        SpriteRenderer face; 
+        SpriteRenderer back;
         [Header("Face Animations")]
-        public SpriteRenderer face;
-        FaceAnimation _faceAnim;
-        public Sprite normalFace, screaming;
+        public Sprite [] normalFace, screaming, backs;
+        public bool randomizeFace;
+        public int faceIndex = 0;
+        public bool manualSetSprites;
         public bool animateFaceToSound = true;
 
         private void Start()
         {
-            _faceAnim = face.GetComponent<FaceAnimation>();
+            //get face anim
+            _faceAnim = GetComponent<FaceAnimation>();
+            if (_faceAnim == null)
+            {
+                _faceAnim = GetComponentInChildren<FaceAnimation>();
+            }
+
+            //get face sprite renderer 
+            if (face == null)
+            {
+                face = _faceAnim.GetComponent<SpriteRenderer>();
+            }
+
+            //get back sprite renderer 
+            if (back == null)
+            {
+                if (face.transform.childCount > 1)
+                    back = face.transform.GetChild(1).GetComponent<SpriteRenderer>();
+            }
+
+            //randomize face?
+            if (randomizeFace)
+            {
+                faceIndex = Random.Range(0, normalFace.Length);
+            }
+
+            //set back
+            if (back)
+            {
+                back.sprite = backs[faceIndex];
+            }
         }
 
         private void Update()
@@ -35,17 +69,27 @@ namespace NPC
         {
             if (myAudioSource.isPlaying)
             {
-                if (_faceAnim)
-                    _faceAnim.SetAnimator("talking");
+                if(manualSetSprites)
+                {
+                    face.sprite = screaming[faceIndex];
+                }
                 else
-                    face.sprite = screaming;
+                {
+                    if (_faceAnim)
+                        _faceAnim.SetAnimator("talking");
+                }
             }
             else
             {
-                if (_faceAnim)
-                    _faceAnim.SetAnimator("idle");
+                if (manualSetSprites)
+                {
+                    face.sprite = normalFace[faceIndex];
+                }
                 else
-                    face.sprite = normalFace;
+                {
+                    if (_faceAnim)
+                        _faceAnim.SetAnimator("idle");
+                }
             }
         }
 

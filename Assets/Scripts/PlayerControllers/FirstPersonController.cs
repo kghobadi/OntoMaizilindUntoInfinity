@@ -208,6 +208,11 @@ public class FirstPersonController : MonoBehaviour
         holding = false;
     }
 
+    public void ResetStepOffset()
+    {
+        player.stepOffset = 0.75f;
+    }
+
     public void DisableMovement()
     {
         canMove = false;

@@ -19,6 +19,8 @@ public struct MovementPaths
     public Movement.IdleType idleType;
     [Tooltip("The run anim type")]
     public Movement.RunType runType;
+    [Tooltip("For follower NPC behavior")]
+    public Transform followObject;
 }
 
 public class NPCMovementManager : MonoBehaviour

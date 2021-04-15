@@ -5,7 +5,7 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class HalftoneEffect : MonoBehaviour
 {
-    public Material halfToneMat;
+    public Material halfToneMat;    
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {

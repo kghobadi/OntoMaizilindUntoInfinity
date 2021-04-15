@@ -126,6 +126,8 @@ public class BombShelter : MonoBehaviour {
         //disable adrenaline audio
         camSwitcher.breathing.StopBreathing();
         camSwitcher.whiteNoise.Stop();
+        //reset player step height incase
+        camSwitcher.currentCamObj.GetComponent<FirstPersonController>().ResetStepOffset();
     }
 
     IEnumerator WaitToTransition(float time)
