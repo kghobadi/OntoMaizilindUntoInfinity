@@ -92,6 +92,7 @@ public class Bomb : MonoBehaviour {
         } 
     }
 
+
     void SpawnExplosion(GameObject obj)
     {
         //Debug.Log("bomb went off");
@@ -101,6 +102,14 @@ public class Bomb : MonoBehaviour {
         explosion.transform.position = spawnPos;
         explosion.transform.localEulerAngles = new Vector3(-90, 0, 0);
         explosion.transform.SetParent(explosionParent); 
+        
+        //killing player/parents
+        if (playerDest && moveTowards)
+        {
+            //pass the explosion along and FreezeTime
+            Explosion exploded = explosion.GetComponent<Explosion>();
+            camSwitcher.FreezeTime(exploded);
+        }
 
         if(obj != null)
         {

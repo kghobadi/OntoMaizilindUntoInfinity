@@ -17,6 +17,7 @@ namespace NPC
         public SpriteRenderer face;
         FaceAnimation _faceAnim;
         public Sprite normalFace, screaming;
+        public bool animateFaceToSound = true;
 
         private void Start()
         {
@@ -25,7 +26,8 @@ namespace NPC
 
         private void Update()
         {
-            FaceSwap();
+            if(animateFaceToSound)
+                FaceSwap();
         }
 
         //swaps face sprite for screaming

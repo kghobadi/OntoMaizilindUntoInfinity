@@ -131,13 +131,13 @@ public class DestructibleBuilding : MonoBehaviour {
     {
         nextPos = transform.position - new Vector3(0, totalHeight / segments, 0);
         falling = true;
-        Debug.Log("falling");
+        //Debug.Log("falling");
     }
 
     void FallBelow()
     {
         nextPos = transform.position - new Vector3(0, totalHeight * 3, 0);
         falling = true;
-        Debug.Log("falling");
+        //Debug.Log("falling");
     }
 }

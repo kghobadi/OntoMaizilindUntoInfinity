@@ -45,6 +45,9 @@ public class SitOnObject : Interactive
 			//so its not highlighted anymore 
 			SetInactive();
 
+			//add event listener for disable sitting 
+			fps.beingHeld.AddListener(DisableSitting);
+			//set bool
 			sitting = true;
 		}
 	}
@@ -77,8 +80,16 @@ public class SitOnObject : Interactive
 			_cameraSwitcher.currentPlayer.transform.position = playerPosition;
 		}
 		
+		//enable fps and remove listener
 		fps.canMove = true;
+		fps.beingHeld.RemoveListener(DisableSitting);
+		
+		sitting = false;
+	}
 
+	//called if parent picks me up while sitting
+	public void DisableSitting()
+	{
 		sitting = false;
 	}
 }

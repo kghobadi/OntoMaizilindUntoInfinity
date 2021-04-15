@@ -36,15 +36,19 @@ namespace NPC
 
         MonologueManager npcMonologues;
         public MonologueManager Monologues { get { return npcMonologues; } }
+        
+        FaceAnimation npcFaces;
+        public FaceAnimation Faces { get { return npcFaces; } }
 
         private void Awake()
         {
             moveManager = FindObjectOfType<NPCMovementManager>();
 
             //npc component refs 
-            npcAnimations = GetComponent<Animations>();
+            npcAnimations = GetComponentInChildren<Animations>();
             npcMovement = GetComponent<Movement>();
             npcSounds = GetComponent<Sounds>();
+            npcFaces = GetComponentInChildren<FaceAnimation>();
 
             //prob need to fetch monologue text from children 
             npcMonologues = GetComponent<MonologueManager>();

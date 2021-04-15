@@ -348,9 +348,7 @@ public class MonologueManager : MonoBehaviour
                 //get manager
                 MonologueManager otherMonoManager = wmManager.allMonoManagers[mono.monologueManagerIndeces[i]];
                 //set manager to new monologue from within its list
-                otherMonoManager.SetMonologueSystem(mono.monologueIndecesWithinManager[i]);
-                //enable it?
-                otherMonoManager.EnableMonologue();
+                otherMonoManager.WaitToSetNewMonologue(mono.monologueIndecesWithinManager[i]);
             }
         }
 

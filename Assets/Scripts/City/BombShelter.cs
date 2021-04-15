@@ -27,6 +27,7 @@ public class BombShelter : MonoBehaviour {
     public GameCamera transitionViewer;
     public float timeTilTransition = 15f;
     public MusicFader music;
+    public LerpMaterial lerpMat;
  
     private void Awake()
     {
@@ -110,11 +111,21 @@ public class BombShelter : MonoBehaviour {
         //set bool
         body = hasBody;
 
+        //lerp the halftone 
+        if (lerpMat)
+        {
+            lerpMat.LerpBasic(0f);
+        }
+
         //start transition coroutine
         if(hasBody)
             StartCoroutine(WaitToTransition(timeTilTransition));
         else
             StartCoroutine(WaitToTransition(0f));
+        
+        //disable adrenaline audio
+        camSwitcher.breathing.StopBreathing();
+        camSwitcher.whiteNoise.Stop();
     }
 
     IEnumerator WaitToTransition(float time)

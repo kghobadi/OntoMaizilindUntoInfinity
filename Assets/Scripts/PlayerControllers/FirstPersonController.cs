@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 using InControl;
+using UnityEngine.Events;
 
 public class FirstPersonController : MonoBehaviour
 {
@@ -40,6 +41,7 @@ public class FirstPersonController : MonoBehaviour
     public PickUpObject pickUp;
     public float holdingRadius = 2f;
     private float normalRadius = 0.5f;
+    public UnityEvent beingHeld;
     
     void Start()
     {
@@ -194,6 +196,7 @@ public class FirstPersonController : MonoBehaviour
     {
         pickUp = pickUpObject;
         player.radius = holdingRadius;
+        player.stepOffset = 0.25f;
         holding = true;
     }
 
@@ -201,6 +204,19 @@ public class FirstPersonController : MonoBehaviour
     {
         pickUp = null;
         player.radius = normalRadius;
+        player.stepOffset = 0.75f;
         holding = false;
+    }
+
+    public void DisableMovement()
+    {
+        canMove = false;
+        player.enabled = false;
+    }
+
+    public void EnableMovement()
+    {
+        canMove = true;
+        player.enabled = true;
     }
 }

@@ -104,4 +104,37 @@ public class Bomber : MonoBehaviour {
             moveTo.MoveTo(playerT.position, 500f);
         }
     }
+    
+    //spawn bombs directly above parents location
+    public void KillParents()
+    {
+        Transform mom = camSwitcher.dad;
+        //find spawn pos and grab obj 
+        Vector3 spawnPos = new Vector3(mom.position.x, transform.position.y, mom.position.z)
+                           + Random.insideUnitSphere * spawnRadius / 3;
+        GameObject bomb = effectsMan.bombPooler.GrabObject();
+        //set pos 
+        bomb.transform.position = spawnPos;
+        //enable force
+        Bomb bombScript = bomb.GetComponent<Bomb>();
+        bombScript.SetBombFall();
+
+        //set move towards comp
+        MoveTowards moveTo = bomb.GetComponent<MoveTowards>();
+        if (moveTo == null)
+        {
+            //add move towards
+            moveTo = bomb.AddComponent<MoveTowards>();
+            moveTo.MoveTo(mom.position, 500f);
+            //set homing missle hehe 
+            bombScript.moveTowards = moveTo;
+            bombScript.playerDest = mom;
+        }
+        //already has it, just enable/set 
+        else
+        {
+            moveTo.enabled = true;
+            moveTo.MoveTo(mom.position, 500f);
+        }
+    }
 }

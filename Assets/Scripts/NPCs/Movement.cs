@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -15,11 +16,13 @@ namespace NPC
         Camera mainCam;
         NPCMovementManager movementManager;
         MonologueManager monoManager;
+        private CamObject camObj;
 
         [Header("AI Movement Settings")]
         public LayerMask grounded;
         [HideInInspector]
         public NavMeshAgent myNavMesh;
+        public bool randomSpeed = true;
         Vector3 origPosition;
         public MovementPath startBehavior;
         public Vector3 targetPosition;
@@ -53,7 +56,7 @@ namespace NPC
         public IdleType idleType;
         public enum IdleType
         {
-            STANDING, SITTING, PRAYING
+            STANDING, SITTING, PRAYING, DEAD,
         }
         
         public RunType runType;
@@ -76,6 +79,8 @@ namespace NPC
         public MovementPath toShelter;
         public bool holdingPlayer;
         public Transform holdingSpot;
+        private HeavyBreathing breathingSounds;
+        public FaceAnimation faceAnimation;
 
         void Awake()
         {
@@ -92,6 +97,8 @@ namespace NPC
             movementManager = FindObjectOfType<NPCMovementManager>();
             monoManager = GetComponent<MonologueManager>();
             spiritTrail = GetComponentInChildren<SpiritTrail>();
+            breathingSounds = GetComponentInChildren<HeavyBreathing>();
+            camObj = GetComponent<CamObject>();
 
             //player ref
             if (controller.camSwitcher)
@@ -103,7 +110,7 @@ namespace NPC
         void Start()
         { 
             origPosition = transform.position;
-            if(myNavMesh)
+            if(myNavMesh && randomSpeed)
                 myNavMesh.speed += Random.Range(-5f, 10f);
             ResetMovement(startBehavior);
             SetIdle();
@@ -185,6 +192,14 @@ namespace NPC
                                 spiritTrail.EnableSpirit();
                             }
                         }
+                    }
+                    
+                    //if we are Dead
+                    if(idleType == IdleType.DEAD)
+                    {
+                        //zero local pos & rot
+                        camObj.myBody.transform.localPosition = Vector3.zero;
+                        camObj.myBody.transform.localRotation = Quaternion.identity;
                     }
                 }
                 //Set destination based on npc type 
@@ -313,7 +328,7 @@ namespace NPC
             //IDlE -- set new idle type?
             else if(npcType == NPCMovementTypes.IDLE)
             {
-                
+                SetIdle();
             }
             //pathfinder or waypoint looper 
             else if(npcType == NPCMovementTypes.PATHFINDER || npcType == NPCMovementTypes.WAYPOINT)
@@ -349,6 +364,13 @@ namespace NPC
             {
                 //looks at targetPos when not waving 
                 LookAtObject(targetPosition, false);
+                
+                //check holding
+                if (holdingPlayer)
+                {
+                    //auto zero body's local rotation
+                    camObj.myBody.transform.localRotation = Quaternion.identity;
+                }
 
                 //stop running after we are close to position
                 if (Vector3.Distance(transform.position, targetPosition) < myNavMesh.stoppingDistance + 3f)
@@ -397,14 +419,20 @@ namespace NPC
             FirstPersonController fps = controller.camSwitcher.currentPlayer.GetComponent<FirstPersonController>();
 
             //disable movement
-            fps.canMove = false;
+            fps.DisableMovement();
+            fps.beingHeld.Invoke();
             //set pos
             controller.camSwitcher.currentPlayer.transform.position = holdingSpot.position;
-            controller.camSwitcher.currentPlayer.transform.SetParent(transform);
+            controller.camSwitcher.currentPlayer.transform.SetParent(holdingSpot);
             holdingPlayer = true;
             //reset movement to shelter
             ResetMovement(toShelter);
             SetRunType(RunType.HOLDINGCHILD);
+            //nullify look at transform
+            lookAtTransform = null;
+            //set heavy breathing
+            if(breathingSounds) 
+                breathingSounds.StartBreathing();
         }
 
         public void DropPlayer()
@@ -413,9 +441,13 @@ namespace NPC
             FirstPersonController fps = controller.camSwitcher.currentPlayer.GetComponent<FirstPersonController>();
 
             //enable movement
-            fps.canMove = true;
+            fps.EnableMovement();
             //set parent null
             controller.camSwitcher.currentPlayer.transform.SetParent(null);
+          
+            //stop breathing
+            if(breathingSounds) 
+                breathingSounds.StopBreathing();
             //done
             holdingPlayer = false;
         }
@@ -466,10 +498,34 @@ namespace NPC
                     npcAnimations.Animator.SetFloat("IdleType", 0f);
                     break;
                 case IdleType.SITTING:
-                    npcAnimations.Animator.SetFloat("IdleType", 0.5f);
+                    npcAnimations.Animator.SetFloat("IdleType", 0.3333333f);
                     break;
                 case IdleType.PRAYING:
+                    npcAnimations.Animator.SetFloat("IdleType", 0.6666667f);
+                    break;
+                case IdleType.DEAD:
                     npcAnimations.Animator.SetFloat("IdleType", 1f);
+                    
+                    //disable sounds component
+                    if (controller.Sounds)
+                    {
+                        controller.Sounds.animateFaceToSound = false;
+                    }
+                    
+                    //set dead faces 
+                    if (faceAnimation)
+                    {
+                        faceAnimation.SetAnimator("dead");
+                        //if it has a back face
+                        if(faceAnimation.back)
+                            faceAnimation.back.SetActive(false);
+                    }
+                        
+                    //drop player
+                    if (holdingPlayer)
+                    {
+                        DropPlayer();
+                    }
                     break;
             }
         }

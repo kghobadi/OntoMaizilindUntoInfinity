@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,6 +26,8 @@ public class LerpMaterial : MonoBehaviour {
     public bool resetsScale;
     [Tooltip("Check this to reset parent at end")]
     public bool resetParent;
+    public bool resetOnDisable;
+    private bool wasCalled;
     [Tooltip("Check this to reset parent at end")]
     public bool loadScene;
     [Tooltip("Start value = floatToLerp when Lerp is called")]
@@ -93,6 +96,7 @@ public class LerpMaterial : MonoBehaviour {
         lerpSpeed = speed;
         
         lerpingMat = true;
+        wasCalled = true;
     }
 	
     //call to begin basic lerp 
@@ -102,6 +106,7 @@ public class LerpMaterial : MonoBehaviour {
         endValue = desiredValue;
 
         lerpingMat = true;
+        wasCalled = true;
     }
 
 	void Update ()
@@ -181,5 +186,14 @@ public class LerpMaterial : MonoBehaviour {
     public void ResetScale()
     {
         transform.localScale = origScale;
+    }
+
+    private void OnDisable()
+    {
+        if (resetOnDisable && wasCalled)
+        {
+            //hard set float to end value
+            lerpMat.SetFloat(floatToLerp, startValue);
+        }
     }
 }

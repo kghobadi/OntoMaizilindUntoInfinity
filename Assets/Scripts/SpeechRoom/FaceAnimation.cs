@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FaceAnimation : AnimationHandler {
+public class FaceAnimation : AnimationHandler
+{
 
-	
+	public GameObject back;
 }

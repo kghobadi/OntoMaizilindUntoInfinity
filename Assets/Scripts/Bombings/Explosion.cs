@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using NPC;
 using UnityEngine;
 using UnityEngine.Audio;
+using Debug = UnityEngine.Debug;
 
 //explosion is produced by the bomb class
 public class Explosion : AudioHandler {
@@ -20,7 +23,12 @@ public class Explosion : AudioHandler {
     //particles
     ParticleSystem explosionParts;
     ParticleSystem.MainModule eMain;
-
+    
+    [Header("Parents Death")]
+    public Transform spiritWritingSpot;
+    public Transform momDead;
+    public Transform dadDead;
+    public Transform playerSpot;
     public override void Awake()
     {
         base.Awake();
@@ -106,8 +114,8 @@ public class Explosion : AudioHandler {
     //could add to this so that when it overlaps with other explosion fire, they combine into one thing
     private void OnTriggerEnter(Collider other)
     {
-        //kill a human/player
-        if (other.gameObject.tag == "Human" || other.gameObject.tag == "Player")
+        //kill a human/
+        if (other.gameObject.tag == "Human" )
         {
             Debug.Log("human burnssss");
 
@@ -115,16 +123,27 @@ public class Explosion : AudioHandler {
             if (other.gameObject.GetComponent<FirstPersonController>().enabled)
             {
                 //switch to next viewer
-                camSwitcher.SetCam(0);
+                //camSwitcher.SetCam(0);
                 Debug.Log("it was you who died");
             }
+            //not you 
+            else
+            {
+                //remove this human from cam objects list
+                camSwitcher.cameraObjects.Remove(other.gameObject.GetComponent<CamObject>());
 
-            //remove this human from cam objects list
-            camSwitcher.cameraObjects.Remove(other.gameObject.GetComponent<CamObject>());
+                //destroy the human
+                Movement npc = other.gameObject.GetComponent<Movement>();
+                npc.ResetMovement(camSwitcher.death);
+                //Destroy();
+            }
+        }
 
-            //destroy the human
-            Destroy(other.gameObject);
-
+        //player
+        if (other.gameObject.tag == "Player")
+        {
+            Debug.Log("player is in explosion!");
+            //do nothing for now? 
         }
     }
 }

@@ -33,6 +33,17 @@ public class CameraSwitcher : MonoBehaviour {
     AdvanceScene advance;
     BombShelter mosque;
 
+    [Header("Death of Parents")] 
+    public Transform mom;
+    public Transform dad;
+    public MovementPath death;
+    public HalftoneEffect halfTone;
+    public GameObject spiritWritingPrefab;
+    public AudioSource whiteNoise;
+    public HeavyBreathing breathing;
+    public Explosion KillerExplosion;
+    public bool killedParents;
+    
     void Awake()
     {
         //camera manager ref 
@@ -106,6 +117,13 @@ public class CameraSwitcher : MonoBehaviour {
             //transition directly too mosque 
             if(mosque.projecting == false)
                 mosque.BeginProjection(false);
+        }
+
+        //hard lock parents to their positions
+        if (killedParents)
+        {
+            mom.position = new Vector3(KillerExplosion.momDead.position.x, mom.position.y, KillerExplosion.momDead.position.z);
+            dad.position = new Vector3(KillerExplosion.dadDead.position.x, dad.position.y, KillerExplosion.dadDead.position.z);
         }
 	}
 
@@ -307,5 +325,55 @@ public class CameraSwitcher : MonoBehaviour {
         {
             cam.gameObject.SetActive(false);
         }
+    }
+
+    public void FreezeTime(Explosion explode)
+    {
+        //already dead
+        if (killedParents)
+            return;
+
+        KillerExplosion = explode;
+        //turn on halftone
+        halfTone.enabled = true;
+        //set lerp mat to slowly fade it out
+
+        //set mom pos stuff
+        Movement momMove = mom.GetComponent<Movement>();
+        momMove.ResetMovement(death);
+        mom.position = explode.momDead.position ;
+        //dad looks at mosque 
+        Vector3 lookAtMom = new Vector3(mosque.transform.position.x, mom.transform.position.y, mosque.transform.position.z);
+        mom.transform.LookAt(lookAtMom);
+        //set look 
+        momMove.SetLook(mosque.transform);
+        
+        //set dad pos stuff
+        NavMeshAgent dadNMA =dad.GetComponent<NavMeshAgent>();
+        dadNMA.isStopped = true;
+        dadNMA.speed = 0;
+        dad.position = explode.dadDead.position;
+        //dad looks at mosque 
+        Vector3 lookAt = new Vector3(mosque.transform.position.x, dad.transform.position.y, mosque.transform.position.z);
+        dad.transform.LookAt(lookAt);
+        //set look 
+        dad.GetComponent<Movement>().SetLook(mosque.transform);
+        
+        //instantiate spirit writing
+        GameObject spiritWriting = Instantiate(spiritWritingPrefab, explode.spiritWritingSpot);
+        spiritWriting.transform.position = explode.spiritWritingSpot.position;
+        spiritWriting.transform.localRotation = Quaternion.identity;
+        //set player pos and controls
+        currentPlayer.transform.position = explode.playerSpot.position;
+        //set player look at to spirit writing 
+        Vector3 posWithMyY = new Vector3(spiritWriting.transform.position.x, transform.position.y, spiritWriting.transform.position.z);
+        currentPlayer.transform.LookAt(posWithMyY);
+        
+        //set audio
+        whiteNoise.Play();
+        breathing.StartBreathing();
+
+        //set bool
+        killedParents = true;
     }
 }

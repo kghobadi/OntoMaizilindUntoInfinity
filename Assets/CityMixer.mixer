@@ -33,6 +33,7 @@ AudioMixerController:
     - ece35ce887e849b45a69976f2464e184
     - bc27899192caf1b40b20f6a33ae03883
     - ae049f91e6e6c3e42b3a4f8c8a4bea68
+    - 128cf83a6e6e80944bd0c0e940ca8447
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 245546334685037046}
@@ -58,6 +59,7 @@ AudioMixerGroupController:
   - {fileID: 243409233222874050}
   - {fileID: 243140156889484370}
   - {fileID: 243552755042672026}
+  - {fileID: 243215612102922156}
   m_Volume: 2dbb05134c18b3a4faf55c221f654a25
   m_Pitch: c8f71d7cbbb0b3f4889418437f3708f7
   m_Effects:
@@ -141,6 +143,23 @@ AudioMixerGroupController:
   m_Pitch: b6b5f6422bed7134eaa3999a82dd5a97
   m_Effects:
   - {fileID: 244183348621809278}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
+--- !u!243 &243215612102922156
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Adrenaline
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 128cf83a6e6e80944bd0c0e940ca8447
+  m_Children: []
+  m_Volume: 773512a004e98e3429927ab22419e61b
+  m_Pitch: 87f5b6b49671cf141b14c76b5454193a
+  m_Effects:
+  - {fileID: 244040572286579266}
   m_UserColorIndex: 0
   m_Mute: 0
   m_Solo: 0
@@ -315,6 +334,19 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!244 &244040572286579266
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_EffectID: bc1fcf8a2cdeeef4eb32db18a0a1000f
+  m_EffectName: Attenuation
+  m_MixLevel: c55fa2d40b48e70418bf9b40c4f72eed
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!244 &244115782955747104
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -513,6 +545,7 @@ AudioMixerSnapshotController:
   m_SnapshotID: af68615df64092241a5f12b56840fc11
   m_FloatValues:
     52b81600b32b0dd498a807505e69ac13: -4.560346
+    773512a004e98e3429927ab22419e61b: 3.2656894
     fb91f27585a412843ac705b324e917c3: -3.1841092
     78178e770f9447d4e953751a9c0eac5a: 6.7923827
     cd8c77481b226fe4f99cb485d2bc81e9: 8.614072
