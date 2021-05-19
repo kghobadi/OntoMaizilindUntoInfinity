@@ -123,18 +123,16 @@ public class Explosion : AudioHandler {
             if (other.gameObject.GetComponent<FirstPersonController>().enabled)
             {
                 //switch to next viewer
-                //camSwitcher.SetCam(0);
+                camSwitcher.SetCam(0);
+                //kill the human you were playing
+                KillHuman(other.gameObject);
                 Debug.Log("it was you who died");
             }
             //not you 
             else
             {
-                //remove this human from cam objects list
-                camSwitcher.cameraObjects.Remove(other.gameObject.GetComponent<CamObject>());
-
-                //destroy the human
-                Movement npc = other.gameObject.GetComponent<Movement>();
-                npc.ResetMovement(camSwitcher.death);
+                //kill the human
+                KillHuman(other.gameObject);
                 //Destroy();
             }
         }
@@ -145,5 +143,16 @@ public class Explosion : AudioHandler {
             Debug.Log("player is in explosion!");
             //do nothing for now? 
         }
+    }
+
+    //kills a human
+    void KillHuman(GameObject humanObj)
+    {
+        //remove this human from cam objects list
+        camSwitcher.cameraObjects.Remove(humanObj.GetComponent<CamObject>());
+
+        //destroy the human
+        Movement npc = humanObj.GetComponent<Movement>();
+        npc.ResetMovement(camSwitcher.death);
     }
 }

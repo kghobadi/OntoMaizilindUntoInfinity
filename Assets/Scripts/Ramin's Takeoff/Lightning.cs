@@ -47,8 +47,6 @@ public class Lightning : AudioHandler {
 	
 	void Update ()
     {
-        if(pilot)
-            distFromPlayer = Vector3.Distance(transform.position, pilot.position);
         //only some clouds are chosen 
         if (lightningCloud)
         {
@@ -63,10 +61,17 @@ public class Lightning : AudioHandler {
     //lightning and thunder all in one 
     void Thunderstrike()
     {
+        //particles
         lightningParticles.Play();
+        //sound
         PlayRandomSoundRandomPitch(thunderStrikes, 1f);
+        //reset timer
         lightningTimer = lightningFreq + Random.Range(-10, 10);
 
+        //check dist from player
+        if(pilot)
+            distFromPlayer = Vector3.Distance(transform.position, pilot.position);
+        
         //disable player controls when close
         if(distFromPlayer < zappingDist)
         {

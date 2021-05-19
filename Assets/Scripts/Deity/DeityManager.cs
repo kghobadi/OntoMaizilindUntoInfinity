@@ -35,5 +35,10 @@ public class DeityManager : MonoBehaviour {
         }
     }
 
+    //for channeling explosion sounds
+    public void PlaySoundFromRandomDeity()
+    {
+        
+    }
 
 }

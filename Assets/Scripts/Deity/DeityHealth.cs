@@ -108,6 +108,12 @@ public class DeityHealth : MonoBehaviour {
         exploded.Play();
         healthState = HealthStates.CRASHED;
     }
+    
+    //releases tendrils that cause hallucination once they reach the pilot
+    void ReleaseSpiritTendrils()
+    {
+        
+    }
 
     //finds point below deity to move to 
     Vector3 RaycastToGround()

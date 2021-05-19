@@ -5,8 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class DestructibleBuilding : MonoBehaviour {
     ThePilot the_pilot;
-  
-
+    
     public int health;
     public int healthMultiplier;
 
@@ -23,6 +22,7 @@ public class DestructibleBuilding : MonoBehaviour {
 
     [Header("Deity Reactions")]
     EffectsManager effectsMan;
+    private DeityManager _deityManager;
     public GameObject explosionPrefab;
     ParticleSystem explosionParticles;
     public GameObject smokePrefab;
@@ -33,6 +33,7 @@ public class DestructibleBuilding : MonoBehaviour {
         the_pilot = FindObjectOfType<ThePilot>();
         buildingMesh = GetComponentInChildren<MeshRenderer>();
         effectsMan = FindObjectOfType<EffectsManager>();
+        //_deityManager = FindObjectOfType<DeityManager>();
 
         //set smoke effect
         if (smokePrefab == null)
@@ -112,8 +113,9 @@ public class DestructibleBuilding : MonoBehaviour {
             explosionParticles.Play();
             smokeParticles.Play();
             //play from d sound 
-            DeitySound dSound = FindObjectOfType<DeitySound>();
+            DeitySound dSound = other.transform.parent.GetComponentInChildren<DeitySound>();
             dSound.PlaySoundMultipleAudioSources(dSound.explosionSounds);
+            
             //fall and set 0 hp
             FallBelow();
             health = 0;

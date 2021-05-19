@@ -51,39 +51,57 @@ public class BombShelter : MonoBehaviour {
         //its the player -- begin broadcast 
         if(person == camSwitcher.currentCamObj)
         {
-            BeginProjection(true);
-            //camSwitcher.SwitchCam(true, -1);
+            //when room player makes it to the mosque. 
+            if (person.gameObject.tag == "Player")
+            {
+                //remove room player from list. 
+                camSwitcher.cameraObjects.RemoveAt(1);
+                //switch to airplane cam
+                camSwitcher.SetCam(0);
+            }
+            //you have made it to the mosque as a random citizen 
+            else
+            {
+                BeginProjection(true);
+            }
+            
+            //IF YOU WANT TO CUT THE CHAOS BOMBING SEQUENCE -- simply delete above code and just use BeginProjection(true);
         }
 
         //send ai to pray
         else
         {
-            //set navigation to random spot 
-            int spotIndex = Random.Range(0, sittingPoints.Length);
-            Transform randomSpot = sittingPoints[spotIndex];
-            Vector2 radius = Random.insideUnitCircle * sittingRadius;
-            Vector3 sittingPoint = new Vector3(randomSpot.position.x + radius.x, randomSpot.position.y, randomSpot.position.z + radius.y);
-            NPC.Movement mover = person.GetComponent<NPC.Movement>();
-            mover.NavigateToPoint(sittingPoint, false);
-
-            //assign spirit trail a corner of the screen corresponding to sitting point 
-            if(mover.spiritTrail != null)
-                mover.spiritTrail.projectionDisplayCorner = spiritPoints[spotIndex];
-            //needed to grab it since its null
-            else
-            {
-                SpiritTrail trail = mover.GetComponentInChildren<SpiritTrail>();
-                if(trail)
-                    trail.projectionDisplayCorner = spiritPoints[spotIndex];
-            }
-
-            //prepare AI to sit at point
-            mover.resetsMovement = true;
-            mover.newMovement = prayingBehavior;
-
-            //remove from switcher list 
-            camSwitcher.cameraObjects.Remove(person);
+            SetAIPosition(person);
         }
+    }
+
+    void SetAIPosition(CamObject person)
+    {
+        //set navigation to random spot 
+        int spotIndex = Random.Range(0, sittingPoints.Length);
+        Transform randomSpot = sittingPoints[spotIndex];
+        Vector2 radius = Random.insideUnitCircle * sittingRadius;
+        Vector3 sittingPoint = new Vector3(randomSpot.position.x + radius.x, randomSpot.position.y, randomSpot.position.z + radius.y);
+        NPC.Movement mover = person.GetComponent<NPC.Movement>();
+        mover.NavigateToPoint(sittingPoint, false);
+
+        //assign spirit trail a corner of the screen corresponding to sitting point 
+        if(mover.spiritTrail != null)
+            mover.spiritTrail.projectionDisplayCorner = spiritPoints[spotIndex];
+        //needed to grab it since its null
+        else
+        {
+            SpiritTrail trail = mover.GetComponentInChildren<SpiritTrail>();
+            if(trail)
+                trail.projectionDisplayCorner = spiritPoints[spotIndex];
+        }
+
+        //prepare AI to sit at point
+        mover.resetsMovement = true;
+        mover.newMovement = prayingBehavior;
+
+        //remove from switcher list 
+        camSwitcher.cameraObjects.Remove(person);
     }
 
     //called when player enters mosque 
