@@ -26,7 +26,8 @@ public class DeityHealth : MonoBehaviour {
     public float fallSpeed;
 
     public ParticleSystem exploded;
-
+    public Hallucination deathHallucination;
+    
     private void Awake()
     {
         deityMan = FindObjectOfType<DeityManager>();
@@ -96,9 +97,11 @@ public class DeityHealth : MonoBehaviour {
         //remove from deity list 
         deityMan.deities.Remove(this);
         //stop strafing
-        deity.SetCrash();
+        deity.SetFall();
         //alien sound 
         _Sounds.PlayRandomSoundRandomPitch(_Sounds.deathSounds, _Sounds.myAudioSource.volume);
+        //play halluc
+        deathHallucination.PlayHallucination();
     }
 
     //when i hit the ground and explode
@@ -107,6 +110,7 @@ public class DeityHealth : MonoBehaviour {
         mRender.material = deathMat;
         exploded.Play();
         healthState = HealthStates.CRASHED;
+        deity.SetCrash();
     }
     
     //releases tendrils that cause hallucination once they reach the pilot

@@ -1,17 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class DeityManager : MonoBehaviour {
-
     public List<DeityHealth> deities = new List<DeityHealth>();
 
     public bool firstLayerDestroyed;
     public UnityEvent firstLayer;
     public bool secondLayerDestroyed;
     public UnityEvent secondLayer;
-
+    
     private void Update()
     {
         //first layer destroyed 
@@ -33,6 +33,11 @@ public class DeityManager : MonoBehaviour {
                 secondLayerDestroyed = true;
             }
         }
+    }
+
+    public void PlayHallucination(Hallucination hallucination)
+    {
+        //play it
     }
 
     //for channeling explosion sounds

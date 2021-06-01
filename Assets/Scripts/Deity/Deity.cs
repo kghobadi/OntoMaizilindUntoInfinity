@@ -9,7 +9,7 @@ public class Deity : MonoBehaviour {
     DeityHealth _Health;
     DeityAnimations _Animations;
     Rigidbody deityBody;
-    
+
     [Header("Movements")]
     public bool strafe;
     public bool moveForward;
@@ -32,7 +32,8 @@ public class Deity : MonoBehaviour {
 
     [Header("Deity Weapons")] 
     public ParticleSystem destructionBeam;
-
+    public ParticleSystem deathTendrils;
+    
     [Header("Player Interaction")] 
     public bool engagingPlayer;
     public float engageDistance;
@@ -82,13 +83,21 @@ public class Deity : MonoBehaviour {
         maxVelocityZ = max;
     }
 
-    public void SetCrash()
+    public void SetFall()
     {
         moveForward = false;
         strafe = false;
         destructionBeam.Stop();
+        //enable death particles 
+        deathTendrils.Play();
     }
 
+    public void SetCrash()
+    {
+        //disable death particles 
+        deathTendrils.Stop();
+    }
+    
     void FlyForward()
     {
         if(Mathf.Abs(deityBody.velocity.z)  < maxVelocityZ)

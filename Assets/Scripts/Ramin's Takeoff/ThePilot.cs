@@ -96,12 +96,6 @@ public class ThePilot : AudioHandler {
         controlsActive = false;
     }
 
-    public void ToggleViews()
-    {
-        zoomedIn = !zoomedIn;
-        SwitchViews(zoomedIn);
-    }
-
     //resets min height 
     public void ResetMinHeight(float newHeight)
     {
@@ -112,6 +106,22 @@ public class ThePilot : AudioHandler {
     public void StartCountingBullets()
     {
         countingBullets = true;
+    }
+    
+    public void ToggleViews()
+    {
+        zoomedIn = !zoomedIn;
+        SwitchViews(zoomedIn);
+    }
+
+    public void SetFPView()
+    {
+        SwitchViews(true);
+    }
+    
+    public void SetTPView()
+    {
+        SwitchViews(false);
     }
 
     void SwitchViews(bool fpORzoom)
