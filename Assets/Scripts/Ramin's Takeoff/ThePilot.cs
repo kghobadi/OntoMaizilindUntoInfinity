@@ -124,6 +124,8 @@ public class ThePilot : AudioHandler {
         SwitchViews(false);
     }
 
+    
+    //TODO need to add waits for this transition so that the cockpit is not seen floating in the air, but rather only once the camera gets close enough to plane. 
     void SwitchViews(bool fpORzoom)
     {
         //first person

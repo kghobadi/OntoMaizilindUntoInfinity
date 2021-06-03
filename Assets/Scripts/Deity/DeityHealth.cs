@@ -101,7 +101,8 @@ public class DeityHealth : MonoBehaviour {
         //alien sound 
         _Sounds.PlayRandomSoundRandomPitch(_Sounds.deathSounds, _Sounds.myAudioSource.volume);
         //play halluc
-        deathHallucination.PlayHallucination();
+        if(deathHallucination)
+            deathHallucination.PlayHallucination();
     }
 
     //when i hit the ground and explode
