@@ -21,6 +21,7 @@ public class ThePilot : AudioHandler {
     public float heightMin, heigtMax;
     public float xMin, xMax;
     public bool controlsActive = true;
+    public bool movementFrozen;
     public bool countingBullets;
     InputDevice inputDevice;
 
@@ -81,19 +82,12 @@ public class ThePilot : AudioHandler {
 
     private void FixedUpdate()
     {
-        ApplyForces();
+        if (movementFrozen == false)
+        {
+            ApplyForces();
+        }
 
         CheckAnimations();
-    }
-
-    public void EnableControls()
-    {
-        controlsActive = true;
-    }
-
-    public void DisableControls()
-    {
-        controlsActive = false;
     }
 
     //resets min height 
@@ -107,7 +101,8 @@ public class ThePilot : AudioHandler {
     {
         countingBullets = true;
     }
-    
+
+    #region Camera Views
     public void ToggleViews()
     {
         zoomedIn = !zoomedIn;
@@ -124,17 +119,18 @@ public class ThePilot : AudioHandler {
         SwitchViews(false);
     }
 
-    
+    private Coroutine camWait;
     //TODO need to add waits for this transition so that the cockpit is not seen floating in the air, but rather only once the camera gets close enough to plane. 
     void SwitchViews(bool fpORzoom)
     {
         //first person
         if (fpORzoom)
         {
+            //change cams
             fpCam.SetActive(true);
-            cockpit.SetActive(true);
             zoCam.SetActive(false);
-            planeRender.enabled = false;
+
+            camWait = StartCoroutine(WaitToChangePlaneVisuals());
             //set animator 
             //_Animations.SetAnimator("idle");
             //_Animations.Animator.enabled = false;
@@ -143,14 +139,36 @@ public class ThePilot : AudioHandler {
         //zoomed out 
         else
         {
+            //check for cam wait coroutine 
+            if (camWait != null)
+            {
+                StopCoroutine(camWait);
+                camWait = null;
+            }
+            
+            //change cams
             fpCam.SetActive(false);
-            cockpit.SetActive(false);
             zoCam.SetActive(true);
+            
+            //change plane visuals
+            cockpit.SetActive(false);
             planeRender.enabled = true;
+            
             //_Animations.Animator.enabled = true;
             zoomedIn = false;
         }
     }
+
+    IEnumerator WaitToChangePlaneVisuals()
+    {
+        cockpit.SetActive(true);
+        
+        yield return new WaitForSeconds(1.75f);
+        
+        planeRender.enabled = false;
+    }
+
+    #endregion
 
     #region Weapons
 
@@ -252,6 +270,30 @@ public class ThePilot : AudioHandler {
     #endregion
 
     #region Movement
+    
+    public void EnableControls()
+    {
+        controlsActive = true;
+    }
+
+    public void DisableControls()
+    {
+        controlsActive = false;
+    }
+
+    private Vector3 lastVelocity;
+    public void FreezeMovement()
+    {
+        movementFrozen = true;
+        lastVelocity = planeBody.velocity;
+        planeBody.velocity = Vector3.zero;
+    }
+
+    public void ResumeMovement()
+    {
+        movementFrozen = false;
+        planeBody.velocity = lastVelocity;
+    }
 
     //wasd input
     float horizontal;

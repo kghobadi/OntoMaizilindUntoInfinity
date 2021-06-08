@@ -73,6 +73,26 @@ public class Deity : MonoBehaviour {
             Strafe();
     }
 
+    private Vector3 lastVelocity;
+    public void FreezeMovement()
+    {
+        moveForward = false;
+        strafe = false;
+
+        //zero vel
+        lastVelocity = deityBody.velocity;
+        deityBody.velocity = Vector3.zero;
+    }
+
+    public void ResumeMovement()
+    {
+        moveForward = true;
+        strafe = true;
+
+        //return to last vel
+        deityBody.velocity = lastVelocity;
+    }
+
     public void SetForwardSpeed(float speed)
     {
         moveSpeed = speed;
@@ -96,6 +116,9 @@ public class Deity : MonoBehaviour {
     {
         //disable death particles 
         deathTendrils.Stop();
+        //disable movement
+        mover.enabled = false;
+        FreezeMovement();
     }
     
     void FlyForward()

@@ -35,6 +35,22 @@ public class DeityManager : MonoBehaviour {
         }
     }
 
+    public void FreezeDeities()
+    {
+        for (int i = 0; i < deities.Count; i++)
+        {
+            deities[i].deity.FreezeMovement();
+        }
+    }
+    
+    public void ResumeDeities()
+    {
+        for (int i = 0; i < deities.Count; i++)
+        {
+            deities[i].deity.ResumeMovement();
+        }
+    }
+
     public void PlayHallucination(Hallucination hallucination)
     {
         //play it

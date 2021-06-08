@@ -10,6 +10,7 @@ using UnityEngine.PostProcessing;
 public class Hallucination : MonoBehaviour
 {
 	private ThePilot pilot;
+	public DeityManager deityMan;
 	//render texture cam?
 	//video?
 	//post processing effect (vignette?)
@@ -24,9 +25,12 @@ public class Hallucination : MonoBehaviour
 	public Transform camLookAt;
 	public FadeUI imageFade;
 	
-	private void Start()
+	void Start()
 	{
 		pilot = FindObjectOfType<ThePilot>();
+		if(deityMan == null)
+			deityMan = FindObjectOfType<DeityManager>();
+		
 		mainCam = Camera.main;
 		camBehavior = mainCam.GetComponent<PostProcessingBehaviour>();
 	}
@@ -42,7 +46,7 @@ public class Hallucination : MonoBehaviour
 		pilot.SetFPView();
 		
 		yield return new WaitForSeconds(3f);
-		
+
 		//start it 
 		StartHallucination();
 
@@ -57,6 +61,9 @@ public class Hallucination : MonoBehaviour
 	{
 		//disable controls 
 		pilot.DisableControls();
+		//freeze movements
+		pilot.FreezeMovement();
+		deityMan.FreezeDeities();
 		
 		//set camera
 		if(cameraPos)
@@ -73,8 +80,14 @@ public class Hallucination : MonoBehaviour
 
 	public void EndHallucination()
 	{
+		//return to 3p view
+		pilot.SetTPView();
+		
 		//enable controls
 		pilot.EnableControls();
+		//resume movements
+		pilot.ResumeMovement();
+		deityMan.ResumeDeities();
 		
 		//fade out
 		imageFade.FadeOut();

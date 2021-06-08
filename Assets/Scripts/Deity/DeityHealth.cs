@@ -6,7 +6,7 @@ public class DeityHealth : MonoBehaviour {
     DeityManager deityMan;
     DeitySound _Sounds;
     DeityAnimations _Animations;
-    Deity deity;
+    [HideInInspector] public Deity deity;
     MeshRenderer mRender;
 
     [Tooltip("Check if this is Deity VII")]
