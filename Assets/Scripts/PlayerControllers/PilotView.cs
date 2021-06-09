@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PostProcessing;
@@ -11,6 +12,7 @@ public class PilotView : MonoBehaviour
 
     [Header("FPS Camera Controls")]
     public bool isActive;
+    private bool activeAtStart;
     float hRot, vRot;
     public float sensitivityX = 1f;
     public float sensitivityY = 1f;
@@ -25,6 +27,7 @@ public class PilotView : MonoBehaviour
     {
         mainCam = Camera.main;
         pauseMenu = FindObjectOfType<PauseMenu>();
+        activeAtStart = isActive;
     }
 
     void Update()
@@ -98,4 +101,8 @@ public class PilotView : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        isActive = activeAtStart;
+    }
 }

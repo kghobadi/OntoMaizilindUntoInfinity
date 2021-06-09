@@ -24,6 +24,7 @@ AudioMixerController:
     - 5c4f9f055a13c7a4eb6724f2d0176b38
     - 7ea937143f8527846abb16be24464105
     - c1a748b8003dcb548b2dae1364601c92
+    - 561b176e12babf449851bd9931b434cf
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500003}
@@ -42,6 +43,7 @@ AudioMixerGroupController:
   - {fileID: 243931155023850290}
   - {fileID: 243051623149598312}
   - {fileID: 243223692894791854}
+  - {fileID: 243617013770612646}
   m_Volume: c0f7ae23dff5e484cb11aef9ae95ae6e
   m_Pitch: 0b8d8e2d5c1f88442bb32d0434f971e6
   m_Effects:
@@ -147,6 +149,23 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!243 &243617013770612646
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Hallucinations
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 561b176e12babf449851bd9931b434cf
+  m_Children: []
+  m_Volume: 2ff4b16dc9cc7a84a8a40843a320c8d2
+  m_Pitch: 2b74b3782f296ad4a809108c3b9055de
+  m_Effects:
+  - {fileID: 244719052790781560}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
 --- !u!243 &243745175752654874
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -233,6 +252,19 @@ AudioMixerEffectController:
   m_EffectID: 9c310e292713f61408721a07e12842cf
   m_EffectName: Attenuation
   m_MixLevel: 4aac3c28f8dbc5949aaba39b35888469
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!244 &244719052790781560
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_EffectID: 394c533f18f784d419847ed2eb55bf6f
+  m_EffectName: Attenuation
+  m_MixLevel: 16f8f1de73371b6478b8bd405bf8859e
   m_Parameters: []
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0

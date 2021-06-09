@@ -79,7 +79,8 @@ public class FirstPersonController : MonoBehaviour
                 movement = transform.rotation * movement;
                 player.Move(movement * Time.deltaTime);
                 
-                resetAudio.ResetNearbyAudio();
+                if(resetAudio)
+                    resetAudio.ResetNearbyAudio();
             }
 
             //fall down over time 

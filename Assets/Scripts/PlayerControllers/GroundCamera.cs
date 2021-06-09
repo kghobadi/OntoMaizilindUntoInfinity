@@ -29,6 +29,14 @@ public class GroundCamera : MonoBehaviour
 
     void Awake()
     {
+        if (transform.parent)
+        {
+            GetRefs();
+        }
+    }
+
+    public void GetRefs()
+    {
         character = transform.parent.gameObject;
         player = transform.parent;
         fpc = player.GetComponent<FirstPersonController>();
@@ -48,9 +56,17 @@ public class GroundCamera : MonoBehaviour
         {
             canControl = false;
         }
-        else if(pauseMenu.paused == false && _objectViewer.viewing == false)
+        else if(pauseMenu.paused == false )
         {
-            canControl = true;
+            if (_objectViewer)
+            {
+                if(_objectViewer.viewing == false)
+                    canControl = true;
+            }
+            else
+            {
+                canControl = true;
+            }
         }
     }
 
