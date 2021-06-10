@@ -6,11 +6,13 @@ using UnityEngine;
 public class Interactive : AudioHandler
 {
 	protected CameraSwitcher _cameraSwitcher;
+	protected InteractCursor iCursor;
 	
 	[Header("Interactive Object Settings")]
 	public bool active;
 	public MeshRenderer _meshRenderer;
 	public SkinnedMeshRenderer _SkinnedMeshRenderer;
+	public Sprite iCursorSprite;
 	public Material activeMat;
 	public Material inactiveMat;
 	public AudioClip interactSound;
@@ -22,6 +24,8 @@ public class Interactive : AudioHandler
 	{
 		//cam switcher ref
 		_cameraSwitcher = FindObjectOfType<CameraSwitcher>();
+		//iCursor ref
+		iCursor = FindObjectOfType<InteractCursor>();
 		
 		//get mesh renderer
 		if (_meshRenderer == null)
@@ -78,6 +82,9 @@ public class Interactive : AudioHandler
 		if (_SkinnedMeshRenderer)
 			_SkinnedMeshRenderer.material = activeMat;
 		active = true;
+		
+		//cursor
+		iCursor.ActivateCursor(iCursorSprite);
 
 		//in case this object has clicker UI instructions
 		if (!hasClicked)
@@ -121,6 +128,10 @@ public class Interactive : AudioHandler
 			_meshRenderer.material = inactiveMat;
 		if (_SkinnedMeshRenderer)
 			_SkinnedMeshRenderer.material = inactiveMat;
+		
+		//cursor
+		iCursor.Deactivate();
+		
 		active = false;
 		
 		//if we have ui to fade out 
