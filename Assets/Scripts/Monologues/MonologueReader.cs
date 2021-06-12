@@ -11,6 +11,8 @@ public class MonologueReader : MonoBehaviour {
     [HideInInspector]
     public MonologueManager monoManager; //my mono manager
 
+    private Camera mainCam;
+    private RectTransform myRectTransform;
     SpeakerSound speakerAudio;
     [HideInInspector] public Text theText;
     [HideInInspector] public TMP_Text the_Text;
@@ -21,7 +23,7 @@ public class MonologueReader : MonoBehaviour {
     public int currentLine;
     public int endAtLine;
     public bool canSkip = true;
-    public bool hasFinished;
+    public bool readingMono;
     //typing vars
     private bool isTyping = false;
     IEnumerator currentTypingLine;
@@ -36,10 +38,17 @@ public class MonologueReader : MonoBehaviour {
     public float[] waitTimes;
     bool waiting;
 
+    [Header("Main Canvas Reader")] 
+    public ScreenReader screenReader; //assigned by main canvas mono reader
+    private MainCanvasMonologueReader mainCanvasReaderCreator;
+
     void Awake()
     {
+        mainCanvasReaderCreator = FindObjectOfType<MainCanvasMonologueReader>();
+        myRectTransform = GetComponent<RectTransform>();
+        mainCam = Camera.main;
         theText = GetComponent<Text>();
-
+        
         if (theText == null)
         {
             usesTMP = true;
@@ -56,12 +65,68 @@ public class MonologueReader : MonoBehaviour {
         else
             theText.enabled = false;
     }
-
+    
     void Update ()
     {
         //LineSkipping();
+
+        if (readingMono)
+        {
+            CheckVisible();
+        }
     }
 
+    public void SetScreenReader(ScreenReader reader)
+    {
+        screenReader = reader;
+    }
+    
+    /// <summary>
+    /// Checks whether the world space monologue reader is visible or not.
+    /// </summary>
+    void CheckVisible()
+    {
+        //seems we cannot just check renderer.isVisible since they are ui elements. 
+        bool isVisible = myRectTransform.IsVisibleFrom(mainCam);
+
+        if (isVisible)
+        {
+            //we good -- deactivate screen reader if there is one
+            if (screenReader)
+            {
+                screenReader.Deactivate();
+            }
+        }
+        else
+        {
+            //can't see it on screen, activate screen reader
+            if (screenReader)
+            {
+                screenReader.Activate();
+                //set text so its not empty!
+                if (usesTMP)
+                    screenReader.SetText(the_Text.text); 
+                else
+                    screenReader.SetText(theText.text); 
+            }
+            //don't have a screen reader yet 
+            else
+            {
+                //generate one from the creator
+                if (mainCanvasReaderCreator)
+                {
+                    mainCanvasReaderCreator.GenerateReader(this);
+                    
+                    //set text so its not empty!
+                    if (usesTMP)
+                        screenReader.SetText(the_Text.text); 
+                    else
+                        screenReader.SetText(theText.text); 
+                }
+            }
+        }
+    }
+    
     void LineSkipping()
     {
         //get input device 
@@ -110,8 +175,7 @@ public class MonologueReader : MonoBehaviour {
         //reached the  end, reset
         if (currentLine >= endAtLine)
         {
-            hasFinished = true;
-            monoManager.DisableMonologue();
+            EndMono();
         }
         //set next typing line 
         else
@@ -120,9 +184,25 @@ public class MonologueReader : MonoBehaviour {
         }
     }
 
+    void EndMono()
+    {
+        readingMono = false;
+        monoManager.DisableMonologue();
+            
+        //deactivate screen reader if there is one
+        if (screenReader)
+        {
+            screenReader.Deactivate();
+        }
+    }
+
     //calls text scroll coroutine 
     public void SetTypingLine()
     {
+        //start
+        if (readingMono == false)
+            readingMono = true;
+        
         if (currentTypingLine != null)
         {
             StopCoroutine(currentTypingLine);
@@ -157,12 +237,27 @@ public class MonologueReader : MonoBehaviour {
 
         while (isTyping && (letter < lineOfText.Length - 1))
         {
+            //for screen reader 
+            string screenText;
+            
             //add this letter to our text
             if (usesTMP)
+            {
                 the_Text.text += lineOfText[letter];
+                screenText = the_Text.text;
+            }
             else
+            {
                 theText.text += lineOfText[letter];
-
+                screenText = theText.text;
+            }
+                
+            //set screen reader
+            if (screenReader)
+            {
+                screenReader.SetText(screenText);
+            }
+            
             //check what audio to play 
             if(speakerAudio)
                 speakerAudio.AudioCheck(lineOfText, letter);
@@ -185,6 +280,10 @@ public class MonologueReader : MonoBehaviour {
             the_Text.text = lineOfText;
         else
             theText.text = lineOfText;
+        
+        if(screenReader)
+            screenReader.SetText(lineOfText);
+        
         isTyping = false;
     }
 
@@ -220,5 +319,38 @@ public class MonologueReader : MonoBehaviour {
         yield return new WaitForSeconds(time);
 
         ProgressLine();
+    }
+
+    [Header("Width Altering")] 
+    public float maxWidth = 1000f;
+    public float sideOffset = 25f;
+    private void ChangeWidthOfObject()
+    {
+        var width = 0f;
+        if(usesTMP)
+            width = the_Text.preferredWidth;
+        else
+            width = theText.preferredWidth;
+        
+        //set to width if it is less than max
+        if (width < maxWidth)
+        {
+            myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width + sideOffset);
+            
+            if(usesTMP)
+                the_Text.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
+            else
+                theText.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
+        }
+        //set to max width 
+        else
+        {
+            myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxWidth + sideOffset);
+            
+            if(usesTMP)
+                the_Text.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxWidth);
+            else
+                theText.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxWidth);
+        }
     }
 }
