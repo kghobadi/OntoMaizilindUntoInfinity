@@ -12,6 +12,7 @@ public class ScreenReader : MonoBehaviour
 	private Camera mainCam;
 	private TMP_Text m_text;
 	private RectTransform m_rectTransform;
+	private RectTransform canvasRect;
 	private Image m_Image;
 	private Transform m_speaker;
 	
@@ -23,9 +24,8 @@ public class ScreenReader : MonoBehaviour
 	public float sideOffset = 25f;
 
 	[Tooltip("For adjusting the reader within screen bounds")]
-	public Vector2 screenBoundsX = new Vector2(-250, 250);
+	public Vector2 screenBoundsX = new Vector2(-400, 400);
 	public Vector2 screenBoundsY = new Vector2(-175, 175);
-	public float adjustSpeed = 1f;
 	
 	public MonologueReader monoReader;
 	public bool active;
@@ -34,7 +34,6 @@ public class ScreenReader : MonoBehaviour
 	{
 		Init();
 	}
-
 	void Init()
 	{
 		if(init)
@@ -43,15 +42,41 @@ public class ScreenReader : MonoBehaviour
 		m_text = GetComponentInChildren<TMP_Text>();
 		m_Image = GetComponent<Image>();
 		m_rectTransform = GetComponent<RectTransform>();
+		canvasRect = transform.parent.parent.GetComponent<RectTransform>();
+		Debug.Log(transform.parent.parent.name);
 		mainCam = Camera.main;
 
 		init = true;
 	}
-
 	public void SetReader(MonologueReader reader, Transform speaker)
 	{
 		monoReader = reader;
 		m_speaker = speaker;
+		//set name based on the speaker 
+		gameObject.name = gameObject.name + "(" + speaker.name + ")";
+	}
+	public void SetText(string mono)
+	{
+		Init();
+		
+		m_text.text = mono;
+		ChangeWidthOfObject();
+	}
+	
+	public void Activate()
+	{
+		Init();
+		
+		m_text.enabled = true;
+		m_Image.enabled = true;
+		active = true;
+	}
+
+	public void Deactivate()
+	{
+		m_text.enabled = false;
+		m_Image.enabled = false;
+		active = false;
 	}
 	
 	void Update () 
@@ -64,37 +89,40 @@ public class ScreenReader : MonoBehaviour
 		}	
 	}
 
-	public void SetText(string mono)
-	{
-		Init();
-		
-		m_text.text = mono;
-		ChangeWidthOfObject();
-	}
-
 	/// <summary>
 	/// Move towards the closest point where to portray the location of the character which is speaking in world space. Stay on Screen. 
 	/// </summary>
 	public void AdjustScreenPosition()
 	{
-		//convert position of the speaker (from world to screen)
-		Vector3 screenPos = mainCam.WorldToScreenPoint(m_speaker.position);
+		//then you calculate the position of the UI element
+		//0,0 for the canvas is at the center of the screen, whereas WorldToViewPortPoint treats the lower left corner as 0,0.
+		//Because of this, you need to subtract the height / width of the canvas * 0.5 to get the correct position.
+		Vector2 ViewportPosition =mainCam.WorldToViewportPoint(m_speaker.position);
+		Vector2 screenPos = new Vector2(
+			((ViewportPosition.x*canvasRect.sizeDelta.x)-(canvasRect.sizeDelta.x*0.5f)),
+			((ViewportPosition.y*canvasRect.sizeDelta.y)-(canvasRect.sizeDelta.y*0.5f)));
+
+		//get current width 
+		float currentWidth = m_rectTransform.sizeDelta.x + sideOffset;
+		//change x min/max based on current width
+		float xMin = screenBoundsX.x + (currentWidth / 2);
+		float xMax = screenBoundsX.y - (currentWidth / 2);
 		//check screen bounds X min
-		if (screenPos.x < screenBoundsX.x)
-			screenPos = new Vector3(screenBoundsX.x, screenPos.y, screenPos.z); 
+		if (screenPos.x < xMin)
+			screenPos = new Vector2(xMin, screenPos.y); 
 		//check screen bounds X max
-		if(screenPos.x > screenBoundsX.y)
-			screenPos = new Vector3(screenBoundsX.y, screenPos.y, screenPos.z); 
+		if(screenPos.x > xMax)
+			screenPos = new Vector2(xMax, screenPos.y); 
 		//check screen bounds Y min
 		if (screenPos.y < screenBoundsY.x)
-			screenPos = new Vector3(screenPos.x, screenBoundsY.x, screenPos.z); 
+			screenPos = new Vector2(screenPos.x, screenBoundsY.x); 
 		//check screen bounds Y max
 		if (screenPos.y > screenBoundsY.y)
-			screenPos = new Vector3(screenPos.x, screenBoundsY.y, screenPos.z); 
-			
-		//use move towards to move rect transform towards screen pos as long as my current pos is within bounds. 
-		m_rectTransform.position = Vector3.MoveTowards(m_rectTransform.position, screenPos, adjustSpeed * Time.deltaTime);
-		Debug.Log("Adjusting pos from " + screenPos+ " pixels from the left " + screenPos);
+			screenPos = new Vector2(screenPos.x, screenBoundsY.y); 
+		
+		//now you can set the position of the ui element
+		m_rectTransform.anchoredPosition = screenPos;
+		//Debug.Log("Adjusting pos to " + screenPos);
 	}
 
 	/// <summary>
@@ -116,25 +144,10 @@ public class ScreenReader : MonoBehaviour
 		
 	}
 
-	public void Activate()
-	{
-		Init();
-		
-		m_text.enabled = true;
-		m_Image.enabled = true;
-		active = true;
-	}
-
-	public void Deactivate()
-	{
-		m_text.enabled = false;
-		m_Image.enabled = false;
-		active = false;
-	}
-	
+	private float width;
 	private void ChangeWidthOfObject()
 	{
-		var width = m_text.preferredWidth + iconAdjust;
+		width = m_text.preferredWidth + iconAdjust;
 		//set to width if it is less than max
 		if (width < maxWidth)
 		{

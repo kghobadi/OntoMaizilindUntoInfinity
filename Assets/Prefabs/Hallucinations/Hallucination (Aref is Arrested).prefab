@@ -4912,7 +4912,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1762206725983778}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -38.69995, y: 16.96, z: -70.5}
+  m_LocalPosition: {x: -38.69995, y: 16.96, z: -72.4}
   m_LocalScale: {x: 2.4821, y: 22.058119, z: 2.4821}
   m_Children:
   - {fileID: 4246065530172520}
@@ -5170,7 +5170,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1928169966047038}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 80.5, y: 16.96, z: -70.5}
+  m_LocalPosition: {x: 80.5, y: 16.96, z: -72.4}
   m_LocalScale: {x: 2.4821, y: 22.058119, z: 2.4821}
   m_Children:
   - {fileID: 4468552085368648}
@@ -6219,7 +6219,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1527105846012612}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 16.96, z: -70.5}
+  m_LocalPosition: {x: 0, y: 16.96, z: -72.4}
   m_LocalScale: {x: 2.4821, y: 22.058119, z: 2.4821}
   m_Children:
   - {fileID: 4673426776092486}
@@ -6322,7 +6322,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1641948728177000}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 99.94995, y: 16.96, z: -70.5}
+  m_LocalPosition: {x: 99.94995, y: 16.96, z: -72.4}
   m_LocalScale: {x: 2.8079998, y: 24.95435, z: 2.8079998}
   m_Children:
   - {fileID: 4498328369619594}
@@ -6349,7 +6349,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1155324215548134}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 19.45, y: 16.96, z: -70.5}
+  m_LocalPosition: {x: 19.45, y: 16.96, z: -72.4}
   m_LocalScale: {x: 2.8079996, y: 24.95435, z: 2.8079996}
   m_Children:
   - {fileID: 4118938031083262}
@@ -6776,7 +6776,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1637213099826436}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -19.25, y: 16.96, z: -70.5}
+  m_LocalPosition: {x: -19.25, y: 16.96, z: -72.4}
   m_LocalScale: {x: 2.8079998, y: 24.95435, z: 2.8079998}
   m_Children:
   - {fileID: 4938465966114530}
@@ -7043,7 +7043,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1994005141739548}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 39, y: 16.96, z: -70.5}
+  m_LocalPosition: {x: 39, y: 16.96, z: -72.4}
   m_LocalScale: {x: 2.4821, y: 22.058119, z: 2.4821}
   m_Children:
   - {fileID: 4379446183298172}
@@ -7255,7 +7255,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1319231221869168}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 58.44995, y: 16.96, z: -70.5}
+  m_LocalPosition: {x: 58.44995, y: 16.96, z: -72.4}
   m_LocalScale: {x: 2.8079998, y: 24.95435, z: 2.8079998}
   m_Children:
   - {fileID: 4589655212139372}
@@ -13786,7 +13786,7 @@ MonoBehaviour:
   planetToOrbit: {fileID: 4561449619383028}
   orbiting: 0
   orbitAtStart: 1
-  orbitalSpeed: 10
+  orbitalSpeed: 25
   xyOrzAxis: 1
   randomAxis: 0
   localOrWorld: 0
@@ -13913,11 +13913,14 @@ MonoBehaviour:
   currentLine: 0
   endAtLine: 0
   canSkip: 0
-  hasFinished: 0
+  readingMono: 0
   timeBetweenLetters: 0
   timeBetweenLines: 0
   conversational: 0
   waitTimes: []
+  screenReader: {fileID: 0}
+  maxWidth: 1000
+  sideOffset: 25
 --- !u!114 &114230972822673906
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14850,11 +14853,14 @@ MonoBehaviour:
   currentLine: 0
   endAtLine: 0
   canSkip: 0
-  hasFinished: 0
+  readingMono: 0
   timeBetweenLetters: 0
   timeBetweenLines: 0
   conversational: 0
   waitTimes: []
+  screenReader: {fileID: 0}
+  maxWidth: 1000
+  sideOffset: 25
 --- !u!114 &114535948363989384
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15126,11 +15132,14 @@ MonoBehaviour:
   currentLine: 0
   endAtLine: 0
   canSkip: 0
-  hasFinished: 0
+  readingMono: 0
   timeBetweenLetters: 0
   timeBetweenLines: 0
   conversational: 0
   waitTimes: []
+  screenReader: {fileID: 0}
+  maxWidth: 1000
+  sideOffset: 25
 --- !u!114 &114781369846595110
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15363,7 +15372,7 @@ MonoBehaviour:
   planetToOrbit: {fileID: 4561449619383028}
   orbiting: 0
   orbitAtStart: 1
-  orbitalSpeed: 10
+  orbitalSpeed: 25
   xyOrzAxis: 1
   randomAxis: 0
   localOrWorld: 0
