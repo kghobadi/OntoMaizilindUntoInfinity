@@ -7,7 +7,8 @@ public class DeityHealth : MonoBehaviour {
     DeitySound _Sounds;
     DeityAnimations _Animations;
     [HideInInspector] public Deity deity;
-    MeshRenderer mRender;
+    MeshRenderer mRender; 
+    MeshRenderer[] mRenderers;
 
     [Tooltip("Check if this is Deity VII")]
     public bool destroyerOfWorlds;
@@ -35,6 +36,11 @@ public class DeityHealth : MonoBehaviour {
         _Animations = GetComponentInParent<DeityAnimations>();
         deity = GetComponentInParent<Deity>();
         mRender = GetComponent<MeshRenderer>();
+
+        if (mRender == null)
+        {
+            mRenderers = GetComponentsInChildren<MeshRenderer>();
+        }
     }
 
     private void Start()
@@ -108,7 +114,16 @@ public class DeityHealth : MonoBehaviour {
     //when i hit the ground and explode
     void Crash()
     {
-        mRender.material = deathMat;
+        //set mats 
+        if(mRender)
+            mRender.material = deathMat;
+        else
+        {
+            for (int i = 0; i < mRenderers.Length; i++)
+            {
+                mRenderers[i].material = deathMat;
+            }
+        }
         exploded.Play();
         healthState = HealthStates.CRASHED;
         deity.SetCrash();

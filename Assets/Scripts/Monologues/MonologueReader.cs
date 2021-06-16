@@ -13,6 +13,7 @@ public class MonologueReader : MonoBehaviour {
 
     private Camera mainCam;
     private RectTransform myRectTransform;
+    private RectTransform textBackTransform;
     SpeakerSound speakerAudio;
     [HideInInspector] public Text theText;
     [HideInInspector] public TMP_Text the_Text;
@@ -39,6 +40,7 @@ public class MonologueReader : MonoBehaviour {
     bool waiting;
 
     [Header("Main Canvas Reader")] 
+    public bool usesScreenReader;
     public ScreenReader screenReader; //assigned by main canvas mono reader
     private MainCanvasMonologueReader mainCanvasReaderCreator;
 
@@ -46,6 +48,7 @@ public class MonologueReader : MonoBehaviour {
     {
         mainCanvasReaderCreator = FindObjectOfType<MainCanvasMonologueReader>();
         myRectTransform = GetComponent<RectTransform>();
+        textBackTransform = transform.parent.GetComponent<RectTransform>();
         mainCam = Camera.main;
         theText = GetComponent<Text>();
         
@@ -113,7 +116,7 @@ public class MonologueReader : MonoBehaviour {
             else
             {
                 //generate one from the creator
-                if (mainCanvasReaderCreator)
+                if (mainCanvasReaderCreator && usesScreenReader)
                 {
                     mainCanvasReaderCreator.GenerateReader(this);
                     
@@ -258,6 +261,9 @@ public class MonologueReader : MonoBehaviour {
                 screenReader.SetText(screenText);
             }
             
+            //adjust width of ui
+            //ChangeWidthOfObject();
+            
             //check what audio to play 
             if(speakerAudio)
                 speakerAudio.AudioCheck(lineOfText, letter);
@@ -335,22 +341,14 @@ public class MonologueReader : MonoBehaviour {
         //set to width if it is less than max
         if (width < maxWidth)
         {
-            myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width + sideOffset);
-            
-            if(usesTMP)
-                the_Text.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
-            else
-                theText.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
+            myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
+            textBackTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width + sideOffset);
         }
         //set to max width 
         else
         {
-            myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxWidth + sideOffset);
-            
-            if(usesTMP)
-                the_Text.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxWidth);
-            else
-                theText.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxWidth);
+            myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxWidth);
+            textBackTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxWidth + sideOffset);
         }
     }
 }

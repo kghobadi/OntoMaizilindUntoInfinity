@@ -101,8 +101,8 @@ public class PilotView : MonoBehaviour
         }
     }
 
-    private void OnDisable()
-    {
-        isActive = activeAtStart;
-    }
+    // private void OnDisable()
+    // {
+    //     isActive = activeAtStart;
+    // }
 }
