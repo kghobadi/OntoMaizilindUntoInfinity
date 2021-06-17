@@ -23,6 +23,7 @@ public class Hallucination : MonoBehaviour
 
     [Header("Camera Transitions")]
 	public Camera renderCam;
+	private PostProcessingBehaviour hallucCamBehavior;
 	private GroundCamera camMover;
 	public Transform cameraPos;
 	public Transform camLookAt;
@@ -47,6 +48,7 @@ public class Hallucination : MonoBehaviour
 		//cam refs
 		mainCam = Camera.main;
 		camBehavior = mainCam.GetComponent<PostProcessingBehaviour>();
+		hallucCamBehavior = renderCam.GetComponent<PostProcessingBehaviour>();
 
 		//check for cam movement
 		if (renderCam)
@@ -123,6 +125,7 @@ public class Hallucination : MonoBehaviour
 		
 		//set profiles
 		camBehavior.profile = hallucProfile;
+		hallucCamBehavior.profile = hallucProfile;
 
 		hallucinating = true;
 	}
