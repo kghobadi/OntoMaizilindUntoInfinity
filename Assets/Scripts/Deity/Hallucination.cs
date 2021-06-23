@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.PostProcessing;
 
 /// <summary>
@@ -34,6 +35,9 @@ public class Hallucination : MonoBehaviour
 	[Header("Monologues")] 
 	public MonologueManager[] monoManagers;
 	public int[] monoIndeces;
+	
+	[Header("Events")] 
+	public UnityEvent[] events;
 	
 	void Start()
 	{
@@ -101,6 +105,12 @@ public class Hallucination : MonoBehaviour
 		for (int i = 0; i < monoManagers.Length; i++)
 		{
 			monoManagers[i].WaitToSetNewMonologue(monoIndeces[i]);
+		}
+		
+		//trigger events
+		for (int i = 0; i < events.Length; i++)
+		{
+			events[i].Invoke();
 		}
 
 		//set camera

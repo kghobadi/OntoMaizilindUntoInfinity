@@ -33,13 +33,13 @@ namespace NPC
             }
 
             //get face sprite renderer 
-            if (face == null)
+            if (face == null && _faceAnim)
             {
                 face = _faceAnim.GetComponent<SpriteRenderer>();
             }
 
             //get back sprite renderer 
-            if (back == null)
+            if (back == null && face)
             {
                 if (face.transform.childCount > 1)
                     back = face.transform.GetChild(1).GetComponent<SpriteRenderer>();
@@ -56,6 +56,12 @@ namespace NPC
             {
                 back.sprite = backs[faceIndex];
             }
+        }
+
+        public void SetFaceAnim(FaceAnimation faceAnim)
+        {
+            _faceAnim = faceAnim;
+            face = _faceAnim.GetComponent<SpriteRenderer>();
         }
 
         private void Update()

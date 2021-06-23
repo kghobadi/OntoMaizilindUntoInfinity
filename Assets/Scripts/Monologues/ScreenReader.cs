@@ -53,7 +53,7 @@ public class ScreenReader : MonoBehaviour
 		monoReader = reader;
 		m_speaker = speaker;
 		//set name based on the speaker 
-		gameObject.name = gameObject.name + "(" + speaker.name + ")";
+		gameObject.name = gameObject.name + "(" + speaker.parent.parent.name + ")";
 	}
 	public void SetText(string mono)
 	{
