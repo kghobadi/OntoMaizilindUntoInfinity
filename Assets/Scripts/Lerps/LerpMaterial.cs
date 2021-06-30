@@ -8,6 +8,8 @@ public class LerpMaterial : MonoBehaviour {
     [Header("Material values")]
     [Tooltip("MeshRenderer containing lerp material")]
     public MeshRenderer mRenderer;
+    [Tooltip("MeshRenderer containing lerp material")]
+    public SkinnedMeshRenderer skinMeshRenderer;
     [Tooltip("Mat/shader to lerp")]
     public Material lerpMat;
     [Tooltip("Name of float to lerp in mat/shader")]
@@ -48,11 +50,24 @@ public class LerpMaterial : MonoBehaviour {
     //halftone
     HalftoneEffect halftone;
 
+    [Header("Lerp Back and Forth")] 
+    [Tooltip("Enables lerp back and forth between below value range")]
+    public bool lerpBackForth; // --> lbf
+    private bool backOrForth; //checks which value to lerp to
+    public float lbfMin, lbfMax;
+    private float lbfTimer;
+    [Tooltip("Amount of time between lerp back and forth behavior")]
+    public float lbfTime = 1f; 
+
     void Awake()
     {
         if (mRenderer == null)
         {
             mRenderer = GetComponent<MeshRenderer>();
+        }
+        if (skinMeshRenderer == null)
+        {
+            skinMeshRenderer = GetComponent<SkinnedMeshRenderer>();
         }
         if(lerpMat == null)
         {
@@ -111,6 +126,17 @@ public class LerpMaterial : MonoBehaviour {
 
 	void Update ()
     {
+        //lerp back and forth 
+        if (lerpBackForth)
+        {
+            //timer
+            lbfTimer -= Time.deltaTime;
+            if (lbfTimer < 0)
+            {
+                CheckLerpBackForth();
+            }
+        }
+        
         //lerp is under way!
         if (lerpingMat)
         {
@@ -163,12 +189,29 @@ public class LerpMaterial : MonoBehaviour {
             }
         }
     }
+
+    void CheckLerpBackForth()
+    {
+        //true -- go forth to max
+        if(backOrForth) 
+            LerpBasic(lbfMax);
+        //false -- go back to min
+        else
+            LerpBasic(lbfMin);
+        
+        //set bool to opposite
+        backOrForth = !backOrForth;
+        //reset timer 
+        lbfTimer = lbfTime;
+    }
     
     //can be called to disable renderer
     public void DisableRenderer()
     {
         if(mRenderer)
             mRenderer.enabled = false;
+        if (skinMeshRenderer)
+            skinMeshRenderer.enabled = false;
 
         if (halftone)
         {

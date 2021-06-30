@@ -1,0 +1,291 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1996373475809988}
+  m_IsPrefabAsset: 1
+--- !u!1 &1996373475809988
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4639288305121186}
+  - component: {fileID: 114968575063689184}
+  - component: {fileID: 114558918887623026}
+  - component: {fileID: 114184964779411528}
+  - component: {fileID: 114223891172692152}
+  - component: {fileID: 114961710161321112}
+  - component: {fileID: 114804959988583828}
+  - component: {fileID: 114578452879493764}
+  m_Layer: 0
+  m_Name: WorldManager (Ramins Takeoff)
+  m_TagString: WorldManager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4639288305121186
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1996373475809988}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 41.624756, y: 227.42044, z: 179.72516}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114184964779411528
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1996373475809988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4fd13d0c361e024dbfa1c6da6ebeac7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+  speedUp: 10
+  checkpoints: []
+  events: []
+  beginOnStart: 0
+  timelineStart: 0
+  timing: 0
+  gameTime: 0
+  pressing: 0
+--- !u!114 &114223891172692152
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1996373475809988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dba3aed31c712946baf99228efed024, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allMonologues: []
+  allMonoManagers:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &114558918887623026
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1996373475809988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1d549f9805004d45ab1cbad77ac839f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeToRestart: 5
+  restartTimer: 0
+  debug: 0
+--- !u!114 &114578452879493764
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1996373475809988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 801d825589538b2449ec5fa57e14275f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paused: 0
+  toggledPause:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  pauseMenu: {fileID: 0}
+  quitMenu: {fileID: 0}
+  restartMenu: {fileID: 0}
+  pauseAudio:
+  - {fileID: 0}
+  pauseVideos: []
+--- !u!114 &114804959988583828
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1996373475809988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 947ee6088a7bac347af6049355fda610, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smokePrefab: {fileID: 1979314067050386, guid: 430099940cce75245955973c78f8f11f,
+    type: 2}
+  deityExplosionPrefab: {fileID: 1149019820068336, guid: 812988f0f12f15a4f9a3ff174921b2a1,
+    type: 2}
+  bombPooler: {fileID: 0}
+  explosionPooler: {fileID: 0}
+--- !u!114 &114961710161321112
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1996373475809988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc7752a801d7b184ab04a5349719bc5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementPaths:
+  - pathName: 'To the Bomb Shelter '
+    moveType: 3
+    movementPoints:
+    - {fileID: 0}
+    - {fileID: 0}
+    moveRadius: 0
+    idleType: 0
+    runType: 0
+    followObject: {fileID: 0}
+  - pathName: To the Kitchen
+    moveType: 3
+    movementPoints:
+    - {fileID: 0}
+    - {fileID: 0}
+    moveRadius: 0
+    idleType: 0
+    runType: 0
+    followObject: {fileID: 0}
+  - pathName: To the Radio Table
+    moveType: 3
+    movementPoints:
+    - {fileID: 0}
+    - {fileID: 0}
+    moveRadius: 0
+    idleType: 0
+    runType: 0
+    followObject: {fileID: 0}
+  - pathName: Standing Idle
+    moveType: 2
+    movementPoints: []
+    moveRadius: 0
+    idleType: 0
+    runType: 0
+    followObject: {fileID: 0}
+  - pathName: Sitting Idle
+    moveType: 2
+    movementPoints: []
+    moveRadius: 0
+    idleType: 1
+    runType: 0
+    followObject: {fileID: 0}
+  - pathName: Exit thru Front door
+    moveType: 3
+    movementPoints:
+    - {fileID: 0}
+    - {fileID: 0}
+    moveRadius: 0
+    idleType: 0
+    runType: 0
+    followObject: {fileID: 0}
+  - pathName: The Descent to the Mosque
+    moveType: 3
+    movementPoints:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    moveRadius: 0
+    idleType: 0
+    runType: 0
+    followObject: {fileID: 0}
+  - pathName: Ramin Dont Go
+    moveType: 3
+    movementPoints:
+    - {fileID: 0}
+    - {fileID: 0}
+    moveRadius: 0
+    idleType: 0
+    runType: 0
+    followObject: {fileID: 0}
+  - pathName: Praying Idle
+    moveType: 2
+    movementPoints:
+    - {fileID: 0}
+    - {fileID: 0}
+    moveRadius: 0
+    idleType: 2
+    runType: 0
+    followObject: {fileID: 0}
+  - pathName: To the Phone
+    moveType: 3
+    movementPoints:
+    - {fileID: 0}
+    - {fileID: 0}
+    moveRadius: 0
+    idleType: 0
+    runType: 0
+    followObject: {fileID: 0}
+  lookAtObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &114968575063689184
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1996373475809988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8780992a1a515954ca75b73a979a710f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionsToDelete: []
