@@ -122,7 +122,7 @@ public class DestructibleBuilding : MonoBehaviour {
         }
 
         //destroyed in nuclearity 
-        if (other.gameObject.tag == "Explosion" && SceneManager.GetActiveScene().buildIndex == 2)
+        if (other.gameObject.tag == "Explosion" && SceneManager.GetActiveScene().buildIndex == 3)
         {
             gameObject.SetActive(false);
         }
