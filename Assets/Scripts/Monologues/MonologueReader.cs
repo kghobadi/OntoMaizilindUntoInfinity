@@ -42,6 +42,7 @@ public class MonologueReader : MonoBehaviour {
     [Header("Main Canvas Reader")] 
     public bool usesScreenReader;
     public ScreenReader screenReader; //assigned by main canvas mono reader
+    public FaceAnimationUI faceAnimationUI;
     private MainCanvasMonologueReader mainCanvasReaderCreator;
 
     void Awake()
@@ -61,8 +62,16 @@ public class MonologueReader : MonoBehaviour {
 
     void Start()
     {
+        //get speaker audio from host object
         speakerAudio = hostObj.GetComponent<SpeakerSound>();
+        
+        //set face anim ui references 
+        if (faceAnimationUI)
+        {
+            faceAnimationUI.SetReader(this, monoManager.textBack.transform);
+        }
 
+        //check if TMP or normal Text
         if (usesTMP)
             the_Text.enabled = false;
         else
@@ -99,9 +108,20 @@ public class MonologueReader : MonoBehaviour {
             {
                 screenReader.Deactivate();
             }
+            //deactivate face anim ui
+            if (faceAnimationUI)
+            {
+                faceAnimationUI.Deactivate();
+            }
         }
         else
         {
+            //activate face anim ui
+            if (faceAnimationUI)
+            {
+                faceAnimationUI.Activate();
+            }
+            
             //can't see it on screen, activate screen reader
             if (screenReader)
             {
@@ -196,6 +216,11 @@ public class MonologueReader : MonoBehaviour {
         if (screenReader)
         {
             screenReader.Deactivate();
+        }
+        //deactivate face anim ui
+        if (faceAnimationUI)
+        {
+            faceAnimationUI.Deactivate();
         }
     }
 

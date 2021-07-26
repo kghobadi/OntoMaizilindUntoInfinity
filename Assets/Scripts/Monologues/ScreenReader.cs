@@ -67,15 +67,19 @@ public class ScreenReader : MonoBehaviour
 	{
 		Init();
 		
-		m_text.enabled = true;
-		m_Image.enabled = true;
+		if(m_text)
+			m_text.enabled = true;
+		if(m_Image)
+			m_Image.enabled = true;
 		active = true;
 	}
 
 	public void Deactivate()
 	{
-		m_text.enabled = false;
-		m_Image.enabled = false;
+		if(m_text)
+			m_text.enabled = false;
+		if(m_Image)
+			m_Image.enabled = false;
 		active = false;
 	}
 	
