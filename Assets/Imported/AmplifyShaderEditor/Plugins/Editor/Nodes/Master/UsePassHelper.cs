@@ -287,9 +287,22 @@ namespace AmplifyShaderEditor
 			}
 		}
 
-		public void BuildUsePassInfo( ref string aboveItems, ref string bellowItems, string tabs )
+		public void BuildUsePassInfo( MasterNodeDataCollector dataCollector, ref string aboveItems, ref string bellowItems, string tabs)
 		{
-			int count = m_items.Count;
+			int count = 0;
+			count = dataCollector.AboveUsePassesList.Count;
+			for( int i = 0; i < count; i++ )
+			{
+				aboveItems += tabs + string.Format( UseGrabFormatNewLine, dataCollector.AboveUsePassesList[ i ].PropertyName );
+			}
+
+			count = dataCollector.BelowUsePassesList.Count;
+			for( int i = 0; i < count; i++ )
+			{
+				bellowItems += tabs + string.Format( UseGrabFormatNewLine,  dataCollector.BelowUsePassesList[ i ].PropertyName );
+			}
+			
+			count = m_items.Count;
 			for( int i = 0; i < count; i++ )
 			{
 				if( m_items[ i ].Location == UsePassLocation.Above )
@@ -303,9 +316,23 @@ namespace AmplifyShaderEditor
 			}
 		}
 
-		public void BuildUsePassInfo( ref List<PropertyDataCollector> aboveItems, ref List<PropertyDataCollector> bellowItems )
+		public void BuildUsePassInfo( MasterNodeDataCollector dataCollector, ref List<PropertyDataCollector> aboveItems, ref List<PropertyDataCollector> bellowItems )
 		{
-			int count = m_items.Count;
+			int count = 0;
+			count = dataCollector.AboveUsePassesList.Count;
+			for( int i = 0; i < count; i++ )
+			{
+				aboveItems.Add( new PropertyDataCollector( -1, string.Format( UseGrabFormat, dataCollector.AboveUsePassesList[ i ].PropertyName ) ) );
+			}
+
+			count = dataCollector.BelowUsePassesList.Count;
+			for( int i = 0; i < count; i++ )
+			{
+				bellowItems.Add( new PropertyDataCollector( -1, string.Format( UseGrabFormat, dataCollector.BelowUsePassesList[ i ].PropertyName ) ) );
+			}
+
+
+			count = m_items.Count;
 			for( int i = 0; i < count; i++ )
 			{
 				if( m_items[ i ].Location == UsePassLocation.Above )

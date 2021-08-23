@@ -12,6 +12,7 @@ namespace AmplifyShaderEditor
 			base.CommonInit( uniqueId );
 			m_matrixName = "unity_WorldToObject";
 			m_matrixHDName = "GetWorldToObjectMatrix()";
+			m_matrixLWName = "GetWorldToObjectMatrix()";
 			m_previewShaderGUID = "79a5efd1e3309f54d8ba3e7fdf5e459b";
 		}
 
@@ -22,13 +23,24 @@ namespace AmplifyShaderEditor
 
 			string value = m_inputPorts[ 0 ].GeneratePortInstructions( ref dataCollector );
 			string matrixName = string.Empty;
-			if( dataCollector.IsTemplate && dataCollector.TemplateDataCollectorInstance.CurrentSRPType == TemplateSRPType.HD && !string.IsNullOrEmpty( m_matrixHDName ) )
+			if( dataCollector.IsTemplate  )
 			{
-				string varName = "localWorldVar" + OutputId;
-				dataCollector.AddLocalVariable( UniqueId, PrecisionType.Float, WirePortDataType.FLOAT4, varName, value );
-				dataCollector.AddLocalVariable( UniqueId, string.Format("({0}).xyz", varName),string.Format( "GetCameraRelativePositionWS(({0}).xyz);", varName ) );
-				value = varName;
-				matrixName = m_matrixHDName;
+				if( dataCollector.TemplateDataCollectorInstance.CurrentSRPType == TemplateSRPType.HD && !string.IsNullOrEmpty( m_matrixHDName ) )
+				{
+					string varName = "localWorldVar" + OutputId;
+					dataCollector.AddLocalVariable( UniqueId, PrecisionType.Float, WirePortDataType.FLOAT4, varName, value );
+					dataCollector.AddLocalVariable( UniqueId, string.Format( "({0}).xyz", varName ), string.Format( "GetCameraRelativePositionWS(({0}).xyz);", varName ) );
+					value = varName;
+					matrixName = m_matrixHDName;
+				}
+				else if( dataCollector.TemplateDataCollectorInstance.CurrentSRPType == TemplateSRPType.Lightweight && !string.IsNullOrEmpty( m_matrixLWName ) )
+				{
+					matrixName = m_matrixLWName;
+				}
+				else
+				{
+					matrixName = m_matrixName;
+				}
 			}
 			else
 			{

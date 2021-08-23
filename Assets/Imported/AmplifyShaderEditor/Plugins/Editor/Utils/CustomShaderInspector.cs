@@ -17,7 +17,12 @@ namespace UnityEditor
 			public static Texture2D errorIcon = EditorGUIUtilityEx.LoadIcon( "console.erroricon.sml" );
 
 			public static Texture2D warningIcon = EditorGUIUtilityEx.LoadIcon( "console.warnicon.sml" );
-
+			#if UNITY_2020_1_OR_NEWER
+			public static GUIContent togglePreprocess = EditorGUIUtilityEx.TextContent( "Preprocess only|Show preprocessor output instead of compiled shader code" );
+			#if UNITY_2020_2_OR_NEWER
+			public static GUIContent toggleStripLineDirective = EditorGUIUtility.TrTextContent( "Strip #line directives", "Strip #line directives from preprocessor output" );
+			#endif
+			#endif				
 			public static GUIContent showSurface = EditorGUIUtilityEx.TextContent( "Show generated code|Show generated code of a surface shader" );
 
 			public static GUIContent showFF = EditorGUIUtilityEx.TextContent( "Show generated code|Show generated code of a fixed function shader" );
@@ -31,9 +36,19 @@ namespace UnityEditor
 			public static GUIContent no = EditorGUIUtilityEx.TextContent( "no" );
 
 			public static GUIContent builtinShader = EditorGUIUtilityEx.TextContent( "Built-in shader" );
-		}
 
+			public static GUIContent arrayValuePopupButton = EditorGUIUtilityEx.TextContent( "..." );
+		}
+#if UNITY_2020_1_OR_NEWER
+		private static bool s_PreprocessOnly = false;
+#if UNITY_2020_2_OR_NEWER
+		private static bool s_StripLineDirectives = true;
+#endif
+#endif
 		private const float kSpace = 5f;
+
+		const float kValueFieldWidth = 200.0f;
+		const float kArrayValuePopupBtnWidth = 25.0f;
 
 		private static readonly string[] kPropertyTypes = new string[]
 		{
@@ -175,6 +190,10 @@ namespace UnityEditor
 		public void OnDisable()
 		{
 			CleanUp();
+			if( m_SrpCompatibilityCheckMaterial != null )
+			{
+				GameObject.DestroyImmediate( m_SrpCompatibilityCheckMaterial );
+			}
 		}
 		
 		void CleanUp()
@@ -199,10 +218,24 @@ namespace UnityEditor
 			m_material = null;
 		}
 
+		private Material m_SrpCompatibilityCheckMaterial = null;
+		public Material srpCompatibilityCheckMaterial
+		{
+			get
+			{
+				if( m_SrpCompatibilityCheckMaterial == null )
+				{
+					m_SrpCompatibilityCheckMaterial = new Material( target as Shader );
+				}
+				return m_SrpCompatibilityCheckMaterial;
+			}
+		}
+
 		public virtual void OnEnable()
 		{
 			Shader s = this.target as Shader;
-			ShaderUtilEx.FetchCachedErrors( s );
+			if( s!= null )
+				ShaderUtilEx.FetchCachedErrors( s );
 		}
 		
 		private static string GetPropertyType( Shader s, int index )
@@ -230,7 +263,11 @@ namespace UnityEditor
 			{
 				if ( GUILayout.Button( "Open in Shader Editor" ) )
 				{
+#if UNITY_2018_3_OR_NEWER
+					ASEPackageManagerHelper.SetupLateShader( shader );
+#else
 					AmplifyShaderEditorWindow.ConvertShaderToASE( shader );
+#endif
 				}
 
 				if ( GUILayout.Button( "Open in Text Editor" ) )
@@ -273,10 +310,42 @@ namespace UnityEditor
 					break;
 				}
 				EditorGUILayout.LabelField( "Disable batching", label, new GUILayoutOption[ 0 ] );
+#if UNITY_2019_3_OR_NEWER
+				ShowKeywords( shader );
+				srpCompatibilityCheckMaterial.SetPass( 0 );
+#endif
+
+#if UNITY_2018_3_OR_NEWER
+				int shaderActiveSubshaderIndex = ShaderUtilEx.GetShaderActiveSubshaderIndex( shader );
+				int sRPBatcherCompatibilityCode = ShaderUtilEx.GetSRPBatcherCompatibilityCode( shader, shaderActiveSubshaderIndex );
+				string label2 = ( sRPBatcherCompatibilityCode != 0 ) ? "not compatible" : "compatible";
+				EditorGUILayout.LabelField( "SRP Batcher", label2 );
+				if( sRPBatcherCompatibilityCode != 0 )
+				{
+					EditorGUILayout.HelpBox( ShaderUtilEx.GetSRPBatcherCompatibilityIssueReason( shader, shaderActiveSubshaderIndex, sRPBatcherCompatibilityCode ), MessageType.Info );
+				}
+#endif
 				CustomShaderInspector.ShowShaderProperties( shader );
 			}
 		}
+#if UNITY_2019_3_OR_NEWER
+		private void ShowKeywords( Shader s )
+		{
+			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.PrefixLabel( "Keywords", EditorStyles.miniButton );
 
+			Rect buttonRect = GUILayoutUtility.GetRect( Styles.arrayValuePopupButton, GUI.skin.button, GUILayout.MinWidth( kValueFieldWidth ) );
+			buttonRect.width = kArrayValuePopupBtnWidth;
+			if( GUI.Button( buttonRect, Styles.arrayValuePopupButton, EditorStyles.miniButton ) )
+			{
+				var globalKeywords = ShaderUtilEx.GetShaderGlobalKeywords( s );
+				var localKeywords = ShaderUtilEx.GetShaderLocalKeywords( s );
+				PopupWindow.Show( buttonRect, new KeywordsPopup( globalKeywords, localKeywords, 150.0f ) );
+			}
+
+			EditorGUILayout.EndHorizontal();
+		}
+#endif
 		private void ShowShaderCodeArea( Shader s )
 		{
 			CustomShaderInspector.ShowSurfaceShaderButton( s );
@@ -397,38 +466,76 @@ namespace UnityEditor
 			GUILayout.EndScrollView();
 		}
 
+#if UNITY_2019_3_OR_NEWER
+		ShaderMessage[] m_ShaderMessages;
+#endif
 		private void ShowShaderErrors( Shader s )
 		{
+#if UNITY_2019_3_OR_NEWER
+			if( Event.current.type == EventType.Layout )
+			{
+				int n = ShaderUtil.GetShaderMessageCount( s );
+				m_ShaderMessages = null;
+				if( n >= 1 )
+				{
+					m_ShaderMessages = ShaderUtil.GetShaderMessages( s );
+				}
+			}
+
+			if( m_ShaderMessages == null )
+				return;
+
+			ShaderInspectorEx.ShaderErrorListUI( s, m_ShaderMessages, ref this.m_ScrollPosition );
+#else
 			int shaderErrorCount = ShaderUtilEx.GetShaderErrorCount( s );
 			if ( shaderErrorCount < 1 )
 			{
 				return;
 			}
 			CustomShaderInspector.ShaderErrorListUI( s, ShaderUtilEx.GetShaderErrors( s ), ref this.m_ScrollPosition );
+#endif
 		}
 
 		private void ShowCompiledCodeButton( Shader s )
 		{
+#if UNITY_2020_1_OR_NEWER
+			using( new EditorGUI.DisabledScope( !EditorSettings.cachingShaderPreprocessor ) )
+			{
+				s_PreprocessOnly = EditorGUILayout.Toggle( Styles.togglePreprocess, s_PreprocessOnly );
+#if UNITY_2020_2_OR_NEWER
+				if( s_PreprocessOnly )
+				{
+					s_StripLineDirectives = EditorGUILayout.Toggle( Styles.toggleStripLineDirective, s_StripLineDirectives );
+				}
+#endif
+			}
+#endif
 			EditorGUILayout.BeginHorizontal( new GUILayoutOption[ 0 ] );
 			EditorGUILayout.PrefixLabel( "Compiled code", EditorStyles.miniButton );
-			bool flag = ShaderUtilEx.HasShaderSnippets( s ) || ShaderUtilEx.HasSurfaceShaders( s ) || ShaderUtilEx.HasFixedFunctionShaders( s );
-			if ( flag )
+			bool hasCode = ShaderUtilEx.HasShaderSnippets( s ) || ShaderUtilEx.HasSurfaceShaders( s ) || ShaderUtilEx.HasFixedFunctionShaders( s );
+			if( hasCode )
 			{
-				GUIContent showCurrent = CustomShaderInspector.Styles.showCurrent;
+				GUIContent showCurrent = Styles.showCurrent;
 				Rect rect = GUILayoutUtility.GetRect( showCurrent, EditorStyles.miniButton, new GUILayoutOption[]
 				{
 					GUILayout.ExpandWidth(false)
 				} );
 				Rect position = new Rect( rect.xMax - 16f, rect.y, 16f, rect.height );
-				if ( EditorGUIEx.ButtonMouseDown( position, GUIContent.none, FocusType.Passive, GUIStyle.none ) )
+				if( EditorGUIEx.ButtonMouseDown( position, GUIContent.none, FocusType.Passive, GUIStyle.none ) )
 				{
 					Rect last = GUILayoutUtilityEx.TopLevel_GetLast();
-					PopupWindow.Show( last, ( PopupWindowContent ) Activator.CreateInstance( System.Type.GetType( "UnityEditor.ShaderInspectorPlatformsPopup, UnityEditor" ), new object[] { s } ) );
+					PopupWindow.Show( last, (PopupWindowContent)Activator.CreateInstance( System.Type.GetType( "UnityEditor.ShaderInspectorPlatformsPopup, UnityEditor" ), new object[] { s } ) );
 					GUIUtility.ExitGUI();
 				}
-				if ( GUI.Button( rect, showCurrent, EditorStyles.miniButton ) )
+				if( GUI.Button( rect, showCurrent, EditorStyles.miniButton ) )
 				{
+#if UNITY_2020_1
+					ShaderUtilEx.OpenCompiledShader( s, ShaderInspectorPlatformsPopupEx.GetCurrentMode(), ShaderInspectorPlatformsPopupEx.GetCurrentPlatformMask(), ShaderInspectorPlatformsPopupEx.GetCurrentVariantStripping() == 0, s_PreprocessOnly );
+#elif UNITY_2020_2_OR_NEWER
+					ShaderUtilEx.OpenCompiledShader( s, ShaderInspectorPlatformsPopupEx.GetCurrentMode(), ShaderInspectorPlatformsPopupEx.GetCurrentPlatformMask(), ShaderInspectorPlatformsPopupEx.GetCurrentVariantStripping() == 0, s_PreprocessOnly, s_StripLineDirectives );
+#else
 					ShaderUtilEx.OpenCompiledShader( s, ShaderInspectorPlatformsPopupEx.GetCurrentMode(), ShaderInspectorPlatformsPopupEx.GetCurrentPlatformMask(), ShaderInspectorPlatformsPopupEx.GetCurrentVariantStripping() == 0 );
+#endif
 					GUIUtility.ExitGUI();
 				}
 			}
@@ -497,6 +604,61 @@ namespace UnityEditor
 				GUILayout.Button( CustomShaderInspector.Styles.no, GUI.skin.label, new GUILayoutOption[ 0 ] );
 			}
 			EditorGUILayout.EndHorizontal();
+		}
+	}
+
+	internal class KeywordsPopup : PopupWindowContent
+	{
+		private Vector2 m_ScrollPos = Vector2.zero;
+		private string[] m_GlobalKeywords;
+		private string[] m_LocalKeywords;
+		private bool m_GlobalKeywordsExpended;
+		private bool m_LocalKeywordsExpended;
+		private float m_WindowWidth;
+
+		private static readonly GUIStyle m_Style = EditorStyles.miniLabel;
+
+		public KeywordsPopup( string[] globalKeywords, string[] localKeywords, float windowWidth )
+		{
+			m_GlobalKeywords = globalKeywords;
+			m_LocalKeywords = localKeywords;
+			m_GlobalKeywordsExpended = true;
+			m_LocalKeywordsExpended = true;
+			m_WindowWidth = windowWidth;
+		}
+
+		public override Vector2 GetWindowSize()
+		{
+			var numValues = m_GlobalKeywords.Length + m_LocalKeywords.Length + 2;
+			var lineHeight = m_Style.lineHeight + m_Style.padding.vertical + m_Style.margin.top;
+			return new Vector2( m_WindowWidth, Math.Min( lineHeight * numValues, 250.0f ) );
+		}
+
+		public override void OnGUI( Rect rect )
+		{
+			m_ScrollPos = EditorGUILayout.BeginScrollView( m_ScrollPos );
+
+			m_GlobalKeywordsExpended = KeywordsFoldout( m_GlobalKeywordsExpended, "Global Keywords", m_GlobalKeywords );
+			m_LocalKeywordsExpended = KeywordsFoldout( m_LocalKeywordsExpended, "Local Keywords", m_LocalKeywords );
+
+			EditorGUILayout.EndScrollView();
+		}
+
+		private bool KeywordsFoldout( bool expended, string name, string[] values )
+		{
+			expended = EditorGUILayout.Foldout( expended, name, true, m_Style );
+
+			if( expended )
+			{
+				EditorGUI.indentLevel++;
+				for( int i = 0; i < values.Length; ++i )
+				{
+					EditorGUILayout.LabelField( values[ i ], m_Style );
+				}
+				EditorGUI.indentLevel--;
+			}
+
+			return expended;
 		}
 	}
 
@@ -591,19 +753,48 @@ namespace UnityEditor
 			ShaderUtilEx.Type.InvokeMember( "OpenGeneratedFixedFunctionShader", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, null, new object[] { s } );
 		}
 
+#if UNITY_2020_1
+		public static void OpenCompiledShader( Shader shader, int mode, int customPlatformsMask, bool includeAllVariants, bool preprocessOnly )
+		{
+			ShaderUtilEx.Type.InvokeMember( "OpenCompiledShader", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, null, new object[] { shader, mode, customPlatformsMask, includeAllVariants, preprocessOnly } );
+		}
+#elif UNITY_2020_2_OR_NEWER
+		public static void OpenCompiledShader( Shader shader, int mode, int customPlatformsMask, bool includeAllVariants, bool preprocessOnly, bool stripLineDirectives )
+		{
+			ShaderUtilEx.Type.InvokeMember( "OpenCompiledShader", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, null, new object[] { shader, mode, customPlatformsMask, includeAllVariants, preprocessOnly, stripLineDirectives } );
+		}
+#else
 		public static void OpenCompiledShader( Shader shader, int mode, int customPlatformsMask, bool includeAllVariants )
 		{
 			ShaderUtilEx.Type.InvokeMember( "OpenCompiledShader", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, null, new object[] { shader, mode, customPlatformsMask, includeAllVariants } );
 		}
-
+#endif
 		public static void FetchCachedErrors( Shader s )
 		{
+#if UNITY_2019_3_OR_NEWER
+			ShaderUtilEx.Type.InvokeMember( "FetchCachedMessages", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, null, new object[] { s } );
+#else
 			ShaderUtilEx.Type.InvokeMember( "FetchCachedErrors", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, null, new object[] { s } );
+#endif
+		}
+
+		public static string[] GetShaderGlobalKeywords( Shader s )
+		{
+			return ShaderUtilEx.Type.InvokeMember( "GetShaderGlobalKeywords", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, null, new object[] { s } ) as string[];
+		}
+
+		public static string[] GetShaderLocalKeywords( Shader s )
+		{
+			return ShaderUtilEx.Type.InvokeMember( "GetShaderLocalKeywords", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, null, new object[] { s } ) as string[];
 		}
 
 		public static int GetShaderErrorCount( Shader s )
 		{
+#if UNITY_2019_3_OR_NEWER
+			return ShaderUtil.GetShaderMessageCount( s );
+#else
 			return ( int ) ShaderUtilEx.Type.InvokeMember( "GetShaderErrorCount", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, null, new object[] { s } );
+#endif
 		}
 
 		public static int GetAvailableShaderCompilerPlatforms()
@@ -670,6 +861,23 @@ namespace UnityEditor
 		{
 			return ( bool ) ShaderUtilEx.Type.InvokeMember( "DoesIgnoreProjector", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, null, new object[] { s } );
 		}
+
+#if UNITY_2018_3_OR_NEWER
+		public static int GetShaderActiveSubshaderIndex( Shader s )
+		{
+			return (int)ShaderUtilEx.Type.InvokeMember( "GetShaderActiveSubshaderIndex", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, null, new object[] { s } );
+		}
+
+		public static int GetSRPBatcherCompatibilityCode( Shader s, int subShaderIdx )
+		{
+			return (int)ShaderUtilEx.Type.InvokeMember( "GetSRPBatcherCompatibilityCode", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, null, new object[] { s, subShaderIdx } );
+		}
+
+		public static string GetSRPBatcherCompatibilityIssueReason( Shader s, int subShaderIdx, int err )
+		{
+			return (string)ShaderUtilEx.Type.InvokeMember( "GetSRPBatcherCompatibilityIssueReason", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, null, new object[] { s, subShaderIdx, err } );
+		}
+#endif
 	}
 
 	public static class FileUtilEx
@@ -687,6 +895,13 @@ namespace UnityEditor
 	{
 		private static System.Type type = null;
 		public static  System.Type Type { get { return ( type == null ) ? type = System.Type.GetType( "UnityEditor.ShaderInspector, UnityEditor" ) : type; } }
+
+#if UNITY_2019_3_OR_NEWER
+		public static void ShaderErrorListUI( UnityEngine.Object shader, ShaderMessage[] messages, ref Vector2 scrollPosition )
+		{
+			Type.InvokeMember( "ShaderErrorListUI", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, null, new object[] { shader, messages, scrollPosition } );
+		}
+#endif
 	}
 
 	public static class GUISkinEx
@@ -702,8 +917,7 @@ namespace UnityEditor
 
 	public static class EditorGUIEx
 	{
-		private static System.Type type = null;
-		public static  System.Type Type { get { return ( type == null ) ? type = System.Type.GetType( "UnityEditor.EditorGUI, UnityEditor" ) : type; } }
+		public static System.Type Type = typeof( EditorGUI );
 
 		public static bool ButtonMouseDown( Rect position, GUIContent content, FocusType focusType, GUIStyle style )
 		{

@@ -124,7 +124,7 @@ namespace AmplifyShaderEditor
 			}
 		}
 
-		public void WriteToOptionalSurfaceOptions( ref string currentOptions)
+		public void WriteToOptionalSurfaceOptions( ref string currentOptions )
 		{
 			int tagsCount = m_availableOptions.Count;
 			if( tagsCount == 0 )
@@ -140,7 +140,7 @@ namespace AmplifyShaderEditor
 					result += " ";
 				}
 			}
-			currentOptions = currentOptions +  result;
+			currentOptions = currentOptions + result;
 		}
 
 		public void Destroy()

@@ -26,7 +26,13 @@ namespace AmplifyShaderEditor
 
 		private bool m_fetchDataId = false;
 		private UpperLeftWidgetHelper m_upperLeftWidgetHelper = new UpperLeftWidgetHelper();
-		
+
+		protected override void CommonInit( int uniqueId )
+		{
+			base.CommonInit( uniqueId );
+			m_autoWrapProperties = true;
+		}
+
 		void FetchDataId()
 		{
 			if( m_interpolatorData != null )
@@ -172,13 +178,13 @@ namespace AmplifyShaderEditor
 		{
 			if( dataCollector.MasterNodeCategory != AvailableShaderTypes.Template )
 			{
-				UIUtils.ShowMessage( "Template Vertex Data node is only intended for templates use only" );
+				UIUtils.ShowMessage( UniqueId, "Template Vertex Data node is only intended for templates use only" );
 				return m_outputPorts[ 0 ].ErrorValue;
 			}
 
 			if( dataCollector.IsFragmentCategory )
 			{
-				UIUtils.ShowMessage( "Template Vertex Data node node is only intended for vertex use use only" );
+				UIUtils.ShowMessage( UniqueId, "Template Vertex Data node node is only intended for vertex use use only" );
 				return m_outputPorts[ 0 ].ErrorValue;
 			}
 
@@ -188,7 +194,7 @@ namespace AmplifyShaderEditor
 					dataCollector.TemplateDataCollectorInstance.MultipassPassIdx != PassIdx
 					)
 				{
-					UIUtils.ShowMessage( string.Format( "{0} is only intended for subshader {1} and pass {2}", m_dataLabels[ m_currentDataIdx ], SubShaderIdx, PassIdx ) );
+					UIUtils.ShowMessage( UniqueId, string.Format( "{0} is only intended for subshader {1} and pass {2}", m_dataLabels[ m_currentDataIdx ], SubShaderIdx, PassIdx ) );
 					return m_outputPorts[ outputId ].ErrorValue;
 				}
 			}

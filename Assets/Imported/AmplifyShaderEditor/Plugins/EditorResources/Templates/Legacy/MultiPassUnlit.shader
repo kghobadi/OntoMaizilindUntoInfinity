@@ -9,6 +9,7 @@ Shader /*ase_name*/ "Hidden/Templates/Legacy/Multi Pass Unlit" /*end*/
 	{
 		Tags { "RenderType"="Opaque" }
 		LOD 100
+
 		Cull Off
 		CGINCLUDE
 		#pragma target 3.0 
@@ -20,11 +21,15 @@ Shader /*ase_name*/ "Hidden/Templates/Legacy/Multi Pass Unlit" /*end*/
 			/*ase_main_pass*/
 			Name "ForwardBase"
 			Tags { "LightMode"="ForwardBase" }
+
+			/*ase_all_modules*/
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
 			#pragma multi_compile_fwdbase
+			#ifndef UNITY_PASS_FORWARDBASE
 			#define UNITY_PASS_FORWARDBASE
+			#endif
 			#include "UnityCG.cginc"
 			/*ase_pragma*/
 			/*ase_globals*/
@@ -40,6 +45,7 @@ Shader /*ase_name*/ "Hidden/Templates/Legacy/Multi Pass Unlit" /*end*/
 			struct v2f
 			{
 				float4 pos : SV_POSITION;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				/*ase_interp(1,):sp=sp.xyzw*/
 			};
@@ -50,6 +56,7 @@ Shader /*ase_name*/ "Hidden/Templates/Legacy/Multi Pass Unlit" /*end*/
 				UNITY_INITIALIZE_OUTPUT(v2f,o);
 				UNITY_SETUP_INSTANCE_ID(v);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				
 				/*ase_vert_code:v=appdata;o=v2f*/
 				
@@ -91,7 +98,9 @@ Shader /*ase_name*/ "Hidden/Templates/Legacy/Multi Pass Unlit" /*end*/
 			#pragma vertex vert
 			#pragma fragment frag
 			#pragma multi_compile_fwdadd_fullshadows
+			#ifndef UNITY_PASS_FORWARDADD
 			#define UNITY_PASS_FORWARDADD
+			#endif
 			#include "UnityCG.cginc"
 			/*ase_pragma*/
 			/*ase_globals*/
@@ -107,6 +116,7 @@ Shader /*ase_name*/ "Hidden/Templates/Legacy/Multi Pass Unlit" /*end*/
 			struct v2f
 			{
 				float4 pos : SV_POSITION;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				/*ase_interp(1,):sp=sp.xyzw*/
 			};
@@ -117,6 +127,7 @@ Shader /*ase_name*/ "Hidden/Templates/Legacy/Multi Pass Unlit" /*end*/
 				UNITY_INITIALIZE_OUTPUT(v2f,o);
 				UNITY_SETUP_INSTANCE_ID(v);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				
 				/*ase_vert_code:v=appdata;o=v2f*/
 				
@@ -152,11 +163,15 @@ Shader /*ase_name*/ "Hidden/Templates/Legacy/Multi Pass Unlit" /*end*/
 		{
 			Name "Deferred"
 			Tags { "LightMode" = "Deferred" }
+
+			/*ase_all_modules*/
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
 			#pragma multi_compile_prepassfinal
+			#ifndef UNITY_PASS_DEFERRED
 			#define UNITY_PASS_DEFERRED
+			#endif
 			#include "UnityCG.cginc"
 			/*ase_pragma*/
 			/*ase_globals*/
@@ -172,6 +187,7 @@ Shader /*ase_name*/ "Hidden/Templates/Legacy/Multi Pass Unlit" /*end*/
 			struct v2f
 			{
 				float4 pos : SV_POSITION;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				/*ase_interp(1,):sp=sp.xyzw*/
 			};
@@ -182,6 +198,7 @@ Shader /*ase_name*/ "Hidden/Templates/Legacy/Multi Pass Unlit" /*end*/
 				UNITY_INITIALIZE_OUTPUT(v2f,o);
 				UNITY_SETUP_INSTANCE_ID(v);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				
 				/*ase_vert_code:v=appdata;o=v2f*/
 				
@@ -212,7 +229,7 @@ Shader /*ase_name*/ "Hidden/Templates/Legacy/Multi Pass Unlit" /*end*/
 		/*ase_pass*/
 		Pass
 		{
-			/*ase_hide_pass*/
+			/*ase_hide_pass:SyncP*/
 			Name "ShadowCaster"
 			Tags { "LightMode"="ShadowCaster" }
 			ZWrite On 
@@ -221,7 +238,9 @@ Shader /*ase_name*/ "Hidden/Templates/Legacy/Multi Pass Unlit" /*end*/
 			#pragma vertex vert
 			#pragma fragment frag
 			#pragma multi_compile_shadowcaster
+			#ifndef UNITY_PASS_SHADOWCASTER
 			#define UNITY_PASS_SHADOWCASTER
+			#endif
 			#include "UnityCG.cginc"
 			/*ase_pragma*/
 			/*ase_globals*/
@@ -237,6 +256,7 @@ Shader /*ase_name*/ "Hidden/Templates/Legacy/Multi Pass Unlit" /*end*/
 			struct v2f
 			{
 				V2F_SHADOW_CASTER;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				/*ase_interp(1,):sp=sp.xyzw*/
 			};
@@ -248,6 +268,7 @@ Shader /*ase_name*/ "Hidden/Templates/Legacy/Multi Pass Unlit" /*end*/
 				UNITY_INITIALIZE_OUTPUT(v2f,o);
 				UNITY_SETUP_INSTANCE_ID(v);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				
 				/*ase_vert_code:v=appdata;o=v2f*/
 				
@@ -270,6 +291,7 @@ Shader /*ase_name*/ "Hidden/Templates/Legacy/Multi Pass Unlit" /*end*/
 			}
 			ENDCG
 		}
+		/*ase_pass_end*/
 	}
 	CustomEditor "ASEMaterialInspector"
 }
