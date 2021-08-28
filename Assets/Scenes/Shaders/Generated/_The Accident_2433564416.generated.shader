@@ -1211,106 +1211,106 @@ float fersertWaves(float3 p, float height) {
 }
 
 // Light Sun
-uniform float4 Sun_52366705PosAndRange;
-uniform float4 Sun_52366705ColorAndIntensity;
-uniform float3 Sun_52366705Direction;
-uniform float Sun_52366705Penumbra;
-uniform int Sun_52366705ShadowSteps;
+uniform float4 Sun_48702137PosAndRange;
+uniform float4 Sun_48702137ColorAndIntensity;
+uniform float3 Sun_48702137Direction;
+uniform float Sun_48702137Penumbra;
+uniform int Sun_48702137ShadowSteps;
 
 // UNIFORMS AND FUNCTIONS
-uniform float x_52362743_1d59cc68_freq;
-uniform float x_52362743_1d59cc68_intensity;
-uniform float x_52362743_1d59cc68_speed;
-uniform float x_52361753_1d59cc68_freq;
-uniform float x_52361753_1d59cc68_intensity;
-uniform float x_52361753_1d59cc68_speed;
-uniform float x_52361658_1d59cc68_freq;
-uniform float x_52361658_1d59cc68_intensity;
-uniform float x_52361658_1d59cc68_speed;
-uniform float x_52362613_1d59cc68_freq;
-uniform float x_52362613_1d59cc68_intensity;
-uniform float x_52362613_1d59cc68_speed;
-uniform float x_52365653_1d59cc68_freq;
-uniform float x_52365653_1d59cc68_intensity;
-uniform float x_52365653_1d59cc68_speed;
+uniform float x_48697545_1d59cc68_freq;
+uniform float x_48697545_1d59cc68_intensity;
+uniform float x_48697545_1d59cc68_speed;
+uniform float x_48696555_1d59cc68_freq;
+uniform float x_48696555_1d59cc68_intensity;
+uniform float x_48696555_1d59cc68_speed;
+uniform float x_48696460_1d59cc68_freq;
+uniform float x_48696460_1d59cc68_intensity;
+uniform float x_48696460_1d59cc68_speed;
+uniform float x_48697394_1d59cc68_freq;
+uniform float x_48697394_1d59cc68_intensity;
+uniform float x_48697394_1d59cc68_speed;
+uniform float x_48700434_1d59cc68_freq;
+uniform float x_48700434_1d59cc68_intensity;
+uniform float x_48700434_1d59cc68_speed;
 float3 modifier_Displacement(float3 p , float _INP_freq, float _INP_intensity, float _INP_speed) {
     // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Modifiers/Displacement.asset
     float timeOffset = _Time.z * _INP_speed;
     return p + sin(_INP_freq*p.x + timeOffset)*sin(_INP_freq*p.y + timeOffset)*sin(_INP_freq*p.z + timeOffset)*_INP_intensity;
 }
-uniform float4x4 _52362743Matrix;
-uniform float4x4 _52362743InverseMatrix;
-uniform float4x4 _52361753Matrix;
-uniform float4x4 _52361753InverseMatrix;
-uniform float4x4 _52361658Matrix;
-uniform float4x4 _52361658InverseMatrix;
-uniform float4x4 _52362613Matrix;
-uniform float4x4 _52362613InverseMatrix;
-uniform float4x4 _52365653Matrix;
-uniform float4x4 _52365653InverseMatrix;
-uniform float x_52360664_6492bb9b_radius;
-uniform float x_52364510_6492bb9b_radius;
+uniform float4x4 _48697545Matrix;
+uniform float4x4 _48697545InverseMatrix;
+uniform float4x4 _48696555Matrix;
+uniform float4x4 _48696555InverseMatrix;
+uniform float4x4 _48696460Matrix;
+uniform float4x4 _48696460InverseMatrix;
+uniform float4x4 _48697394Matrix;
+uniform float4x4 _48697394InverseMatrix;
+uniform float4x4 _48700434Matrix;
+uniform float4x4 _48700434InverseMatrix;
+uniform float x_48675264_6492bb9b_radius;
+uniform float x_48699312_6492bb9b_radius;
 float object_Sphere(float3 p , float _INP_radius) {
     // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Objects/Sphere.asset
     return length(p) - _INP_radius;
 }
-uniform float x_52339580_6ce56777_frequency;
-uniform float x_52339580_6ce56777_height;
+uniform float x_48674361_6ce56777_frequency;
+uniform float x_48674361_6ce56777_height;
 float object_TerrainRocky(float3 p , float _INP_frequency, float _INP_height) {
     // Generated from Assets/Imported/Raymarching Toolkit/Examples/Assets/Terrain/Terrain Rocky.asset
     float disp = sin(p.x * _INP_frequency) * sin(p.z *  _INP_frequency) * _INP_height;
     return p.y + disp;
 }
-uniform float x_52365651_045916f1_radius;
+uniform float x_48700432_045916f1_radius;
 float object_InfiniteTunnel(float3 p , float _INP_radius) {
     // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Objects/Infinite Tunnel.asset
     return _INP_radius - length(p.xy);
 }
 // uniforms for Sphere
-uniform float4x4 _52360664Matrix;
-uniform float _52360664MinScale;
+uniform float4x4 _48675264Matrix;
+uniform float _48675264MinScale;
 // uniforms for Terrain
-uniform float4x4 _52339580Matrix;
-uniform float _52339580MinScale;
+uniform float4x4 _48674361Matrix;
+uniform float _48674361MinScale;
 // uniforms for Spheres
-uniform float4x4 _52364510Matrix;
-uniform float _52364510MinScale;
+uniform float4x4 _48699312Matrix;
+uniform float _48699312MinScale;
 // uniforms for Tunnel
-uniform float4x4 _52365651Matrix;
-uniform float _52365651MinScale;
-uniform float x_52339799_8d0fbb1f_smoothfactor;
+uniform float4x4 _48700432Matrix;
+uniform float _48700432MinScale;
+uniform float x_48675231_8d0fbb1f_smoothfactor;
 float2 blend_SmoothIntersection(float2 a, float2 b , float _INP_smoothfactor) {
     // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Blends/Smooth Intersection.asset
     // source https://www.shadertoy.com/view/Xs33Df
     float h = clamp( 0.5 + 0.5*(a-b)/_INP_smoothfactor, 0., 1.);
     return lerp(b, a, h) + h*(1.0-h)*_INP_smoothfactor;
 }
-uniform float x_52365500_44192f17_intensity;
+uniform float x_48700281_44192f17_intensity;
 float2 blend_Smooth(float2 a, float2 b , float _INP_intensity) {
     // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Blends/Smooth.asset
     float h = saturate(0.5 + 0.5*(b - a) / _INP_intensity);
     return lerp(b, a, h) - _INP_intensity*h*(1 - h);
 }
-uniform float4 x_52360664_da843a44_color;
+uniform float4 x_48675264_da843a44_color;
 float3 material_SimpleColor(inout float3 normal, float3 p, float3 rayDir, float4 _INP_color) {
     // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Materials/SimpleColor.asset
     return _INP_color;
 }
-uniform sampler2D x_52339580_92cb596e_textureMap;
-uniform float x_52339580_92cb596e_textureMapSize;
-uniform sampler2D x_52339580_92cb596e_bumpmap;
-uniform float x_52339580_92cb596e_bumpfactor;
-uniform float x_52339580_92cb596e_bumpmapsize;
-uniform sampler2D x_52364510_92cb596e_textureMap;
-uniform float x_52364510_92cb596e_textureMapSize;
-uniform sampler2D x_52364510_92cb596e_bumpmap;
-uniform float x_52364510_92cb596e_bumpfactor;
-uniform float x_52364510_92cb596e_bumpmapsize;
-uniform sampler2D x_52365651_92cb596e_textureMap;
-uniform float x_52365651_92cb596e_textureMapSize;
-uniform sampler2D x_52365651_92cb596e_bumpmap;
-uniform float x_52365651_92cb596e_bumpfactor;
-uniform float x_52365651_92cb596e_bumpmapsize;
+uniform sampler2D x_48674361_92cb596e_textureMap;
+uniform float x_48674361_92cb596e_textureMapSize;
+uniform sampler2D x_48674361_92cb596e_bumpmap;
+uniform float x_48674361_92cb596e_bumpfactor;
+uniform float x_48674361_92cb596e_bumpmapsize;
+uniform sampler2D x_48699312_92cb596e_textureMap;
+uniform float x_48699312_92cb596e_textureMapSize;
+uniform sampler2D x_48699312_92cb596e_bumpmap;
+uniform float x_48699312_92cb596e_bumpfactor;
+uniform float x_48699312_92cb596e_bumpmapsize;
+uniform sampler2D x_48700432_92cb596e_textureMap;
+uniform float x_48700432_92cb596e_textureMapSize;
+uniform sampler2D x_48700432_92cb596e_bumpmap;
+uniform float x_48700432_92cb596e_bumpfactor;
+uniform float x_48700432_92cb596e_bumpmapsize;
 float3 material_TerrayRockyMat(inout float3 normal, float3 p, float3 rayDir, sampler2D _INP_textureMap, float _INP_textureMapSize, sampler2D _INP_bumpmap, float _INP_bumpfactor, float _INP_bumpmapsize) {
     // Generated from Assets/Imported/Raymarching Toolkit/Examples/Assets/Terrain/Terray Rocky Mat.asset
     float3 col = triplanarTex3D(p * _INP_textureMapSize, normal, _INP_textureMap);
@@ -1324,19 +1324,19 @@ float3 MaterialFunc(float nf, inout float3 normal, float3 p, float3 rayDir, out 
     objectID = ceil(nf) / (float)4;
     [branch] if (nf <= 1) {
     //    objectID = 0.25;
-        return material_SimpleColor(normal, objPos(_52360664Matrix, p), rayDir, x_52360664_da843a44_color);
+        return material_SimpleColor(normal, objPos(_48675264Matrix, p), rayDir, x_48675264_da843a44_color);
     }
     else if(nf <= 2) {
     //    objectID = 0.5;
-        return material_TerrayRockyMat(normal, objPos(_52339580Matrix, p), rayDir, x_52339580_92cb596e_textureMap, x_52339580_92cb596e_textureMapSize, x_52339580_92cb596e_bumpmap, x_52339580_92cb596e_bumpfactor, x_52339580_92cb596e_bumpmapsize);
+        return material_TerrayRockyMat(normal, objPos(_48674361Matrix, p), rayDir, x_48674361_92cb596e_textureMap, x_48674361_92cb596e_textureMapSize, x_48674361_92cb596e_bumpmap, x_48674361_92cb596e_bumpfactor, x_48674361_92cb596e_bumpmapsize);
     }
     else if(nf <= 3) {
     //    objectID = 0.75;
-        return material_TerrayRockyMat(normal, objPos(_52364510Matrix, p), rayDir, x_52364510_92cb596e_textureMap, x_52364510_92cb596e_textureMapSize, x_52364510_92cb596e_bumpmap, x_52364510_92cb596e_bumpfactor, x_52364510_92cb596e_bumpmapsize);
+        return material_TerrayRockyMat(normal, objPos(_48699312Matrix, p), rayDir, x_48699312_92cb596e_textureMap, x_48699312_92cb596e_textureMapSize, x_48699312_92cb596e_bumpmap, x_48699312_92cb596e_bumpfactor, x_48699312_92cb596e_bumpmapsize);
     }
     else if(nf <= 4) {
     //    objectID = 1;
-        return material_TerrayRockyMat(normal, objPos(_52365651Matrix, p), rayDir, x_52365651_92cb596e_textureMap, x_52365651_92cb596e_textureMapSize, x_52365651_92cb596e_bumpmap, x_52365651_92cb596e_bumpfactor, x_52365651_92cb596e_bumpmapsize);
+        return material_TerrayRockyMat(normal, objPos(_48700432Matrix, p), rayDir, x_48700432_92cb596e_textureMap, x_48700432_92cb596e_textureMapSize, x_48700432_92cb596e_bumpmap, x_48700432_92cb596e_bumpfactor, x_48700432_92cb596e_bumpmapsize);
     }
         objectID = 0;
         return float3(1.0, 0.0, 1.0);
@@ -1346,16 +1346,16 @@ float2 map(float3 p) {
 	float2 result = float2(1.0, 0.0);
 	
 {
-    float3 p_52362743 = objPos(_52362743InverseMatrix, modifier_Displacement(objPos(_52362743Matrix, p), x_52362743_1d59cc68_freq, x_52362743_1d59cc68_intensity, x_52362743_1d59cc68_speed));
-    float3 p_52361753 = objPos(_52361753InverseMatrix, modifier_Displacement(objPos(_52361753Matrix, p_52362743), x_52361753_1d59cc68_freq, x_52361753_1d59cc68_intensity, x_52361753_1d59cc68_speed));
-    float3 p_52361658 = objPos(_52361658InverseMatrix, modifier_Displacement(objPos(_52361658Matrix, p_52361753), x_52361658_1d59cc68_freq, x_52361658_1d59cc68_intensity, x_52361658_1d59cc68_speed));
-    float3 p_52362613 = objPos(_52362613InverseMatrix, modifier_Displacement(objPos(_52362613Matrix, p_52361658), x_52362613_1d59cc68_freq, x_52362613_1d59cc68_intensity, x_52362613_1d59cc68_speed));
-    float _52360664Distance = object_Sphere(objPos(_52360664Matrix, p_52362613), x_52360664_6492bb9b_radius) * _52360664MinScale;
-    float _52339580Distance = object_TerrainRocky(objPos(_52339580Matrix, p_52362613), x_52339580_6ce56777_frequency, x_52339580_6ce56777_height) * _52339580MinScale;
-    float _52364510Distance = object_Sphere(objPos(_52364510Matrix, p_52362613), x_52364510_6492bb9b_radius) * _52364510MinScale;
-    float3 p_52365653 = objPos(_52365653InverseMatrix, modifier_Displacement(objPos(_52365653Matrix, p_52362613), x_52365653_1d59cc68_freq, x_52365653_1d59cc68_intensity, x_52365653_1d59cc68_speed));
-    float _52365651Distance = object_InfiniteTunnel(objPos(_52365651Matrix, p_52365653), x_52365651_045916f1_radius) * _52365651MinScale;
-    result = opSubtract(float2(_52360664Distance, /*material ID*/0.5), blend_SmoothIntersection(blend_Smooth(float2(_52339580Distance, /*material ID*/1.5), float2(_52364510Distance, /*material ID*/2.5), x_52365500_44192f17_intensity), float2(_52365651Distance, /*material ID*/3.5), x_52339799_8d0fbb1f_smoothfactor));
+    float3 p_48697545 = objPos(_48697545InverseMatrix, modifier_Displacement(objPos(_48697545Matrix, p), x_48697545_1d59cc68_freq, x_48697545_1d59cc68_intensity, x_48697545_1d59cc68_speed));
+    float3 p_48696555 = objPos(_48696555InverseMatrix, modifier_Displacement(objPos(_48696555Matrix, p_48697545), x_48696555_1d59cc68_freq, x_48696555_1d59cc68_intensity, x_48696555_1d59cc68_speed));
+    float3 p_48696460 = objPos(_48696460InverseMatrix, modifier_Displacement(objPos(_48696460Matrix, p_48696555), x_48696460_1d59cc68_freq, x_48696460_1d59cc68_intensity, x_48696460_1d59cc68_speed));
+    float3 p_48697394 = objPos(_48697394InverseMatrix, modifier_Displacement(objPos(_48697394Matrix, p_48696460), x_48697394_1d59cc68_freq, x_48697394_1d59cc68_intensity, x_48697394_1d59cc68_speed));
+    float _48675264Distance = object_Sphere(objPos(_48675264Matrix, p_48697394), x_48675264_6492bb9b_radius) * _48675264MinScale;
+    float _48674361Distance = object_TerrainRocky(objPos(_48674361Matrix, p_48697394), x_48674361_6ce56777_frequency, x_48674361_6ce56777_height) * _48674361MinScale;
+    float _48699312Distance = object_Sphere(objPos(_48699312Matrix, p_48697394), x_48699312_6492bb9b_radius) * _48699312MinScale;
+    float3 p_48700434 = objPos(_48700434InverseMatrix, modifier_Displacement(objPos(_48700434Matrix, p_48697394), x_48700434_1d59cc68_freq, x_48700434_1d59cc68_intensity, x_48700434_1d59cc68_speed));
+    float _48700432Distance = object_InfiniteTunnel(objPos(_48700432Matrix, p_48700434), x_48700432_045916f1_radius) * _48700432MinScale;
+    result = opSubtract(float2(_48675264Distance, /*material ID*/0.5), blend_SmoothIntersection(blend_Smooth(float2(_48674361Distance, /*material ID*/1.5), float2(_48699312Distance, /*material ID*/2.5), x_48700281_44192f17_intensity), float2(_48700432Distance, /*material ID*/3.5), x_48675231_8d0fbb1f_smoothfactor));
     }
 	return result;
 }
@@ -1370,10 +1370,10 @@ float3 getLights(in float3 color, in float3 pos, in float3 normal) {
 	
 {
 LightInfo light;
-light.posAndRange = Sun_52366705PosAndRange;
-light.colorAndIntensity = Sun_52366705ColorAndIntensity;
-light.direction = Sun_52366705Direction;
-lightValue += getDirectionalLight(input, light)* softshadow(input.pos, -light.direction, INFINITY, Sun_52366705Penumbra, Sun_52366705ShadowSteps);
+light.posAndRange = Sun_48702137PosAndRange;
+light.colorAndIntensity = Sun_48702137ColorAndIntensity;
+light.direction = Sun_48702137Direction;
+lightValue += getDirectionalLight(input, light)* softshadow(input.pos, -light.direction, INFINITY, Sun_48702137Penumbra, Sun_48702137ShadowSteps);
 }
 	return lightValue;
 }
