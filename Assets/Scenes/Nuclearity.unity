@@ -773,7 +773,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4252773615161218, guid: 3471010993895e3478dca813e12e9e2f, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4252773615161218, guid: 3471010993895e3478dca813e12e9e2f, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -1862,6 +1862,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mRenderer: {fileID: 0}
+  skinMeshRenderer: {fileID: 0}
   lerpMat: {fileID: 2100000, guid: a71a5b56e042b6a4ebfa15c424849d4a, type: 2}
   floatToLerp: _colorStrength
   moveTowardsOrLerp: 0
@@ -1876,6 +1877,10 @@ MonoBehaviour:
   lerpValue: 0
   endValue: 1.5
   lerpSpeed: 0.25
+  lerpBackForth: 0
+  lbfMin: 0
+  lbfMax: 0
+  lbfTime: 1
 --- !u!114 &425266905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1907,6 +1912,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mRenderer: {fileID: 0}
+  skinMeshRenderer: {fileID: 0}
   lerpMat: {fileID: 2100000, guid: a71a5b56e042b6a4ebfa15c424849d4a, type: 2}
   floatToLerp: _effectStrength
   moveTowardsOrLerp: 0
@@ -1921,6 +1927,10 @@ MonoBehaviour:
   lerpValue: 0
   endValue: 0
   lerpSpeed: 0.1
+  lerpBackForth: 0
+  lbfMin: 0
+  lbfMax: 0
+  lbfTime: 1
 --- !u!1001 &452691513
 Prefab:
   m_ObjectHideFlags: 0
@@ -2837,7 +2847,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &849291360
 GameObject:
@@ -2881,7 +2891,7 @@ Transform:
   - {fileID: 1253678545}
   - {fileID: 1972624233}
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &855190695
 Prefab:
@@ -3232,7 +3242,7 @@ Prefab:
         type: 2}
       propertyPath: _lastShader
       value: 
-      objectReference: {fileID: 4800000, guid: 81c0aed873b40854c9606bbc156d3e15, type: 3}
+      objectReference: {fileID: 4800000, guid: a273d1227f47a49498eab74e73c50f82, type: 3}
     - target: {fileID: 114331909279665228, guid: 973bca9e379131e4caaa075098ccf85c,
         type: 2}
       propertyPath: Steps
@@ -3370,7 +3380,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &925286578
 MonoBehaviour:
@@ -4837,12 +4847,12 @@ Prefab:
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 2}
       propertyPath: _savedGUID
-      value: 1452600350
+      value: 1481056519
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 2}
       propertyPath: hash.lastHash
-      value: -1322755741
+      value: -1443770985
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 2}
@@ -6874,7 +6884,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4070496679522940, guid: 6539d39abe7773444a7bfbba6039a572, type: 2}
       propertyPath: m_RootOrder
-      value: 15
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 23792346764118788, guid: 6539d39abe7773444a7bfbba6039a572,
         type: 2}
@@ -7083,7 +7093,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1624308613
 Prefab:
@@ -7877,6 +7887,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mRenderer: {fileID: 0}
+  skinMeshRenderer: {fileID: 0}
   lerpMat: {fileID: 2100000, guid: 70e26af2f76819040a2d4618db7597bd, type: 2}
   floatToLerp: _Teleport
   moveTowardsOrLerp: 0
@@ -7891,6 +7902,10 @@ MonoBehaviour:
   lerpValue: 0
   endValue: 0
   lerpSpeed: 0.5
+  lerpBackForth: 0
+  lbfMin: 0
+  lbfMax: 0
+  lbfTime: 1
 --- !u!1001 &1757066987
 Prefab:
   m_ObjectHideFlags: 0
