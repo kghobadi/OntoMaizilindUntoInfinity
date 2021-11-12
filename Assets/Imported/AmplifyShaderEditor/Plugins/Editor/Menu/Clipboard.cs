@@ -30,7 +30,7 @@ namespace AmplifyShaderEditor
 
 	public class Clipboard
 	{
-		private const string ClipboardId = "AMPLIFY_CLIPBOARD_ID";
+		public const string ClipboardId = "AMPLIFY_CLIPBOARD_ID";
 		private readonly string[] ClipboardTagId = { "#CLIP_ITEM#" };
 		private List<ClipboardData> m_clipboardStrData;
 		private Dictionary<int, ClipboardData> m_clipboardAuxData;
@@ -42,33 +42,59 @@ namespace AmplifyShaderEditor
 			m_clipboardAuxData = new Dictionary<int, ClipboardData>();
 			m_multiPassMasterNodeData = new Dictionary<string, ClipboardData>();
 		}
-		
-		public void AddMultiPassNodesToClipboard( List<TemplateMultiPassMasterNode> masterNodes )
+
+		public void ResetMultipassNodesData()
 		{
 			m_multiPassMasterNodeData.Clear();
+		}
+
+		public void AddMultiPassNodesToClipboard( List<TemplateMultiPassMasterNode> masterNodes, bool resetList, int lodId )
+		{
+			if( resetList )
+				m_multiPassMasterNodeData.Clear();
+
 			int templatesAmount = masterNodes.Count;
 			for( int i = 0; i < templatesAmount; i++ )
 			{
-				string data = string.Empty;
-				string connection = string.Empty;
-				masterNodes[ i ].FullWriteToString( ref data, ref connection );
-				ClipboardData clipboardData = new ClipboardData( data , connection, masterNodes[i].UniqueId );
-				m_multiPassMasterNodeData.Add( masterNodes[ i ].OriginalPassName , clipboardData );
+				if( !masterNodes[ i ].InvalidNode )
+				{
+					string data = string.Empty;
+					string connection = string.Empty;
+					System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+					masterNodes[ i ].FullWriteToString( ref data, ref connection );
+					System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
+					ClipboardData clipboardData = new ClipboardData( data, connection, masterNodes[ i ].UniqueId );
+					m_multiPassMasterNodeData.Add( masterNodes[ i ].PassUniqueName + lodId, clipboardData );
+				}
 			}
 		}
 
-		public void GetMultiPassNodesFromClipboard( List<TemplateMultiPassMasterNode> masterNodes )
+		public void GetMultiPassNodesFromClipboard( List<TemplateMultiPassMasterNode> masterNodes, int lodId )
 		{
 			int templatesAmount = masterNodes.Count;
 			for( int i = 0; i < templatesAmount; i++ )
 			{
-				if( m_multiPassMasterNodeData.ContainsKey( masterNodes[ i ].OriginalPassName ) )
+				string clipboardDataId = masterNodes[ i ].PassUniqueName + lodId;
+				if( m_multiPassMasterNodeData.ContainsKey( clipboardDataId ) )
 				{
-					ClipboardData nodeData = m_multiPassMasterNodeData[ masterNodes[ i ].OriginalPassName ];
+					ClipboardData nodeData = m_multiPassMasterNodeData[ clipboardDataId ];
 					string[] nodeParams = nodeData.Data.Split( IOUtils.FIELD_SEPARATOR );
+					System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
 					masterNodes[ i ].FullReadFromString( ref nodeParams );
+					System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
 				}
 			}
+
+			for( int i = 0; i < templatesAmount; i++ )
+			{
+				string clipboardDataId = masterNodes[ i ].PassUniqueName + lodId;
+				if( m_multiPassMasterNodeData.ContainsKey( clipboardDataId ) )
+				{
+					masterNodes[ i ].SetReadOptions();
+					masterNodes[ i ].ForceOptionsRefresh();
+				}
+			}
+
 		}
 
 		public void AddToClipboard( List<ParentNode> selectedNodes , Vector3 initialPosition, ParentGraph graph )
@@ -230,5 +256,7 @@ namespace AmplifyShaderEditor
 		{
 			get { return m_clipboardStrData; }
 		}
+
+		public bool HasCachedMasterNodes { get { return m_multiPassMasterNodeData.Count > 0; } }
 	}
 }

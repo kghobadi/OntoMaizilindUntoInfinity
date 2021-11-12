@@ -58,6 +58,14 @@ internal class ASEMaterialInspector : ShaderGUI
 	private FieldInfo m_selectedField = null;
 	private FieldInfo m_infoField = null;
 
+#if UNITY_2020_1_OR_NEWER
+	private Type m_previewSettingsType = null;
+	object m_previewSettingsInstance;
+	FieldInfo previewDirInfo;
+	FieldInfo shadedMaterialInfo;
+	FieldInfo activeMaterialInfo;
+#endif
+
 #if UNITY_2018_2_OR_NEWER
 	public override void OnClosed( Material material )
 	{
@@ -111,8 +119,6 @@ internal class ASEMaterialInspector : ShaderGUI
 			//Event.current.Use();
 		}
 
-
-
 		if( materialEditor.isVisible )
 		{
 			GUILayout.BeginVertical();
@@ -120,7 +126,12 @@ internal class ASEMaterialInspector : ShaderGUI
 				GUILayout.Space( 3 );
 				if( GUILayout.Button( "Open in Shader Editor" ) )
 				{
+#if UNITY_2018_3_OR_NEWER
+					ASEPackageManagerHelper.SetupLateMaterial( mat );
+
+#else
 					AmplifyShaderEditorWindow.LoadMaterialToASE( mat );
+#endif
 				}
 
 				GUILayout.BeginHorizontal();
@@ -335,33 +346,34 @@ internal class ASEMaterialInspector : ShaderGUI
 		{
 			if( ( properties[ i ].flags & ( MaterialProperty.PropFlags.HideInInspector | MaterialProperty.PropFlags.PerRendererData ) ) == MaterialProperty.PropFlags.None )
 			{
-				if( ( properties[ i ].flags & MaterialProperty.PropFlags.NoScaleOffset ) == MaterialProperty.PropFlags.NoScaleOffset )
-				{
-					object obj = MaterialPropertyHandlerEx.GetHandler( mat.shader, properties[ i ].name );
-					if( obj != null )
-					{
-						float height = MaterialPropertyHandlerEx.GetPropertyHeight( obj, properties[ i ], properties[ i ].displayName, materialEditor );
-						//Rect rect = (Rect)materialEditor.GetType().InvokeMember( "GetPropertyRect", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.InvokeMethod, null, materialEditor, new object[] { properties[ i ], properties[ i ].displayName, true } );
-						Rect rect = EditorGUILayout.GetControlRect( true, height, EditorStyles.layerMaskField );
-						MaterialPropertyHandlerEx.OnGUI( obj, ref rect, properties[ i ], new GUIContent( properties[ i ].displayName ), materialEditor );
+				// Removed no scale offset one line texture property for consistency :( sad face
+				//if( ( properties[ i ].flags & MaterialProperty.PropFlags.NoScaleOffset ) == MaterialProperty.PropFlags.NoScaleOffset )
+				//{
+				//	object obj = MaterialPropertyHandlerEx.GetHandler( mat.shader, properties[ i ].name );
+				//	if( obj != null )
+				//	{
+				//		float height = MaterialPropertyHandlerEx.GetPropertyHeight( obj, properties[ i ], properties[ i ].displayName, materialEditor );
+				//		//Rect rect = (Rect)materialEditor.GetType().InvokeMember( "GetPropertyRect", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.InvokeMethod, null, materialEditor, new object[] { properties[ i ], properties[ i ].displayName, true } );
+				//		Rect rect = EditorGUILayout.GetControlRect( true, height, EditorStyles.layerMaskField );
+				//		MaterialPropertyHandlerEx.OnGUI( obj, ref rect, properties[ i ], new GUIContent( properties[ i ].displayName ), materialEditor );
 
-						if( MaterialPropertyHandlerEx.PropertyDrawer( obj ) != null )
-							continue;
+				//		if( MaterialPropertyHandlerEx.PropertyDrawer( obj ) != null )
+				//			continue;
 
-						rect = EditorGUILayout.GetControlRect( true, height, EditorStyles.layerMaskField );
-						materialEditor.TexturePropertyMiniThumbnail( rect, properties[ i ], properties[ i ].displayName, string.Empty );
-					}
-					else
-					{
-						materialEditor.TexturePropertySingleLine( new GUIContent( properties[ i ].displayName ), properties[ i ] );
-					}
-				}
-				else
-				{
+				//		rect = EditorGUILayout.GetControlRect( true, height, EditorStyles.layerMaskField );
+				//		materialEditor.TexturePropertyMiniThumbnail( rect, properties[ i ], properties[ i ].displayName, string.Empty );
+				//	}
+				//	else
+				//	{
+				//		materialEditor.TexturePropertySingleLine( new GUIContent( properties[ i ].displayName ), properties[ i ] );
+				//	}
+				//}
+				//else
+				//{
 					float propertyHeight = materialEditor.GetPropertyHeight( properties[ i ], properties[ i ].displayName );
 					Rect controlRect = EditorGUILayout.GetControlRect( true, propertyHeight, EditorStyles.layerMaskField, new GUILayoutOption[ 0 ] );
 					materialEditor.ShaderProperty( controlRect, properties[ i ], properties[ i ].displayName );
-				}
+				//}
 			}
 		}
 
@@ -445,7 +457,7 @@ internal class ASEMaterialInspector : ShaderGUI
 			}
 		}
 	}
-
+	
 	public override void OnMaterialInteractivePreviewGUI( MaterialEditor materialEditor, Rect r, GUIStyle background )
 	{
 		if( Event.current.type == EventType.DragExited )
@@ -493,12 +505,38 @@ internal class ASEMaterialInspector : ShaderGUI
 
 		m_previewDir = (Vector2)m_dragMethod.Invoke( m_previewGUIType, new object[] { m_previewDir, r } );
 
+#if UNITY_2020_1_OR_NEWER
+		if( m_previewSettingsType == null )
+		{
+			m_previewSettingsType = m_modelInspectorType.GetNestedType( "PreviewSettings",BindingFlags.NonPublic);
+		}
+
+		if( m_previewSettingsInstance == null )
+		{
+			m_previewSettingsInstance = Activator.CreateInstance( m_previewSettingsType );
+			previewDirInfo = m_previewSettingsType.GetField( "previewDir", BindingFlags.Instance | BindingFlags.Public );
+			shadedMaterialInfo = m_previewSettingsType.GetField( "shadedPreviewMaterial", BindingFlags.Instance | BindingFlags.Public );
+			activeMaterialInfo = m_previewSettingsType.GetField( "activeMaterial", BindingFlags.Instance | BindingFlags.Public );
+		}
+
+		shadedMaterialInfo.SetValue( m_previewSettingsInstance, mat );
+		activeMaterialInfo.SetValue( m_previewSettingsInstance, mat );
+		previewDirInfo.SetValue( m_previewSettingsInstance, m_previewDir );
+		
+		if( Event.current.type == EventType.Repaint )
+		{
+			m_previewRenderUtility.BeginPreview( r, background );
+			m_renderMeshMethod.Invoke( m_modelInspectorType, new object[] { m_targetMesh, m_previewRenderUtility, m_previewSettingsInstance, -1 } );
+			m_previewRenderUtility.EndAndDrawPreview( r );
+		}
+#else
 		if( Event.current.type == EventType.Repaint )
 		{
 			m_previewRenderUtility.BeginPreview( r, background );
 			m_renderMeshMethod.Invoke( m_modelInspectorType, new object[] { m_targetMesh, m_previewRenderUtility, mat, null, m_previewDir, -1 } );
 			m_previewRenderUtility.EndAndDrawPreview( r );
 		}
+#endif
 	}
 
 	public static MaterialEditor Instance { get { return m_instance; } set { m_instance = value; } }

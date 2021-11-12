@@ -10,7 +10,11 @@ Shader /*ase_name*/ "Hidden/Templates/Legacy/UnlitLightmap" /*end*/
 		Tags { "RenderType"="Opaque" }
 		LOD 100
 		/*ase_all_modules*/
-
+		CGINCLUDE
+			#ifndef UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX
+			#define UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input)
+			#endif
+		ENDCG
 		Pass
 		{
 			/*ase_main_pass*/
@@ -33,6 +37,7 @@ Shader /*ase_name*/ "Hidden/Templates/Legacy/UnlitLightmap" /*end*/
 			struct v2f
 			{
 				float4 vertex : SV_POSITION;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				/*ase_interp(0,):sp=sp.xyzw*/
 			};
@@ -44,6 +49,7 @@ Shader /*ase_name*/ "Hidden/Templates/Legacy/UnlitLightmap" /*end*/
 				v2f o;
 				UNITY_SETUP_INSTANCE_ID(v);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				/*ase_vert_code:v=appdata;o=v2f*/
 				
 				v.vertex.xyz += /*ase_vert_out:Local Vertex;Float3;_Vertex*/ float3(0,0,0) /*end*/;
@@ -53,6 +59,8 @@ Shader /*ase_name*/ "Hidden/Templates/Legacy/UnlitLightmap" /*end*/
 			
 			fixed4 frag (v2f i /*ase_frag_input*/) : SV_Target
 			{
+				UNITY_SETUP_INSTANCE_ID( i );
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( i );
 				fixed4 finalColor;
 				/*ase_frag_code:i=v2f*/
 				
@@ -104,6 +112,8 @@ Shader /*ase_name*/ "Hidden/Templates/Legacy/UnlitLightmap" /*end*/
 			
 			fixed4 frag (v2f i /*ase_frag_input*/) : SV_Target
 			{
+				UNITY_SETUP_INSTANCE_ID( i );
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( i );
 				fixed4 finalColor;
 				/*ase_frag_code:i=v2f*/
 				

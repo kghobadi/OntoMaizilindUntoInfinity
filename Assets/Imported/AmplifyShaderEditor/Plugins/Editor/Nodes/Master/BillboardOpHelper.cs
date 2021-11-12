@@ -32,13 +32,13 @@ namespace AmplifyShaderEditor
 		public static readonly string[] BillboardCommonInstructions = { "float3 forwardCamVec = -normalize ( UNITY_MATRIX_V._m20_m21_m22 )",
 																		"float3 rightCamVec = normalize( UNITY_MATRIX_V._m00_m01_m02 )",
 																		"float4x4 rotationCamMatrix = float4x4( rightCamVec, 0, upCamVec, 0, forwardCamVec, 0, 0, 0, 0, 1 )",
-																		"{0} = normalize( mul( float4( {0} , 0 ), rotationCamMatrix ))"};
+																		"{0} = normalize( mul( float4( {0} , 0 ), rotationCamMatrix )).xyz"};
 
 		public static readonly string[] BillboardRotDependent = {   "//This unfortunately must be made to take non-uniform scaling into account",
 																	"//Transform to world coords, apply rotation and transform back to local",
-																	"{0} = mul( {0} , unity_ObjectToWorld ){1}",
-																	"{0} = mul( {0} , rotationCamMatrix ){1}",
-																	"{0} = mul( {0} , unity_WorldToObject ){1}"};
+																	"{0} = mul( {1} , unity_ObjectToWorld ){2}",
+																	"{0} = mul( {1} , rotationCamMatrix ){2}",
+																	"{0} = mul( {1} , unity_WorldToObject ){2}"};
 
 
 		public static readonly string[] BillboardRotIndependent = { "{0}.x *= length( unity_ObjectToWorld._m00_m10_m20 )",
@@ -53,15 +53,20 @@ namespace AmplifyShaderEditor
 
 		public static readonly string[] BillboardHDRotDependent = {   "//This unfortunately must be made to take non-uniform scaling into account",
 																	"//Transform to world coords, apply rotation and transform back to local",
-																	"{0} = mul( {0} , GetObjectToWorldMatrix() ){1}",
-																	"{0} = mul( {0} , rotationCamMatrix ){1}",
-																	"{0} = mul( {0} , GetWorldToObjectMatrix() ){1}"};
+																	"{0} = mul( {1} , GetObjectToWorldMatrix() ){2}",
+																	"{0} = mul( {1} , rotationCamMatrix ){2}",
+																	"{0} = mul( {1} , GetWorldToObjectMatrix() ){2}"};
 
 
 		public static readonly string[] BillboardHDRotIndependent = { "{0}.x *= length( GetObjectToWorldMatrix()._m00_m10_m20 )",
 																	"{0}.y *= length( GetObjectToWorldMatrix()._m01_m11_m21 )",
 																	"{0}.z *= length( GetObjectToWorldMatrix()._m02_m12_m22 )",
 																	"{0} = mul( {0}, rotationCamMatrix )",
+																	//Comment this next one out in HDRP since it was moving the vertices to incorrect locations
+																	// Over HDRP the correct results are achievied without having to do this operation
+																	//This is because the vertex position variable is a float3 and an implicit cast is done to float4
+																	//with w set to 0, this makes the multiplication below only affects rotation and not translation
+																	//thus no adding the world translation is needed to counter the GetObjectToWorldMatrix() operation
 																	"{0}.xyz += GetObjectToWorldMatrix()._m03_m13_m23",
 																	"//Need to nullify rotation inserted by generated surface shader",
 																	"{0} = mul( GetWorldToObjectMatrix(), {0} )"};
@@ -96,9 +101,24 @@ namespace AmplifyShaderEditor
 		{
 			if( m_isBillboard )
 			{
-				FillDataCollector( ref dataCollector, m_billboardType, m_rotationIndependent, "v.vertex", "v.normal" , false );
+				FillDataCollector( ref dataCollector, m_billboardType, m_rotationIndependent, "v.vertex", "v.normal", false );
 			}
 		}
+
+		public static void CheckVertexPosition( ref string value , ref MasterNodeDataCollector dataCollector )
+		{
+			if( dataCollector.IsTemplate )
+			{
+				WirePortDataType vertexSize = dataCollector.TemplateDataCollectorInstance.GetVertexPositionDataType();
+				if( vertexSize != WirePortDataType.FLOAT4 )
+				{
+					// the {0}.xyz += GetObjectToWorldMatrix()._m03_m13_m23 must only be done over float4 vertices for the reason stated above for HDRP
+					// on all others can be commented out
+					value = "//" + value;
+				}
+			}
+		}
+
 		// This should be called after the Vertex Offset and Vertex Normal ports are analised
 		public static void FillDataCollector( ref MasterNodeDataCollector dataCollector, BillboardType billboardType, bool rotationIndependent, string vertexPosValue, string vertexNormalValue, bool vertexIsFloat3 )
 		{
@@ -131,32 +151,44 @@ namespace AmplifyShaderEditor
 
 			if( rotationIndependent )
 			{
+				
+
 				for( int i = 0; i < BillboardRotIndependent.Length; i++ )
 				{
 					string value = string.Empty;
-					if( dataCollector.IsTemplate && dataCollector.TemplateDataCollectorInstance.CurrentSRPType == TemplateSRPType.HD )
+					if( dataCollector.IsTemplate && dataCollector.TemplateDataCollectorInstance.CurrentSRPType != TemplateSRPType.BuiltIn )
 					{
 						value = ( i != 5 ) ? string.Format( BillboardHDRotIndependent[ i ], vertexPosValue ) : BillboardHDRotIndependent[ i ];
+						if( i == 4 )
+						{
+							CheckVertexPosition( ref value , ref dataCollector );
+						}
+
 					}
 					else
 					{
 						value = ( i != 5 ) ? string.Format( BillboardRotIndependent[ i ], vertexPosValue ) : BillboardRotIndependent[ i ];
+						if( i == 4 )
+						{
+							CheckVertexPosition( ref value , ref dataCollector );
+						}
 					}
 					dataCollector.AddVertexInstruction( value + ( dataCollector.IsTemplate ? ";" : string.Empty ), -1, true );
 				}
 			}
 			else
 			{
+				string vertexPosConverted = vertexIsFloat3 ? string.Format( "float4({0},0)", vertexPosValue ) : vertexPosValue;
 				for( int i = 0; i < BillboardRotDependent.Length; i++ )
 				{
 					string value = string.Empty;
 					if( dataCollector.IsTemplate && dataCollector.TemplateDataCollectorInstance.CurrentSRPType == TemplateSRPType.HD )
 					{
-						value = ( i > 1 ) ? string.Format( BillboardHDRotDependent[ i ], vertexPosValue, ( vertexIsFloat3 ? ".xyz" : string.Empty ) ) : BillboardHDRotDependent[ i ];
+						value = ( i > 1 ) ? string.Format( BillboardHDRotDependent[ i ], vertexPosValue, vertexPosConverted, ( vertexIsFloat3 ? ".xyz" : string.Empty ) ) : BillboardHDRotDependent[ i ];
 					}
 					else
 					{
-						value = ( i > 1 ) ? string.Format( BillboardRotDependent[ i ], vertexPosValue, ( vertexIsFloat3 ? ".xyz" : string.Empty ) ) : BillboardRotDependent[ i ];
+						value = ( i > 1 ) ? string.Format( BillboardRotDependent[ i ], vertexPosValue, vertexPosConverted, ( vertexIsFloat3 ? ".xyz" : string.Empty ) ) : BillboardRotDependent[ i ];
 					}
 					dataCollector.AddVertexInstruction( value + ( dataCollector.IsTemplate ? ";" : string.Empty ), -1, true );
 				}

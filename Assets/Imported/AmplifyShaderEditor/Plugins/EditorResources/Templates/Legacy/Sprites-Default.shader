@@ -29,6 +29,9 @@ Shader /*ase_name*/"Hidden/Templates/Legacy/Sprites Default"/*end*/
 		Pass
 		{
 		CGPROGRAM
+			#ifndef UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX
+			#define UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input)
+			#endif
 			#pragma vertex vert
 			#pragma fragment frag
 			#pragma target 3.0
@@ -51,6 +54,7 @@ Shader /*ase_name*/"Hidden/Templates/Legacy/Sprites Default"/*end*/
 				float4 vertex   : SV_POSITION;
 				fixed4 color    : COLOR;
 				float2 texcoord  : TEXCOORD0;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 				/*ase_interp(1,):sp=sp.xyzw;uv0=tc0.xy;c=c*/
 			};
@@ -66,6 +70,7 @@ Shader /*ase_name*/"Hidden/Templates/Legacy/Sprites Default"/*end*/
 				v2f OUT;
 				UNITY_SETUP_INSTANCE_ID(IN);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(OUT);
+				UNITY_TRANSFER_INSTANCE_ID(IN, OUT);
 				/*ase_vert_code:IN=appdata_t;OUT=v2f*/
 				
 				IN.vertex.xyz += /*ase_vert_out:Offset;Float3*/ float3(0,0,0) /*end*/; 
@@ -94,6 +99,9 @@ Shader /*ase_name*/"Hidden/Templates/Legacy/Sprites Default"/*end*/
 			
 			fixed4 frag(v2f IN /*ase_frag_input*/ ) : SV_Target
 			{
+				UNITY_SETUP_INSTANCE_ID( IN );
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( IN );
+
 				/*ase_frag_code:IN=v2f*/
 				fixed4 c = /*ase_frag_out:Color;Float4*/SampleSpriteTexture (IN.texcoord) * IN.color/*end*/;
 				c.rgb *= c.a;
