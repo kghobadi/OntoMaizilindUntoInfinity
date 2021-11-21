@@ -50,7 +50,6 @@ public class Bullet : MonoBehaviour {
             //reset cloud scale && send to poolers
             other.gameObject.transform.localScale = other.gameObject.GetComponent<Cloud>().origScale;
             other.gameObject.GetComponent<PooledObject>().ReturnToPool();
-            ResetBullet();
         }
     }
 

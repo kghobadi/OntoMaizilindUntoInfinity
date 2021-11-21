@@ -73,9 +73,9 @@ public class Hallucination : MonoBehaviour
 	IEnumerator WaitToStartHallucination()
 	{
 		//go to first person
-		pilot.SetFPView();
+		//pilot.SetFPView();
 		
-		yield return new WaitForSeconds(3f);
+		yield return new WaitForSeconds(1f);
 
 		//start it 
 		StartHallucination();
@@ -160,7 +160,7 @@ public class Hallucination : MonoBehaviour
 		}
 		
 		//return to 3p view
-		pilot.SetTPView();
+		//pilot.SetTPView();
 		
 		//enable controls
 		pilot.EnableControls();
