@@ -68,12 +68,12 @@ public class ThePilot : AudioHandler {
             FireWeapons();
 
             //switch views
-            if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)
-                || inputDevice.DPadLeft.WasPressed || inputDevice.DPadRight.WasPressed
-                || inputDevice.DPadUp.WasPressed || inputDevice.DPadDown.WasPressed)
-            {
-                ToggleViews();
-            }
+            // if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)
+            //     || inputDevice.DPadLeft.WasPressed || inputDevice.DPadRight.WasPressed
+            //     || inputDevice.DPadUp.WasPressed || inputDevice.DPadDown.WasPressed)
+            // {
+            //     ToggleViews();
+            // }
         }
 
         weaponsTimerL -= Time.deltaTime;

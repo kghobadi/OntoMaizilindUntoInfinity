@@ -30,7 +30,8 @@ public class Bullet : MonoBehaviour {
         origSpeed = bulletSpeed;
     }
 
-    void Update () {
+    void Update () 
+    {
         //move forward on Z axis 
         transform.position = Vector3.MoveTowards(transform.position, shotPos + new Vector3(0, 0, shotDist + 100f), bulletSpeed * Time.deltaTime);
         bulletSpeed += speedOverTime;
