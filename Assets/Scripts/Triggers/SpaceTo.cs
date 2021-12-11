@@ -8,7 +8,6 @@ public class SpaceTo : MonoBehaviour {
     public UnityEvent[] events;
     public bool activated;
     
-	
 	void Update ()
     {
         if (!activated)
@@ -26,5 +25,7 @@ public class SpaceTo : MonoBehaviour {
         {
             events[i].Invoke();
         }
+
+        activated = true;
     }
 }

@@ -1,21 +1,169 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1267471432669418}
-  m_IsPrefabAsset: 1
+--- !u!1 &1902164369
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1902164370}
+  - component: {fileID: 1902164372}
+  - component: {fileID: 1902164371}
+  m_Layer: 0
+  m_Name: ObjectViewer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1902164370
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902164369}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4544037450850936}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1902164372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902164369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ab57d57e6063d04cace33f8ab269664, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAudioSource: {fileID: 0}
+  pitchRange: {x: 0.9, y: 1.1}
+  voiceCounter: 0
+  voices: []
+  currentSound: 0
+  currentViewObj: {fileID: 0}
+  viewPos: {fileID: 0}
+  viewing: 0
+  viewObjectSetup:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  mouseRotSpeedX: 30
+  mouseRotSpeedY: 30
+  objectTextOffset: 0.75
+  objectDescription: {fileID: 0}
+--- !u!82 &1902164371
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902164369}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 243552755042672026, guid: 44cea40f08940944983694f8bd40ac83,
+    type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1267471432669418
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4544037450850936}
@@ -36,63 +184,25 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4544037450850936
 Transform:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1267471432669418}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 41.624756, y: 227.42044, z: 179.72516}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1902164370}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114117303160459532
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1267471432669418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 947ee6088a7bac347af6049355fda610, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  smokePrefab: {fileID: 1979314067050386, guid: 430099940cce75245955973c78f8f11f,
-    type: 2}
-  deityExplosionPrefab: {fileID: 1149019820068336, guid: 812988f0f12f15a4f9a3ff174921b2a1,
-    type: 2}
-  bombPooler: {fileID: 0}
-  explosionPooler: {fileID: 0}
---- !u!114 &114243998127860104
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1267471432669418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7cd4ddf54a3dbd4d99673486d955506, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  debug: 0
-  cameraObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  currentCamObj: {fileID: 0}
-  currentPlayer: {fileID: 0}
-  currentCam: 1
-  citizensParent: {fileID: 0}
-  toMosque: {fileID: 11400000, guid: 8719cfeb4662aed4ebbbe69974f5a518, type: 2}
-  shiftPress: {fileID: 0}
-  canShift: 0
-  shiftDistLimit: 250
-  transitionAmount: 3
 --- !u!114 &114357414913073394
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1267471432669418}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -100,208 +210,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionsToDelete: []
---- !u!114 &114486503702666542
+--- !u!114 &114243998127860104
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1267471432669418}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8d8db9c8de57c64189bf784e9cf7838, type: 3}
+  m_Script: {fileID: 11500000, guid: a7cd4ddf54a3dbd4d99673486d955506, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultCamera: {fileID: 0}
-  previousCamera: {fileID: 0}
-  currentCamera: {fileID: 0}
---- !u!114 &114489999370789424
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1267471432669418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9dba3aed31c712946baf99228efed024, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  allMonologues:
-  - monologue: {fileID: 11400000, guid: 89fb45f3b63953d49acd7babc4152a74, type: 2}
-    mTrigger: {fileID: 0}
-  - monologue: {fileID: 11400000, guid: 465b8a514dee4eb4c8f76721daec71e7, type: 2}
-    mTrigger: {fileID: 0}
-  - monologue: {fileID: 11400000, guid: 22099e7d4271cf640927837bab8ddd9e, type: 2}
-    mTrigger: {fileID: 0}
-  allMonoManagers:
+  objViewer: {fileID: 0}
+  debug: 0
+  cameraObjects:
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
---- !u!114 &114718444798714748
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1267471432669418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5ab47c0020911649b29425951d50a28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  omFade: {fileID: 0}
-  uiFade: {fileID: 0}
-  actFade: {fileID: 0}
-  dwFade: {fileID: 0}
-  poemFader: {fileID: 0}
-  omScale: {fileID: 0}
-  uiScale: {fileID: 0}
-  omMove: {fileID: 0}
-  uiMove: {fileID: 0}
-  dwMove: {fileID: 0}
-  scribeAnimator: {fileID: 0}
-  scribeFade: {fileID: 0}
-  blackground: {fileID: 0}
-  callToPrayer: {fileID: 0}
-  characters: []
-  warAmbience: {fileID: 0}
-  niceSky: {fileID: 2100000, guid: e4a6d57410c112e44968fb07b762ac8a, type: 2}
-  sunLerp: {fileID: 0}
-  player: {fileID: 0}
-  startCam: {fileID: 0}
-  roomCam: {fileID: 0}
-  textPanel: {fileID: 0}
-  poemTime: 30
-  readingPoem: 0
-  startedTransition: 0
-  transitioned: 0
---- !u!114 &114824795913590114
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1267471432669418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc7752a801d7b184ab04a5349719bc5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementPaths:
-  - pathName: 'To the Bomb Shelter '
-    moveType: 3
-    movementPoints:
-    - {fileID: 0}
-    - {fileID: 0}
-    moveRadius: 0
-    idleType: 0
-  - pathName: To the Kitchen
-    moveType: 3
-    movementPoints:
-    - {fileID: 0}
-    - {fileID: 0}
-    moveRadius: 0
-    idleType: 0
-  - pathName: To the Radio Table
-    moveType: 3
-    movementPoints:
-    - {fileID: 0}
-    - {fileID: 0}
-    moveRadius: 0
-    idleType: 0
-  - pathName: Standing Idle
-    moveType: 2
-    movementPoints: []
-    moveRadius: 0
-    idleType: 0
-  - pathName: Sitting Idle
-    moveType: 2
-    movementPoints: []
-    moveRadius: 0
-    idleType: 1
-  - pathName: Exit thru Front door
-    moveType: 3
-    movementPoints:
-    - {fileID: 0}
-    - {fileID: 0}
-    moveRadius: 0
-    idleType: 0
-  - pathName: The Descent to the Mosque
-    moveType: 3
-    movementPoints:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    moveRadius: 0
-    idleType: 0
-  - pathName: Ramin Dont Go
-    moveType: 3
-    movementPoints:
-    - {fileID: 0}
-    - {fileID: 0}
-    moveRadius: 0
-    idleType: 0
-  - pathName: Praying Idle
-    moveType: 2
-    movementPoints:
-    - {fileID: 0}
-    - {fileID: 0}
-    moveRadius: 0
-    idleType: 2
-  - pathName: To the Phone
-    moveType: 3
-    movementPoints:
-    - {fileID: 0}
-    - {fileID: 0}
-    moveRadius: 0
-    idleType: 0
-  lookAtObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  currentCamObj: {fileID: 0}
+  currentPlayer: {fileID: 0}
+  citizensParent: {fileID: 0}
+  bombers: {fileID: 0}
+  toMosque: {fileID: 11400000, guid: 8719cfeb4662aed4ebbbe69974f5a518, type: 2}
+  shiftPress: {fileID: 0}
+  canShift: 0
+  shiftDistLimit: 250
+  transitionAmount: 3
+  mom: {fileID: 0}
+  dad: {fileID: 0}
+  death: {fileID: 11400000, guid: 7b3e018f3b64d0f4f887076eadd35ac8, type: 2}
+  halfTone: {fileID: 0}
+  halfToneBombs: {fileID: 2100000, guid: a03e8a0be3f95f749a11b826f3ea1366, type: 2}
+  spiritWritingPrefab: {fileID: 1809584474441962, guid: b7be07d3a189aed4f917d3c14ebb7625,
+    type: 3}
+  whiteNoise: {fileID: 0}
+  breathing: {fileID: 0}
+  KillerExplosion: {fileID: 0}
+  killedParents: 0
 --- !u!114 &114830797076121888
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1267471432669418}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -354,7 +305,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 0}
-        m_MethodName: SetMonologueSystem
+        m_MethodName: WaitToSetNewMonologue
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -365,18 +316,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 0}
-        m_MethodName: EnableMonologue
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: SetMonologueSystem
+        m_MethodName: WaitToSetNewMonologue
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -387,18 +327,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 0}
-        m_MethodName: EnableMonologue
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: SetMonologueSystem
+        m_MethodName: WaitToSetNewMonologue
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -409,44 +338,29 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 0}
-        m_MethodName: EnableMonologue
+        m_MethodName: DisableMonologue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+      - m_Target: {fileID: 0}
+        m_MethodName: WaitToSetNewMonologue
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+      m_Calls: []
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
@@ -484,8 +398,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
@@ -521,8 +433,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
@@ -558,28 +468,15 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: SetMonologueSystem
+        m_MethodName: WaitToSetNewMonologue
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 9
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: EnableMonologue
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -617,10 +514,419 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+      - m_Target: {fileID: 0}
+        m_MethodName: EnableDoor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_MethodName: DeactivateAll
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_MethodName: BeginActivation
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0.1
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_MethodName: DeactivateAll
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_MethodName: BeginActivation
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0.2
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   beginOnStart: 0
   timelineStart: 0
   timing: 0
   gameTime: 0
   pressing: 0
+--- !u!114 &114489999370789424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267471432669418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dba3aed31c712946baf99228efed024, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allMonologues:
+  - monologue: {fileID: 11400000, guid: 89fb45f3b63953d49acd7babc4152a74, type: 2}
+    mTrigger: {fileID: 0}
+  - monologue: {fileID: 11400000, guid: 465b8a514dee4eb4c8f76721daec71e7, type: 2}
+    mTrigger: {fileID: 0}
+  - monologue: {fileID: 11400000, guid: 22099e7d4271cf640927837bab8ddd9e, type: 2}
+    mTrigger: {fileID: 0}
+  allMonoManagers:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &114824795913590114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267471432669418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc7752a801d7b184ab04a5349719bc5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementPaths:
+  - pathName: 'To the Bomb Shelter '
+    moveType: 3
+    movementPoints:
+    - {fileID: 0}
+    - {fileID: 0}
+    moveRadius: 0
+    idleType: 0
+    runType: 0
+    followObject: {fileID: 0}
+  - pathName: To the Kitchen
+    moveType: 3
+    movementPoints:
+    - {fileID: 0}
+    - {fileID: 0}
+    moveRadius: 0
+    idleType: 0
+    runType: 0
+    followObject: {fileID: 0}
+  - pathName: To the Radio Table
+    moveType: 3
+    movementPoints:
+    - {fileID: 0}
+    - {fileID: 0}
+    moveRadius: 0
+    idleType: 0
+    runType: 0
+    followObject: {fileID: 0}
+  - pathName: Standing Idle
+    moveType: 2
+    movementPoints: []
+    moveRadius: 0
+    idleType: 0
+    runType: 0
+    followObject: {fileID: 0}
+  - pathName: Sitting Idle
+    moveType: 2
+    movementPoints: []
+    moveRadius: 0
+    idleType: 1
+    runType: 0
+    followObject: {fileID: 0}
+  - pathName: Exit thru Front door
+    moveType: 3
+    movementPoints:
+    - {fileID: 0}
+    - {fileID: 0}
+    moveRadius: 0
+    idleType: 0
+    runType: 0
+    followObject: {fileID: 0}
+  - pathName: The Descent to the Mosque
+    moveType: 3
+    movementPoints:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    moveRadius: 0
+    idleType: 0
+    runType: 0
+    followObject: {fileID: 0}
+  - pathName: Descent to Mosque with Child
+    moveType: 3
+    movementPoints:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    moveRadius: 0
+    idleType: 0
+    runType: 1
+    followObject: {fileID: 0}
+  - pathName: Ramin Dont Go
+    moveType: 3
+    movementPoints:
+    - {fileID: 0}
+    - {fileID: 0}
+    moveRadius: 0
+    idleType: 0
+    runType: 0
+    followObject: {fileID: 0}
+  - pathName: Praying Idle
+    moveType: 2
+    movementPoints:
+    - {fileID: 0}
+    - {fileID: 0}
+    moveRadius: 0
+    idleType: 2
+    runType: 0
+    followObject: {fileID: 0}
+  - pathName: To the Phone
+    moveType: 3
+    movementPoints:
+    - {fileID: 0}
+    - {fileID: 0}
+    moveRadius: 0
+    idleType: 0
+    runType: 0
+    followObject: {fileID: 0}
+  - pathName: Find Player
+    moveType: 4
+    movementPoints: []
+    moveRadius: 0
+    idleType: 0
+    runType: 0
+    followObject: {fileID: 0}
+  - pathName: Die
+    moveType: 2
+    movementPoints: []
+    moveRadius: 0
+    idleType: 3
+    runType: 0
+    followObject: {fileID: 0}
+  - pathName: FollowGholam
+    moveType: 5
+    movementPoints: []
+    moveRadius: 0
+    idleType: 0
+    runType: 0
+    followObject: {fileID: 0}
+  - pathName: FollowMother
+    moveType: 5
+    movementPoints: []
+    moveRadius: 0
+    idleType: 0
+    runType: 0
+    followObject: {fileID: 0}
+  lookAtObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &114486503702666542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267471432669418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8d8db9c8de57c64189bf784e9cf7838, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultCamera: {fileID: 0}
+  previousCamera: {fileID: 0}
+  currentCamera: {fileID: 0}
+--- !u!114 &114718444798714748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267471432669418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5ab47c0020911649b29425951d50a28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  omFade: {fileID: 0}
+  uiFade: {fileID: 0}
+  actFade: {fileID: 0}
+  dwFade: {fileID: 0}
+  poemFader: {fileID: 0}
+  howToStart:
+  - {fileID: 0}
+  - {fileID: 0}
+  omScale: {fileID: 0}
+  uiScale: {fileID: 0}
+  omMove: {fileID: 0}
+  uiMove: {fileID: 0}
+  dwMove: {fileID: 0}
+  scribeAnimator: {fileID: 0}
+  scribeFade: {fileID: 0}
+  blackground: {fileID: 0}
+  callToPrayer: {fileID: 0}
+  characters: []
+  warAmbience: {fileID: 0}
+  niceSky: {fileID: 2100000, guid: e4a6d57410c112e44968fb07b762ac8a, type: 2}
+  sunLerp: {fileID: 0}
+  quitMenu: {fileID: 0}
+  player: {fileID: 0}
+  startCam: {fileID: 0}
+  roomCam: {fileID: 0}
+  textPanel: {fileID: 0}
+  poemTime: 30
+  readingPoem: 0
+  startedTransition: 0
+  transitioned: 0
+  canClick: 0
+--- !u!114 &114117303160459532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267471432669418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 947ee6088a7bac347af6049355fda610, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smokePrefab: {fileID: 1979314067050386, guid: 430099940cce75245955973c78f8f11f,
+    type: 3}
+  deityExplosionPrefab: {fileID: 1149019820068336, guid: 812988f0f12f15a4f9a3ff174921b2a1,
+    type: 3}
+  bombPooler: {fileID: 0}
+  explosionPooler: {fileID: 0}
