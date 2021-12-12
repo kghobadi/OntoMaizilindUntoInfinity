@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 //The Interact system cursor.
 //Referenced by all Interactive scripts and activated from there. 
+//TODO SHOULD NOT APPEAR during pause. 
+//Probably want to move this based on WorldPosOfObject + offset just like gravecat UI. 
 public class InteractCursor : MonoBehaviour
 {
 	private Image imageHolder;

@@ -79,7 +79,7 @@ public class MenuSelections : AudioHandler
         {
             gameObject.SetActive(false);
         }
-        Debug.Log("deactivated" + gameObject.name);
+        //Debug.Log("deactivated" + gameObject.name);
     }
 
     //function controls selection with controller

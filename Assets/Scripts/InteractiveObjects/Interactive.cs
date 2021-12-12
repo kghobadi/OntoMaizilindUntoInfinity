@@ -3,6 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// This script is the base of the Interactive Objects system.
+/// Makes any object interactive and connected to audio in relation the current player.
+/// //TODO this script currently doesn't work with Controller
+/// //Create an InteractiveRaycaster attached to the camera which all Interactives can use to get their raycast data from.
+/// Will need to use ScreenPointToRay at the center of the screen. then check if it hits an Interactive object. 
+/// </summary>
 public class Interactive : AudioHandler
 {
 	protected CameraSwitcher _cameraSwitcher;
