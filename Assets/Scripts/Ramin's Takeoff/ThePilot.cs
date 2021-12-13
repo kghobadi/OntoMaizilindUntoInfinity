@@ -23,6 +23,8 @@ public class ThePilot : AudioHandler {
     public bool controlsActive = true;
     public bool movementFrozen;
     public bool countingBullets;
+    public float keyboardLerp = 5f;
+    public float smoothTime = 0.5f;
     InputDevice inputDevice;
 
     //weapons 
@@ -313,8 +315,27 @@ public class ThePilot : AudioHandler {
         //keyboard
         else
         {
-            horizontal = Input.GetAxis("Horizontal");
-            vertical = Input.GetAxis("Vertical");
+            //could try smooth damp - https://docs.unity3d.com/ScriptReference/Mathf.SmoothDamp.html
+            //apply lerp when there is input 
+            if (Input.GetAxis("Horizontal") != 0)
+            {
+                horizontal = Mathf.Lerp(horizontal, Input.GetAxis("Horizontal"), Time.deltaTime *  keyboardLerp) ;
+                //horizontal = Mathf.SmoothDamp(horizontal, Input.GetAxis("Horizontal"), ref keyboardLerp, smoothTime);
+            }
+            else
+            {
+                horizontal = 0;
+            }
+            
+            //apply lerp when there is input 
+            if (Input.GetAxis("Vertical") != 0)
+            {
+                vertical = Mathf.Lerp(vertical, Input.GetAxis("Vertical"), Time.deltaTime *  keyboardLerp) ;
+            }
+            else
+            {
+                vertical = 0;
+            }
         }
     }
 

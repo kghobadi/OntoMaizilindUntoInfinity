@@ -25,6 +25,8 @@ public class InteractCursor : MonoBehaviour
 			imageHolder.sprite = newSprite;
 		imageHolder.enabled = true;
 		active = true;
+		
+		//can pass in world pos for assign pos
 	}
 
 	public void Deactivate()

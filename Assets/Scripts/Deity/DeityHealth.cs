@@ -100,6 +100,8 @@ public class DeityHealth : MonoBehaviour {
         deity.mover.MoveTo(crashPoint, fallSpeed);
         //change health state
         healthState = HealthStates.FALLING;
+        //invoke deity died event. 
+        deityMan.deityDied.Invoke();
         //remove from deity list 
         deityMan.deities.Remove(this);
         //stop strafing
