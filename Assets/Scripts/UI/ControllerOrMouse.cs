@@ -25,7 +25,9 @@ public class ControllerOrMouse : MonoBehaviour
 
     [Header("Text items")]
     public string controllerText;
+    public TextAsset controllerTextFile;
     public string mKeyboardText;
+    public TextAsset mKeyboardTextFile;
 
     InputDeviceClass lastClass;
     InputDevice inputDevice;
@@ -100,10 +102,24 @@ public class ControllerOrMouse : MonoBehaviour
                         sRenderer.sprite = controller;
                         break;
                     case InfoType.TEXT:
-                        text.text = controllerText;
+                        if (controllerTextFile)
+                        {
+                            text.text = controllerTextFile.text;
+                        }
+                        else
+                        {
+                            text.text = controllerText;
+                        }
                         break;
                     case InfoType.TMPTEXT:
-                        textTMP.text = controllerText;
+                        if (controllerTextFile)
+                        {
+                            textTMP.text = controllerTextFile.text;
+                        }
+                        else
+                        {
+                            textTMP.text = controllerText;
+                        }
                         break;
                 }
             }
@@ -119,10 +135,24 @@ public class ControllerOrMouse : MonoBehaviour
                         sRenderer.sprite = mKeyboard;
                         break;
                     case InfoType.TEXT:
-                        text.text = mKeyboardText;
+                        if (mKeyboardTextFile)
+                        {
+                            text.text = mKeyboardTextFile.text;
+                        }
+                        else
+                        {
+                            text.text = mKeyboardText;
+                        }
                         break;
                     case InfoType.TMPTEXT:
-                        textTMP.text = mKeyboardText;
+                        if (mKeyboardTextFile)
+                        {
+                            textTMP.text = mKeyboardTextFile.text;
+                        }
+                        else
+                        {
+                            textTMP.text = mKeyboardText;
+                        }
                         break;
                 }
             }

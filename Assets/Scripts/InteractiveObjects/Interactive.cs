@@ -49,8 +49,44 @@ public class Interactive : AudioHandler
 			if(_SkinnedMeshRenderer == null)
 				_SkinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
 		}
+
+		//set interact hit event listeners
+		if (InteractRaycaster.Instance != null)
+		{
+			InteractRaycaster.Instance.hitInteractiveObjectEvent.AddListener(CheckIfHit);
+			InteractRaycaster.Instance.hitNothingEvent.AddListener(NothingHit);
+			InteractRaycaster.Instance.interactInput.AddListener(OnInteractInput);
+		}
 	}
 
+	#region Interact Raycaster Listeners
+
+	/// <summary>
+	/// Lets us know based on Raycast from screen if this object is current InteractObj
+	/// </summary>
+	/// <param name="interactObj"></param>
+	void CheckIfHit(GameObject interactObj)
+	{
+		if (interactObj == gameObject)
+		{
+			CheckActive();
+		}
+		else
+		{
+			SetInactive();
+		}
+	}
+
+	/// <summary>
+	/// When nothing was detected by the Raycaster. 
+	/// </summary>
+	void NothingHit()
+	{
+		SetInactive();
+	}
+
+	#endregion
+	
 	float CheckDistFromPlayer()
 	{
 		if (_cameraSwitcher == null)
@@ -58,15 +94,11 @@ public class Interactive : AudioHandler
 		
 		return Vector3.Distance(transform.position, _cameraSwitcher.currentPlayer.transform.position);
 	}
-	
-	void OnMouseEnter()
-	{
-		if(CheckDistFromPlayer() < distNecessary)
-			SetActive();
-	}
-	
-	//for distance check
-	void OnMouseOver()
+
+	/// <summary>
+	/// Called while player is looking directly at this. 
+	/// </summary>
+	void CheckActive()
 	{
 		if (active)
 		{
@@ -77,8 +109,10 @@ public class Interactive : AudioHandler
 		}
 		else
 		{
-			if(CheckDistFromPlayer() < distNecessary)
+			if (CheckDistFromPlayer() < distNecessary)
+			{
 				SetActive();
+			}
 		}
 	}
 
@@ -101,32 +135,10 @@ public class Interactive : AudioHandler
 				clickerUI.FadeIn();
 		}
 	}
-
-	void OnMouseDown()
-	{
-		if (active)
-		{
-			Interact();
-
-			//if we have click UI, disable it and fade out permanently 
-			if (clickerUI)
-			{
-				clickerUI.keepActive = false;
-				clickerUI.FadeOut();
-			}
-				
-			hasClicked = true;
-		}
-	}
-
+	
 	protected virtual void Interact()
 	{
 		Debug.Log("interacting with " + gameObject.name);
-	}
-
-	void OnMouseExit()
-	{
-		SetInactive();
 	}
 
 	protected virtual void SetInactive()
@@ -149,4 +161,47 @@ public class Interactive : AudioHandler
 				clickerUI.FadeOut();
 		}
 	}
+
+	void OnInteractInput()
+	{
+		//only interact if this obj is active :)
+		if (active)
+		{
+			Interact();
+
+			//if we have click UI, disable it and fade out permanently 
+			if (clickerUI)
+			{
+				clickerUI.keepActive = false;
+				clickerUI.FadeOut();
+			}
+				
+			hasClicked = true;
+		}
+	}
+
+	#region Mouse Input
+	void OnMouseEnter()
+	{
+		CheckActive();
+	}
+	
+	//for distance check
+	void OnMouseOver()
+	{
+		CheckActive();
+	}
+	
+	void OnMouseDown()
+	{
+		OnInteractInput();
+	}
+	
+	void OnMouseExit()
+	{
+		SetInactive();
+	}
+	#endregion
+	
+
 }
