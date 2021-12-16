@@ -18,6 +18,8 @@ public class GroundCamera : MonoBehaviour
     float hRot, vRot;
     public float sensitivityX = 1f;
     public float sensitivityY = 1f;
+    public float controllerSensitivityX = 3f;
+    public float controllerSensitivityY = 3f;
     public bool invertX, invertY;
     public bool canControl = true;
 
@@ -89,8 +91,8 @@ public class GroundCamera : MonoBehaviour
             //controller 
             if (inputDevice.DeviceClass == InputDeviceClass.Controller)
             {
-                hRot += inputDevice.RightStickX * sensitivityX;
-                vRot += inputDevice.RightStickY * sensitivityY;
+                hRot += inputDevice.RightStickX * controllerSensitivityX;
+                vRot += inputDevice.RightStickY * controllerSensitivityY;
             }
             //mouse
             else
@@ -122,8 +124,8 @@ public class GroundCamera : MonoBehaviour
             //controller 
             if (inputDevice.DeviceClass == InputDeviceClass.Controller)
             {
-                hRot = sensitivityX * inputDevice.RightStickX;
-                vRot = sensitivityY * inputDevice.RightStickY;
+                hRot = controllerSensitivityX * inputDevice.RightStickX;
+                vRot = controllerSensitivityY * inputDevice.RightStickY;
             }
             //mouse
             else

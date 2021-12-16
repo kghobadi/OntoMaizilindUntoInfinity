@@ -2,14 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 
 /// <summary>
 /// This script is the base of the Interactive Objects system.
 /// Makes any object interactive and connected to audio in relation the current player.
-/// //TODO this script currently doesn't work with Controller
-/// //Create an InteractiveRaycaster attached to the camera which all Interactives can use to get their raycast data from.
-/// Will need to use ScreenPointToRay at the center of the screen. then check if it hits an Interactive object. 
 /// </summary>
 public class Interactive : AudioHandler
 {
@@ -49,14 +47,22 @@ public class Interactive : AudioHandler
 			if(_SkinnedMeshRenderer == null)
 				_SkinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
 		}
+	}
+	
+	//Add event listeners
+	private void OnEnable()
+	{
+		EventManager.StartListening("OnInteractInput", OnInteractInput);
+		EventManager.StartListening("OnHitInteractiveObject", CheckIfHit);
+		EventManager.StartListening("OnHitNothing", NothingHit);
+	}
 
-		//set interact hit event listeners
-		if (InteractRaycaster.Instance != null)
-		{
-			InteractRaycaster.Instance.hitInteractiveObjectEvent.AddListener(CheckIfHit);
-			InteractRaycaster.Instance.hitNothingEvent.AddListener(NothingHit);
-			InteractRaycaster.Instance.interactInput.AddListener(OnInteractInput);
-		}
+	//Remove event listeners 
+	private void OnDisable()
+	{
+		EventManager.StopListening("OnInteractInput", OnInteractInput);
+		EventManager.StopListening("OnHitInteractiveObject", CheckIfHit);
+		EventManager.StopListening("OnHitNothing", NothingHit);
 	}
 
 	#region Interact Raycaster Listeners
@@ -67,10 +73,12 @@ public class Interactive : AudioHandler
 	/// <param name="interactObj"></param>
 	void CheckIfHit(GameObject interactObj)
 	{
-		if (interactObj == gameObject)
+		//check if the name is mine.
+		if (interactObj == gameObject) //TODO must be something wrong with the event system. it only ever compares interactObj against 60_Gardin (1) 
 		{
 			CheckActive();
 		}
+		//dif name -- im not active.
 		else
 		{
 			SetInactive();
@@ -80,7 +88,7 @@ public class Interactive : AudioHandler
 	/// <summary>
 	/// When nothing was detected by the Raycaster. 
 	/// </summary>
-	void NothingHit()
+	void NothingHit(GameObject obj)
 	{
 		SetInactive();
 	}
@@ -102,7 +110,7 @@ public class Interactive : AudioHandler
 	{
 		if (active)
 		{
-			if (CheckDistFromPlayer() > distNecessary)
+			if (CheckDistFromPlayer() > distNecessary + 1f)
 			{
 				SetInactive();
 			}
@@ -162,10 +170,16 @@ public class Interactive : AudioHandler
 		}
 	}
 
-	void OnInteractInput()
+	void OnInteractInput(GameObject obj)
 	{
+		//null check on interact obj
+		if (obj == null)
+		{
+			return;
+		}
+		
 		//only interact if this obj is active :)
-		if (active)
+		if (active && obj == gameObject)
 		{
 			Interact();
 
@@ -181,7 +195,7 @@ public class Interactive : AudioHandler
 	}
 
 	#region Mouse Input
-	void OnMouseEnter()
+	/*void OnMouseEnter()
 	{
 		CheckActive();
 	}
@@ -194,13 +208,13 @@ public class Interactive : AudioHandler
 	
 	void OnMouseDown()
 	{
-		OnInteractInput();
+		OnInteractInput(gameObject);
 	}
 	
 	void OnMouseExit()
 	{
 		SetInactive();
-	}
+	}*/
 	#endregion
 	
 

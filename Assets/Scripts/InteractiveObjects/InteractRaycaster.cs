@@ -13,13 +13,13 @@ public class InteractRaycaster : NonInstantiatingSingleton<InteractRaycaster>
     public LayerMask interactiveLayer;
 
     public bool active = true;
-    //let all interactives know I hit something. 
-    public UnityEvent<GameObject> hitInteractiveObjectEvent;
-    public UnityEvent hitNothingEvent;
-    public UnityEvent interactInput;
-    InputDevice inputDevice;
-    private void Awake()
+    private InputDevice inputDevice;
+    private GameObject currentInteractObject;
+
+    protected override void OnAwake()
     {
+        base.OnAwake();
+        
         //get main cam
         mainCam = Camera.main;
     }
@@ -32,20 +32,22 @@ public class InteractRaycaster : NonInstantiatingSingleton<InteractRaycaster>
     IEnumerator RaycastToWorld()
     {
         active = true;
+        
         while (active)
         {
             //get input device 
             inputDevice = InputManager.ActiveDevice;
             
+            //raycast
             RaycastFromScreenToWorld();
+            
             //input event check.
-            if (inputDevice.Action1.WasPressed)
+            if (inputDevice.Action1.WasPressed || Input.GetMouseButtonDown(0))
             {
-                if (interactInput != null)
-                {
-                    interactInput.Invoke();
-                }
+                EventManager.TriggerEvent("OnInteractInput", currentInteractObject);
             }
+            
+            //wait for end of frame
             yield return new WaitForEndOfFrame();
         }
     }
@@ -54,20 +56,19 @@ public class InteractRaycaster : NonInstantiatingSingleton<InteractRaycaster>
     public void RaycastFromScreenToWorld()
     {
         // Convert to world space
-        Ray ray = mainCam.ScreenPointToRay(new Vector3(0.5f, 0.5f, 0f));
+        Ray ray = mainCam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, mainCam.nearClipPlane));
         Vector3 dir = Vector3.forward;
         RaycastHit hit;
 
         // Find our ray's intersection through the selected layer
         if ( Physics.Raycast(ray, out hit, interactDistanceMax, interactiveLayer))
         {
+            //set current interact obj
+            currentInteractObject = hit.transform.gameObject;
             //send hit event 
-            if (hitInteractiveObjectEvent != null)
-            {
-                hitInteractiveObjectEvent.Invoke(hit.transform.gameObject);
-            }
+            EventManager.TriggerEvent("OnHitInteractiveObject", currentInteractObject);
 
-            Debug.Log("Hit object: " + hit.transform.gameObject.name);
+            Debug.Log("Hit object: " + currentInteractObject.name);
             //could set something to this position:
             //transform.position = hit.point +new Vector3(0f, heightOffset, 0f);
             //get pos in viewport
@@ -76,10 +77,7 @@ public class InteractRaycaster : NonInstantiatingSingleton<InteractRaycaster>
         //Didn't hit anything on the Interactive layer in distance.
         else
         {
-            if (hitNothingEvent != null)
-            {
-                hitNothingEvent.Invoke();
-            }
+            EventManager.TriggerEvent("OnHitNothing", gameObject);
         }
     }
 

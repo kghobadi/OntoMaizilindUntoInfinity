@@ -6,7 +6,8 @@ using Cameras;
 using UnityEngine.AI;
 using NPC;
 
-public class CameraSwitcher : MonoBehaviour {
+public class CameraSwitcher : MonoBehaviour 
+{
     CameraManager camManager;
 
     [HideInInspector] public ObjectViewer objViewer;
@@ -138,12 +139,12 @@ public class CameraSwitcher : MonoBehaviour {
         if (canShift)
         {
             //switch through cam objects down
-            if (Input.GetKeyDown(KeyCode.LeftShift) || inputDevice.DPadLeft.WasPressed || inputDevice.DPadDown.WasPressed)
+            if (Input.GetKeyDown(KeyCode.LeftShift) || inputDevice.DPadLeft.WasPressed)
             {
                 SwitchCam(false);
             }
             //switch through cam objects up
-            if (Input.GetKeyDown(KeyCode.RightShift) || inputDevice.DPadRight.WasPressed || inputDevice.DPadUp.WasPressed)
+            if (Input.GetKeyDown(KeyCode.RightShift) || inputDevice.DPadRight.WasPressed)
             {
                 SwitchCam(true);
             }
