@@ -11,6 +11,8 @@ public class ControllerOrMouse : MonoBehaviour
     SpriteRenderer sRenderer;
     Text text;
     TMP_Text textTMP;
+    
+    //TODO, for images/sprites should add a way to change the color. Specifically for InteractCursor (yellow works for mouse but not ps4 controller buttons). 
 
     [Tooltip("This is set automatically on Awake")]
     public InfoType infoType;

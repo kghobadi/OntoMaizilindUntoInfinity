@@ -11,8 +11,10 @@ using UnityEngine.Events;
 /// </summary>
 public class Interactive : AudioHandler
 {
+	protected bool init;
 	protected CameraSwitcher _cameraSwitcher;
 	protected InteractCursor iCursor;
+	protected float distFromPlayer;
 	
 	[Header("Interactive Object Settings")]
 	public bool active;
@@ -28,10 +30,20 @@ public class Interactive : AudioHandler
 	
 	protected virtual void Start ()
 	{
+		Init();
+	}
+
+	protected virtual void Init()
+	{
+		if (init)
+		{
+			return;
+		}
+		
 		//cam switcher ref
 		_cameraSwitcher = FindObjectOfType<CameraSwitcher>();
 		//iCursor ref
-		iCursor = FindObjectOfType<InteractCursor>();
+		iCursor = InteractCursor.Instance;
 		
 		//get mesh renderer
 		if (_meshRenderer == null)
@@ -47,22 +59,29 @@ public class Interactive : AudioHandler
 			if(_SkinnedMeshRenderer == null)
 				_SkinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
 		}
+		
+		//set layer to interactable
+		gameObject.layer = 21;
+
+		init = true;
 	}
 	
 	//Add event listeners
 	private void OnEnable()
 	{
-		EventManager.StartListening("OnInteractInput", OnInteractInput);
-		EventManager.StartListening("OnHitInteractiveObject", CheckIfHit);
-		EventManager.StartListening("OnHitNothing", NothingHit);
+		// subscribe to events
+		InteractRaycaster.onHitInteractObj += CheckIfHit;
+		InteractRaycaster.onHitNothing += NothingHit;
+		InteractRaycaster.onInteractInput += OnInteractInput;
 	}
 
 	//Remove event listeners 
 	private void OnDisable()
 	{
-		EventManager.StopListening("OnInteractInput", OnInteractInput);
-		EventManager.StopListening("OnHitInteractiveObject", CheckIfHit);
-		EventManager.StopListening("OnHitNothing", NothingHit);
+		// unsubscribe to events
+		InteractRaycaster.onHitInteractObj -= CheckIfHit;
+		InteractRaycaster.onHitNothing -= NothingHit;
+		InteractRaycaster.onInteractInput -= OnInteractInput;
 	}
 
 	#region Interact Raycaster Listeners
@@ -71,10 +90,10 @@ public class Interactive : AudioHandler
 	/// Lets us know based on Raycast from screen if this object is current InteractObj
 	/// </summary>
 	/// <param name="interactObj"></param>
-	void CheckIfHit(GameObject interactObj)
+	void CheckIfHit()
 	{
 		//check if the name is mine.
-		if (interactObj == gameObject) //TODO must be something wrong with the event system. it only ever compares interactObj against 60_Gardin (1) 
+		if (InteractRaycaster.Instance.currentInteractObject == gameObject) 
 		{
 			CheckActive();
 		}
@@ -88,7 +107,7 @@ public class Interactive : AudioHandler
 	/// <summary>
 	/// When nothing was detected by the Raycaster. 
 	/// </summary>
-	void NothingHit(GameObject obj)
+	void NothingHit()
 	{
 		SetInactive();
 	}
@@ -99,8 +118,10 @@ public class Interactive : AudioHandler
 	{
 		if (_cameraSwitcher == null)
 			return 150f;
+
+		distFromPlayer = Vector3.Distance(transform.position, _cameraSwitcher.currentPlayer.transform.position);
 		
-		return Vector3.Distance(transform.position, _cameraSwitcher.currentPlayer.transform.position);
+		return distFromPlayer;
 	}
 
 	/// <summary>
@@ -126,6 +147,8 @@ public class Interactive : AudioHandler
 
 	protected virtual void SetActive()
 	{
+		Init();
+		
 		//highlight obj
 		if(_meshRenderer)
 			_meshRenderer.material = activeMat;
@@ -151,15 +174,20 @@ public class Interactive : AudioHandler
 
 	protected virtual void SetInactive()
 	{
+		Init();
+		
+		//if I am the current Interact obj -- don't deactivate. 
+		if (InteractRaycaster.Instance.currentInteractObject == gameObject)
+		{
+			return;
+		}
+		
 		//unhighlight obj
 		if(_meshRenderer)
 			_meshRenderer.material = inactiveMat;
 		if (_SkinnedMeshRenderer)
 			_SkinnedMeshRenderer.material = inactiveMat;
-		
-		//cursor
-		iCursor.Deactivate();
-		
+
 		active = false;
 		
 		//if we have ui to fade out 
@@ -170,16 +198,16 @@ public class Interactive : AudioHandler
 		}
 	}
 
-	void OnInteractInput(GameObject obj)
+	void OnInteractInput()
 	{
 		//null check on interact obj
-		if (obj == null)
+		if (InteractRaycaster.Instance.currentInteractObject != gameObject)
 		{
 			return;
 		}
 		
 		//only interact if this obj is active :)
-		if (active && obj == gameObject)
+		if (active)
 		{
 			Interact();
 

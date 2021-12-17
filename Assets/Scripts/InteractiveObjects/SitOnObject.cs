@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using InControl;
 
 /// <summary>
 /// Allows the player to sit on various objects.
@@ -14,6 +15,7 @@ public class SitOnObject : Interactive
 	public bool sitting;
 	private Vector3 playerPosition;
 	private FirstPersonController fps;
+	private InputDevice inputDevice;
 
 	protected override void SetActive()
 	{
@@ -56,10 +58,14 @@ public class SitOnObject : Interactive
 	{
 		if (sitting)
 		{
+			//get input device.
+			inputDevice = InputManager.ActiveDevice;
+			
+			//check that we are not viewing an obj up close. could also check if we are holding something.
 			if (_cameraSwitcher.objViewer.viewing == false)
 			{
-				//left click to stand up
-				if (Input.GetMouseButtonDown(1))
+				//right click to stand up or back button
+				if (Input.GetMouseButtonDown(1) || inputDevice.Action2.WasPressed)
 				{
 					ReleasePlayer();
 				}
