@@ -56,7 +56,7 @@ public static class RendererExtensions
     /// <summary>
     /// Move towards the closest point where to portray the location of the character which is speaking in world space. Stay on Screen. 
     /// </summary>
-    public static void AdjustScreenPosition(Vector3 worldPos, Camera camera, RectTransform canvasRect, RectTransform objTransform, CanvasScaler canvasScaler)
+    public static void AdjustScreenPosition(Vector3 worldPos, Camera camera, RectTransform canvasRect, RectTransform objTransform)
     {
         //then you calculate the position of the UI element
         //0,0 for the canvas is at the center of the screen, whereas WorldToViewPortPoint treats the lower left corner as 0,0.
@@ -70,11 +70,11 @@ public static class RendererExtensions
         float currentWidth = objTransform.sizeDelta.x;
         float currentHeight = objTransform.sizeDelta.y;
         //change x min/max based on current width
-        float xMin = -canvasScaler.referenceResolution.x / 2 + (currentWidth / 2);
-        float xMax = canvasScaler.referenceResolution.x / 2 - (currentWidth / 2);
+        float xMin = -canvasRect.sizeDelta.x / 2 + (currentWidth / 2);
+        float xMax = canvasRect.sizeDelta.x / 2 - (currentWidth / 2);
         //get y min / max
-        float yMin = -canvasScaler.referenceResolution.y / 2 + (currentHeight / 2);
-        float yMax = canvasScaler.referenceResolution.y / 2 - (currentHeight / 2);
+        float yMin = -canvasRect.sizeDelta.y / 2 + (currentHeight / 2);
+        float yMax = canvasRect.sizeDelta.y / 2 - (currentHeight / 2);
         //check screen bounds X min
         if (screenPos.x < xMin)
             screenPos = new Vector2(xMin, screenPos.y); 

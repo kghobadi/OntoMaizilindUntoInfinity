@@ -40,18 +40,23 @@ public class SitOnObject : Interactive
 		//only if the player is free to move can they sit 
 		if (fps.canMove)
 		{
-			//disable movement
-			fps.canMove = false;
-			//set pos
-			_cameraSwitcher.currentPlayer.transform.position = spotToSit.position;
-			//so its not highlighted anymore 
-			SetInactive();
-
-			//add event listener for disable sitting 
-			fps.beingHeld.AddListener(DisableSitting);
-			//set bool
-			sitting = true;
+			Sit();
 		}
+	}
+
+	void Sit()
+	{
+		//disable movement
+		fps.canMove = false;
+		//set pos
+		_cameraSwitcher.currentPlayer.transform.position = spotToSit.position;
+		//so its not highlighted anymore 
+		SetInactive();
+
+		//add event listener for disable sitting 
+		fps.beingHeld.AddListener(DisableSitting);
+		//set bool
+		sitting = true;
 	}
 
 	private void Update()

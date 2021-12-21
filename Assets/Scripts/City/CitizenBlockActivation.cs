@@ -9,7 +9,7 @@ using UnityEngine;
 public class CitizenBlockActivation : MonoBehaviour
 {
 	public Movement[] npcCitizens;
-	void Start()
+	void Awake()
 	{
 		npcCitizens = GetComponentsInChildren<Movement>();
 	}

@@ -10,7 +10,6 @@ public class FaceAnimationUI : AnimationHandler
 	
 	private RectTransform canvasRect;
 	private Canvas parentCanvas;
-	private CanvasScaler canvasScaler;
 	private Image m_Image;
 	private Transform m_speaker;
 	private MonologueReader monoReader;
@@ -29,7 +28,6 @@ public class FaceAnimationUI : AnimationHandler
 		m_rectTransform = GetComponent<RectTransform>();
 		parentCanvas = GetComponentInParent<Canvas>();
 		canvasRect = parentCanvas.GetComponent<RectTransform>();
-		canvasScaler = parentCanvas.GetComponent<CanvasScaler>();
 		mainCam = Camera.main;
 		
 		Deactivate();
@@ -68,7 +66,7 @@ public class FaceAnimationUI : AnimationHandler
 	{
 		if (active)
 		{
-			RendererExtensions.AdjustScreenPosition(m_speaker.position, mainCam, canvasRect,m_rectTransform, canvasScaler);
+			RendererExtensions.AdjustScreenPosition(m_speaker.position, mainCam, canvasRect,m_rectTransform);
 		}	
 	}
 }

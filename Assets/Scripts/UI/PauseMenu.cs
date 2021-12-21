@@ -129,6 +129,11 @@ public class PauseMenu : MonoBehaviour
         //activate pause menu.
         pauseMenu.gameObject.SetActive(true);
         pauseMenu.ActivateMenu(true);
+        //disable interact cursor
+        if (InteractCursor.Instance != null)
+        {
+            InteractCursor.Instance.Deactivate();
+        }
         
         //set time
         Time.timeScale = 0f;

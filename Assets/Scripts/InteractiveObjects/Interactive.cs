@@ -15,6 +15,7 @@ public class Interactive : AudioHandler
 	protected CameraSwitcher _cameraSwitcher;
 	protected InteractCursor iCursor;
 	protected float distFromPlayer;
+	protected int interactableLayer = 21;
 	
 	[Header("Interactive Object Settings")]
 	public bool active;
@@ -61,7 +62,7 @@ public class Interactive : AudioHandler
 		}
 		
 		//set layer to interactable
-		gameObject.layer = 21;
+		gameObject.layer = interactableLayer;
 
 		init = true;
 	}

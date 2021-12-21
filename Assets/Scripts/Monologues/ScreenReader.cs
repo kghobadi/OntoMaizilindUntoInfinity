@@ -14,7 +14,6 @@ public class ScreenReader : MonoBehaviour
 	private TMP_Text m_text;
 	private RectTransform m_rectTransform;
 	private Canvas parentCanvas;
-	private CanvasScaler canvasScaler;
 	private RectTransform canvasRect;
 	private Image m_Image;
 	private Transform m_speaker;
@@ -43,7 +42,6 @@ public class ScreenReader : MonoBehaviour
 		m_rectTransform = GetComponent<RectTransform>();
 		parentCanvas = GetComponentInParent<Canvas>();
 		canvasRect = parentCanvas.GetComponent<RectTransform>();
-		canvasScaler = parentCanvas.GetComponent<CanvasScaler>();
 		Debug.Log(transform.parent.parent.name);
 		mainCam = Camera.main;
 
@@ -89,7 +87,7 @@ public class ScreenReader : MonoBehaviour
 	{
 		if (active)
 		{
-		  	RendererExtensions.AdjustScreenPosition(m_speaker.position, mainCam, canvasRect, m_rectTransform,canvasScaler);
+		  	RendererExtensions.AdjustScreenPosition(m_speaker.position, mainCam, canvasRect, m_rectTransform);
 			
 			RendererExtensions.AdjustScale();	
 		}	

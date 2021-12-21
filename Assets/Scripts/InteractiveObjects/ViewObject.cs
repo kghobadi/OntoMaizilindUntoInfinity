@@ -45,6 +45,7 @@ public class ViewObject : Interactive
 		{
 			_objectViewer.SetViewObject(this);
 			SetInactive();
+			iCursor.Deactivate();
 			Debug.Log("Set view object to " + gameObject.name);
 		}
 		else
@@ -66,7 +67,7 @@ public class ViewObject : Interactive
 		//scale
 		transform.localScale = originScale;
 		//layer
-		gameObject.layer = 15;
+		gameObject.layer = interactableLayer;
 		for (int i = 0; i < transform.childCount; i++)
 		{
 			transform.GetChild(i).gameObject.layer = 15;
