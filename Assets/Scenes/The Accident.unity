@@ -7541,7 +7541,7 @@ MonoBehaviour:
   m_Script: {fileID: -910582366, guid: 1741f56c22154746ae9dc695200288e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _savedGUID: 2049595892
+  _savedGUID: 3621653426
   subtractMode: 0
   shape:
     snippet: {fileID: 11400000, guid: 6ce56777eb7ec4184b65d966cbd9cbb7, type: 2}
@@ -8005,7 +8005,7 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
   hash:
-    lastHash: -131275779
+    lastHash: -1627318058
 --- !u!4 &515303592
 Transform:
   m_ObjectHideFlags: 0
@@ -8417,6 +8417,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sensitivityX: 1
   sensitivityY: 1
+  controllerSensitivityX: 3
+  controllerSensitivityY: 3
   invertX: 0
   invertY: 1
   canControl: 1
@@ -8494,6 +8496,66 @@ MonoBehaviour:
   lbfMin: 0
   lbfMax: 0
   lbfTime: 1
+--- !u!1 &588602184
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 588602186}
+  - component: {fileID: 588602185}
+  m_Layer: 0
+  m_Name: InControl
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &588602185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588602184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7b5e8de77c5b4597ae7fbfb49a95e22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logDebugInfo: 1
+  invertYAxis: 0
+  useFixedUpdate: 0
+  dontDestroyOnLoad: 1
+  suspendInBackground: 0
+  enableICade: 0
+  enableXInput: 0
+  xInputOverrideUpdateRate: 0
+  xInputUpdateRate: 0
+  xInputOverrideBufferSize: 0
+  xInputBufferSize: 0
+  enableNativeInput: 1
+  nativeInputEnableXInput: 1
+  nativeInputPreventSleep: 0
+  nativeInputOverrideUpdateRate: 0
+  nativeInputUpdateRate: 0
+  customProfiles: []
+--- !u!4 &588602186
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588602184}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 20
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &589954564
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8793,7 +8855,7 @@ MonoBehaviour:
   m_Script: {fileID: 833336753, guid: 1741f56c22154746ae9dc695200288e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _savedGUID: 2049596783
+  _savedGUID: 2458854021
   Recursive: 0
   blend:
     snippet: {fileID: 11400000, guid: 8d0fbb1f57d634e6f9dc63e0f6916d66, type: 2}
@@ -8988,7 +9050,7 @@ MonoBehaviour:
   m_Script: {fileID: -910582366, guid: 1741f56c22154746ae9dc695200288e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _savedGUID: 2049596816
+  _savedGUID: 2519204448
   subtractMode: 2
   shape:
     snippet: {fileID: 11400000, guid: 6492bb9b50670014da4e70150b54fbf2, type: 2}
@@ -9127,7 +9189,7 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
   hash:
-    lastHash: -2140228127
+    lastHash: -1060326318
 --- !u!1 &668132353
 GameObject:
   m_ObjectHideFlags: 0
@@ -10599,7 +10661,7 @@ MonoBehaviour:
   m_Script: {fileID: -1971466593, guid: 1741f56c22154746ae9dc695200288e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _savedGUID: 2049597810
+  _savedGUID: 166754431
   modifier:
     snippet: {fileID: 11400000, guid: 1d59cc688da4246dc91462089f6802d5, type: 2}
     inputs:
@@ -15920,7 +15982,7 @@ MonoBehaviour:
   m_Script: {fileID: -1971466593, guid: 1741f56c22154746ae9dc695200288e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _savedGUID: 2049598556
+  _savedGUID: 3298922308
   modifier:
     snippet: {fileID: 11400000, guid: 1d59cc688da4246dc91462089f6802d5, type: 2}
     inputs:
@@ -16538,7 +16600,7 @@ MonoBehaviour:
   m_Script: {fileID: -112464798, guid: 1741f56c22154746ae9dc695200288e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _savedGUID: 2433564416
+  _savedGUID: 580362166
   CompileShaderAutomatically: 1
   _savedActiveObjects:
   - {fileID: 2069418016}
@@ -16553,8 +16615,8 @@ MonoBehaviour:
   - {fileID: 1758907654}
   - {fileID: 627365160}
   - {fileID: 1649657211}
-  _lastShaderPath: Assets/Scenes/Shaders/Generated\_The Accident_2433564416.generated.shader
-  _lastShader: {fileID: 4800000, guid: 4ede438831a25344f92f792ef08efd1a, type: 3}
+  _lastShaderPath: Assets\Scenes/Shaders/Generated\_The Accident_580362166.generated.shader
+  _lastShader: {fileID: 4800000, guid: 07dc5e1dafba95d4caf3c7878639f067, type: 3}
   Steps: 198
   AmbientColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
   Fog: 1
@@ -16800,7 +16862,7 @@ MonoBehaviour:
   m_Script: {fileID: -1971466593, guid: 1741f56c22154746ae9dc695200288e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _savedGUID: 2049598744
+  _savedGUID: 2351190756
   modifier:
     snippet: {fileID: 11400000, guid: 1d59cc688da4246dc91462089f6802d5, type: 2}
     inputs:
@@ -17370,7 +17432,7 @@ MonoBehaviour:
   m_Script: {fileID: -1971466593, guid: 1741f56c22154746ae9dc695200288e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _savedGUID: 2049599546
+  _savedGUID: 25591925
   modifier:
     snippet: {fileID: 11400000, guid: 1d59cc688da4246dc91462089f6802d5, type: 2}
     inputs:
@@ -19422,7 +19484,7 @@ MonoBehaviour:
   m_Script: {fileID: -910582366, guid: 1741f56c22154746ae9dc695200288e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _savedGUID: 2049620841
+  _savedGUID: 2310784804
   subtractMode: 0
   shape:
     snippet: {fileID: 11400000, guid: 6492bb9b50670014da4e70150b54fbf2, type: 2}
@@ -19821,7 +19883,7 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
   hash:
-    lastHash: -83031632
+    lastHash: 203632135
 --- !u!4 &1456982799
 Transform:
   m_ObjectHideFlags: 0
@@ -21183,7 +21245,7 @@ MonoBehaviour:
   m_Script: {fileID: 833336753, guid: 1741f56c22154746ae9dc695200288e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _savedGUID: 2049621831
+  _savedGUID: 3540841361
   Recursive: 0
   blend:
     snippet: {fileID: 11400000, guid: 44192f1753ca5aa45a792ab7d2eb47f2, type: 2}
@@ -21723,7 +21785,7 @@ MonoBehaviour:
   m_Script: {fileID: -910582366, guid: 1741f56c22154746ae9dc695200288e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _savedGUID: 2049622612
+  _savedGUID: 1571472890
   subtractMode: 0
   shape:
     snippet: {fileID: 11400000, guid: 045916f1e36134736b22929128c7a2fb, type: 2}
@@ -22122,7 +22184,7 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
   hash:
-    lastHash: -1865563441
+    lastHash: -1096104755
 --- !u!114 &1758907654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22135,7 +22197,7 @@ MonoBehaviour:
   m_Script: {fileID: -1971466593, guid: 1741f56c22154746ae9dc695200288e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _savedGUID: 2049622614
+  _savedGUID: 408673476
   modifier:
     snippet: {fileID: 11400000, guid: 1d59cc688da4246dc91462089f6802d5, type: 2}
     inputs:
@@ -23764,11 +23826,11 @@ MonoBehaviour:
   m_Script: {fileID: -895327080, guid: 1741f56c22154746ae9dc695200288e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _savedGUID: 2049623666
+  _savedGUID: 2593109814
   ShadowSharpness: 9.1
   ShadowSteps: 25
   hash:
-    lastHash: -1893123006
+    lastHash: -1614758528
 --- !u!108 &2069418017
 Light:
   m_ObjectHideFlags: 0
@@ -29736,6 +29798,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sensitivityX: 1
   sensitivityY: 1
+  controllerSensitivityX: 3
+  controllerSensitivityY: 3
   invertX: 0
   invertY: 0
   canControl: 1

@@ -2,17 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using InControl;
 
 //script allows you to press Space to trigger events 
-public class SpaceTo : MonoBehaviour {
+public class SpaceTo : MonoBehaviour 
+{
     public UnityEvent[] events;
     public bool activated;
+    private InputDevice inputDevice;
     
 	void Update ()
-    {
+    {   
+        inputDevice = InputManager.ActiveDevice;
+        
         if (!activated)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) || inputDevice.Action1.WasPressed)
             {
                 Activate();
             }

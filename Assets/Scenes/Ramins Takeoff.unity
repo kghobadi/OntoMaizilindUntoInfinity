@@ -7839,6 +7839,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sensitivityX: 1
   sensitivityY: 1
+  controllerSensitivityX: 3
+  controllerSensitivityY: 3
   invertX: 0
   invertY: 1
   canControl: 0
@@ -88675,12 +88677,12 @@ MonoBehaviour:
   m_Script: {fileID: -112464798, guid: 1741f56c22154746ae9dc695200288e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _savedGUID: 1143596921
+  _savedGUID: 68415539
   CompileShaderAutomatically: 1
   _savedActiveObjects:
   - {fileID: 545692374}
-  _lastShaderPath: Assets/Scenes/Shaders/Generated\_Ramins Takeoff_1143596921.generated.shader
-  _lastShader: {fileID: 4800000, guid: 36eb8dc73f0f902448ab310775a106c3, type: 3}
+  _lastShaderPath: Assets\Scenes/Shaders/Generated\_Ramins Takeoff_68415539.generated.shader
+  _lastShader: {fileID: 4800000, guid: 6e1329420212d7148b7e1e4b77554dd8, type: 3}
   Steps: 200
   AmbientColor: {r: 0.41176468, g: 0.3190419, b: 0.17863321, a: 1}
   Fog: 1
@@ -94630,7 +94632,7 @@ Transform:
   m_GameObject: {fileID: 1685180556}
   m_LocalRotation: {x: -0.00000035390235, y: 0.0000003394054, z: -0.00000041556825,
     w: 1}
-  m_LocalPosition: {x: -0.000016031407, y: 0.000013721675, z: -0.0000136621875}
+  m_LocalPosition: {x: -0.000016031916, y: 0.000013721675, z: -0.0000136621875}
   m_LocalScale: {x: 1, y: 1.0135, z: 1.0135007}
   m_Children:
   - {fileID: 668675137}
@@ -95319,6 +95321,8 @@ MonoBehaviour:
   controlsActive: 0
   movementFrozen: 0
   countingBullets: 0
+  keyboardLerp: 5
+  smoothTime: 0.5
   guns: []
   weaponsTimerL: 0
   firingIntervalL: 0.05
@@ -109103,7 +109107,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2045468874}
   m_LocalRotation: {x: 0.062144157, y: -0.0000006109476, z: 0.00000025704296, w: -0.99806726}
-  m_LocalPosition: {x: -0.000016031416, y: 76.27001, z: -165.82002}
+  m_LocalPosition: {x: -0.000016031925, y: 76.27001, z: -165.82002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -112479,6 +112483,7 @@ GameObject:
   - component: {fileID: 222118887471820113}
   - component: {fileID: 114847558584487963}
   - component: {fileID: 114636669454266651}
+  - component: {fileID: 1759411241389720}
   m_Layer: 12
   m_Name: Text
   m_TagString: Untagged
@@ -112486,6 +112491,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1759411241389720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759411241389719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 458437aaa8da41747845e3de895ae717, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  infoType: 0
+  controller: {fileID: 0}
+  mKeyboard: {fileID: 0}
+  controllerText: X to Fire Weapons
+  controllerTextFile: {fileID: 0}
+  mKeyboardText: Space to Fire Weapons
+  mKeyboardTextFile: {fileID: 0}
 --- !u!1 &1765131062555041
 GameObject:
   m_ObjectHideFlags: 0
@@ -116235,6 +116259,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sensitivityX: 1
   sensitivityY: 1
+  controllerSensitivityX: 3
+  controllerSensitivityY: 3
   invertX: 0
   invertY: 0
   canControl: 1
