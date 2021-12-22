@@ -21,6 +21,8 @@ public class PauseMenu : MonoBehaviour
 
     [Tooltip("Anything in this array will pause")]
     public AudioSource[] pauseAudio;
+    //temp list to store whatever gets paused. 
+    private List<AudioSource> pausedAudios = new List<AudioSource>();
 
     [Tooltip("Anything in this array will pause")]
     public VideoPlayer[] pauseVideos;
@@ -88,9 +90,9 @@ public class PauseMenu : MonoBehaviour
             }
 
             //audio
-            for (int i = 0; i < pauseAudio.Length; i++)
+            for (int i = 0; i < pausedAudios.Count; i++)
             {
-                pauseAudio[i].UnPause();
+                pausedAudios[i].UnPause();
             }
 
             //video
@@ -147,10 +149,17 @@ public class PauseMenu : MonoBehaviour
             wasTiming = false;
         }
 
-        //audio
+        //audio pausing
+        //clear list
+        pausedAudios.Clear();
         for(int i = 0; i < pauseAudio.Length; i++)
         {
-            pauseAudio[i].Pause();
+            //only pause it if its playing
+            if (pauseAudio[i].isPlaying)
+            {
+                pauseAudio[i].Pause();
+                pausedAudios.Add(pauseAudio[i]);
+            }
         }
         
         paused = true;

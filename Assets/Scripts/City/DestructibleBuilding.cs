@@ -97,7 +97,7 @@ public class DestructibleBuilding : MonoBehaviour {
         //US bombing 
         if(other.gameObject.tag == "Bomb")
         {
-            Debug.Log("ouch");
+            //Debug.Log("ouch");
             health--;
 
             if(health % healthMultiplier == 0)

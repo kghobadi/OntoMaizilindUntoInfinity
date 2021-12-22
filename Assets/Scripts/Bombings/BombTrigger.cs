@@ -26,7 +26,7 @@ public class BombTrigger : MonoBehaviour {
             if (bomber.bombing == false)
             {
                 bomber.DropBombs();
-                Debug.Log("triggering bombs");
+                //Debug.Log("triggering bombs");
 
                 //inc runs 
                 if (bomber.captain)

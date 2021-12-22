@@ -22,6 +22,7 @@ public class Interactive : AudioHandler
 	public MeshRenderer _meshRenderer;
 	public SkinnedMeshRenderer _SkinnedMeshRenderer;
 	public Sprite iCursorSprite;
+	public string interactMessage;
 	public Material activeMat;
 	public Material inactiveMat;
 	public AudioClip interactSound;
@@ -158,7 +159,7 @@ public class Interactive : AudioHandler
 		active = true;
 		
 		//cursor
-		iCursor.ActivateCursor(iCursorSprite);
+		iCursor.ActivateCursor(iCursorSprite, interactMessage);
 
 		//in case this object has clicker UI instructions
 		if (!hasClicked)

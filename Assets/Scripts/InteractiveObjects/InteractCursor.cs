@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,7 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 	private CanvasScaler canvasScaler;
 	private RectTransform m_rectTransform;
 	private Image imageHolder;
+	private TMP_Text interactText;
 	public bool active;
 
 	protected override void OnAwake()
@@ -41,6 +43,7 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 		canvasScaler = parentCanvas.GetComponent<CanvasScaler>();
 		m_rectTransform = GetComponent<RectTransform>();
 		imageHolder = GetComponent<Image>();
+		interactText = GetComponentInChildren<TMP_Text>();
 
 		init = true;
 	}
@@ -62,13 +65,26 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 		InteractRaycaster.onHitNothing -= Deactivate;
 	}
 
-	public void ActivateCursor(Sprite newSprite)
+	public void ActivateCursor(Sprite newSprite, string message)
 	{
 		Init();
 
+		//do we have a unique interact sprite?
 		if (newSprite != null)
 		{
 			imageHolder.sprite = newSprite;
+		}
+
+		//do we have a message?
+		if (string.IsNullOrEmpty(message) == false)
+		{
+			interactText.text = message;
+			interactText.enabled = true;
+		}
+		//no message, text disabled
+		else
+		{
+			interactText.enabled = false;
 		}
 			
 		imageHolder.enabled = true;
@@ -83,6 +99,7 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 		Init();
 		
 		imageHolder.enabled = false;
+		interactText.enabled = false;
 		active = false;
 	}
 }

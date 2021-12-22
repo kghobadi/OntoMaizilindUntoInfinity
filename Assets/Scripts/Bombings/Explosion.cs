@@ -35,14 +35,15 @@ public class Explosion : AudioHandler {
 
         //world man and add to list
         worldMan = FindObjectOfType<WorldManager>();
-        camSwitcher = FindObjectOfType<CameraSwitcher>();
+        camSwitcher = worldMan.GetComponent<CameraSwitcher>();
 
         //component refs
         explosionAudio = GetComponent<AudioSource>();
         explosionParts = GetComponent<ParticleSystem>();
     }
     
-    void Start () {
+    void Start () 
+    {
         //set particles 
         worldMan.explosionsToDelete.Add(gameObject);
         eMain = explosionParts.main;
@@ -117,7 +118,7 @@ public class Explosion : AudioHandler {
         //kill a human/
         if (other.gameObject.tag == "Human" )
         {
-            Debug.Log("human burnssss");
+            //Debug.Log("human burnssss");
 
             //if this is the human currently being played
             if (other.gameObject.GetComponent<FirstPersonController>().enabled)
@@ -133,7 +134,6 @@ public class Explosion : AudioHandler {
             {
                 //kill the human
                 KillHuman(other.gameObject);
-                //Destroy();
             }
         }
 

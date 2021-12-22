@@ -32,7 +32,7 @@ public class BombShelter : MonoBehaviour {
     private void Awake()
     {
         worldMan = FindObjectOfType<WorldManager>();
-        camSwitcher = FindObjectOfType<CameraSwitcher>();
+        camSwitcher =worldMan.GetComponent<CameraSwitcher>();
         camManager = FindObjectOfType<CameraManager>();
         advance = FindObjectOfType<AdvanceScene>();
         loadScene = FindObjectOfType<LoadSceneAsync>();
@@ -75,7 +75,7 @@ public class BombShelter : MonoBehaviour {
         }
     }
 
-    void SetAIPosition(CamObject person)
+    public void SetAIPosition(CamObject person)
     {
         //set navigation to random spot 
         int spotIndex = Random.Range(0, sittingPoints.Length);
@@ -155,7 +155,7 @@ public class BombShelter : MonoBehaviour {
         if (body)
         {
             //disable player char FPS
-            camSwitcher.currentCamObj.GetComponent<FirstPersonController>().enabled = false;
+            camSwitcher.currentCamObj.GetFPS().enabled = false;
         }
         else
         {

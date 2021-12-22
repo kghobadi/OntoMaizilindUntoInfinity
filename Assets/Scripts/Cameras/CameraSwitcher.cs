@@ -19,6 +19,7 @@ public class CameraSwitcher : MonoBehaviour
     public List<CamObject> cameraObjects = new List<CamObject>();
     public CamObject currentCamObj;
     public GameObject currentPlayer;
+    private GameObject origPlayer;
     public GameObject citizensParent;
     public GameObject bombers;
     public MovementPath toMosque;
@@ -45,6 +46,7 @@ public class CameraSwitcher : MonoBehaviour
     public HeavyBreathing breathing;
     public Explosion KillerExplosion;
     public bool killedParents;
+    public MovementPath findPlayer;
     
     void Awake()
     {
@@ -80,6 +82,7 @@ public class CameraSwitcher : MonoBehaviour
         
         //set current player obj at start
         currentPlayer = currentCamObj.gameObject;
+        origPlayer = currentPlayer;
 
         //no debug
         if (!debug)
@@ -269,20 +272,21 @@ public class CameraSwitcher : MonoBehaviour
         //turn on new cam obj
         if (cam.myCamType == CamObject.CamType.HUMAN)
         {
+            //if the game obj is disabled -- enable it.
             if(cam.gameObject.activeSelf == false)
                 cam.gameObject.SetActive(true);
             //turn off that persons NavMeshAgent
-            cam.GetComponent<NavMeshAgent>().enabled = false;
+            cam.GetNMA().enabled = false;
             //turn off that persons AI movement 
-            cam.GetComponent<Movement>().AIenabled = false;
+            cam.GetMovement().AIenabled = false;
             //set the body's parent to its camera
             cam.myBody.transform.SetParent(cam.camObj.transform);
             //set new cam
             camManager.Set(cam.camObj);
             //enable ground cam script
-            cam.camObj.GetComponent<GroundCamera>().enabled = true;
+            cam.GetGroundCam().enabled = true;
             //turn on that persons FPC
-            cam.GetComponent<FirstPersonController>().enabled = true;
+            cam.GetFPS().enabled = true;
         }
         else
         {
@@ -315,15 +319,15 @@ public class CameraSwitcher : MonoBehaviour
             //set the body's parent to the host game obj
             cam.myBody.transform.SetParent(cam.transform);
             //disable ground cam script
-            cam.camObj.GetComponent<GroundCamera>().enabled = false;
+            cam.GetGroundCam().enabled = false;
             //turn off that persons FPC
-            cam.GetComponent<FirstPersonController>().enabled = false;
+            cam.GetFPS().enabled = false;
             //turn on that persons NavMeshAgent  
-            cam.GetComponent<NavMeshAgent>().enabled = true;
+            cam.GetNMA().enabled = true;
             //turn on AI movement and reset movement 
-            cam.GetComponent<Movement>().AIenabled = true;
-            cam.GetComponent<Movement>().ResetMovement(cam.GetComponent<Movement>().startBehavior);
-            cam.GetComponent<Movement>().SetIdle();
+            cam.GetMovement().AIenabled = true;
+            cam.GetMovement().ResetMovement(cam.GetMovement().startBehavior);
+            cam.GetMovement().SetIdle();
         }
         else
         {
@@ -384,5 +388,66 @@ public class CameraSwitcher : MonoBehaviour
 
         //set bool
         killedParents = true;
+        
+        //set wait for new adult to pick you up
+        StartCoroutine(WaitForAdultToFindPlayer(7f));
+    }
+
+    /// <summary>
+    /// Returns the nearest NPC movement component to the current player. 
+    /// </summary>
+    /// <returns></returns>
+    public Movement FindNearestNpcToPlayer()
+    {
+        Movement npcNearest = null;
+        float smallestDist = Mathf.Infinity;
+
+        foreach (var npc in cameraObjects)
+        {
+            if (npc.myCamType == CamObject.CamType.HUMAN)
+            {
+                //get dist of npc cam obj from player. 
+                float dist = Vector3.Distance(currentPlayer.transform.position, npc.myBody.transform.position);
+                //this is the closest npc so far.
+                if (dist < smallestDist)
+                {
+                    npcNearest = npc.GetMovement();
+                    smallestDist = dist;
+                }
+            }
+        }
+        
+        return npcNearest;
+    }
+
+    /// <summary>
+    /// Waits before calling npc to find player. 
+    /// </summary>
+    /// <param name="wait"></param>
+    /// <returns></returns>
+    IEnumerator WaitForAdultToFindPlayer(float wait)
+    {
+        yield return new WaitForSeconds(wait);
+
+        Movement npcNearest = FindNearestNpcToPlayer();
+
+        if (npcNearest != null)
+        {
+            npcNearest.ResetMovement(findPlayer);
+        }
+        
+        yield return new WaitForSeconds(wait);
+
+        //if the original player can still move 
+        if (currentPlayer == origPlayer && currentCamObj.GetFPS().canMove)
+        {
+            //try to send another npc to pick you up
+            npcNearest = FindNearestNpcToPlayer();
+
+            if (npcNearest != null)
+            {
+                npcNearest.ResetMovement(findPlayer);
+            }
+        }
     }
 }
