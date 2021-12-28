@@ -24,6 +24,7 @@ public class ThePilot : AudioHandler {
     public bool movementFrozen;
     public bool countingBullets;
     public float keyboardLerp = 5f;
+    public float controllerLerp = 5f;
     public float smoothTime = 0.5f;
     InputDevice inputDevice;
 
@@ -66,6 +67,8 @@ public class ThePilot : AudioHandler {
         if (controlsActive)
         {
             MovementInputs();
+            
+            CheckAnimations();
 
             FireWeapons();
 
@@ -88,8 +91,6 @@ public class ThePilot : AudioHandler {
         {
             ApplyForces();
         }
-
-        CheckAnimations();
     }
 
     //resets min height 
@@ -122,7 +123,6 @@ public class ThePilot : AudioHandler {
     }
 
     private Coroutine camWait;
-    //TODO need to add waits for this transition so that the cockpit is not seen floating in the air, but rather only once the camera gets close enough to plane. 
     void SwitchViews(bool fpORzoom)
     {
         //first person
@@ -309,8 +309,25 @@ public class ThePilot : AudioHandler {
         //controller 
         if (inputDevice.DeviceClass == InputDeviceClass.Controller)
         {
-            horizontal = inputDevice.LeftStickX;
-            vertical = inputDevice.LeftStickY;
+            //apply lerp to horizontal input 
+            if (inputDevice.LeftStickX != 0)
+            {
+                horizontal = Mathf.Lerp(horizontal, inputDevice.LeftStickX, Time.deltaTime *  controllerLerp);
+            }
+            else
+            {
+                horizontal = Mathf.Lerp(horizontal, 0, controllerLerp);
+            }
+            
+            //apply lerp to vertical input 
+            if (inputDevice.LeftStickY)
+            {
+                vertical = Mathf.Lerp(vertical, inputDevice.LeftStickY, Time.deltaTime *  controllerLerp) ;
+            }
+            else
+            {
+                vertical = Mathf.Lerp(vertical, 0, controllerLerp);
+            }
         }
         //keyboard
         else
@@ -324,7 +341,7 @@ public class ThePilot : AudioHandler {
             }
             else
             {
-                horizontal = 0;
+                horizontal = Mathf.Lerp(horizontal, 0,  keyboardLerp);
             }
             
             //apply lerp when there is input 
@@ -334,7 +351,7 @@ public class ThePilot : AudioHandler {
             }
             else
             {
-                vertical = 0;
+                vertical = Mathf.Lerp(vertical, 0, keyboardLerp) ;
             }
         }
     }
@@ -408,23 +425,8 @@ public class ThePilot : AudioHandler {
 
     void CheckAnimations()
     {
-        //no input -- IDLE
-        if (vertical == 0 && horizontal == 0)
-        {
-            _Animations.SetAnimator("idle");
-        }
-
-        //must have controls active to animate in a direction
-        if (controlsActive)
-        {
-            //set animator floats for blend WASD
-            if (vertical != 0 || horizontal != 0)
-            {
-                _Animations.SetAnimator("moving");
-                _Animations.Animator.SetFloat("Move X", horizontal);
-                _Animations.Animator.SetFloat("Move Y", vertical);
-            }
-        }
+        _Animations.Animator.SetFloat("Move X", horizontal);
+        _Animations.Animator.SetFloat("Move Y", vertical);
     }
 
     public void SetZVelMax(float amount)

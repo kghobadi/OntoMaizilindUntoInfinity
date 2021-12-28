@@ -13,6 +13,7 @@ public class CamObject : MonoBehaviour
     public GameCamera camObj;
     public GameObject headset, myBody;
     public FadeUI shiftUI;
+    private Controller myController;
     private Movement myMover;
     private FirstPersonController myFPS;
     private GroundCamera myGroundCam;
@@ -21,6 +22,16 @@ public class CamObject : MonoBehaviour
     public enum CamType
     {
         HUMAN, BOMBER,
+    }
+    
+    public Controller GetController()
+    {
+        if (myController == null)
+        {
+            myController = GetComponent<Controller>();
+        }
+
+        return myController;
     }
 
     public Movement GetMovement()

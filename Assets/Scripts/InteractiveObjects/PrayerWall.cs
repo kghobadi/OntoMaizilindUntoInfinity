@@ -29,17 +29,18 @@ public class PrayerWall : Interactive
         //check FPS enabled
         if (camSwitcher.currentCamObj.GetFPS().enabled)
         {
-            //disable it and start prayer behavior. 
+            //set to idle anim
+            camSwitcher.currentCamObj.GetController().Animation.SetAnimator("idle");
+            //set to Prayer idle.
+            camSwitcher.currentCamObj.GetController().Animation.Animator.SetFloat("IdleType", 0.666667f);
+            //disable FPS
             camSwitcher.currentCamObj.GetFPS().enabled = false;
-            camSwitcher.currentCamObj.GetNMA().enabled = true;
-            //turn on AI movement and reset movement 
-            camSwitcher.currentCamObj.GetMovement().AIenabled = true;
-            //turn on AI to go pray 
-            bombShelter.SetAIPosition(camSwitcher.currentCamObj);
-            
-            SetInactive();
         }
+        
+        SetInactive();
     }
     //TODO need this to communicate better with BombShelter transition system. 
     // could also just move the camera a bit on the NPC so it looks less weird when they go to pray, but may need to fiddle with it a bit. 
+    
+    //another option would be that we could just Trigger the prayer animation while keeping control of the FPS.
 }

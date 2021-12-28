@@ -10,7 +10,6 @@ public class BombShelter : MonoBehaviour {
     CameraSwitcher camSwitcher;
     CameraManager camManager;
     AdvanceScene advance;
-    LoadSceneAsync loadScene;
 
     public Transform[] sittingPoints;
     public Transform[] spiritPoints;
@@ -32,10 +31,9 @@ public class BombShelter : MonoBehaviour {
     private void Awake()
     {
         worldMan = FindObjectOfType<WorldManager>();
-        camSwitcher =worldMan.GetComponent<CameraSwitcher>();
+        camSwitcher = worldMan.GetComponent<CameraSwitcher>();
         camManager = FindObjectOfType<CameraManager>();
         advance = FindObjectOfType<AdvanceScene>();
-        loadScene = FindObjectOfType<LoadSceneAsync>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -145,11 +143,17 @@ public class BombShelter : MonoBehaviour {
         camSwitcher.breathing.StopBreathing();
         camSwitcher.whiteNoise.Stop();
         //reset player step height incase
-        camSwitcher.currentCamObj.GetComponent<FirstPersonController>().ResetStepOffset();
+        camSwitcher.currentCamObj.GetFPS().ResetStepOffset();
     }
 
     IEnumerator WaitToTransition(float time)
     {
+        //begin async load. 
+        if (LoadSceneAsync.Instance != null)
+        {
+            LoadSceneAsync.Instance.Load();
+        }
+        
         yield return new WaitForSeconds(time);
 
         if (body)
@@ -174,8 +178,8 @@ public class BombShelter : MonoBehaviour {
         yield return new WaitForSeconds(10f);
 
         //finish async load 
-        if (loadScene.preparing)
-            loadScene.TransitionImmediate();
+        if (LoadSceneAsync.Instance.preparing)
+            LoadSceneAsync.Instance.TransitionImmediate();
         //load now
         else
             advance.LoadNextScene();
