@@ -177,13 +177,7 @@ public class Interactive : AudioHandler
 	protected virtual void SetInactive()
 	{
 		Init();
-		
-		//if I am the current Interact obj -- don't deactivate. 
-		if (InteractRaycaster.Instance.currentInteractObject == gameObject)
-		{
-			return;
-		}
-		
+
 		//unhighlight obj
 		if(_meshRenderer)
 			_meshRenderer.material = inactiveMat;

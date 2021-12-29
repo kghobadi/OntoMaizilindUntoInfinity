@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cameras;
+using Cinemachine;
 using NPC;
 using UnityEngine.AI;
 
@@ -17,6 +18,7 @@ public class CamObject : MonoBehaviour
     private Movement myMover;
     private FirstPersonController myFPS;
     private GroundCamera myGroundCam;
+    private CinemachineVirtualCamera myVirtualCam;
     private NavMeshAgent myNMA;
     
     public enum CamType
@@ -54,6 +56,16 @@ public class CamObject : MonoBehaviour
         return myFPS;
     }
 
+    public CinemachineVirtualCamera GetCinemachineCam()
+    {
+        if (myVirtualCam == null)
+        {
+            myVirtualCam = camObj.GetComponent<CinemachineVirtualCamera>();
+        }
+
+        return myVirtualCam;
+    }
+    
     public GroundCamera GetGroundCam()
     {
         if (myGroundCam == null)
@@ -63,6 +75,7 @@ public class CamObject : MonoBehaviour
 
         return myGroundCam;
     }
+    
     
     public NavMeshAgent GetNMA()
     {

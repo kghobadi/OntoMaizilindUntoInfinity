@@ -16,7 +16,7 @@ public class PrayerWall : Interactive
 
     protected override void SetActive()
     {
-        if (camSwitcher.currentCamObj.GetFPS().enabled)
+        if (camSwitcher.currentCamObj.GetFPS().enabled && (int)bombShelter.transitionState < 2)
         {
             base.SetActive();
         }
@@ -27,20 +27,24 @@ public class PrayerWall : Interactive
         base.Interact();
 
         //check FPS enabled
-        if (camSwitcher.currentCamObj.GetFPS().enabled)
+        if (camSwitcher.currentCamObj.GetFPS().enabled && (int)bombShelter.transitionState < 2)
         {
             //set to idle anim
             camSwitcher.currentCamObj.GetController().Animation.SetAnimator("idle");
             //set to Prayer idle.
             camSwitcher.currentCamObj.GetController().Animation.Animator.SetFloat("IdleType", 0.666667f);
-            //disable FPS
+            //disable FPS 
             camSwitcher.currentCamObj.GetFPS().enabled = false;
+            //set cam view -- currently we are seeing weird angles of the npc, want to move it a bit or change fov
+            camSwitcher.currentCamObj.GetCinemachineCam().m_Lens.FieldOfView = 80f;
+            //lock dist nec
+            distNecessary = 0f;
         }
         
+        //disable 
         SetInactive();
+        
+        //deactivate cursor
+        iCursor.Deactivate();
     }
-    //TODO need this to communicate better with BombShelter transition system. 
-    // could also just move the camera a bit on the NPC so it looks less weird when they go to pray, but may need to fiddle with it a bit. 
-    
-    //another option would be that we could just Trigger the prayer animation while keeping control of the FPS.
 }

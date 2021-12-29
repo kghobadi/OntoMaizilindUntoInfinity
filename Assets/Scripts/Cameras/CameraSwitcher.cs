@@ -120,7 +120,7 @@ public class CameraSwitcher : MonoBehaviour
                 bombers.SetActive(false);
 
             //transition directly too mosque 
-            if(mosque.projecting == false)
+            if((int)mosque.transitionState < 1)
                 mosque.BeginProjection(false);
         }
 

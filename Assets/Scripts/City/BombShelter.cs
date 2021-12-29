@@ -16,8 +16,15 @@ public class BombShelter : MonoBehaviour {
     public float sittingRadius = 25f;
     public NPC.MovementPath prayingBehavior;
 
-    [Header("Projection Transition")]
-    public bool projecting;
+    [Header("Projection Transition")] 
+    public TransitionStates transitionState;
+    public enum TransitionStates
+    {
+        INACTIVE = 0, 
+        PROJECTING = 1, 
+        VIEWING = 2,
+        AWAITING = 3,
+    }
     bool body;
     public GameObject projector;
     public VideoPlayer projection;
@@ -34,6 +41,9 @@ public class BombShelter : MonoBehaviour {
         camSwitcher = worldMan.GetComponent<CameraSwitcher>();
         camManager = FindObjectOfType<CameraManager>();
         advance = FindObjectOfType<AdvanceScene>();
+
+        //start state is inactive
+        transitionState = TransitionStates.INACTIVE;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -108,8 +118,8 @@ public class BombShelter : MonoBehaviour {
         //projector obj
         projector.SetActive(true);
 
-        //set bool
-        projecting = true;
+        //set state
+        transitionState = TransitionStates.PROJECTING;
 
         //start video
         projection.Play();
@@ -148,12 +158,6 @@ public class BombShelter : MonoBehaviour {
 
     IEnumerator WaitToTransition(float time)
     {
-        //begin async load. 
-        if (LoadSceneAsync.Instance != null)
-        {
-            LoadSceneAsync.Instance.Load();
-        }
-        
         yield return new WaitForSeconds(time);
 
         if (body)
@@ -169,19 +173,34 @@ public class BombShelter : MonoBehaviour {
 
         //shift from player cam to projection viewer 
         camManager.Set(projectionViewer);
+        //set state
+        transitionState = TransitionStates.VIEWING;
 
         yield return new WaitForSeconds(timeTilTransition * 2);
 
         //shift from player cam to transition viewer 
         camManager.Set(transitionViewer);
+        //set state
+        transitionState = TransitionStates.AWAITING;
+        
+        //begin async load. 
+        if (LoadSceneAsync.Instance != null)
+        {
+            LoadSceneAsync.Instance.Load();
+        }
 
         yield return new WaitForSeconds(10f);
 
         //finish async load 
-        if (LoadSceneAsync.Instance.preparing)
+        if (LoadSceneAsync.Instance != null)
+        {
             LoadSceneAsync.Instance.TransitionImmediate();
+        }
         //load now
         else
+        {
             advance.LoadNextScene();
+        }
+            
     }
 }
