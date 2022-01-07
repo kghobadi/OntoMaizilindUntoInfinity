@@ -6,16 +6,28 @@ using UnityEngine.Events;
 
 public class DeityManager : MonoBehaviour {
     public List<DeityHealth> deities = new List<DeityHealth>();
+    public DeityHealth[] firstLayerDeities;
+    public DeityHealth[] secondLayerDeities;
 
     public bool firstLayerDestroyed;
     public UnityEvent firstLayer;
     public bool secondLayerDestroyed;
     public UnityEvent secondLayer;
-    
-    private void Update()
+    public UnityEvent deityDied;
+
+    private void Start()
+    {
+        //add event listeners 
+        deityDied.AddListener(OnDeityDied);
+    }
+
+    /// <summary>
+    /// Every time a deity dies, detect if a layer was defeated.
+    /// </summary>
+    void OnDeityDied()
     {
         //first layer destroyed 
-        if(deities.Count < 5)
+        if(DetectDeitiesDestroyed(firstLayerDeities))
         {
             if(firstLayerDestroyed == false)
             {
@@ -25,7 +37,7 @@ public class DeityManager : MonoBehaviour {
         }
 
         //second layer destroyed
-        if (deities.Count < 2)
+        if(DetectDeitiesDestroyed(secondLayerDeities))
         {
             if (secondLayerDestroyed == false)
             {
@@ -33,6 +45,21 @@ public class DeityManager : MonoBehaviour {
                 secondLayerDestroyed = true;
             }
         }
+    }
+
+    public bool DetectDeitiesDestroyed(DeityHealth[] deityLayer)
+    {
+        foreach (var deity in deityLayer)
+        {
+            //if any of the deities in the layer are alive, return false.
+            if (deity.healthState == DeityHealth.HealthStates.ALIVE)
+            {
+                return false;
+            }
+        }
+
+        //if we made it thru the for loop, return true. 
+        return true;
     }
 
     public void FreezeDeities()

@@ -46,9 +46,10 @@ public class LerpMaterial : MonoBehaviour {
     Vector3 origScale;
 
     //for loading scene 
-    AdvanceScene advance;
+    private AdvanceScene advance;
+    private LoadSceneAsync loadSceneAsync;
     //halftone
-    HalftoneEffect halftone;
+    private HalftoneEffect halftone;
 
     [Header("Lerp Back and Forth")] 
     [Tooltip("Enables lerp back and forth between below value range")]
@@ -75,7 +76,6 @@ public class LerpMaterial : MonoBehaviour {
         }
 
         advance = FindObjectOfType<AdvanceScene>();
-
         halftone = GetComponent<HalftoneEffect>();
     }
 
@@ -181,7 +181,14 @@ public class LerpMaterial : MonoBehaviour {
                 //load
                 if (loadScene)
                 {
-                    advance.LoadNextScene();
+                    if (LoadSceneAsync.Instance != null)
+                    {
+                        LoadSceneAsync.Instance.TransitionImmediate();
+                    }
+                    else
+                    {
+                        advance.LoadNextScene();
+                    }
                 }
 
                 //stop lerping

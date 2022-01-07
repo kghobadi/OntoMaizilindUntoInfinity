@@ -23,7 +23,7 @@ public class TitleToRoom : MonoBehaviour {
     public MusicFader warAmbience;
     public Material niceSky;
     public LerpLighting sunLerp;
-    public GameObject quitMenu;
+    public MenuSelections quitMenu;
 
     //player
     [Header("Player/Room Refs")]
@@ -67,8 +67,10 @@ public class TitleToRoom : MonoBehaviour {
         var inputDevice = InputManager.ActiveDevice;
 
         //contiually make sure click will not go thru while quit menu open
-        if (quitMenu.activeSelf)
+        if (quitMenu.gameObject.activeSelf)
+        {
             ClickReset();
+        }
         
         //click inputs for advancing text --> game 
         if(canClick)
@@ -98,22 +100,15 @@ public class TitleToRoom : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 //open quit menu
-                if (quitMenu.activeSelf == false)
+                if (quitMenu.gameObject.activeSelf == false)
                 {
-                    quitMenu.SetActive(true);
-
-                    Cursor.lockState = CursorLockMode.Confined;
-
-                    Cursor.visible = true;
+                    quitMenu.gameObject.SetActive(true);
+                    quitMenu.ActivateMenu(true);
                 }
                 //close quit menu 
                 else
                 {
-                    quitMenu.SetActive(false);
-
-                    Cursor.lockState = CursorLockMode.Locked;
-
-                    Cursor.visible = false;
+                    quitMenu.DeactivateMenu(true);
                 }
 
                 ClickReset();

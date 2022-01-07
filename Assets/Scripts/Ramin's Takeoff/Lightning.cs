@@ -42,7 +42,7 @@ public class Lightning : AudioHandler {
 
     void Start ()
     {
-        lightningTimer = lightningFreq + Random.Range(-10, 10);
+        lightningTimer = lightningFreq + Random.Range(-10, 0);
     }
 	
 	void Update ()

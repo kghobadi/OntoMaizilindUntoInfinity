@@ -1,21 +1,11 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1996373475809988}
-  m_IsPrefabAsset: 1
 --- !u!1 &1996373475809988
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4639288305121186}
@@ -25,7 +15,6 @@ GameObject:
   - component: {fileID: 114223891172692152}
   - component: {fileID: 114961710161321112}
   - component: {fileID: 114804959988583828}
-  - component: {fileID: 114578452879493764}
   m_Layer: 0
   m_Name: WorldManager (Ramins Takeoff)
   m_TagString: WorldManager
@@ -35,9 +24,10 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4639288305121186
 Transform:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1996373475809988}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 41.624756, y: 227.42044, z: 179.72516}
@@ -46,11 +36,40 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114968575063689184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996373475809988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8780992a1a515954ca75b73a979a710f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionsToDelete: []
+--- !u!114 &114558918887623026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996373475809988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1d549f9805004d45ab1cbad77ac839f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeToRestart: 5
+  restartTimer: 0
+  debug: 0
 --- !u!114 &114184964779411528
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1996373475809988}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -68,9 +87,10 @@ MonoBehaviour:
   pressing: 0
 --- !u!114 &114223891172692152
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1996373475809988}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -82,65 +102,12 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
---- !u!114 &114558918887623026
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1996373475809988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1d549f9805004d45ab1cbad77ac839f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeToRestart: 5
-  restartTimer: 0
-  debug: 0
---- !u!114 &114578452879493764
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1996373475809988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 801d825589538b2449ec5fa57e14275f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  paused: 0
-  toggledPause:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  pauseMenu: {fileID: 0}
-  quitMenu: {fileID: 0}
-  restartMenu: {fileID: 0}
-  pauseAudio:
-  - {fileID: 0}
-  pauseVideos: []
---- !u!114 &114804959988583828
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1996373475809988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 947ee6088a7bac347af6049355fda610, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  smokePrefab: {fileID: 1979314067050386, guid: 430099940cce75245955973c78f8f11f,
-    type: 2}
-  deityExplosionPrefab: {fileID: 1149019820068336, guid: 812988f0f12f15a4f9a3ff174921b2a1,
-    type: 2}
-  bombPooler: {fileID: 0}
-  explosionPooler: {fileID: 0}
 --- !u!114 &114961710161321112
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1996373475809988}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -277,15 +244,21 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
---- !u!114 &114968575063689184
+--- !u!114 &114804959988583828
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1996373475809988}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8780992a1a515954ca75b73a979a710f, type: 3}
+  m_Script: {fileID: 11500000, guid: 947ee6088a7bac347af6049355fda610, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionsToDelete: []
+  smokePrefab: {fileID: 1979314067050386, guid: 430099940cce75245955973c78f8f11f,
+    type: 3}
+  deityExplosionPrefab: {fileID: 1149019820068336, guid: 812988f0f12f15a4f9a3ff174921b2a1,
+    type: 3}
+  bombPooler: {fileID: 0}
+  explosionPooler: {fileID: 0}

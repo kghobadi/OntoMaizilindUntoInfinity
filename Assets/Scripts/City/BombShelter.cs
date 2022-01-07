@@ -10,15 +10,21 @@ public class BombShelter : MonoBehaviour {
     CameraSwitcher camSwitcher;
     CameraManager camManager;
     AdvanceScene advance;
-    LoadSceneAsync loadScene;
 
     public Transform[] sittingPoints;
     public Transform[] spiritPoints;
     public float sittingRadius = 25f;
     public NPC.MovementPath prayingBehavior;
 
-    [Header("Projection Transition")]
-    public bool projecting;
+    [Header("Projection Transition")] 
+    public TransitionStates transitionState;
+    public enum TransitionStates
+    {
+        INACTIVE = 0, 
+        PROJECTING = 1, 
+        VIEWING = 2,
+        AWAITING = 3,
+    }
     bool body;
     public GameObject projector;
     public VideoPlayer projection;
@@ -32,10 +38,12 @@ public class BombShelter : MonoBehaviour {
     private void Awake()
     {
         worldMan = FindObjectOfType<WorldManager>();
-        camSwitcher = FindObjectOfType<CameraSwitcher>();
+        camSwitcher = worldMan.GetComponent<CameraSwitcher>();
         camManager = FindObjectOfType<CameraManager>();
         advance = FindObjectOfType<AdvanceScene>();
-        loadScene = FindObjectOfType<LoadSceneAsync>();
+
+        //start state is inactive
+        transitionState = TransitionStates.INACTIVE;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -75,7 +83,7 @@ public class BombShelter : MonoBehaviour {
         }
     }
 
-    void SetAIPosition(CamObject person)
+    public void SetAIPosition(CamObject person)
     {
         //set navigation to random spot 
         int spotIndex = Random.Range(0, sittingPoints.Length);
@@ -110,8 +118,8 @@ public class BombShelter : MonoBehaviour {
         //projector obj
         projector.SetActive(true);
 
-        //set bool
-        projecting = true;
+        //set state
+        transitionState = TransitionStates.PROJECTING;
 
         //start video
         projection.Play();
@@ -145,7 +153,7 @@ public class BombShelter : MonoBehaviour {
         camSwitcher.breathing.StopBreathing();
         camSwitcher.whiteNoise.Stop();
         //reset player step height incase
-        camSwitcher.currentCamObj.GetComponent<FirstPersonController>().ResetStepOffset();
+        camSwitcher.currentCamObj.GetFPS().ResetStepOffset();
     }
 
     IEnumerator WaitToTransition(float time)
@@ -155,7 +163,7 @@ public class BombShelter : MonoBehaviour {
         if (body)
         {
             //disable player char FPS
-            camSwitcher.currentCamObj.GetComponent<FirstPersonController>().enabled = false;
+            camSwitcher.currentCamObj.GetFPS().enabled = false;
         }
         else
         {
@@ -165,19 +173,34 @@ public class BombShelter : MonoBehaviour {
 
         //shift from player cam to projection viewer 
         camManager.Set(projectionViewer);
+        //set state
+        transitionState = TransitionStates.VIEWING;
 
         yield return new WaitForSeconds(timeTilTransition * 2);
 
         //shift from player cam to transition viewer 
         camManager.Set(transitionViewer);
+        //set state
+        transitionState = TransitionStates.AWAITING;
+        
+        //begin async load. 
+        if (LoadSceneAsync.Instance != null)
+        {
+            LoadSceneAsync.Instance.Load();
+        }
 
         yield return new WaitForSeconds(10f);
 
         //finish async load 
-        if (loadScene.preparing)
-            loadScene.TransitionImmediate();
+        if (LoadSceneAsync.Instance != null)
+        {
+            LoadSceneAsync.Instance.TransitionImmediate();
+        }
         //load now
         else
+        {
             advance.LoadNextScene();
+        }
+            
     }
 }

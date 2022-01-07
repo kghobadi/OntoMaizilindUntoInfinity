@@ -6,12 +6,14 @@ using UnityEngine.UI;
 
 /// <summary>
 /// Controls behavior (movement) of main canvas readers.
+/// TODO could build a UIBase from this script and create coroutines for running the screen adjustment & other visual methods run in Update from RenderExtensions.cs 
 /// </summary>
 public class ScreenReader : MonoBehaviour
 {
 	private Camera mainCam;
 	private TMP_Text m_text;
 	private RectTransform m_rectTransform;
+	private Canvas parentCanvas;
 	private RectTransform canvasRect;
 	private Image m_Image;
 	private Transform m_speaker;
@@ -23,10 +25,6 @@ public class ScreenReader : MonoBehaviour
 	[Tooltip("Offset to image behind text")]
 	public float sideOffset = 25f;
 
-	[Tooltip("For adjusting the reader within screen bounds")]
-	public Vector2 screenBoundsX = new Vector2(-400, 400);
-	public Vector2 screenBoundsY = new Vector2(-175, 175);
-	
 	public MonologueReader monoReader;
 	public bool active;
 	private bool init;
@@ -42,7 +40,8 @@ public class ScreenReader : MonoBehaviour
 		m_text = GetComponentInChildren<TMP_Text>();
 		m_Image = GetComponent<Image>();
 		m_rectTransform = GetComponent<RectTransform>();
-		canvasRect = transform.parent.parent.GetComponent<RectTransform>();
+		parentCanvas = GetComponentInParent<Canvas>();
+		canvasRect = parentCanvas.GetComponent<RectTransform>();
 		Debug.Log(transform.parent.parent.name);
 		mainCam = Camera.main;
 
@@ -60,7 +59,8 @@ public class ScreenReader : MonoBehaviour
 		Init();
 		
 		m_text.text = mono;
-		ChangeWidthOfObject();
+		
+		RendererExtensions.ChangeWidthOfObject(m_rectTransform, m_text, maxWidth, sideOffset);
 	}
 	
 	public void Activate()
@@ -87,57 +87,10 @@ public class ScreenReader : MonoBehaviour
 	{
 		if (active)
 		{
-			AdjustScreenPosition();
+		  	RendererExtensions.AdjustScreenPosition(m_speaker.position, mainCam, canvasRect, m_rectTransform);
 			
-			AdjustScale();
+			RendererExtensions.AdjustScale();	
 		}	
-	}
-
-	/// <summary>
-	/// Move towards the closest point where to portray the location of the character which is speaking in world space. Stay on Screen. 
-	/// </summary>
-	public void AdjustScreenPosition()
-	{
-		//then you calculate the position of the UI element
-		//0,0 for the canvas is at the center of the screen, whereas WorldToViewPortPoint treats the lower left corner as 0,0.
-		//Because of this, you need to subtract the height / width of the canvas * 0.5 to get the correct position.
-		Vector2 ViewportPosition =mainCam.WorldToViewportPoint(m_speaker.position);
-		Vector2 screenPos = new Vector2(
-			((ViewportPosition.x*canvasRect.sizeDelta.x)-(canvasRect.sizeDelta.x*0.5f)),
-			((ViewportPosition.y*canvasRect.sizeDelta.y)-(canvasRect.sizeDelta.y*0.5f)));
-
-		//get current width 
-		float currentWidth = m_rectTransform.sizeDelta.x + sideOffset;
-		//change x min/max based on current width
-		float xMin = screenBoundsX.x + (currentWidth / 2);
-		float xMax = screenBoundsX.y - (currentWidth / 2);
-		//check screen bounds X min
-		if (screenPos.x < xMin)
-			screenPos = new Vector2(xMin, screenPos.y); 
-		//check screen bounds X max
-		if(screenPos.x > xMax)
-			screenPos = new Vector2(xMax, screenPos.y); 
-		//check screen bounds Y min
-		if (screenPos.y < screenBoundsY.x)
-			screenPos = new Vector2(screenPos.x, screenBoundsY.x); 
-		//check screen bounds Y max
-		if (screenPos.y > screenBoundsY.y)
-			screenPos = new Vector2(screenPos.x, screenBoundsY.y); 
-		
-		//now you can set the position of the ui element
-		m_rectTransform.anchoredPosition = screenPos;
-		//Debug.Log("Adjusting pos to " + screenPos);
-	}
-
-	/// <summary>
-	/// Adjusts scale of the screen reader depending on how player's distance from the character who is speaking. 
-	/// </summary>
-	public void AdjustScale()
-	{
-		//get distance between speaker and player
-		//float dist = Vector3.Distance(m_speaker.position, )
-		
-		//adjust scale...
 	}
 
 	/// <summary>
@@ -146,23 +99,5 @@ public class ScreenReader : MonoBehaviour
 	public void ShowFace()
 	{
 		
-	}
-
-	private float width;
-	private void ChangeWidthOfObject()
-	{
-		width = m_text.preferredWidth + iconAdjust;
-		//set to width if it is less than max
-		if (width < maxWidth)
-		{
-			m_rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width + sideOffset);
-			m_text.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
-		}
-		//set to max width 
-		else
-		{
-			m_rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxWidth + sideOffset);
-			m_text.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxWidth);
-		}
 	}
 }

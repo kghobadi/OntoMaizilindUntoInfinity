@@ -34,6 +34,8 @@ public class CloudGenerator : MonoBehaviour
     [Tooltip("Lowest Height on Y axis to spawn")]
     public float minHeight = 250f;
 
+    public float scaleMin = 0.5f, scaleMax = 2f;
+
     void Awake()
     {
         //random y
@@ -82,7 +84,7 @@ public class CloudGenerator : MonoBehaviour
         cloudClone.GetComponent<Cloud>()._cloudGen = this;
 
         //randomize cloud scale 
-        float randomScale = Random.Range(0.5f, 2f);
+        float randomScale = Random.Range(scaleMin, scaleMax);
         cloudClone.transform.localScale *= randomScale;
     }
 

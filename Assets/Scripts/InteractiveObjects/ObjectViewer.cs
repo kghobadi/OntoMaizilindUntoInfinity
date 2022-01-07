@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using InControl;
 
 /// <summary>
 /// Controls behavior of viewing an object up close.
@@ -10,6 +11,7 @@ using UnityEngine;
 /// </summary>
 public class ObjectViewer : AudioHandler
 {
+	private InputDevice inputDevice;
 	private CameraSwitcher camSwitcher;
 	[Header("Object Viewing")]
 	public ViewObject currentViewObj;
@@ -19,8 +21,10 @@ public class ObjectViewer : AudioHandler
 	private int mainCullingMask;
 	public GameObject[] viewObjectSetup;
 	private bool couldMove;
-	public float mouseRotSpeedX = 1f;
-	public float mouseRotSpeedY = 1f;
+	public float mouseRotSpeedX = 30f;
+	public float mouseRotSpeedY = 30f;
+	public float controllerRotSpeedX = 50f;
+	public float controllerRotSpeedY = 50f;
 	
 	public float objectTextOffset = 0.75f;
 	public TMP_Text objectDescription;
@@ -111,10 +115,13 @@ public class ObjectViewer : AudioHandler
 		//do we have a view obj
 		if (viewing)
 		{
-			MouseRotateObject();
+			//get input device 
+			inputDevice = InputManager.ActiveDevice;
 			
-			// right click to stop viewing
-			if ( Input.GetMouseButtonDown(1))
+			RotateObject();
+			
+			// right click to stop viewing or circle button
+			if ( Input.GetMouseButtonDown(1) || inputDevice.Action2.WasPressed)
 			{
 				StopViewing();
 			}
@@ -122,14 +129,30 @@ public class ObjectViewer : AudioHandler
 	}
 
 	//this allows user to rotate object on X | and Y --
-	void MouseRotateObject()
+	void RotateObject()
 	{
 		//get input
-		float inputX = Input.GetAxis("Mouse X");
-		float inputY = Input.GetAxis("Mouse Y");
-		
-		//rotate
-		currentViewObj.transform.Rotate(-inputY * mouseRotSpeedX * Time.deltaTime, inputX * mouseRotSpeedY * Time.deltaTime, 0);
+		float inputX;
+		float inputY;
+
+		//controller
+		if (inputDevice.DeviceClass == InputDeviceClass.Controller)
+		{
+			inputX = inputDevice.RightStickX;
+			inputY = inputDevice.RightStickY;
+			
+			//rotate
+			currentViewObj.transform.Rotate(-inputY * mouseRotSpeedX * Time.deltaTime, inputX * mouseRotSpeedY * Time.deltaTime, 0);
+		}
+		//mouse
+		else
+		{
+			inputX = Input.GetAxis("Mouse X");
+			inputY = Input.GetAxis("Mouse Y");
+			
+			//rotate
+			currentViewObj.transform.Rotate(-inputY * controllerRotSpeedX * Time.deltaTime, inputX * controllerRotSpeedY * Time.deltaTime, 0);
+		}
 	}
 
 	//turn off object viewer and return obj to its original place. 

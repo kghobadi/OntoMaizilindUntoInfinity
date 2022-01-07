@@ -100,6 +100,8 @@ public class DeityHealth : MonoBehaviour {
         deity.mover.MoveTo(crashPoint, fallSpeed);
         //change health state
         healthState = HealthStates.FALLING;
+        //invoke deity died event. 
+        deityMan.deityDied.Invoke();
         //remove from deity list 
         deityMan.deities.Remove(this);
         //stop strafing
@@ -127,12 +129,6 @@ public class DeityHealth : MonoBehaviour {
         exploded.Play();
         healthState = HealthStates.CRASHED;
         deity.SetCrash();
-    }
-    
-    //releases tendrils that cause hallucination once they reach the pilot
-    void ReleaseSpiritTendrils()
-    {
-        
     }
 
     //finds point below deity to move to 

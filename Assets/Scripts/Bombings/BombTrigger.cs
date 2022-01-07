@@ -26,7 +26,7 @@ public class BombTrigger : MonoBehaviour {
             if (bomber.bombing == false)
             {
                 bomber.DropBombs();
-                Debug.Log("triggering bombs");
+                //Debug.Log("triggering bombs");
 
                 //inc runs 
                 if (bomber.captain)
@@ -40,7 +40,7 @@ public class BombTrigger : MonoBehaviour {
                     }
 
                     //should we kill the player? only if player is NOT the planes  && not entered mosque yet
-                    if(bombingRuns % killPlayerFreq == 0 && camSwitcher.GetCurrentCamIndex() != 0 && !bombShelter.projecting && camSwitcher.killedParents)
+                    if(bombingRuns % killPlayerFreq == 0 && camSwitcher.GetCurrentCamIndex() != 0 && (int)bombShelter.transitionState < 1 && camSwitcher.killedParents)
                     {
                         //bomber.KillPlayer();
                     }

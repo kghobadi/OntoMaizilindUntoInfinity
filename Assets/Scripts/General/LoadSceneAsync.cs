@@ -3,8 +3,9 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LoadSceneAsync : MonoBehaviour
+public class LoadSceneAsync : NonInstantiatingSingleton<LoadSceneAsync>
 {
+    protected override LoadSceneAsync GetInstance () { return this; }
     [Tooltip("Check this if you are certain the scene to be loaded is next in the build order")]
     public bool loadsNextScene;
     [Tooltip("Write the name of the scene")]
@@ -33,7 +34,6 @@ public class LoadSceneAsync : MonoBehaviour
         //Start loading the Scene asynchronously and output the progress bar
         StartCoroutine(LoadScene());
     }
-    
 
     IEnumerator LoadScene()
     {
@@ -63,9 +63,10 @@ public class LoadSceneAsync : MonoBehaviour
             // Check if the load has finished
             if (asyncOperation.progress >= 0.9f)
             {
-                Debug.Log("ready to load " + sceneToLoad + "!");
+                //Debug.Log("ready to load " + sceneToLoad + "!");
                 if (transition)
                 {
+                    Debug.Log("Allowing Async load now!");
                     //Activate the Scene
                     asyncOperation.allowSceneActivation = true;
                 }

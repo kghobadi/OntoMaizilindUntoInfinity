@@ -19,7 +19,7 @@ public abstract class AudioHandler : MonoBehaviour
 
         if (myAudioSource == null)
         {
-            Debug.Log(gameObject.name + " needs an AudioSource");
+            //Debug.Log(gameObject.name + " needs an AudioSource");
         }
     }
 
