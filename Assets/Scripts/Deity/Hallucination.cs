@@ -112,12 +112,8 @@ public class Hallucination : MonoBehaviour
 		{
 			events[i].Invoke();
 		}
-
-		//set camera
-		if(cameraPos)
-			renderCam.transform.position = cameraPos.position;
-		if(camLookAt)
-			renderCam.transform.LookAt(camLookAt);
+		
+		//set up halluc camera with player parent 
 		if (playerToParent)
 		{
 			//parent
@@ -129,6 +125,12 @@ public class Hallucination : MonoBehaviour
 			//disable pilot cam 
 			pilotCam.isActive = false;
 		}
+		
+		//set camera TODO may need more ways to orient camera at the beginning
+		if(cameraPos)
+			renderCam.transform.position = cameraPos.position;
+		if(camLookAt)
+			renderCam.transform.LookAt(camLookAt);
 
 		//fade in
 		imageFade.FadeIn();
