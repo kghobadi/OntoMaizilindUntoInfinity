@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
+using EventSinks;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Events;
 
 /// <summary>
 /// Manages the presentation of speech bubbles and the text they contain.
@@ -45,6 +48,30 @@ public class SpeechBubbleController : MonoBehaviour
     /// </summary>
     public bool IsRunningOptions { get; private set; }
 
+    //Event sinks
+    public UnityEvent onCloseBubble;
+    public UnityEvent onOpenComplete;
+    private void Awake()
+    {
+        //create event sinks
+        onCloseBubble = EventMgr.Instance.CreateOrGetEventSink(EventSinks.Dialogue.OnCloseBubble);
+        onOpenComplete = EventMgr.Instance.CreateOrGetEventSink(EventSinks.Dialogue.OnOpenComplete);
+    }
+
+    private void OnEnable()
+    {
+        //subscribe to events
+        EventMgr.Instance.Subscribe(EventSinks.Dialogue.OnCloseBubble, OnCloseComplete);
+        EventMgr.Instance.Subscribe(EventSinks.Dialogue.OnOpenComplete, OnOpenComplete);
+    }
+
+    private void OnDisable()
+    {
+        //unsubscribe to events
+        EventMgr.Instance?.Unsubscribe(EventSinks.Dialogue.OnCloseBubble, OnCloseComplete);
+        EventMgr.Instance?.Unsubscribe(EventSinks.Dialogue.OnOpenComplete, OnOpenComplete);
+    }
+
     public void ClearOptions()
     {
         if (currentBubble != null)
@@ -57,21 +84,19 @@ public class SpeechBubbleController : MonoBehaviour
     {
         currentBubble.TextMesh.text = "";
 
-        currentBubble.TweenClose(SpeechBubbleParameters.bubbleCloseTime, SpeechBubbleParameters.tailCloseTime, SpeechBubbleParameters.tweenFPS, SpeechBubbleParameters.closeEase, () =>
+        currentBubble.TweenClose(SpeechBubbleParameters.bubbleCloseTime, SpeechBubbleParameters.tailCloseTime,
+            SpeechBubbleParameters.tweenFPS, SpeechBubbleParameters.closeEase, onCloseBubble);
+    }
+
+    void OnCloseComplete()
+    {
+        if (currentBubble != null)
         {
-            if (currentBubble != null)
-            {
-                Destroy(currentBubble.gameObject);
-            }
+            Destroy(currentBubble.gameObject);
+        }
 
-            currentBubble = null;
-            currentSpeaker = null;
-
-            if (onClosed != null)
-                {
-                onClosed.Invoke();
-                }
-        });
+        currentBubble = null;
+        currentSpeaker = null;
     }
 
     /// <summary>
@@ -206,10 +231,8 @@ public class SpeechBubbleController : MonoBehaviour
         {
             // A bubble is active, and it's from a different speaker than
             // what we want to show. Close it, and then create a new one.
-            CloseBubble(() =>
-            {
-                ShowBubble(speaker, text, bubbleOffset, tailTipOffset, optionCount, selectedOption, onComplete);
-            });
+            CloseBubble();
+            ShowBubble(speaker, text, bubbleOffset, tailTipOffset, optionCount, selectedOption, onComplete);
             return;
         }
 
@@ -248,11 +271,11 @@ public class SpeechBubbleController : MonoBehaviour
         {
             if (SpeechBubbleParameters.hasTail)
             {
-                currentBubble.TweenOpen(size, SpeechBubbleParameters.bubbleOpenTime, SpeechBubbleParameters.tailOpenTime, SpeechBubbleParameters.tweenFPS, SpeechBubbleParameters.openEase, OnOpenComplete);
+                currentBubble.TweenOpen(size, SpeechBubbleParameters.bubbleOpenTime, SpeechBubbleParameters.tailOpenTime, SpeechBubbleParameters.tweenFPS, SpeechBubbleParameters.openEase, onOpenComplete);
             }
             else
             {
-                currentBubble.TweenOpen(size, SpeechBubbleParameters.bubbleOpenTime, SpeechBubbleParameters.tweenFPS, SpeechBubbleParameters.openEase, OnOpenComplete);
+                currentBubble.TweenOpen(size, SpeechBubbleParameters.bubbleOpenTime, SpeechBubbleParameters.tweenFPS, SpeechBubbleParameters.openEase, onOpenComplete);
             }
         }
         else
@@ -263,28 +286,39 @@ public class SpeechBubbleController : MonoBehaviour
                 currentBubble.DisableChoiceUI();
             }
 
-            currentBubble.TweenSize(size, SpeechBubbleParameters.baseTweenTime, SpeechBubbleParameters.tweenFPS, SpeechBubbleParameters.baseTweenEase, OnOpenComplete);
+            currentBubble.TweenSize(size, SpeechBubbleParameters.baseTweenTime, SpeechBubbleParameters.tweenFPS, SpeechBubbleParameters.baseTweenEase, onOpenComplete);
         }
+        
+        //set open complete vars
+        cOptionCount = optionCount;
+        cSelectedOption = selectedOption;
+        messageText = text;
+        OnComplete = onComplete;
+    }
 
-        void OnOpenComplete()
+    //Variables for on open complete
+    private int cOptionCount;
+    private int cSelectedOption;
+    private string messageText;
+    private Action OnComplete;
+    
+
+    ///<summary>
+    // After a bubble has finished opening or changing size, display the options UI if needed, and begin the typewriter effect.
+    /// </summary>
+    void OnOpenComplete()
+    {
+        if (cOptionCount < 1)
         {
-            // After a bubble has finished opening or changing size,
-            // display the options UI if needed, and begin the typewriter
-            // effect.
-
-            if (optionCount < 1)
-            {
-                currentBubble.DisableChoiceUI();
-            }
-            else
-            {
-                currentBubble.EnableChoiceUI(optionCount);
-                currentBubble.ActivatePip(selectedOption);
-            }
-
-            currentBubble.ShowTypewriterEffect(text, SpeechBubbleParameters.charactersPerSecond, onComplete);
+            currentBubble.DisableChoiceUI();
+        }
+        else
+        {
+            currentBubble.EnableChoiceUI(cOptionCount);
+            currentBubble.ActivatePip(cSelectedOption);
         }
 
+        currentBubble.ShowTypewriterEffect(messageText, SpeechBubbleParameters.charactersPerSecond, OnComplete);
     }
 
     private void GetPositions(Transform speaker, Vector2 bubbleOffset, Vector2 tailTipOffset, out Vector2 bubblePosition, out Vector2 tailTipPosition)

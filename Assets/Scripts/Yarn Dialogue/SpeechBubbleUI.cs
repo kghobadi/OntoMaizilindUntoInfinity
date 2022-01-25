@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
+using UnityEngine.Events;
 
 [Serializable]
 public struct TailPoints {
@@ -95,7 +96,7 @@ public class SpeechBubbleUI : MonoBehaviour
     //// Visuals
 
     // Performs opening-specific animations w/o tail
-    public void TweenOpen(Vector2 toSize, float time, int fps, Ease openEase, Delegate onOpenComplete){
+    public void TweenOpen(Vector2 toSize, float time, int fps, Ease openEase, UnityEvent onOpenComplete){
         // Reset tween sequence
         tweenSequence = DOTween.Sequence(); 
 
@@ -104,7 +105,7 @@ public class SpeechBubbleUI : MonoBehaviour
 
     // Performs opening-specific animations
     // TODO: use tail size param
-    public void TweenOpen(Vector2 toSize, float bubbleTime, float tailTime, int fps, Ease openEase, Delegate onOpenComplete){
+    public void TweenOpen(Vector2 toSize, float bubbleTime, float tailTime, int fps, Ease openEase, UnityEvent onOpenComplete){
         // Hide bubble while tail animates
         bubbleRect.gameObject.SetActive(false);
 
@@ -128,7 +129,7 @@ public class SpeechBubbleUI : MonoBehaviour
     }
 
     // Performs closing-specific animations
-    public void TweenClose(float bubbleTime, float tailTime, int fps, Ease closeEase, Delegate onCloseComplete, Delegate onTailComplete = null){
+    public void TweenClose(float bubbleTime, float tailTime, int fps, Ease closeEase, UnityEvent onCloseComplete, UnityEvent onTailComplete = null){
 
         // If we're in the middle of a typewriter effect, stop it now
         if (currentTypewriterEffect != null) {
@@ -157,14 +158,14 @@ public class SpeechBubbleUI : MonoBehaviour
     }
 
     // Tweens bubble size, 'from' -> 'to'
-    private void TweenSize(Vector2 to, Vector2 from, float time, int fps, Ease ease, Delegate onTweenComplete){
+    private void TweenSize(Vector2 to, Vector2 from, float time, int fps, Ease ease, UnityEvent onTweenComplete){
         bubbleRect.sizeDelta = from;
 
         TweenSize(to, time, fps, ease, onTweenComplete);
     }
 
     // Tweens bubble size, current size -> 'to'
-    public void TweenSize(Vector2 to, float time, int fps, Ease ease, Delegate onTweenComplete, Delegate onTailComplete = null){
+    public void TweenSize(Vector2 to, float time, int fps, Ease ease, UnityEvent onTweenComplete, UnityEvent onTailComplete = null){
         // TODO?: use size-diff modifier to make tween more visually consistent? (cover similar size per timeframe)
         // float speedMod = Mathf.Abs(to.sqrMagnitude / bubbleRect.sizeDelta.sqrMagnitude) * tweenSizeDiffMod;
         // ??????????
@@ -175,8 +176,8 @@ public class SpeechBubbleUI : MonoBehaviour
             bubbleRect.DOSizeDelta(to, time)
             .SetEase(EaseFactory.StopMotion(fps, ease))
             .OnStart(() => {if(currentPips?.Length > 0) EnableChoiceUI(currentPips.Length);})
-            .OnUpdate(() => ResizeVisuals())
-            .OnComplete(()=> onTweenComplete())
+            .OnUpdate(ResizeVisuals)
+            .OnComplete(onTweenComplete.Invoke)
         );
         // TODO?: set tween complete delegate call at apex of out-back ease, if possible (how does this work w/ big->small tweens??)
     }
@@ -359,9 +360,9 @@ public class SpeechBubbleUI : MonoBehaviour
             TextMesh.maxVisibleCharacters = characterCount;
             currentTypewriterEffect = null;
             if (onComplete != null)
-                {
+            {
                 onComplete.Invoke();
-                }
+            }
             yield break;
         }
 
@@ -400,8 +401,8 @@ public class SpeechBubbleUI : MonoBehaviour
 
         // Wrap up by invoking our completion handler.
         if (onComplete != null)
-            {
+        {
             onComplete.Invoke();
-            }
         }
+    }
 }
