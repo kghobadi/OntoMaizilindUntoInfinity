@@ -30,6 +30,7 @@ public class Hallucination : MonoBehaviour
 	public Transform camLookAt;
 	public Transform playerToParent;
 	public Vector3 camLocalPos;
+	[Tooltip("The Hallucination view raw image")]
 	public FadeUI imageFade;
 
 	[Header("Monologues")] 
@@ -93,8 +94,12 @@ public class Hallucination : MonoBehaviour
 		pilot.DisableControls();
 		//freeze movements
 		pilot.FreezeMovement();
-		deityMan.FreezeDeities();
-
+		//deity freeze
+		if (deityMan != null)
+		{
+			deityMan.FreezeDeities();
+		}
+		
 		//enable hallucination objects
 		for (int i = 0; i < hallucObjects.Length; i++)
 		{
@@ -168,7 +173,12 @@ public class Hallucination : MonoBehaviour
 		pilot.EnableControls();
 		//resume movements
 		pilot.ResumeMovement();
-		deityMan.ResumeDeities();
+
+		//deity resume
+		if (deityMan != null)
+		{
+			deityMan.ResumeDeities();
+		}
 		
 		//fade out
 		imageFade.FadeOut();
