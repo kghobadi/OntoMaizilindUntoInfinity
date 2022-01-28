@@ -274,8 +274,8 @@ namespace EventSinks
         public static readonly EventSinkName OnEnd = "Dialogue/OnDialogueEnd";
         public static readonly EventSinkName OnAdvance = "Dialogue/DialogueAdvanceEvent";
         public static readonly EventSinkName OnBack = "Dialogue/DialogueBackEvent";
-        public static readonly EventSinkName NextChoice = "Dialogue/DialogueNextChoiceEvent";
-        public static readonly EventSinkName PrevChoice = "Dialogue/DialoguePrevChoiceEvent";
+        public static readonly EventSinkName OnFirstChoice = "Dialogue/OnFirstChoice";
+        public static readonly EventSinkName OnSecondChoice = "Dialogue/OnSecondChoice";
         public static readonly EventSinkName<string> PlayDialogue = "Dialogue/PlayDialogueEventString";
         public static readonly EventSinkName OnCloseBubble = "Dialogue/OnCloseBubble";
         public static readonly EventSinkName OnOpenComplete = "Dialogue/OnOpenComplete";

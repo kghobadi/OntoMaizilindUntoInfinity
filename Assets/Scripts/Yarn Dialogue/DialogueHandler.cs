@@ -51,16 +51,16 @@ public class DialogueHandler: DialogueViewBase
     {
         EventMgr.Instance.Subscribe<string>(EventSinks.Dialogue.PlayDialogue, OnPlayDialogue);
         EventMgr.Instance.Subscribe(EventSinks.Dialogue.OnAdvance, OnAdvance);
-        EventMgr.Instance.Subscribe(EventSinks.Dialogue.NextChoice, OnNextChoice);
-        EventMgr.Instance.Subscribe(EventSinks.Dialogue.PrevChoice, OnPrevChoice);
+        EventMgr.Instance.Subscribe(EventSinks.Dialogue.OnSecondChoice, OnNextChoice);
+        EventMgr.Instance.Subscribe(EventSinks.Dialogue.OnFirstChoice, OnPrevChoice);
     }
 
     private void OnDisable ()
     {
         EventMgr.Instance?.Unsubscribe<string>(EventSinks.Dialogue.PlayDialogue, OnPlayDialogue);
         EventMgr.Instance?.Unsubscribe(EventSinks.Dialogue.OnAdvance, OnAdvance);
-        EventMgr.Instance?.Unsubscribe(EventSinks.Dialogue.NextChoice, OnNextChoice);
-        EventMgr.Instance?.Unsubscribe(EventSinks.Dialogue.PrevChoice, OnPrevChoice);
+        EventMgr.Instance?.Unsubscribe(EventSinks.Dialogue.OnSecondChoice, OnNextChoice);
+        EventMgr.Instance?.Unsubscribe(EventSinks.Dialogue.OnFirstChoice, OnPrevChoice);
     }
 
     private void OnAdvance ()
