@@ -30,7 +30,10 @@ public class Hallucination : MonoBehaviour
 	public Transform camLookAt;
 	public Transform playerToParent;
 	public Vector3 camLocalPos;
+	[Tooltip("The Hallucination view raw image")]
 	public FadeUI imageFade;
+	[Tooltip("Air player in nuclearity.")]
+	public camMouseLook airPlayer;
 
 	[Header("Monologues")] 
 	public MonologueManager[] monoManagers;
@@ -43,11 +46,16 @@ public class Hallucination : MonoBehaviour
 	{
 		//pilot refs
 		pilot = FindObjectOfType<ThePilot>();
-		pilotCam = pilot.fpCam.GetComponent<PilotView>();
+		if (pilot)
+		{
+			pilotCam = pilot.fpCam.GetComponent<PilotView>();
+		}
 		
 		//deity refs
-		if(deityMan == null)
+		if (deityMan == null)
+		{
 			deityMan = FindObjectOfType<DeityManager>();
+		}
 		
 		//cam refs
 		mainCam = Camera.main;
@@ -72,9 +80,6 @@ public class Hallucination : MonoBehaviour
 
 	IEnumerator WaitToStartHallucination()
 	{
-		//go to first person
-		//pilot.SetFPView();
-		
 		yield return new WaitForSeconds(1f);
 
 		//start it 
@@ -89,12 +94,26 @@ public class Hallucination : MonoBehaviour
 
 	public void StartHallucination()
 	{
-		//disable controls 
-		pilot.DisableControls();
-		//freeze movements
-		pilot.FreezeMovement();
-		deityMan.FreezeDeities();
-
+		//pilot stuff
+		if (pilot)
+		{
+			//disable controls 
+			pilot.DisableControls();
+			//freeze movements
+			pilot.FreezeMovement();
+		}
+		//air player
+		if (airPlayer)
+		{
+			airPlayer.Deactivate();
+		}
+		
+		//deity freeze
+		if (deityMan != null)
+		{
+			deityMan.FreezeDeities();
+		}
+		
 		//enable hallucination objects
 		for (int i = 0; i < hallucObjects.Length; i++)
 		{
@@ -123,7 +142,10 @@ public class Hallucination : MonoBehaviour
 			//enable camera movement
 			camMover.GetRefs();
 			//disable pilot cam 
-			pilotCam.isActive = false;
+			if (pilotCam)
+			{
+				pilotCam.isActive = false;
+			}
 		}
 		
 		//set camera TODO may need more ways to orient camera at the beginning
@@ -152,7 +174,10 @@ public class Hallucination : MonoBehaviour
 			//disable camera movement
 			camMover.canControl = false;
 			//enable pilot cam 
-			pilotCam.isActive = true;
+			if (pilotCam)
+			{
+				pilotCam.isActive = true;
+			}
 		}
 		
 		//disable hallucination objects
@@ -161,14 +186,25 @@ public class Hallucination : MonoBehaviour
 			hallucObjects[i].SetActive(false);
 		}
 		
-		//return to 3p view
-		//pilot.SetTPView();
+		//pilot stuff
+		if (pilot)
+		{
+			//enable controls
+			pilot.EnableControls();
+			//resume movements
+			pilot.ResumeMovement();
+		}
+		//air player
+		if (airPlayer)
+		{
+			airPlayer.Activate();
+		}
 		
-		//enable controls
-		pilot.EnableControls();
-		//resume movements
-		pilot.ResumeMovement();
-		deityMan.ResumeDeities();
+		//deity resume
+		if (deityMan != null)
+		{
+			deityMan.ResumeDeities();
+		}
 		
 		//fade out
 		imageFade.FadeOut();
