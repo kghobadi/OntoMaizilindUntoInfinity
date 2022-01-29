@@ -12,7 +12,7 @@ namespace Yarn.Unity.Example
     {
         public static YarnCharacterView instance; // very minimal implementation of singleton manager (initialized lazily in Awake)
         public List<YarnCharacter> allCharacters = new List<YarnCharacter>(); // list of all YarnCharacters in the scene, who register themselves in YarnCharacter.Start()
-        Camera worldCamera; // this script assumes you are using a full-screen Unity UI canvas along with a full-screen game camera
+        public Camera worldCamera; // this script assumes you are using a full-screen Unity UI canvas along with a full-screen game camera
 
         [Tooltip("display dialogue choices for this character, and display any no-name dialogue here too")]
         public YarnCharacter playerCharacter;
@@ -30,8 +30,11 @@ namespace Yarn.Unity.Example
         void Awake()
         {
             // ... this is important because we must set the static "instance" here, before any YarnCharacter.Start() can use it
-            instance = this; 
-            worldCamera = Camera.main;
+            instance = this;
+            if (worldCamera == null)
+            {
+                worldCamera = Camera.main;
+            }
         }
 
         /// <summary>automatically called by YarnCharacter.Start() so that YarnCharacterView knows they exist</summary>
