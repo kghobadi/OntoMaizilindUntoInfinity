@@ -421,23 +421,19 @@ namespace Yarn.Unity
                 }
             }
         }
-
-        /// <summary>
-        /// Get current yarn char
-        /// </summary>
-        /// <param name="name"></param>
+        
         void GetCurrentYarnCharacter(string name)
         {
-            foreach (var character in yarnCharacters)
+            foreach (YarnCharacter character in yarnCharacters)
             {
-                if (character.name == name)
+                if (character.characterName == name)
                 {
                     currentYarnChar = character;
                     break;
                 }
             }
         }
-
+        
         public void OnContinueClicked()
         {
             if (currentLine == null)

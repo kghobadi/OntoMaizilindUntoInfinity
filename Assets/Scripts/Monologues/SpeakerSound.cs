@@ -29,7 +29,12 @@ public class SpeakerSound : AudioHandler
             if (!countsUp)
             {
                 if (letter % speakFreq == 0)
-                    Speak(lineOfText[letter]);
+                {
+                    if (lineOfText.Length > letter) //protects from index out of range ex
+                    {
+                        Speak(lineOfText[letter]);
+                    }
+                }
             }
             else
             {
