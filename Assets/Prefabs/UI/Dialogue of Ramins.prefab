@@ -227,7 +227,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6664691965910981375}
+      - m_Target: {fileID: 0}
         m_MethodName: OnContinueClicked
         m_Mode: 1
         m_Arguments:
@@ -295,7 +295,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -414.00015, y: -38}
+  m_AnchoredPosition: {x: -35, y: -350}
   m_SizeDelta: {x: 334.8, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &5515612012046785034
@@ -585,9 +585,8 @@ GameObject:
   - component: {fileID: 8039182129207193884}
   - component: {fileID: 5328184725519174177}
   - component: {fileID: 4241994646464397716}
-  - component: {fileID: 6664691965910981375}
   - component: {fileID: 2650563475374987864}
-  - component: {fileID: 5710527340292311971}
+  - component: {fileID: 1515358492}
   m_Layer: 5
   m_Name: Dialogue Bubble
   m_TagString: Untagged
@@ -613,7 +612,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -414.00012, y: 198}
+  m_AnchoredPosition: {x: 0, y: 198}
   m_SizeDelta: {x: 334.8, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1272831263482118005
@@ -692,33 +691,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &6664691965910981375
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8039182129207193880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddcdd604a328c4ab296f048eb7b3a925, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvasGroup: {fileID: 2650563475374987864}
-  useFadeEffect: 1
-  fadeInTime: 0.25
-  fadeOutTime: 0.05
-  lineText: {fileID: 6664691965265911621}
-  showCharacterNameInLineView: 0
-  characterNameText: {fileID: 0}
-  useTypewriterEffect: 1
-  onCharacterTyped:
-    m_PersistentCalls:
-      m_Calls: []
-  typewriterEffectSpeed: 40
-  continueButton: {fileID: 4665765922602159885}
-  continueActionType: 1
-  continueActionKeyCode: 32
 --- !u!225 &2650563475374987864
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -731,33 +703,37 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &5710527340292311971
+--- !u!114 &1515358492
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8039182129207193880}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 192d66e32a56c294f919a54d5ebf6f40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 2650563475374987864}
-  useFadeEffect: 1
+  useFadeEffect: 0
   fadeInTime: 0.25
   fadeOutTime: 0.05
   lineText: {fileID: 6664691965265911621}
-  showCharacterNameInLineView: 1
+  showCharacterNameInLineView: 0
   characterNameText: {fileID: 0}
-  useTypewriterEffect: 0
+  useTypewriterEffect: 1
   onCharacterTyped:
     m_PersistentCalls:
       m_Calls: []
-  typewriterEffectSpeed: 40
+  typewriterEffectSpeed: 10
   continueButton: {fileID: 4665765922602159885}
   continueActionType: 1
   continueActionKeyCode: 32
+  yarnCharacters:
+  - {fileID: 0}
+  - {fileID: 0}
+  currentYarnChar: {fileID: 0}
 --- !u!1 &8039182129404447913
 GameObject:
   m_ObjectHideFlags: 0
@@ -906,12 +882,14 @@ MonoBehaviour:
   allCharacters:
   - {fileID: 0}
   - {fileID: 0}
+  worldCamera: {fileID: 0}
   playerCharacter: {fileID: 0}
   canvas: {fileID: 8039182129404447917}
   canvasScaler: {fileID: 1461652086537574488}
   dialogueBubbleRect: {fileID: 8039182129207193881}
   optionsBubbleRect: {fileID: 5515612012046785078}
   bubbleMargin: 0.1
+  useWorldPos: 0
 --- !u!114 &8039182129750664188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -928,7 +906,7 @@ MonoBehaviour:
     type: 3}
   _variableStorage: {fileID: 8039182129750664186}
   dialogueViews:
-  - {fileID: 6664691965910981375}
+  - {fileID: 1515358492}
   - {fileID: 97135655831072866}
   - {fileID: 5710527340292311973}
   startNode: RaminFinalDialogue
@@ -1250,6 +1228,7 @@ GameObject:
   - component: {fileID: 2633652183950875478}
   - component: {fileID: 6731858077863052970}
   - component: {fileID: 3950818701385208121}
+  - component: {fileID: 1332940968}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -1373,3 +1352,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1332940968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8785395809329781414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 458437aaa8da41747845e3de895ae717, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  infoType: 3
+  controller: {fileID: 0}
+  mKeyboard: {fileID: 0}
+  controllerText: X
+  controllerTextFile: {fileID: 0}
+  mKeyboardText: Space
+  mKeyboardTextFile: {fileID: 0}

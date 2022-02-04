@@ -21,6 +21,10 @@ namespace Yarn.Unity.Example
         private Transform mainCam;
         public Transform offsetCam;
         private Vector3 cameraOffset;
+
+        public SpeakerSound speakerSound;
+
+        public Vector2 anchoredUiPos;
         
         public Vector3 positionWithOffset
         { 

@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Yarn.Unity.Example;
 
 #if USE_INPUTSYSTEM && ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -67,7 +68,7 @@ namespace Yarn.Unity
             onComplete?.Invoke();
         }
 
-        public static IEnumerator Typewriter(TextMeshProUGUI text, float lettersPerSecond, Action onCharacterTyped = null, Action onComplete = null, InterruptionFlag interruption = null)
+        public static IEnumerator Typewriter(TextMeshProUGUI text, float lettersPerSecond, Action onCharacterTyped = null, Action onComplete = null, InterruptionFlag interruption = null, SpeakerSound speaker = null)
         {
             // Start with everything invisible
             text.maxVisibleCharacters = 0;
@@ -110,6 +111,9 @@ namespace Yarn.Unity
                 while (accumulator >= secondsPerLetter)
                 {
                     text.maxVisibleCharacters += 1;
+                    
+                    if(speaker)
+                        speaker.AudioCheck(text.text, text.maxVisibleCharacters - 1);
                     onCharacterTyped?.Invoke();
                     accumulator -= secondsPerLetter;
                 }
@@ -182,6 +186,9 @@ namespace Yarn.Unity
         [UnityEngine.Serialization.FormerlySerializedAs("skipActionKeyCode")]
         internal KeyCode continueActionKeyCode = KeyCode.Escape;
 
+        public YarnCharacter [] yarnCharacters;
+        public YarnCharacter currentYarnChar;
+        
 
 #if USE_INPUTSYSTEM && ENABLE_INPUT_SYSTEM
         [SerializeField]
@@ -221,17 +228,7 @@ namespace Yarn.Unity
             OnContinueClicked();
         }
 #endif
-        
-        private void OnEnable ()
-        {
-            EventMgr.Instance.Subscribe(EventSinks.Dialogue.OnAdvance, OnContinueClicked);
-        }
 
-        private void OnDisable ()
-        {
-            EventMgr.Instance?.Unsubscribe(EventSinks.Dialogue.OnAdvance, OnContinueClicked);
-        }
-        
         public void Reset()
         {
             canvasGroup = GetComponentInParent<CanvasGroup>();
@@ -373,6 +370,9 @@ namespace Yarn.Unity
                 lineText.text = dialogueLine.TextWithoutCharacterName.Text;
             }
 
+            //pass in character name to get current yarn char. 
+            GetCurrentYarnCharacter(dialogueLine.CharacterName);
+
             if (useFadeEffect)
             {
                 if (useTypewriterEffect)
@@ -401,7 +401,7 @@ namespace Yarn.Unity
                 if (useTypewriterEffect)
                 {
                     // Start the typewriter
-                    StartCoroutine(Effects.Typewriter(lineText, typewriterEffectSpeed, OnCharacterTyped, onDialogueLineFinished, interruptionFlag));
+                    StartCoroutine(Effects.Typewriter(lineText, typewriterEffectSpeed, OnCharacterTyped, onDialogueLineFinished, interruptionFlag, currentYarnChar.speakerSound));
                 }
                 else
                 {
@@ -421,7 +421,19 @@ namespace Yarn.Unity
                 }
             }
         }
-
+        
+        void GetCurrentYarnCharacter(string name)
+        {
+            foreach (YarnCharacter character in yarnCharacters)
+            {
+                if (character.characterName == name)
+                {
+                    currentYarnChar = character;
+                    break;
+                }
+            }
+        }
+        
         public void OnContinueClicked()
         {
             if (currentLine == null)

@@ -1323,11 +1323,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e94f9d9f6e80f984f94976b04551b1f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterName: RaminSuicidal
-  messageBubbleOffset: {x: 0, y: 3, z: 0}
-  offsetUsesRotation: 0
+  characterName: Ramin
+  messageBubbleOffset: {x: 0, y: 0, z: 0}
+  offsetUsesRotation: 1
   hasCameraOffset: 0
   offsetCam: {fileID: 688842998}
+  speakerSound: {fileID: 836382630}
+  anchoredUiPos: {x: 0, y: 198}
 --- !u!1001 &261061697
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2086,6 +2088,8 @@ MonoBehaviour:
   offsetUsesRotation: 0
   hasCameraOffset: 0
   offsetCam: {fileID: 688842998}
+  speakerSound: {fileID: 1942504566}
+  anchoredUiPos: {x: 0, y: -250}
 --- !u!1 &446545368
 GameObject:
   m_ObjectHideFlags: 0
@@ -3472,6 +3476,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 802767409}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &836382630 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 605358375766374075, guid: 05bee6345c4343f499f60a56892dfd2b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1351516607762391915}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10c12b39129f814489919705a0cba7ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &849291360
 GameObject:
   m_ObjectHideFlags: 0
@@ -5625,12 +5641,12 @@ PrefabInstance:
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 3}
       propertyPath: _savedGUID
-      value: 3899716639
+      value: 767548757
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 3}
       propertyPath: hash.lastHash
-      value: 110724714
+      value: -2115678135
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 3}
@@ -6689,31 +6705,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1296190161}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1332940964 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8785395809329781414, guid: 00fd2771c8eb2ed4ab2e7f93c9165ccd,
-    type: 3}
-  m_PrefabInstance: {fileID: 5710527340292311966}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1332940968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1332940964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 458437aaa8da41747845e3de895ae717, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  infoType: 3
-  controller: {fileID: 0}
-  mKeyboard: {fileID: 0}
-  controllerText: X
-  controllerTextFile: {fileID: 0}
-  mKeyboardText: Space
-  mKeyboardTextFile: {fileID: 0}
 --- !u!1001 &1350454418
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9613,6 +9604,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1938629320}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1942504566 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1942504566, guid: 05bee6345c4343f499f60a56892dfd2b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1351516607762391915}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10c12b39129f814489919705a0cba7ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1966392695
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10209,11 +10212,6 @@ PrefabInstance:
       propertyPath: renderCam
       value: 
       objectReference: {fileID: 688842997}
-    - target: {fileID: 606057543693382735, guid: 05bee6345c4343f499f60a56892dfd2b,
-        type: 3}
-      propertyPath: camLocalPos.y
-      value: 7.8
-      objectReference: {fileID: 0}
     - target: {fileID: 716445928082305281, guid: 05bee6345c4343f499f60a56892dfd2b,
         type: 3}
       propertyPath: m_RootOrder
@@ -10274,44 +10272,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hallucination (Dialogue of Ramin's Suicide)
       objectReference: {fileID: 0}
-    - target: {fileID: 1351516607762391917, guid: 05bee6345c4343f499f60a56892dfd2b,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1351516607762391917, guid: 05bee6345c4343f499f60a56892dfd2b,
-        type: 3}
-      propertyPath: offsetCam
-      value: 
-      objectReference: {fileID: 688842998}
-    - target: {fileID: 1351516607762391917, guid: 05bee6345c4343f499f60a56892dfd2b,
-        type: 3}
-      propertyPath: hasCameraOffset
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1351516607762391919, guid: 05bee6345c4343f499f60a56892dfd2b,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1351516607762391919, guid: 05bee6345c4343f499f60a56892dfd2b,
-        type: 3}
-      propertyPath: offsetCam
-      value: 
-      objectReference: {fileID: 688842998}
-    - target: {fileID: 1351516607762391919, guid: 05bee6345c4343f499f60a56892dfd2b,
-        type: 3}
-      propertyPath: hasCameraOffset
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8620155637110809407, guid: 05bee6345c4343f499f60a56892dfd2b,
         type: 3}
       propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2355162503177267298}
-    m_RemovedComponents:
-    - {fileID: 1351516607762391917, guid: 05bee6345c4343f499f60a56892dfd2b, type: 3}
-    - {fileID: 1351516607762391919, guid: 05bee6345c4343f499f60a56892dfd2b, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05bee6345c4343f499f60a56892dfd2b, type: 3}
 --- !u!114 &1351516607762391922 stripped
 MonoBehaviour:
@@ -10350,6 +10316,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1515358492, guid: 00fd2771c8eb2ed4ab2e7f93c9165ccd, type: 3}
+      propertyPath: currentYarnChar
+      value: 
+      objectReference: {fileID: 425266907}
+    - target: {fileID: 1515358492, guid: 00fd2771c8eb2ed4ab2e7f93c9165ccd, type: 3}
+      propertyPath: typewriterEffectSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1515358492, guid: 00fd2771c8eb2ed4ab2e7f93c9165ccd, type: 3}
+      propertyPath: yarnCharacters.Array.data[0]
+      value: 
+      objectReference: {fileID: 425266907}
+    - target: {fileID: 1515358492, guid: 00fd2771c8eb2ed4ab2e7f93c9165ccd, type: 3}
+      propertyPath: yarnCharacters.Array.data[1]
+      value: 
+      objectReference: {fileID: 258054801}
     - target: {fileID: 97135655831072866, guid: 00fd2771c8eb2ed4ab2e7f93c9165ccd,
         type: 3}
       propertyPath: worldCamera
@@ -10470,6 +10452,5 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5710527340292311971, guid: 00fd2771c8eb2ed4ab2e7f93c9165ccd, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00fd2771c8eb2ed4ab2e7f93c9165ccd, type: 3}

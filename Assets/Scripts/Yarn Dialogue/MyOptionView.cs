@@ -134,7 +134,7 @@ namespace Yarn.Unity
                 }
             }
             //set control image as second option 
-            else if (optionIndex == 0)
+            else if (optionIndex == 1)
             {
                 //controller
                 if (inputDevice.DeviceClass == InputDeviceClass.Controller)
