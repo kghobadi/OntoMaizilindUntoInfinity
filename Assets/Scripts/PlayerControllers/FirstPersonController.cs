@@ -29,6 +29,8 @@ public class FirstPersonController : MonoBehaviour
     
     public bool canMove = true;
     public bool moving;
+    public bool mirrorControls;
+    public bool disableOnStart;
 
     Vector3 lastPosition;
 
@@ -50,6 +52,11 @@ public class FirstPersonController : MonoBehaviour
         mouseLook = GetComponentInChildren<GroundCamera>();
         resetAudio = GetComponent<ResetNearbyAudioSources>();
         normalRadius = player.radius;
+
+        if (disableOnStart)
+        {
+            DisableMovement();
+        }
     }
 
     void Update()
@@ -97,10 +104,21 @@ public class FirstPersonController : MonoBehaviour
         if (inputDevice.LeftStickY != 0 && inputDevice.LeftStickX != 0)
         {
             moving = true;
-
-            float moveForwardBackward = inputDevice.LeftStickY * currentSpeed;
-            float moveLeftRight = inputDevice.LeftStickX * currentSpeed;
-
+            
+            float moveForwardBackward;
+            float moveLeftRight;
+            
+            if (mirrorControls)
+            {
+                moveForwardBackward = -inputDevice.LeftStickY * currentSpeed; 
+                moveLeftRight = -inputDevice.LeftStickX * currentSpeed;
+            }
+            else
+            { 
+                moveForwardBackward = inputDevice.LeftStickY * currentSpeed; 
+                moveLeftRight = inputDevice.LeftStickX * currentSpeed;
+            }
+            
             movement = new Vector3(moveLeftRight, 0, moveForwardBackward);
 
             SprintSpeed();
@@ -141,8 +159,19 @@ public class FirstPersonController : MonoBehaviour
         {
             moving = true;
 
-            float moveForwardBackward = Input.GetAxis("Vertical") * currentSpeed;
-            float moveLeftRight = Input.GetAxis("Horizontal") * currentSpeed;
+            float moveForwardBackward;
+            float moveLeftRight;
+            
+            if (mirrorControls)
+            {
+                moveForwardBackward = -Input.GetAxis("Vertical") * currentSpeed;
+                moveLeftRight = -Input.GetAxis("Horizontal") * currentSpeed;
+            }
+            else
+            { 
+                moveForwardBackward =Input.GetAxis("Vertical") * currentSpeed;
+                moveLeftRight = Input.GetAxis("Horizontal") * currentSpeed;
+            }
 
             movement = new Vector3(moveLeftRight, 0, moveForwardBackward);
 

@@ -1179,6 +1179,16 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 199178168212842298, guid: 9b1abdc1724cd6449afece3d28569169,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 199563042928439308, guid: 9b1abdc1724cd6449afece3d28569169,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b1abdc1724cd6449afece3d28569169, type: 3}
 --- !u!1 &240834577
@@ -1494,6 +1504,103 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &288355795
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 288355796}
+  - component: {fileID: 288355799}
+  - component: {fileID: 288355798}
+  - component: {fileID: 288355797}
+  m_Layer: 20
+  m_Name: MirrorTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &288355796
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288355795}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 52.03854, y: 52.03854, z: 52.03854}
+  m_Children: []
+  m_Father: {fileID: 1591758786}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &288355797
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288355795}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &288355798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288355795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf5579eeb1be25c468fa475b74181a7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasTriggered: 0
+  playerOnly: 0
+  npcOnly: 0
+  specificObject: 0
+  specificObj: {fileID: 1351516607762391916}
+  events:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1351516607762391920}
+        m_MethodName: EnableMovement
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  waits: 0
+  waitTime: 5
+  repeats: 0
+  resetTime: 5
+--- !u!135 &288355799
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288355795}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &295975766
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3482,7 +3589,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1351516607762391915}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1351516607762391918}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10c12b39129f814489919705a0cba7ce, type: 3}
@@ -4109,6 +4216,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cc630fcfbcec4fa4999b1aa989d1a311, type: 2}
   - {fileID: 11400000, guid: 1574c056af7d9ca49983748d5002d8b1, type: 2}
   - {fileID: 11400000, guid: dab5d889ab554294f8a0e9f085b3deed, type: 2}
+  - {fileID: 11400000, guid: d30aae0f1aca8774d977da9d52df5b0e, type: 2}
   events:
   - m_PersistentCalls:
       m_Calls:
@@ -4217,6 +4325,19 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 925286579}
         m_MethodName: Restart
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1605485584}
+        m_MethodName: Pause
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7677,7 +7798,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!82 &1605485584
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9610,7 +9731,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1351516607762391915}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1351516607762391916}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10c12b39129f814489919705a0cba7ce, type: 3}
@@ -10103,11 +10224,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94dd55f16259a354992fbf51c080bbef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 15
+  moveSpeed: 5
   origSpeed: 0
-  moving: 0
-  destination: {x: 0, y: 0, z: 0}
-  necessaryDist: 1
+  moving: 1
+  destination: {x: -308, y: 760, z: -12.5}
+  necessaryDist: 35
 --- !u!1 &2140923088
 GameObject:
   m_ObjectHideFlags: 0
@@ -10279,6 +10400,76 @@ PrefabInstance:
       objectReference: {fileID: 2355162503177267298}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05bee6345c4343f499f60a56892dfd2b, type: 3}
+--- !u!1 &1351516607762391916 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 718471364528004307, guid: 05bee6345c4343f499f60a56892dfd2b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1351516607762391915}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1351516607762391917 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1301092088, guid: 05bee6345c4343f499f60a56892dfd2b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1351516607762391915}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1351516607762391918 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 719358795419133949, guid: 05bee6345c4343f499f60a56892dfd2b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1351516607762391915}
+  m_PrefabAsset: {fileID: 0}
+--- !u!143 &1351516607762391919
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351516607762391918}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 6
+  m_Radius: 1
+  m_SlopeLimit: 45
+  m_StepOffset: 0.75
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 3, z: 0}
+--- !u!114 &1351516607762391920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351516607762391918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4be4222c5012e8745823d6021bc384ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentSpeed: 0
+  walkSpeed: 10
+  sprintSpeed: 20
+  scrollSpeed: 2
+  sprintTimerMax: 0.25
+  footStepTimerTotal: 0.5
+  currentFootsteps:
+  - {fileID: 8300000, guid: 40d2e27a4bd3dd3419fd5a23f28044bb, type: 3}
+  - {fileID: 8300000, guid: f237f5821f3242e4fb095be7da745a6c, type: 3}
+  - {fileID: 8300000, guid: b4af0a3eb7633e34c8fa52d0071ae4c5, type: 3}
+  canMove: 0
+  moving: 0
+  mirrorControls: 1
+  disableOnStart: 0
+  startCam: {fileID: 0}
+  holdingSpot: {fileID: 1351516607762391917}
+  holding: 0
+  pickUp: {fileID: 0}
+  holdingRadius: 2
+  beingHeld:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1351516607762391922 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 606057543693382735, guid: 05bee6345c4343f499f60a56892dfd2b,
@@ -10303,7 +10494,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 5710527340292311966}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 5710527340292311967}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4bec29c0a230741bdac901dba8da47ee, type: 3}
@@ -10454,3 +10645,50 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00fd2771c8eb2ed4ab2e7f93c9165ccd, type: 3}
+--- !u!1 &5710527340292311967 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8039182129750664185, guid: 00fd2771c8eb2ed4ab2e7f93c9165ccd,
+    type: 3}
+  m_PrefabInstance: {fileID: 5710527340292311966}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5710527340292311968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5710527340292311967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43afdc3a8574554489ca13a58c4b356b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waitReasons: []
+  onRaminSuicide:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1605485584}
+        m_MethodName: UnPause
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onPlayerKillsRamin:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1605485584}
+        m_MethodName: UnPause
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

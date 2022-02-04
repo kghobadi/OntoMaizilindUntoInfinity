@@ -18,6 +18,9 @@ public class YarnCommands : MonoBehaviour
     
     public WaitReason[] waitReasons;
 
+    public UnityEvent onRaminSuicide;
+    public UnityEvent onPlayerKillsRamin;
+
     private void Awake()
     {
         dialogueRunner = GetComponentInChildren<DialogueRunner>();
@@ -27,6 +30,8 @@ public class YarnCommands : MonoBehaviour
     {
         //actual yarn commands
         dialogueRunner.AddCommandHandler<string,bool>("active", Active);
+        dialogueRunner.AddCommandHandler<string>("raminkillsself", OnRaminSuicide);
+        dialogueRunner.AddCommandHandler<string>("playerkillsramin", OnPlayerKillRamin);
         dialogueRunner.AddCommandHandler<string>("waitforreason", StartWaitForReason);
         dialogueRunner.AddCommandHandler<string>("waitfortime", StartWaitForTime);
     }
@@ -36,6 +41,15 @@ public class YarnCommands : MonoBehaviour
         GameObject.Find(targetName).SetActive(active);
     }
 
+    void OnRaminSuicide(string killer)
+    {
+        onRaminSuicide?.Invoke();
+    }
+
+    void OnPlayerKillRamin(string killer)
+    {
+        onPlayerKillsRamin?.Invoke();
+    }
 
     #region Waits
     void StartWaitForReason(string reason)
