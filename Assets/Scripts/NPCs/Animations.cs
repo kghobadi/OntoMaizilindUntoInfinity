@@ -14,6 +14,16 @@ namespace NPC
             Animator.SetInteger("talking", randomTalk);
             Animator.SetTrigger("talk");
         }
+
+        public void SetIdleFloat(float value)
+        {
+            Animator.SetFloat("IdleType" , value);
+        }
+        
+        public void SetRunFloat(float value)
+        {
+            Animator.SetFloat("RunType" , value);
+        }
     }
 }
 

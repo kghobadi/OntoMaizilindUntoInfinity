@@ -119,10 +119,19 @@ public class Interactive : AudioHandler
 	float CheckDistFromPlayer()
 	{
 		if (_cameraSwitcher == null)
-			return 150f;
+		{
+			if (InteractRaycaster.Instance.currentPlayerOverride == null)
+			{
+				return 150f;
+			}
+			
+			distFromPlayer = Vector3.Distance(transform.position, InteractRaycaster.Instance.currentPlayerOverride.position);
+		}
+		else
+		{
+			distFromPlayer = Vector3.Distance(transform.position, _cameraSwitcher.currentPlayer.transform.position);
+		}
 
-		distFromPlayer = Vector3.Distance(transform.position, _cameraSwitcher.currentPlayer.transform.position);
-		
 		return distFromPlayer;
 	}
 

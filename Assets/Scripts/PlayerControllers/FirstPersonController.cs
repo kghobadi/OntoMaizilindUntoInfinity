@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 using InControl;
+using NPC;
 using UnityEngine.Events;
 
 public class FirstPersonController : MonoBehaviour
@@ -17,6 +18,8 @@ public class FirstPersonController : MonoBehaviour
 
     float footStepTimer = 0;
     public float footStepTimerTotal = 0.5f;
+
+    public float footstepVol = 1f;
 
     CharacterController player;
     GroundCamera mouseLook;
@@ -44,7 +47,8 @@ public class FirstPersonController : MonoBehaviour
     public float holdingRadius = 2f;
     private float normalRadius = 0.5f;
     public UnityEvent beingHeld;
-    
+    public Animator personAnimator;
+    public Animations npcAnimator;
     void Start()
     {
         player = GetComponent<CharacterController>();
@@ -88,6 +92,18 @@ public class FirstPersonController : MonoBehaviour
                 
                 if(resetAudio)
                     resetAudio.ResetNearbyAudio();
+
+                if (npcAnimator)
+                {
+                    npcAnimator.SetAnimator("moving");
+                }
+            }
+            else
+            {
+                if (npcAnimator)
+                {
+                    npcAnimator.SetAnimator("idle");
+                }
             }
 
             //fall down over time 
@@ -214,9 +230,14 @@ public class FirstPersonController : MonoBehaviour
 
     private void PlayFootStepAudio()
     {
+        if (currentFootsteps.Length <= 0)
+        {
+            return;
+        }
+        
         int n = Random.Range(1, currentFootsteps.Length);
         playerAudSource.clip = currentFootsteps[n];
-        playerAudSource.PlayOneShot(playerAudSource.clip, 1f);
+        playerAudSource.PlayOneShot(playerAudSource.clip, footstepVol);
         // move picked sound to index 0 so it's not picked next time
         currentFootsteps[n] = currentFootsteps[0];
         currentFootsteps[0] = playerAudSource.clip;

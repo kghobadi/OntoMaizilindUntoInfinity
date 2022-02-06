@@ -11,11 +11,15 @@ public class InteractRaycaster : NonInstantiatingSingleton<InteractRaycaster>
     private Camera mainCam;
     public float interactDistanceMax;
     public LayerMask interactableLayer;
+    public bool usesOtherCamera;
+    public Transform currentPlayerOverride;
 
     public bool active = true;
     private InputDevice inputDevice;
     public GameObject currentInteractObject;
     private GameObject lastInteractObject;
+
+    public bool enableOnStart = true;
     
     //delegate/events
     public delegate void OnHitInteractObj ();
@@ -28,18 +32,34 @@ public class InteractRaycaster : NonInstantiatingSingleton<InteractRaycaster>
     protected override void OnAwake()
     {
         base.OnAwake();
-        
-        //get main cam
-        mainCam = Camera.main;
+
+        if (usesOtherCamera)
+        {
+            //get cam from this obj
+            mainCam = GetComponent<Camera>();
+        }
+        else
+        {
+            //get main cam
+            mainCam = Camera.main;
+        }
     }
 
     private void Start()
     {
-        StartCoroutine(RaycastToWorld());
+        if (enableOnStart)
+        {
+            ActivateRaycasts();
+        }
     }
 
     private void Update()
     {
+        if (active == false)
+        {
+            return;
+        }
+        
         //get input device 
         inputDevice = InputManager.ActiveDevice;
         
@@ -48,6 +68,11 @@ public class InteractRaycaster : NonInstantiatingSingleton<InteractRaycaster>
         {
             onInteractInput();
         }
+    }
+
+    public void ActivateRaycasts()
+    {
+        StartCoroutine(RaycastToWorld());
     }
 
     IEnumerator RaycastToWorld()
