@@ -383,6 +383,8 @@ namespace NPC
             idleType = movementManager.movementPaths[newMove.pathIndex].idleType;
             
             runType =  movementManager.movementPaths[newMove.pathIndex].runType;
+            
+            SetRunType(runType);
 
             followObject = movementManager.movementPaths[newMove.pathIndex].followObject;
 

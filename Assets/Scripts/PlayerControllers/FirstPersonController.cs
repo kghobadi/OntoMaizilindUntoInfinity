@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 using InControl;
+using NPC;
 using UnityEngine.Events;
 
 public class FirstPersonController : MonoBehaviour
@@ -18,6 +19,8 @@ public class FirstPersonController : MonoBehaviour
     float footStepTimer = 0;
     public float footStepTimerTotal = 0.5f;
 
+    public float footstepVol = 1f;
+
     CharacterController player;
     GroundCamera mouseLook;
     Vector3 movement;
@@ -29,6 +32,8 @@ public class FirstPersonController : MonoBehaviour
     
     public bool canMove = true;
     public bool moving;
+    public bool mirrorControls;
+    public bool disableOnStart;
 
     Vector3 lastPosition;
 
@@ -42,7 +47,8 @@ public class FirstPersonController : MonoBehaviour
     public float holdingRadius = 2f;
     private float normalRadius = 0.5f;
     public UnityEvent beingHeld;
-    
+    public Animator personAnimator;
+    public Animations npcAnimator;
     void Start()
     {
         player = GetComponent<CharacterController>();
@@ -50,6 +56,11 @@ public class FirstPersonController : MonoBehaviour
         mouseLook = GetComponentInChildren<GroundCamera>();
         resetAudio = GetComponent<ResetNearbyAudioSources>();
         normalRadius = player.radius;
+
+        if (disableOnStart)
+        {
+            DisableMovement();
+        }
     }
 
     void Update()
@@ -81,6 +92,18 @@ public class FirstPersonController : MonoBehaviour
                 
                 if(resetAudio)
                     resetAudio.ResetNearbyAudio();
+
+                if (npcAnimator)
+                {
+                    npcAnimator.SetAnimator("moving");
+                }
+            }
+            else
+            {
+                if (npcAnimator)
+                {
+                    npcAnimator.SetAnimator("idle");
+                }
             }
 
             //fall down over time 
@@ -97,10 +120,21 @@ public class FirstPersonController : MonoBehaviour
         if (inputDevice.LeftStickY != 0 && inputDevice.LeftStickX != 0)
         {
             moving = true;
-
-            float moveForwardBackward = inputDevice.LeftStickY * currentSpeed;
-            float moveLeftRight = inputDevice.LeftStickX * currentSpeed;
-
+            
+            float moveForwardBackward;
+            float moveLeftRight;
+            
+            if (mirrorControls)
+            {
+                moveForwardBackward = -inputDevice.LeftStickY * currentSpeed; 
+                moveLeftRight = -inputDevice.LeftStickX * currentSpeed;
+            }
+            else
+            { 
+                moveForwardBackward = inputDevice.LeftStickY * currentSpeed; 
+                moveLeftRight = inputDevice.LeftStickX * currentSpeed;
+            }
+            
             movement = new Vector3(moveLeftRight, 0, moveForwardBackward);
 
             SprintSpeed();
@@ -141,8 +175,19 @@ public class FirstPersonController : MonoBehaviour
         {
             moving = true;
 
-            float moveForwardBackward = Input.GetAxis("Vertical") * currentSpeed;
-            float moveLeftRight = Input.GetAxis("Horizontal") * currentSpeed;
+            float moveForwardBackward;
+            float moveLeftRight;
+            
+            if (mirrorControls)
+            {
+                moveForwardBackward = -Input.GetAxis("Vertical") * currentSpeed;
+                moveLeftRight = -Input.GetAxis("Horizontal") * currentSpeed;
+            }
+            else
+            { 
+                moveForwardBackward =Input.GetAxis("Vertical") * currentSpeed;
+                moveLeftRight = Input.GetAxis("Horizontal") * currentSpeed;
+            }
 
             movement = new Vector3(moveLeftRight, 0, moveForwardBackward);
 
@@ -185,9 +230,14 @@ public class FirstPersonController : MonoBehaviour
 
     private void PlayFootStepAudio()
     {
+        if (currentFootsteps.Length <= 0)
+        {
+            return;
+        }
+        
         int n = Random.Range(1, currentFootsteps.Length);
         playerAudSource.clip = currentFootsteps[n];
-        playerAudSource.PlayOneShot(playerAudSource.clip, 1f);
+        playerAudSource.PlayOneShot(playerAudSource.clip, footstepVol);
         // move picked sound to index 0 so it's not picked next time
         currentFootsteps[n] = currentFootsteps[0];
         currentFootsteps[0] = playerAudSource.clip;

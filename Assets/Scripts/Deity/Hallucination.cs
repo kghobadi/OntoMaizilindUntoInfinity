@@ -215,11 +215,15 @@ public class Hallucination : MonoBehaviour
 		hallucinating = false;
 	}
 
-	private void OnDisable()
+	public void WaitToEnd(float wait)
 	{
-		// if (hallucinating)
-		// {
-		// 	EndHallucination();
-		// }
+		StartCoroutine(WaitToEndHalluc(wait));
+	}
+
+	IEnumerator WaitToEndHalluc(float time)
+	{
+		yield return new WaitForSeconds(time);
+		
+		EndHallucination();
 	}
 }

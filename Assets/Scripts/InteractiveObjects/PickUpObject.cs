@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using InControl;
+using UnityEngine.Events;
 
 /// <summary>
 /// Allows the player to pick up and hold a single object one at a time. 
@@ -11,7 +12,7 @@ public class PickUpObject : Interactive
 {
 	//is this really necessary? what if it causes some problems :(
 	protected Rigidbody _rigidbody;
-	private FirstPersonController fpsHolder;
+	public FirstPersonController fpsHolder;
 	private bool held;
 
 	private Vector3 originalPos;
@@ -22,6 +23,11 @@ public class PickUpObject : Interactive
 
 	private int holdingCounter;
 	private int holdsNecToUse = 10;
+
+	public bool lockInput; //locks input check
+	public bool holdOverride; //allows you to take from someone else holding it 
+	public UnityEvent pickUpEvent;
+	public FirstPersonController desiredHolder;
 	
 	//TODO add picked up object UI 
 	//Should just be a single group of fade UIs 
@@ -33,13 +39,16 @@ public class PickUpObject : Interactive
 	{
 		base.Start();
 		_rigidbody = GetComponent<Rigidbody>();
-		fpsHolder = _cameraSwitcher.currentPlayer.GetComponent<FirstPersonController>();
+		if (fpsHolder == null)
+		{
+			fpsHolder = _cameraSwitcher.currentPlayer.GetComponent<FirstPersonController>();
+		}
 		colliders = GetComponentsInChildren<Collider>();
 	}
 
 	protected override void SetActive()
 	{
-		if (fpsHolder.holding == false)
+		if (fpsHolder.holding == false || holdOverride)
 		{
 			base.SetActive();
 		}
@@ -48,16 +57,42 @@ public class PickUpObject : Interactive
 	protected override void Interact()
 	{
 		//if the fps is not holding anything.
-		if (fpsHolder.holding == false)
+		if (fpsHolder.holding == false || holdOverride)
 		{
 			base.Interact();
 			
 			HoldItem();
 		}
 	}
-
-	void HoldItem()
+	
+	/// <summary>
+	/// allows you to set hold override. 
+	/// </summary>
+	/// <param name="over"></param>
+	public void SetHoldOverride(bool over)
 	{
+		holdOverride = over;
+	}
+	
+	/// <summary>
+	/// allows you to set input lock override. 
+	/// </summary>
+	public void SetInputLock(bool locked)
+	{
+		lockInput = locked;
+	}
+
+	public virtual void HoldItem()
+	{
+		//check for desired holder 
+		if (desiredHolder)
+		{
+			if (transform.parent == fpsHolder.holdingSpot && fpsHolder != desiredHolder)
+			{
+				fpsHolder = desiredHolder;
+			}
+		}
+		
 		//parent this obj to fps holder
 		transform.SetParent(fpsHolder.holdingSpot);
 		//zero pos
@@ -80,10 +115,31 @@ public class PickUpObject : Interactive
 			_cameraSwitcher.objViewer.PlaySound(interactSound, 1f);
 		//reset holding counter
 		holdingCounter = 0;
+		
+		//do we have a desired holder?
+		if (desiredHolder != null)
+		{
+			//only call pickup event if it is desired holder. 
+			if (fpsHolder == desiredHolder)
+			{
+				pickUpEvent?.Invoke();
+			}
+		}
+		//call pickup event
+		else
+		{
+			pickUpEvent?.Invoke();
+		}
 	}
 
 	protected virtual void Update()
 	{
+		//take no input.
+		if (lockInput)
+		{
+			return;
+		}
+		
 		//get input device.
 		inputDevice = InputManager.ActiveDevice;
 		
