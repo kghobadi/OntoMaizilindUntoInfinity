@@ -1,4 +1,26 @@
-Shader "Hidden/_Nuclearity_4008802172.generated"
+/*
+                                            _
+   _ __ __ _ _   _ _ __ ___   __ _ _ __ ___| |__ (_)_ __   __ _ 
+  | '__/ _` | | | | '_ ` _ \ /  ` | '__/ __| '_ \| | '_ \ /  ` |
+  | | | (_| | |_| | | | | | |     | | | (__| | | | | | | |     |
+  |_|  \__,_|\__, |_| |_| |_|\__,_|_|  \___|_| |_|_|_| |_|\__, |
+             |___/                                        |___/ 
+   _              _ _    _ _   
+  | |_ ___   ___ | | | _(_) |_ 
+  | __/   \ /   \| | |/ / | __|
+  | ||     |     | |   <| | |_   for Unity
+   \__\___/ \___/|_|_|\_\_|\__|
+                              
+
+  This shader was automatically generated from
+  Imported\Raymarching Toolkit\Assets\Shaders\RaymarchTemplate.shader
+  
+  for Raymarcher named 'Raymarcher' in scene 'The Accident w Raymarcher'.
+
+*/
+
+
+Shader "Hidden/_The Accident w Raymarcher_2930182278.generated"
 {
 
 SubShader
@@ -18,34 +40,33 @@ Pass
 {
 
 CGPROGRAM
+
+#pragma shader_feature RENDER_OBJECT
+
 #pragma vertex vert
 #pragma fragment frag
 
-#define USE_OPTIMIZED_NORMAL 1
+#if RENDER_OBJECT
+#include "UnityCG.cginc" // @noinlineinclude
+#include "UnityPBSLighting.cginc" // @noinlineinclude
+#endif
 
-#pragma multi_compile __ ENABLE_REFLECTIONS
+#define USE_OPTIMIZED_NORMAL 1
 
 // float _Steps; // STUB
 // float ConservativeStepFactor; // STUB
 uniform float _DrawDistance;
-uniform sampler2D _SkyGradient;
-uniform float _SkyGradientNoise;
-uniform float _Glow;
-uniform float4 _GlowColor;
-uniform int _Reflections;
-uniform int _ReflectionSteps;
-uniform float4 _ReflectionColor;
 
 // #define DEBUG_STEPS 1
 // #define DEBUG_MATERIALS 1
-// #define AO_ENABLED 1
-// #define FOG_ENABLED 1
+#define AO_ENABLED 1
+#define FOG_ENABLED 1
 #define FADE_TO_SKYBOX 1
 uniform float _Steps = 64;
 uniform float ConservativeStepFactor = 1;
+uniform float FogDensity;
+uniform float3 FogColor;
 uniform float FadeToSkyboxDistance;
-
-// no light uniforms in scene
 
 //
 // Noise Shader Library for Unity - https://github.com/keijiro/NoiseShader
@@ -1189,70 +1210,154 @@ float fersertWaves(float3 p, float height) {
   return p.y + disp;
 }
 
+// Light Sun
+uniform float4 Sun_2127658874PosAndRange;
+uniform float4 Sun_2127658874ColorAndIntensity;
+uniform float3 Sun_2127658874Direction;
+uniform float Sun_2127658874Penumbra;
+uniform int Sun_2127658874ShadowSteps;
+
 // UNIFORMS AND FUNCTIONS
-uniform int x_2050455832_1d0a4544_iterations;
-uniform float x_2050455832_1d0a4544_bailout;
-uniform float x_2050455832_1d0a4544_power;
-float object_FractalMandelbub(float3 p , int _INP_iterations, float _INP_bailout, float _INP_power) {
-    // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Objects/Fractal Mandelbub.asset
-    // http://iquilezles.org/www/articles/mandelbulb/mandelbulb.htm
-    float3 z = p;
-    float dr = 1.0;
-    float r = 0.0;
-    for (int i = 0; i < (int)_INP_iterations ; i++) {
-      r = length(z);
-      if (r>_INP_bailout) break;
-      
-      // convert to polar coordinates
-      float theta = acos(z.z/r);
-      float phi = atan2(z.y,z.x);
-      dr =  pow( r, _INP_power-1.0)*_INP_power*dr + 1.0;
-      
-      // scale and rotate the point
-      float zr = pow( r,_INP_power);
-      theta = theta*_INP_power;
-      phi = phi*_INP_power;
-      
-      // convert back to cartesian coordinates
-      z = zr*float3(sin(theta)*cos(phi), sin(phi)*sin(theta), cos(theta));
-      z+=p;
-    }
-    return 0.5*log(r)*r/dr;
+uniform float x_2826306804_1d59cc68_freq;
+uniform float x_2826306804_1d59cc68_intensity;
+uniform float x_2826306804_1d59cc68_speed;
+uniform float x_3135482997_1d59cc68_freq;
+uniform float x_3135482997_1d59cc68_intensity;
+uniform float x_3135482997_1d59cc68_speed;
+uniform float x_2685144300_1d59cc68_freq;
+uniform float x_2685144300_1d59cc68_intensity;
+uniform float x_2685144300_1d59cc68_speed;
+uniform float x_1307277026_1d59cc68_freq;
+uniform float x_1307277026_1d59cc68_intensity;
+uniform float x_1307277026_1d59cc68_speed;
+uniform float x_1845333880_1d59cc68_freq;
+uniform float x_1845333880_1d59cc68_intensity;
+uniform float x_1845333880_1d59cc68_speed;
+float3 modifier_Displacement(float3 p , float _INP_freq, float _INP_intensity, float _INP_speed) {
+    // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Modifiers/Displacement.asset
+    float timeOffset = _Time.z * _INP_speed;
+    return p + sin(_INP_freq*p.x + timeOffset)*sin(_INP_freq*p.y + timeOffset)*sin(_INP_freq*p.z + timeOffset)*_INP_intensity;
 }
-// uniforms for Fractal
-uniform float4x4 _2050455832Matrix;
-uniform float _2050455832MinScale;
-uniform float2 x_2050455832_07ee3232_position;
-uniform sampler2D x_2050455832_07ee3232_gradient;
-float3 material_Gradient(inout float3 normal, float3 p, float3 rayDir, float2 _INP_position, sampler2D _INP_gradient) {
-    // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Materials/Gradient.asset
-    float f = clamp((p.y - _INP_position.x) / _INP_position.y,0,1);
-    return tex2Dlod(_INP_gradient, float4(f, 0, 0, 0));
+uniform float4x4 _2826306804Matrix;
+uniform float4x4 _2826306804InverseMatrix;
+uniform float4x4 _3135482997Matrix;
+uniform float4x4 _3135482997InverseMatrix;
+uniform float4x4 _2685144300Matrix;
+uniform float4x4 _2685144300InverseMatrix;
+uniform float4x4 _1307277026Matrix;
+uniform float4x4 _1307277026InverseMatrix;
+uniform float4x4 _1845333880Matrix;
+uniform float4x4 _1845333880InverseMatrix;
+uniform float x_218382970_6492bb9b_radius;
+uniform float x_2228415425_6492bb9b_radius;
+float object_Sphere(float3 p , float _INP_radius) {
+    // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Objects/Sphere.asset
+    return length(p) - _INP_radius;
+}
+uniform float x_1240019884_6ce56777_frequency;
+uniform float x_1240019884_6ce56777_height;
+float object_TerrainRocky(float3 p , float _INP_frequency, float _INP_height) {
+    // Generated from Assets/Imported/Raymarching Toolkit/Examples/Assets/Terrain/Terrain Rocky.asset
+    float disp = sin(p.x * _INP_frequency) * sin(p.z *  _INP_frequency) * _INP_height;
+    return p.y + disp;
+}
+uniform float x_3008133294_045916f1_radius;
+float object_InfiniteTunnel(float3 p , float _INP_radius) {
+    // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Objects/Infinite Tunnel.asset
+    return _INP_radius - length(p.xy);
+}
+// uniforms for Sphere
+uniform float4x4 _218382970Matrix;
+uniform float _218382970MinScale;
+// uniforms for Terrain
+uniform float4x4 _1240019884Matrix;
+uniform float _1240019884MinScale;
+// uniforms for Spheres
+uniform float4x4 _2228415425Matrix;
+uniform float _2228415425MinScale;
+// uniforms for Tunnel
+uniform float4x4 _3008133294Matrix;
+uniform float _3008133294MinScale;
+uniform float x_3350550851_8d0fbb1f_smoothfactor;
+float2 blend_SmoothIntersection(float2 a, float2 b , float _INP_smoothfactor) {
+    // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Blends/Smooth Intersection.asset
+    // source https://www.shadertoy.com/view/Xs33Df
+    float h = clamp( 0.5 + 0.5*(a-b)/_INP_smoothfactor, 0., 1.);
+    return lerp(b, a, h) + h*(1.0-h)*_INP_smoothfactor;
+}
+uniform float x_682534459_44192f17_intensity;
+float2 blend_Smooth(float2 a, float2 b , float _INP_intensity) {
+    // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Blends/Smooth.asset
+    float h = saturate(0.5 + 0.5*(b - a) / _INP_intensity);
+    return lerp(b, a, h) - _INP_intensity*h*(1 - h);
+}
+uniform float4 x_218382970_da843a44_color;
+float3 material_SimpleColor(inout float3 normal, float3 p, float3 rayDir, float4 _INP_color) {
+    // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Materials/SimpleColor.asset
+    return _INP_color;
+}
+uniform sampler2D x_1240019884_92cb596e_textureMap;
+uniform float x_1240019884_92cb596e_textureMapSize;
+uniform sampler2D x_1240019884_92cb596e_bumpmap;
+uniform float x_1240019884_92cb596e_bumpfactor;
+uniform float x_1240019884_92cb596e_bumpmapsize;
+uniform sampler2D x_2228415425_92cb596e_textureMap;
+uniform float x_2228415425_92cb596e_textureMapSize;
+uniform sampler2D x_2228415425_92cb596e_bumpmap;
+uniform float x_2228415425_92cb596e_bumpfactor;
+uniform float x_2228415425_92cb596e_bumpmapsize;
+uniform sampler2D x_3008133294_92cb596e_textureMap;
+uniform float x_3008133294_92cb596e_textureMapSize;
+uniform sampler2D x_3008133294_92cb596e_bumpmap;
+uniform float x_3008133294_92cb596e_bumpfactor;
+uniform float x_3008133294_92cb596e_bumpmapsize;
+float3 material_TerrayRockyMat(inout float3 normal, float3 p, float3 rayDir, sampler2D _INP_textureMap, float _INP_textureMapSize, sampler2D _INP_bumpmap, float _INP_bumpfactor, float _INP_bumpmapsize) {
+    // Generated from Assets/Imported/Raymarching Toolkit/Examples/Assets/Terrain/Terray Rocky Mat.asset
+    float3 col = triplanarTex3D(p * _INP_textureMapSize, normal, _INP_textureMap);
+    
+    normal = doBumpMap(p * _INP_bumpmapsize, normal, _INP_bumpmap, _INP_bumpfactor);
+    
+    return col;
 }
 float3 MaterialFunc(float nf, inout float3 normal, float3 p, float3 rayDir, out float objectID)
 {
-    objectID = ceil(nf) / (float)1;
+    objectID = ceil(nf) / (float)4;
     [branch] if (nf <= 1) {
+    //    objectID = 0.25;
+        return material_SimpleColor(normal, objPos(_218382970Matrix, p), rayDir, x_218382970_da843a44_color);
+    }
+    else if(nf <= 2) {
+    //    objectID = 0.5;
+        return material_TerrayRockyMat(normal, objPos(_1240019884Matrix, p), rayDir, x_1240019884_92cb596e_textureMap, x_1240019884_92cb596e_textureMapSize, x_1240019884_92cb596e_bumpmap, x_1240019884_92cb596e_bumpfactor, x_1240019884_92cb596e_bumpmapsize);
+    }
+    else if(nf <= 3) {
+    //    objectID = 0.75;
+        return material_TerrayRockyMat(normal, objPos(_2228415425Matrix, p), rayDir, x_2228415425_92cb596e_textureMap, x_2228415425_92cb596e_textureMapSize, x_2228415425_92cb596e_bumpmap, x_2228415425_92cb596e_bumpfactor, x_2228415425_92cb596e_bumpmapsize);
+    }
+    else if(nf <= 4) {
     //    objectID = 1;
-        return material_Gradient(normal, objPos(_2050455832Matrix, p), rayDir, x_2050455832_07ee3232_position, x_2050455832_07ee3232_gradient);
+        return material_TerrayRockyMat(normal, objPos(_3008133294Matrix, p), rayDir, x_3008133294_92cb596e_textureMap, x_3008133294_92cb596e_textureMapSize, x_3008133294_92cb596e_bumpmap, x_3008133294_92cb596e_bumpfactor, x_3008133294_92cb596e_bumpmapsize);
     }
         objectID = 0;
         return float3(1.0, 0.0, 1.0);
     }
 
 float2 map(float3 p) {
-	//[[OBJECTDISPLACEMENTS]]
 	float2 result = float2(1.0, 0.0);
 	
 {
-    float _2050455832Distance = object_FractalMandelbub(objPos(_2050455832Matrix, p), x_2050455832_1d0a4544_iterations, x_2050455832_1d0a4544_bailout, x_2050455832_1d0a4544_power) * _2050455832MinScale;
-    result = float2(_2050455832Distance, /*material ID*/0.5);
+    float3 p_2826306804 = objPos(_2826306804InverseMatrix, modifier_Displacement(objPos(_2826306804Matrix, p), x_2826306804_1d59cc68_freq, x_2826306804_1d59cc68_intensity, x_2826306804_1d59cc68_speed));
+    float3 p_3135482997 = objPos(_3135482997InverseMatrix, modifier_Displacement(objPos(_3135482997Matrix, p_2826306804), x_3135482997_1d59cc68_freq, x_3135482997_1d59cc68_intensity, x_3135482997_1d59cc68_speed));
+    float3 p_2685144300 = objPos(_2685144300InverseMatrix, modifier_Displacement(objPos(_2685144300Matrix, p_3135482997), x_2685144300_1d59cc68_freq, x_2685144300_1d59cc68_intensity, x_2685144300_1d59cc68_speed));
+    float3 p_1307277026 = objPos(_1307277026InverseMatrix, modifier_Displacement(objPos(_1307277026Matrix, p_2685144300), x_1307277026_1d59cc68_freq, x_1307277026_1d59cc68_intensity, x_1307277026_1d59cc68_speed));
+    float _218382970Distance = object_Sphere(objPos(_218382970Matrix, p_1307277026), x_218382970_6492bb9b_radius) * _218382970MinScale;
+    float _1240019884Distance = object_TerrainRocky(objPos(_1240019884Matrix, p_1307277026), x_1240019884_6ce56777_frequency, x_1240019884_6ce56777_height) * _1240019884MinScale;
+    float _2228415425Distance = object_Sphere(objPos(_2228415425Matrix, p_1307277026), x_2228415425_6492bb9b_radius) * _2228415425MinScale;
+    float3 p_1845333880 = objPos(_1845333880InverseMatrix, modifier_Displacement(objPos(_1845333880Matrix, p_1307277026), x_1845333880_1d59cc68_freq, x_1845333880_1d59cc68_intensity, x_1845333880_1d59cc68_speed));
+    float _3008133294Distance = object_InfiniteTunnel(objPos(_3008133294Matrix, p_1845333880), x_3008133294_045916f1_radius) * _3008133294MinScale;
+    result = opSubtract(float2(_218382970Distance, /*material ID*/0.5), blend_SmoothIntersection(blend_Smooth(float2(_1240019884Distance, /*material ID*/1.5), float2(_2228415425Distance, /*material ID*/2.5), x_682534459_44192f17_intensity), float2(_3008133294Distance, /*material ID*/3.5), x_3350550851_8d0fbb1f_smoothfactor));
     }
 	return result;
-}
-
-fixed4 sampleGradient(sampler2D tex, float value) {
-	return tex2Dlod(tex, float4(value,0,0,0));
 }
 
 float3 getLights(in float3 color, in float3 pos, in float3 normal) {
@@ -1263,207 +1368,131 @@ float3 getLights(in float3 color, in float3 pos, in float3 normal) {
 
 	float3 lightValue = float3(0, 0, 0);
 	
-// no lights in scene
+{
+LightInfo light;
+light.posAndRange = Sun_2127658874PosAndRange;
+light.colorAndIntensity = Sun_2127658874ColorAndIntensity;
+light.direction = Sun_2127658874Direction;
+lightValue += getDirectionalLight(input, light)* softshadow(input.pos, -light.direction, INFINITY, Sun_2127658874Penumbra, Sun_2127658874ShadowSteps);
+}
 	return lightValue;
 }
 
-float2 traceFr(float3 o, float3 d, out float3 raypos, int maxSteps, out int numSteps, inout bool found) {
-  float t_min = get_camera_near_plane();
-  float t_max = _DrawDistance - get_camera_near_plane();
-  float t = t_min;
-  float candidate_error = INFINITY;
-  float candidate_t = t_min;
-  float candidate_mat = 0;
-  float previousRadius = 0;
-  float stepLength = 0;
-  float functionSign = map(o).x < 0 ? -1 : +1;
-  float pixelRadius = _ScreenParams.z - 1.0;
-  raypos = o;
-  float mat = 0;
-  [loop]
-  for (int i = 0; i < maxSteps; ++i) {
-    raypos = d * t + o;
-    float2 hit = map(raypos);
-    float signedRadius = functionSign * hit.x;
-    mat = hit.y;
-    float radius = abs(signedRadius);
-
-    bool sorFail = omega > 1 && (radius + previousRadius) < stepLength;
-    if (sorFail) {
-      stepLength -= omega * stepLength;
-      omega = 1;
-    } else {
-      stepLength = signedRadius * omega;
-    }
-
-    previousRadius = radius;
-    float error = radius / t;
-    if (!sorFail && error < candidate_error) {
-      candidate_t = t;
-      candidate_error = error;
-      candidate_mat = mat;
-    }
-
-    [branch]
-    if (!sorFail && error < pixelRadius || t > t_max)
-      break;
-
-    t += stepLength * ConservativeStepFactor;
-    numSteps++;
-  }
-
-  if ((t > t_max || candidate_error > pixelRadius))
-    found = false;
-  else
-    found = true;
-  return float2(candidate_t, candidate_mat);
-}
-
-float4 getColor(float3 p, float2 d, float3 rayDir, int numSteps, float3 bgColor)
+fixed4 raymarch(float3 ro, float3 rd, float s, inout float3 raypos, out float objectID)
 {
-	float t = d.x;
-
-	// First, we sample the map() function around our hit point to find the normal.
-	float3 n = calcNormal(p);
-
-	// Then, we get the color of the world at that point, based on our material ids.
-	float objectID = 0;
-	float3 color = MaterialFunc(d.y, n, p, rayDir, objectID);
-	float3 light = getLights(color, p, n);
-
-	// The ambient color is applied.
-	color *= _AmbientColor.xyz;
-
-	// And lights are added.
-	color += light;
-
-	// Steps-based glow
-	float s = numSteps / _Steps;
-	s = clamp(s,0,1);
-	color *= 1 + _Glow * s;
-	color += _GlowColor * s;
-	// color += _GlowColor * dot(1-s,2);
-
-	// If enabled, darken with ambient occlusion.
-	#if AO_ENABLED
-	color *= ambientOcclusion(p, n);
-	#endif
-
-	// If fog is enabled, lerp towards the fog color based on the distance.
-	#if FOG_ENABLED
-	color = lerp(color, bgColor, 1.0-exp2(-FogDensity * t * t));
-	#endif
-
-	// If fading to the skybox is enabled, reduce the alpha value of the output pizel.
-	#if FADE_TO_SKYBOX
-	float alpha = lerp(1.0, 0, 1.0 - (_DrawDistance - t) / FadeToSkyboxDistance);
-	#else
-	float alpha = 1.0;
-	#endif
-
-	return fixed4(color, alpha);
-}
-
-fixed4 raymarch(float3 ro, float3 rd, float s, inout float3 raypos) {
 	bool found = false;
+	objectID = 0.0;
 
 	float2 d;
 	float t = 0; // current distance traveled along ray
 	float3 p = float3(0, 0, 0);
 
-	// Sample the sky gradient
-	float3 gradientray = rd;
-	if (_SkyGradientNoise != 0)
-		gradientray += rand(rd.xy) * 0.03 * _SkyGradientNoise;
-	// get the angle of the gradient to fake a dome
-	// TODO: make this value spherical
-	float g = gradientray.y;
-	g = 0.5 + g * 0.5;
-	// g = (dot(gradientray, float3(0,1,0)) + 1.) / 2.;
-	fixed4 ret = sampleGradient(_SkyGradient, g);
-
-	#if FADE_TO_SKYBOX
+#if FADE_TO_SKYBOX
 	const float skyboxAlpha = 0;
-	#else
+#else
 	const float skyboxAlpha = 1;
-	#endif
+#endif
 
-	#if FOG_ENABLED
-	// ret = fixed4(FogColor, skyboxAlpha);
-	#else
-	// ret = fixed4(0,0,0,0);
-	#endif
+#if FOG_ENABLED
+	fixed4 ret = fixed4(FogColor, skyboxAlpha);
+#else
+	fixed4 ret = fixed4(0,0,0,0);
+#endif
 
 	int numSteps;
-	d = traceFr(ro, rd, raypos, _Steps, numSteps, found);
+	d = trace(ro, rd, raypos, numSteps, found);
 	t = d.x;
 	p = raypos;
 
-	#if DEBUG_STEPS
-	// float3 c = float3(1,0,0) * fmod(t, 0.1);
+#if DEBUG_STEPS
 	float3 c = float3(1,0,0) * (1-(t / (float)numSteps));
 	return fixed4(c, 1);
-	#elif DEBUG_MATERIALS
+#elif DEBUG_MATERIALS
 	float3 c = float3(1,1,1) * (d.y / 20);
 	return fixed4(c, 1);
-	#endif
-
+#endif
 
 	[branch]
-	if (found) 
+	if (found)
 	{
-		#if ENABLE_REFLECTIONS
-		ret = getColor(p, d, rd, numSteps, ret.rgb);
-		float3 refp = p;
-		float3 refraypos = raypos;
-		float2 refd = d;
-		for(int i = 0; i < _Reflections; ++i)
-		{
-			refraypos = calcNormal(refp);
-			found = false;
-			numSteps = 0;
-			refd = traceFr(refp, refraypos, refp, _ReflectionSteps, numSteps, found);
-			if (!found)
-				break;
-			float4 refcol = getColor(refp, refd, rd, numSteps, ret.rgb);
-			refcol = float4(refcol.rgb * _ReflectionColor.rgb, refcol.a);
-			// refcol.rgb *=  _ReflectionColor.rgb;
-			ret = lerp(ret, refcol, 0.5 * _ReflectionColor.a);
-		}
-		#else
-		ret = getColor(p, d, rd, numSteps, ret.rgb);
+		// First, we sample the map() function around our hit point to find the normal.
+		float3 n = calcNormal(p);
+
+		// Then, we get the color of the world at that point, based on our material ids.
+		float3 color = MaterialFunc(d.y, n, p, rd, objectID);
+		float3 light = getLights(color, p, n);
+
+		// The ambient color is applied.
+		color *= _AmbientColor.xyz;
+
+		// And lights are added.
+		color += light;
+
+		// If enabled, darken with ambient occlusion.
+		#if AO_ENABLED
+		color *= ambientOcclusion(p, n);
 		#endif
+
+		// If fog is enabled, lerp towards the fog color based on the distance.
+		#if FOG_ENABLED
+		color = lerp(color, FogColor, 1.0-exp2(-FogDensity * t * t));
+		#endif
+
+		// If fading to the skybox is enabled, reduce the alpha value of the output pizel.
+		#if FADE_TO_SKYBOX
+		float alpha = lerp(1.0, 0, 1.0 - (_DrawDistance - t) / FadeToSkyboxDistance);
+		#else
+		float alpha = 1.0;
+		#endif
+
+		ret = fixed4(color, alpha);
 	}
 
 	raypos = p;
 	return ret;
 }
 
-
 struct vertexFSTriangleInput
 {
 	float4 vertex : POSITION;
 };
 
-
+#if RENDER_OBJECT
+struct v2f
+{
+    float4 pos         : SV_POSITION;
+    float4 screenPos   : TEXCOORD0;
+    float4 worldPos    : TEXCOORD1;
+};
+#else
 struct v2f
 {
 	float4 vertex : SV_POSITION;
 	float4 screenPos : TEXCOORD0;
 };
+#endif
 
 v2f vert(vertexFSTriangleInput input)
 {
-	v2f o;
-	UNITY_INITIALIZE_OUTPUT(v2f, o);
-	o.vertex = input.vertex;
-	o.screenPos = input.vertex;
+	#if RENDER_OBJECT
+		v2f o;
+		o.pos = UnityObjectToClipPos(input.vertex);
+		o.screenPos = o.pos;
+		o.worldPos = mul(unity_ObjectToWorld, input.vertex);
+	#else
+		v2f o;
+		UNITY_INITIALIZE_OUTPUT(v2f, o);
+		o.vertex = input.vertex;
+		o.screenPos = input.vertex;
+	#endif
+
 	return o;
 }
 
 struct FragOut
 {
-	fixed4 col : SV_Target;
+	fixed4 col : COLOR0;
+	float4 col1 : COLOR1;
 	float depth : SV_Depth;
 };
 
@@ -1509,19 +1538,24 @@ inline float3 GetCameraDirection(float4 screenPos)
 FragOut frag (v2f i)
 {
 	FragOut o;
-
+	
+	float depth = _DrawDistance;
     float3 rayDir = GetCameraDirection(i.screenPos);
     float3 rayOrigin = GetCameraPosition() + GetCameraNearClip() * rayDir;
-
+    
 	float3 raypos = float3(0, 0, 0);
-	o.col = raymarch(rayOrigin, rayDir, _DrawDistance, raypos);
+	float objectID = 0.0;
+	
+	o.col = raymarch(rayOrigin, rayDir, depth, raypos, objectID);
+	o.col1 = float4(objectID, 0, 0, 1);
 	o.depth = compute_depth(mul(UNITY_MATRIX_VP, float4(raypos, 1.0)));
+	
 	#if !FOG_ENABLED
 	clip(o.col.a < 0.001 ? -1.0 : 1.0);
 	#endif
+	
 	return o;
 }
-
 ENDCG
 
 }

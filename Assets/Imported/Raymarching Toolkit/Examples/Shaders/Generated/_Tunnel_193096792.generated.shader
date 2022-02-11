@@ -15,12 +15,12 @@
   This shader was automatically generated from
   Imported\Raymarching Toolkit\Assets\Shaders\RaymarchTemplate.shader
   
-  for Raymarcher named 'Raymarcher' in scene 'Ramins Takeoff'.
+  for Raymarcher named 'Raymarcher' in scene 'Tunnel'.
 
 */
 
 
-Shader "Hidden/_Ramins Takeoff_1014514202.generated"
+Shader "Hidden/_Tunnel_193096792.generated"
 {
 
 SubShader
@@ -59,7 +59,7 @@ uniform float _DrawDistance;
 
 // #define DEBUG_STEPS 1
 // #define DEBUG_MATERIALS 1
-// #define AO_ENABLED 1
+#define AO_ENABLED 1
 #define FOG_ENABLED 1
 #define FADE_TO_SKYBOX 1
 uniform float _Steps = 64;
@@ -1210,53 +1210,133 @@ float fersertWaves(float3 p, float height) {
   return p.y + disp;
 }
 
-// no light uniforms in scene
+// Light Sun
+uniform float4 Sun_1540988288PosAndRange;
+uniform float4 Sun_1540988288ColorAndIntensity;
+uniform float3 Sun_1540988288Direction;
+uniform float Sun_1540988288Penumbra;
+uniform int Sun_1540988288ShadowSteps;
 
 // UNIFORMS AND FUNCTIONS
-uniform float2 x_1451473961_1ec48586_freq;
-uniform float2 x_1451473961_1ec48586_extranoise;
-float object_Desert(float3 p , float2 _INP_freq, float2 _INP_extranoise) {
-    // Generated from Assets/Imported/Raymarching Toolkit/Examples/Assets/Desert/Desert.asset
-    float disp = 1.0;
-    float noise = snoise(float2(p.x * _INP_freq.x, p.z * _INP_freq.y))
-;
-    disp = abs(atan((noise)*2));
-    disp += snoise(p.xz * _INP_extranoise.x) * _INP_extranoise.y;
+uniform float x_1540988197_1d59cc68_freq;
+uniform float x_1540988197_1d59cc68_intensity;
+uniform float x_1540988197_1d59cc68_speed;
+uniform float x_1540988137_1d59cc68_freq;
+uniform float x_1540988137_1d59cc68_intensity;
+uniform float x_1540988137_1d59cc68_speed;
+uniform float x_1540988131_1d59cc68_freq;
+uniform float x_1540988131_1d59cc68_intensity;
+uniform float x_1540988131_1d59cc68_speed;
+uniform float x_1540988170_1d59cc68_freq;
+uniform float x_1540988170_1d59cc68_intensity;
+uniform float x_1540988170_1d59cc68_speed;
+uniform float x_1540988261_1d59cc68_freq;
+uniform float x_1540988261_1d59cc68_intensity;
+uniform float x_1540988261_1d59cc68_speed;
+float3 modifier_Displacement(float3 p , float _INP_freq, float _INP_intensity, float _INP_speed) {
+    // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Modifiers/Displacement.asset
+    float timeOffset = _Time.z * _INP_speed;
+    return p + sin(_INP_freq*p.x + timeOffset)*sin(_INP_freq*p.y + timeOffset)*sin(_INP_freq*p.z + timeOffset)*_INP_intensity;
+}
+uniform float4x4 _1540988197Matrix;
+uniform float4x4 _1540988197InverseMatrix;
+uniform float4x4 _1540988137Matrix;
+uniform float4x4 _1540988137InverseMatrix;
+uniform float4x4 _1540988131Matrix;
+uniform float4x4 _1540988131InverseMatrix;
+uniform float4x4 _1540988170Matrix;
+uniform float4x4 _1540988170InverseMatrix;
+uniform float4x4 _1540988261Matrix;
+uniform float4x4 _1540988261InverseMatrix;
+uniform float x_1540988104_6492bb9b_radius;
+uniform float x_1540988224_6492bb9b_radius;
+float object_Sphere(float3 p , float _INP_radius) {
+    // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Objects/Sphere.asset
+    return length(p) - _INP_radius;
+}
+uniform float x_1540987422_6ce56777_frequency;
+uniform float x_1540987422_6ce56777_height;
+float object_TerrainRocky(float3 p , float _INP_frequency, float _INP_height) {
+    // Generated from Assets/Imported/Raymarching Toolkit/Examples/Assets/Terrain/Terrain Rocky.asset
+    float disp = sin(p.x * _INP_frequency) * sin(p.z *  _INP_frequency) * _INP_height;
     return p.y + disp;
 }
+uniform float x_1540988259_045916f1_radius;
+float object_InfiniteTunnel(float3 p , float _INP_radius) {
+    // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Objects/Infinite Tunnel.asset
+    return _INP_radius - length(p.xy);
+}
+// uniforms for Sphere
+uniform float4x4 _1540988104Matrix;
+uniform float _1540988104MinScale;
 // uniforms for Terrain
-uniform float4x4 _1451473961Matrix;
-uniform float _1451473961MinScale;
-uniform sampler2D x_1451473961_3f06f9be_textureMap;
-uniform float x_1451473961_3f06f9be_textureMapSize;
-uniform sampler2D x_1451473961_3f06f9be_bumpmap;
-uniform float x_1451473961_3f06f9be_bumpfactor;
-uniform float x_1451473961_3f06f9be_bumpmapsize;
-uniform float4 x_1451473961_3f06f9be_color;
-uniform float x_1451473961_3f06f9be_angle;
-uniform float2 x_1451473961_3f06f9be_flatnessmask1;
-uniform float2 x_1451473961_3f06f9be_flatnessmask2;
-float3 material_DesertMaterial(inout float3 normal, float3 p, float3 rayDir, sampler2D _INP_textureMap, float _INP_textureMapSize, sampler2D _INP_bumpmap, float _INP_bumpfactor, float _INP_bumpmapsize, float4 _INP_color, float _INP_angle, float2 _INP_flatnessmask1, float2 _INP_flatnessmask2) {
-    // Generated from Assets/Imported/Raymarching Toolkit/Examples/Assets/Desert/Desert Material.asset
+uniform float4x4 _1540987422Matrix;
+uniform float _1540987422MinScale;
+// uniforms for Spheres
+uniform float4x4 _1540988224Matrix;
+uniform float _1540988224MinScale;
+// uniforms for Tunnel
+uniform float4x4 _1540988259Matrix;
+uniform float _1540988259MinScale;
+uniform float x_1540988100_8d0fbb1f_smoothfactor;
+float2 blend_SmoothIntersection(float2 a, float2 b , float _INP_smoothfactor) {
+    // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Blends/Smooth Intersection.asset
+    // source https://www.shadertoy.com/view/Xs33Df
+    float h = clamp( 0.5 + 0.5*(a-b)/_INP_smoothfactor, 0., 1.);
+    return lerp(b, a, h) + h*(1.0-h)*_INP_smoothfactor;
+}
+uniform float x_1540988232_44192f17_intensity;
+float2 blend_Smooth(float2 a, float2 b , float _INP_intensity) {
+    // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Blends/Smooth.asset
+    float h = saturate(0.5 + 0.5*(b - a) / _INP_intensity);
+    return lerp(b, a, h) - _INP_intensity*h*(1 - h);
+}
+uniform float4 x_1540988104_da843a44_color;
+float3 material_SimpleColor(inout float3 normal, float3 p, float3 rayDir, float4 _INP_color) {
+    // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Materials/SimpleColor.asset
+    return _INP_color;
+}
+uniform sampler2D x_1540987422_92cb596e_textureMap;
+uniform float x_1540987422_92cb596e_textureMapSize;
+uniform sampler2D x_1540987422_92cb596e_bumpmap;
+uniform float x_1540987422_92cb596e_bumpfactor;
+uniform float x_1540987422_92cb596e_bumpmapsize;
+uniform sampler2D x_1540988224_92cb596e_textureMap;
+uniform float x_1540988224_92cb596e_textureMapSize;
+uniform sampler2D x_1540988224_92cb596e_bumpmap;
+uniform float x_1540988224_92cb596e_bumpfactor;
+uniform float x_1540988224_92cb596e_bumpmapsize;
+uniform sampler2D x_1540988259_92cb596e_textureMap;
+uniform float x_1540988259_92cb596e_textureMapSize;
+uniform sampler2D x_1540988259_92cb596e_bumpmap;
+uniform float x_1540988259_92cb596e_bumpfactor;
+uniform float x_1540988259_92cb596e_bumpmapsize;
+float3 material_TerrayRockyMat(inout float3 normal, float3 p, float3 rayDir, sampler2D _INP_textureMap, float _INP_textureMapSize, sampler2D _INP_bumpmap, float _INP_bumpfactor, float _INP_bumpmapsize) {
+    // Generated from Assets/Imported/Raymarching Toolkit/Examples/Assets/Terrain/Terray Rocky Mat.asset
     float3 col = triplanarTex3D(p * _INP_textureMapSize, normal, _INP_textureMap);
-    
-    col = tex2Dlod(_INP_textureMap, float4(rotateY(p,_INP_angle).xz,0,0));
-    float flatness = length(float3(0,1,0) + -normal);
-    float f1 = (flatness - _INP_flatnessmask1.x) / (_INP_flatnessmask1.y - _INP_flatnessmask1.x);
-    float f2 = (flatness - _INP_flatnessmask2.x) / (_INP_flatnessmask2.y - _INP_flatnessmask2.x);
-    //col = float3(1,1,1) * fmod(f1, 0.1);
-    //return col;
     
     normal = doBumpMap(p * _INP_bumpmapsize, normal, _INP_bumpmap, _INP_bumpfactor);
     
-    return lerp(_INP_color, col, _INP_color.a);
+    return col;
 }
 float3 MaterialFunc(float nf, inout float3 normal, float3 p, float3 rayDir, out float objectID)
 {
-    objectID = ceil(nf) / (float)1;
+    objectID = ceil(nf) / (float)4;
     [branch] if (nf <= 1) {
+    //    objectID = 0.25;
+        return material_SimpleColor(normal, objPos(_1540988104Matrix, p), rayDir, x_1540988104_da843a44_color);
+    }
+    else if(nf <= 2) {
+    //    objectID = 0.5;
+        return material_TerrayRockyMat(normal, objPos(_1540987422Matrix, p), rayDir, x_1540987422_92cb596e_textureMap, x_1540987422_92cb596e_textureMapSize, x_1540987422_92cb596e_bumpmap, x_1540987422_92cb596e_bumpfactor, x_1540987422_92cb596e_bumpmapsize);
+    }
+    else if(nf <= 3) {
+    //    objectID = 0.75;
+        return material_TerrayRockyMat(normal, objPos(_1540988224Matrix, p), rayDir, x_1540988224_92cb596e_textureMap, x_1540988224_92cb596e_textureMapSize, x_1540988224_92cb596e_bumpmap, x_1540988224_92cb596e_bumpfactor, x_1540988224_92cb596e_bumpmapsize);
+    }
+    else if(nf <= 4) {
     //    objectID = 1;
-        return material_DesertMaterial(normal, objPos(_1451473961Matrix, p), rayDir, x_1451473961_3f06f9be_textureMap, x_1451473961_3f06f9be_textureMapSize, x_1451473961_3f06f9be_bumpmap, x_1451473961_3f06f9be_bumpfactor, x_1451473961_3f06f9be_bumpmapsize, x_1451473961_3f06f9be_color, x_1451473961_3f06f9be_angle, x_1451473961_3f06f9be_flatnessmask1, x_1451473961_3f06f9be_flatnessmask2);
+        return material_TerrayRockyMat(normal, objPos(_1540988259Matrix, p), rayDir, x_1540988259_92cb596e_textureMap, x_1540988259_92cb596e_textureMapSize, x_1540988259_92cb596e_bumpmap, x_1540988259_92cb596e_bumpfactor, x_1540988259_92cb596e_bumpmapsize);
     }
         objectID = 0;
         return float3(1.0, 0.0, 1.0);
@@ -1266,8 +1346,16 @@ float2 map(float3 p) {
 	float2 result = float2(1.0, 0.0);
 	
 {
-    float _1451473961Distance = object_Desert(objPos(_1451473961Matrix, p), x_1451473961_1ec48586_freq, x_1451473961_1ec48586_extranoise) * _1451473961MinScale;
-    result = float2(_1451473961Distance, /*material ID*/0.5);
+    float3 p_1540988197 = objPos(_1540988197InverseMatrix, modifier_Displacement(objPos(_1540988197Matrix, p), x_1540988197_1d59cc68_freq, x_1540988197_1d59cc68_intensity, x_1540988197_1d59cc68_speed));
+    float3 p_1540988137 = objPos(_1540988137InverseMatrix, modifier_Displacement(objPos(_1540988137Matrix, p_1540988197), x_1540988137_1d59cc68_freq, x_1540988137_1d59cc68_intensity, x_1540988137_1d59cc68_speed));
+    float3 p_1540988131 = objPos(_1540988131InverseMatrix, modifier_Displacement(objPos(_1540988131Matrix, p_1540988137), x_1540988131_1d59cc68_freq, x_1540988131_1d59cc68_intensity, x_1540988131_1d59cc68_speed));
+    float3 p_1540988170 = objPos(_1540988170InverseMatrix, modifier_Displacement(objPos(_1540988170Matrix, p_1540988131), x_1540988170_1d59cc68_freq, x_1540988170_1d59cc68_intensity, x_1540988170_1d59cc68_speed));
+    float _1540988104Distance = object_Sphere(objPos(_1540988104Matrix, p_1540988170), x_1540988104_6492bb9b_radius) * _1540988104MinScale;
+    float _1540987422Distance = object_TerrainRocky(objPos(_1540987422Matrix, p_1540988170), x_1540987422_6ce56777_frequency, x_1540987422_6ce56777_height) * _1540987422MinScale;
+    float _1540988224Distance = object_Sphere(objPos(_1540988224Matrix, p_1540988170), x_1540988224_6492bb9b_radius) * _1540988224MinScale;
+    float3 p_1540988261 = objPos(_1540988261InverseMatrix, modifier_Displacement(objPos(_1540988261Matrix, p_1540988170), x_1540988261_1d59cc68_freq, x_1540988261_1d59cc68_intensity, x_1540988261_1d59cc68_speed));
+    float _1540988259Distance = object_InfiniteTunnel(objPos(_1540988259Matrix, p_1540988261), x_1540988259_045916f1_radius) * _1540988259MinScale;
+    result = opSubtract(float2(_1540988104Distance, /*material ID*/0.5), blend_SmoothIntersection(blend_Smooth(float2(_1540987422Distance, /*material ID*/1.5), float2(_1540988224Distance, /*material ID*/2.5), x_1540988232_44192f17_intensity), float2(_1540988259Distance, /*material ID*/3.5), x_1540988100_8d0fbb1f_smoothfactor));
     }
 	return result;
 }
@@ -1280,7 +1368,13 @@ float3 getLights(in float3 color, in float3 pos, in float3 normal) {
 
 	float3 lightValue = float3(0, 0, 0);
 	
-// no lights in scene
+{
+LightInfo light;
+light.posAndRange = Sun_1540988288PosAndRange;
+light.colorAndIntensity = Sun_1540988288ColorAndIntensity;
+light.direction = Sun_1540988288Direction;
+lightValue += getDirectionalLight(input, light)* softshadow(input.pos, -light.direction, INFINITY, Sun_1540988288Penumbra, Sun_1540988288ShadowSteps);
+}
 	return lightValue;
 }
 
