@@ -48,8 +48,8 @@ LightmapSettings:
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
-    m_IndirectOutputScale: 1
-    m_AlbedoBoost: 3
+    m_IndirectOutputScale: 1.2
+    m_AlbedoBoost: 10
     m_EnvironmentLightingMode: 0
     m_EnableBakedLightmaps: 0
     m_EnableRealtimeLightmaps: 1
@@ -9824,6 +9824,7 @@ Transform:
   - {fileID: 2119372586}
   - {fileID: 805387675}
   - {fileID: 106508597}
+  - {fileID: 1963436762}
   m_Father: {fileID: 2054115943}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10667,12 +10668,15 @@ MonoBehaviour:
   scrollSpeed: 2
   sprintTimerMax: 0.15
   footStepTimerTotal: 0.25
+  footstepVol: 1
   currentFootsteps:
   - {fileID: 8300000, guid: 40d2e27a4bd3dd3419fd5a23f28044bb, type: 3}
   - {fileID: 8300000, guid: f237f5821f3242e4fb095be7da745a6c, type: 3}
   - {fileID: 8300000, guid: b4af0a3eb7633e34c8fa52d0071ae4c5, type: 3}
   canMove: 1
   moving: 0
+  mirrorControls: 0
+  disableOnStart: 0
   startCam: {fileID: 0}
   holdingSpot: {fileID: 0}
   holding: 0
@@ -10681,6 +10685,8 @@ MonoBehaviour:
   beingHeld:
     m_PersistentCalls:
       m_Calls: []
+  personAnimator: {fileID: 0}
+  npcAnimator: {fileID: 0}
 --- !u!1 &390682780
 GameObject:
   m_ObjectHideFlags: 0
@@ -13191,7 +13197,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 40a8ae58dd3f1d5499694777e3945a80, type: 2}
+      objectReference: {fileID: 2100000, guid: 75196416ae1c98c4a83bd17a728c6da5, type: 2}
     - target: {fileID: 1758825378074462040, guid: 4875875abb20cc540b11d97da813623a,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -24714,6 +24720,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ba9f7d4506dc8641bd401918b507302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sunScary: {r: 0, g: 0, b: 0, a: 0}
+  sunNice: {r: 0, g: 0, b: 0, a: 0}
+  ambientScary: {r: 0, g: 0, b: 0, a: 0}
+  ambientNice: {r: 0, g: 0, b: 0, a: 0}
+  lerping: 0
+  lerpSpeed: 0.1
 --- !u!108 &805387677
 Light:
   m_ObjectHideFlags: 0
@@ -31962,6 +31974,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ba9f7d4506dc8641bd401918b507302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sunScary: {r: 0, g: 0, b: 0, a: 0}
+  sunNice: {r: 0, g: 0, b: 0, a: 0}
+  ambientScary: {r: 0, g: 0, b: 0, a: 0}
+  ambientNice: {r: 0, g: 0, b: 0, a: 0}
+  lerping: 0
+  lerpSpeed: 0.1
 --- !u!108 &1031691530
 Light:
   m_ObjectHideFlags: 0
@@ -46970,12 +46988,15 @@ MonoBehaviour:
   scrollSpeed: 2
   sprintTimerMax: 0.15
   footStepTimerTotal: 0.25
+  footstepVol: 1
   currentFootsteps:
   - {fileID: 8300000, guid: 40d2e27a4bd3dd3419fd5a23f28044bb, type: 3}
   - {fileID: 8300000, guid: f237f5821f3242e4fb095be7da745a6c, type: 3}
   - {fileID: 8300000, guid: b4af0a3eb7633e34c8fa52d0071ae4c5, type: 3}
   canMove: 1
   moving: 0
+  mirrorControls: 0
+  disableOnStart: 0
   startCam: {fileID: 0}
   holdingSpot: {fileID: 0}
   holding: 0
@@ -46984,6 +47005,8 @@ MonoBehaviour:
   beingHeld:
     m_PersistentCalls:
       m_Calls: []
+  personAnimator: {fileID: 0}
+  npcAnimator: {fileID: 0}
 --- !u!1 &1469904934
 GameObject:
   m_ObjectHideFlags: 0
@@ -48495,12 +48518,15 @@ MonoBehaviour:
   scrollSpeed: 2
   sprintTimerMax: 0.25
   footStepTimerTotal: 0.5
+  footstepVol: 1
   currentFootsteps:
   - {fileID: 8300000, guid: 40d2e27a4bd3dd3419fd5a23f28044bb, type: 3}
   - {fileID: 8300000, guid: f237f5821f3242e4fb095be7da745a6c, type: 3}
   - {fileID: 8300000, guid: b4af0a3eb7633e34c8fa52d0071ae4c5, type: 3}
   canMove: 1
   moving: 0
+  mirrorControls: 0
+  disableOnStart: 0
   startCam: {fileID: 455191055}
   holdingSpot: {fileID: 594845204}
   holding: 0
@@ -48509,6 +48535,8 @@ MonoBehaviour:
   beingHeld:
     m_PersistentCalls:
       m_Calls: []
+  personAnimator: {fileID: 0}
+  npcAnimator: {fileID: 0}
 --- !u!1001 &1519180580
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51234,12 +51262,15 @@ MonoBehaviour:
   scrollSpeed: 2
   sprintTimerMax: 0.25
   footStepTimerTotal: 0.5
+  footstepVol: 1
   currentFootsteps:
   - {fileID: 8300000, guid: 40d2e27a4bd3dd3419fd5a23f28044bb, type: 3}
   - {fileID: 8300000, guid: f237f5821f3242e4fb095be7da745a6c, type: 3}
   - {fileID: 8300000, guid: b4af0a3eb7633e34c8fa52d0071ae4c5, type: 3}
   canMove: 1
   moving: 0
+  mirrorControls: 0
+  disableOnStart: 0
   startCam: {fileID: 455191055}
   holdingSpot: {fileID: 1579072618}
   holding: 0
@@ -51248,6 +51279,8 @@ MonoBehaviour:
   beingHeld:
     m_PersistentCalls:
       m_Calls: []
+  personAnimator: {fileID: 0}
+  npcAnimator: {fileID: 0}
 --- !u!4 &1625896732
 Transform:
   m_ObjectHideFlags: 0
@@ -60492,6 +60525,98 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1960041894}
   m_Mesh: {fileID: 4300000, guid: 9a24a633bdabdcb4cac81cd55e11893f, type: 3}
+--- !u!1 &1963436761
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1963436762}
+  - component: {fileID: 1963436763}
+  m_Layer: 0
+  m_Name: Spot Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1963436762
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1963436761}
+  m_LocalRotation: {x: 0.000001397816, y: 0.3826837, z: -0.0000005971127, w: 0.92387944}
+  m_LocalPosition: {x: 14.13, y: -36.68, z: 129.41}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 371419531}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 45.000004, z: 0}
+--- !u!108 &1963436763
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1963436761}
+  m_Enabled: 1
+  serializedVersion: 10
+  m_Type: 0
+  m_Shape: 0
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 3
+  m_Range: 30
+  m_SpotAngle: 120
+  m_InnerSpotAngle: 1
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 0
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
 --- !u!1 &1965052406
 GameObject:
   m_ObjectHideFlags: 0
@@ -64773,7 +64898,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2119372586
 Transform:
   m_ObjectHideFlags: 0
