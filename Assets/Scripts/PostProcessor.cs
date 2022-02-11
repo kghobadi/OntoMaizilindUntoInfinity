@@ -79,7 +79,7 @@ public class PostProcessor : MonoBehaviour
         myPost.colorGrading.settings = colorGrader;
         
         //check if music was loud enough to spawn bomb 
-        Debug.Log("nuclear level = " + (spectrum.MeanLevels[bombLevelRef] * 100));
+        //Debug.Log("nuclear level = " + (spectrum.MeanLevels[bombLevelRef] * 100));
         if(spectrum.MeanLevels[bombLevelRef] * 100 > bombMin && canSpawnBombs)
         {
             SpawnBomb();

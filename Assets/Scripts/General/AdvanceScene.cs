@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using InControl;
 
-public class AdvanceScene : MonoBehaviour {
-
+public class AdvanceScene : MonoBehaviour 
+{
     public float timeToRestart = 5f;
     public float restartTimer;
 
