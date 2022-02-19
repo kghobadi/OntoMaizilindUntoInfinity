@@ -205,8 +205,11 @@ namespace NPC
                     if(idleType == IdleType.DEAD)
                     {
                         //zero local pos & rot
-                        camObj.myBody.transform.localPosition = Vector3.zero;
-                        camObj.myBody.transform.localRotation = Quaternion.identity;
+                        if (camObj)
+                        {
+                            camObj.myBody.transform.localPosition = Vector3.zero;
+                            camObj.myBody.transform.localRotation = Quaternion.identity;
+                        }
                     }
                 }
                 //Set destination based on npc type 
