@@ -23,6 +23,8 @@ namespace NPC
         [HideInInspector]
         public NavMeshAgent myNavMesh;
         public bool randomSpeed = true;
+        [Tooltip("Random value within this range will be added to navmesh speed.")]
+        public Vector2 speedRange = new Vector2(-5f, 10f);
         Vector3 origPosition;
         public MovementPath startBehavior;
         public Vector3 targetPosition;
@@ -113,10 +115,20 @@ namespace NPC
         void Start()
         { 
             origPosition = transform.position;
-            if(myNavMesh && randomSpeed)
-                myNavMesh.speed += Random.Range(-5f, 10f);
+            if (randomSpeed)
+            {
+                RandomizeSpeed();
+            }
             ResetMovement(startBehavior);
             SetIdle();
+        }
+
+        void RandomizeSpeed()
+        {
+            if (myNavMesh)
+            {
+                myNavMesh.speed += Random.Range(speedRange.x, speedRange.y);
+            }
         }
 
         void Update()
