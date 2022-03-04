@@ -49,7 +49,7 @@ LightmapSettings:
     serializedVersion: 2
     m_BounceScale: 1
     m_IndirectOutputScale: 1
-    m_AlbedoBoost: 2
+    m_AlbedoBoost: 5
     m_EnvironmentLightingMode: 0
     m_EnableBakedLightmaps: 0
     m_EnableRealtimeLightmaps: 1
@@ -11367,6 +11367,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 4dc6a7628f8291344801724bd21ca7b4, type: 2}
+    - target: {fileID: -3045798002923641714, guid: 4875875abb20cc540b11d97da813623a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -2988499191631310379, guid: 4875875abb20cc540b11d97da813623a,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -13255,6 +13260,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 6431359606070310228, guid: 4875875abb20cc540b11d97da813623a,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8dab4558637681e4eade75aeb285f2c8, type: 2}
     - target: {fileID: 7765197935566119123, guid: 4875875abb20cc540b11d97da813623a,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -60741,11 +60751,11 @@ Light:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 4
   m_Range: 20
-  m_SpotAngle: 95
+  m_SpotAngle: 110
   m_InnerSpotAngle: 1
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
