@@ -8,22 +8,12 @@ public class TrainEntranceTrigger : TriggerBase
 {
     [Header("Train Entrance Settings")]
     public Transform[] seats;
-    private bool[] seatsTaken;
     public bool hasSeats = true;
 
     public MovementPath newMovement;
     private Movement npcMover;
     public Transform lookAtObject;
 
-    private void Awake()
-    {
-        GetSeats();
-    }
-
-    void GetSeats()
-    {
-        seatsTaken = new bool[seats.Length];
-    }
 
     protected override void OnTriggerEnter(Collider other)
     {
@@ -41,6 +31,12 @@ public class TrainEntranceTrigger : TriggerBase
     {
         Transform seat = AssignSeat();
 
+        if (seat == null)
+        {
+            Debug.Log("Train car has no more seats!");
+            return;
+        }
+
         //reset movement
         if (npcMover)
         {
@@ -55,6 +51,9 @@ public class TrainEntranceTrigger : TriggerBase
             
             //set sitting idle 
             npcMover.ResetMovement(newMovement);
+            
+            //make npc child of seat 
+            npcMover.transform.SetParent(seat);
         }
 
         //only reactivate if there are seats
@@ -69,10 +68,8 @@ public class TrainEntranceTrigger : TriggerBase
         Transform retVal = null;
         for (int i = 0; i < seats.Length; i++)
         {
-            if (seatsTaken[i] == false)
+            if (seats[i].childCount == 0)
             {
-                //take seat
-                seatsTaken[i] = true;
                 retVal = seats[i];
                 break;
             }

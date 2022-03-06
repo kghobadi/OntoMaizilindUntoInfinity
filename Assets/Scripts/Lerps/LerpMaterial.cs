@@ -107,6 +107,7 @@ public class LerpMaterial : MonoBehaviour {
         if(lerpMat == null)
             lerpMat = mRenderer.material;
         startValue = lerpMat.GetFloat(floatToLerp);
+        lerpValue = startValue;
         endValue = desiredValue;
         lerpSpeed = speed;
         
@@ -118,6 +119,7 @@ public class LerpMaterial : MonoBehaviour {
     public void LerpBasic(float desiredValue)
     {
         startValue = lerpMat.GetFloat(floatToLerp);
+        lerpValue = startValue;
         endValue = desiredValue;
 
         lerpingMat = true;
