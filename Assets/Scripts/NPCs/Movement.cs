@@ -27,6 +27,8 @@ namespace NPC
         public Vector2 speedRange = new Vector2(-5f, 10f);
         Vector3 origPosition;
         public MovementPath startBehavior;
+        public bool randomizeStartBehavior;
+        public MovementPath[] startBehaviors;
         public Vector3 targetPosition;
         float distFromPlayer;
         public bool AIenabled = true;
@@ -119,6 +121,11 @@ namespace NPC
             {
                 RandomizeSpeed();
             }
+
+            if (randomizeStartBehavior)
+            {
+                RandomizeStartBehavior();
+            }
             ResetMovement(startBehavior);
             SetIdle();
         }
@@ -129,6 +136,11 @@ namespace NPC
             {
                 myNavMesh.speed += Random.Range(speedRange.x, speedRange.y);
             }
+        }
+
+        void RandomizeStartBehavior()
+        {
+            startBehavior = startBehaviors[Random.Range(0, startBehaviors.Length)];
         }
 
         void Update()
