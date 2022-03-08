@@ -43,6 +43,9 @@ public class TrainEntranceTrigger : TriggerBase
             //idle
             npcMover.SetIdle();
 
+            //disable nav mesh behavior
+            npcMover.myNavMesh.enabled = false;
+
             //teleport to seat
             npcMover.transform.position = seat.position;
             
@@ -54,6 +57,7 @@ public class TrainEntranceTrigger : TriggerBase
             
             //make npc child of seat 
             npcMover.transform.SetParent(seat);
+            npcMover.transform.localPosition = Vector3.zero;
         }
 
         //only reactivate if there are seats
