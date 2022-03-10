@@ -39,10 +39,16 @@ namespace NPC
             }
 
             //get back sprite renderer 
-            if (back == null && face)
+            if (back == null)
             {
-                if (face.transform.childCount > 1)
-                    back = face.transform.GetChild(1).GetComponent<SpriteRenderer>();
+                if (_faceAnim.back)
+                {
+                    back = _faceAnim.GetComponent<SpriteRenderer>();
+                }
+                else if(face)
+                {
+                    back = face.transform.GetComponentInChildren<SpriteRenderer>();
+                }
             }
 
             //randomize face?
@@ -54,7 +60,10 @@ namespace NPC
             //set back
             if (back)
             {
-                back.sprite = backs[faceIndex];
+                if (backs.Length > faceIndex)
+                {
+                    back.sprite = backs[faceIndex];
+                }
             }
         }
 

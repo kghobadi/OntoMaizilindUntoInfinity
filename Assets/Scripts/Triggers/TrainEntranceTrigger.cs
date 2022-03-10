@@ -42,10 +42,7 @@ public class TrainEntranceTrigger : TriggerBase
         {
             //idle
             npcMover.SetIdle();
-
-            //disable nav mesh behavior
-            npcMover.myNavMesh.enabled = false;
-
+            
             //teleport to seat
             npcMover.transform.position = seat.position;
             
