@@ -43,7 +43,7 @@ namespace NPC
             {
                 if (_faceAnim.back)
                 {
-                    back = _faceAnim.GetComponent<SpriteRenderer>();
+                    back = _faceAnim.back.GetComponent<SpriteRenderer>();
                 }
                 else if(face)
                 {
