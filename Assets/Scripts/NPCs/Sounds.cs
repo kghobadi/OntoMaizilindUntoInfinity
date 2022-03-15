@@ -41,9 +41,16 @@ namespace NPC
             //get back sprite renderer 
             if (back == null)
             {
-                if (_faceAnim.back)
+                if (_faceAnim)
                 {
-                    back = _faceAnim.back.GetComponent<SpriteRenderer>();
+                    if (_faceAnim.back)
+                    {
+                        back = _faceAnim.back.GetComponent<SpriteRenderer>();
+                    }
+                    else if(face)
+                    {
+                        back = face.transform.GetComponentInChildren<SpriteRenderer>();
+                    }
                 }
                 else if(face)
                 {

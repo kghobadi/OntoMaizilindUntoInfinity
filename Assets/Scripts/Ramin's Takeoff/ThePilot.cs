@@ -316,7 +316,7 @@ public class ThePilot : AudioHandler {
             }
             else
             {
-                horizontal = Mathf.Lerp(horizontal, 0, controllerLerp);
+                horizontal = Mathf.MoveTowards(horizontal, 0, Time.deltaTime * controllerLerp);
             }
             
             //apply lerp to vertical input 
@@ -326,7 +326,7 @@ public class ThePilot : AudioHandler {
             }
             else
             {
-                vertical = Mathf.Lerp(vertical, 0, controllerLerp);
+                vertical = Mathf.MoveTowards(vertical, 0, Time.deltaTime * controllerLerp);
             }
         }
         //keyboard
@@ -341,7 +341,7 @@ public class ThePilot : AudioHandler {
             }
             else
             {
-                horizontal = Mathf.Lerp(horizontal, 0,  keyboardLerp);
+                horizontal = Mathf.MoveTowards(horizontal, 0,  Time.deltaTime * keyboardLerp);
             }
             
             //apply lerp when there is input 
@@ -351,13 +351,14 @@ public class ThePilot : AudioHandler {
             }
             else
             {
-                vertical = Mathf.Lerp(vertical, 0, keyboardLerp) ;
+                vertical = Mathf.MoveTowards(vertical, 0, Time.deltaTime * keyboardLerp) ;
             }
         }
     }
 
     void ApplyForces()
     {
+        //TODO carry over problems with inputs are probably caused by this, considering the animation/input is correct. 
         //horizontal
         if (Mathf.Abs(planeBody.velocity.x) < maxVelocityXY )
         {

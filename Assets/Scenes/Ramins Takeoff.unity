@@ -6422,7 +6422,10 @@ MonoBehaviour:
     m_Bits: 1024
   myNavMesh: {fileID: 0}
   randomSpeed: 1
+  speedRange: {x: -5, y: 10}
   startBehavior: {fileID: 11400000, guid: 93b0937b9aae7144383046f5906cd390, type: 2}
+  randomizeStartBehavior: 0
+  startBehaviors: []
   targetPosition: {x: 0, y: 0, z: 0}
   AIenabled: 1
   lookAtTransform: {fileID: 0}
@@ -11772,6 +11775,8 @@ MonoBehaviour:
   - idle
   - moving
   talkingAnimations: 0
+  setAnimSpeed: 0
+  animSpeed: 1
 --- !u!95 &586129621
 Animator:
   serializedVersion: 3
@@ -19117,7 +19122,10 @@ MonoBehaviour:
     m_Bits: 1024
   myNavMesh: {fileID: 0}
   randomSpeed: 1
+  speedRange: {x: -5, y: 10}
   startBehavior: {fileID: 11400000, guid: 93b0937b9aae7144383046f5906cd390, type: 2}
+  randomizeStartBehavior: 0
+  startBehaviors: []
   targetPosition: {x: 0, y: 0, z: 0}
   AIenabled: 1
   lookAtTransform: {fileID: 0}
@@ -46270,6 +46278,8 @@ MonoBehaviour:
   - idle
   - moving
   talkingAnimations: 0
+  setAnimSpeed: 0
+  animSpeed: 1
 --- !u!95 &1095004485
 Animator:
   serializedVersion: 3
@@ -52375,6 +52385,8 @@ MonoBehaviour:
   - idle
   - moving
   talkingAnimations: 0
+  setAnimSpeed: 0
+  animSpeed: 1
 --- !u!95 &1170481409
 Animator:
   serializedVersion: 3
@@ -77451,7 +77463,10 @@ MonoBehaviour:
     m_Bits: 1024
   myNavMesh: {fileID: 0}
   randomSpeed: 1
+  speedRange: {x: -5, y: 10}
   startBehavior: {fileID: 11400000, guid: 93b0937b9aae7144383046f5906cd390, type: 2}
+  randomizeStartBehavior: 0
+  startBehaviors: []
   targetPosition: {x: 0, y: 0, z: 0}
   AIenabled: 1
   lookAtTransform: {fileID: 0}
@@ -86738,6 +86753,7 @@ MonoBehaviour:
   hallucObjects:
   - {fileID: 1236199413}
   hallucinating: 0
+  playOnStart: 0
   renderCam: {fileID: 200456655}
   cameraPos: {fileID: 0}
   camLookAt: {fileID: 0}
@@ -91560,7 +91576,7 @@ Transform:
   m_GameObject: {fileID: 1685180556}
   m_LocalRotation: {x: -0.00000035390235, y: 0.0000003394054, z: -0.00000041556825,
     w: 1}
-  m_LocalPosition: {x: -0.000016277785, y: -0.00013581134, z: 0.0012439822}
+  m_LocalPosition: {x: -0.000016279888, y: -0.00013581134, z: 0.0012439822}
   m_LocalScale: {x: 1, y: 1.0135, z: 1.0135007}
   m_Children:
   - {fileID: 668675137}
@@ -105612,7 +105628,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2045468874}
   m_LocalRotation: {x: 0.062144157, y: -0.0000006109476, z: 0.00000025704296, w: -0.99806726}
-  m_LocalPosition: {x: -0.000016277016, y: 76.27002, z: -165.81876}
+  m_LocalPosition: {x: -0.000016279118, y: 76.27002, z: -165.81876}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -106489,12 +106505,12 @@ PrefabInstance:
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 3}
       propertyPath: _savedGUID
-      value: 3277939192
+      value: 626387737
       objectReference: {fileID: 0}
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 3}
       propertyPath: hash.lastHash
-      value: -1576274778
+      value: 19058215
       objectReference: {fileID: 0}
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 3}
@@ -112305,6 +112321,8 @@ MonoBehaviour:
   - idle
   - moving
   talkingAnimations: 0
+  setAnimSpeed: 0
+  animSpeed: 1
 --- !u!114 &114447583333604685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112365,6 +112383,8 @@ MonoBehaviour:
   characterAnimator: {fileID: 0}
   animationBools: []
   talkingAnimations: 0
+  setAnimSpeed: 0
+  animSpeed: 1
 --- !u!114 &114569372789451687
 MonoBehaviour:
   m_ObjectHideFlags: 0
