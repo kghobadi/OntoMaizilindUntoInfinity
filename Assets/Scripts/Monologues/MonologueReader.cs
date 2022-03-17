@@ -38,6 +38,12 @@ public class MonologueReader : MonoBehaviour {
     public bool conversational;
     public float[] waitTimes;
     bool waiting;
+    
+    [Header("Width Altering")]
+    [Tooltip("Check to dynamically alter width of text box.")]
+    public bool useDynamicWidth;
+    public float maxWidth = 1000f;
+    public float sideOffset = 25f;
 
     [Header("Main Canvas Reader")] 
     public bool usesScreenReader;
@@ -287,7 +293,10 @@ public class MonologueReader : MonoBehaviour {
             }
             
             //adjust width of ui
-            //ChangeWidthOfObject();
+            if (useDynamicWidth)
+            {
+                RendererExtensions.ChangeWidthOfObject(textBackTransform,the_Text, maxWidth, sideOffset);
+            }
             
             //check what audio to play 
             if(speakerAudio)
@@ -350,30 +359,5 @@ public class MonologueReader : MonoBehaviour {
         yield return new WaitForSeconds(time);
 
         ProgressLine();
-    }
-
-    [Header("Width Altering")] 
-    public float maxWidth = 1000f;
-    public float sideOffset = 25f;
-    private void ChangeWidthOfObject()
-    {
-        var width = 0f;
-        if(usesTMP)
-            width = the_Text.preferredWidth;
-        else
-            width = theText.preferredWidth;
-        
-        //set to width if it is less than max
-        if (width < maxWidth)
-        {
-            myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
-            textBackTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width + sideOffset);
-        }
-        //set to max width 
-        else
-        {
-            myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxWidth);
-            textBackTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxWidth + sideOffset);
-        }
     }
 }

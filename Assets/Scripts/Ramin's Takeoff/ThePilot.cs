@@ -356,59 +356,75 @@ public class ThePilot : AudioHandler {
         }
     }
 
+    /// <summary>
+    /// Actual application of the calculated input forces to the plane's rigidbody. 
+    /// </summary>
     void ApplyForces()
     {
-        //TODO carry over problems with inputs are probably caused by this, considering the animation/input is correct. 
-        //horizontal
-        if (Mathf.Abs(planeBody.velocity.x) < maxVelocityXY )
+        //Horizontal
+        //right
+        if (horizontal > 0)
         {
-            //right
-            if (horizontal > 0)
+            //zero x vel if it is less than 0
+            if (planeBody.velocity.x < 0)
             {
-                if (transform.position.x < xMax)
-                    planeBody.AddForce(horizontal * strafeSpeed, 0, 0);
-                else
-                    horizontal = 0;
+                planeBody.velocity = new Vector3(0, planeBody.velocity.y, planeBody.velocity.z);
             }
-            //left
-            if (horizontal < 0)
+            
+            //only add rightward force if we are less than x max pos
+            if (transform.position.x < xMax)
+                planeBody.AddForce(horizontal * strafeSpeed, 0, 0);
+        }
+        //left
+        else if (horizontal < 0)
+        {
+            //zero x vel if it is greater than 0
+            if (planeBody.velocity.x > 0)
             {
-                if (transform.position.x > xMin)
-                    planeBody.AddForce(horizontal * strafeSpeed, 0, 0);
-                else
-                    horizontal = 0;
+                planeBody.velocity = new Vector3(0, planeBody.velocity.y, planeBody.velocity.z);
+            }
+            
+            //only add leftward force if we are greater than x min pos
+            if (transform.position.x > xMin)
+            {
+                planeBody.AddForce(horizontal * strafeSpeed, 0, 0);
             }
         }
-        
-        //zero vel
-        if(horizontal == 0)
+        //zero input - zero x vel
+        else if(horizontal == 0)
         {
             planeBody.velocity = new Vector3(0, planeBody.velocity.y, planeBody.velocity.z);
         }
 
-        //vertical -- this only affects upwards velocity. use Mathf.Abs() to affect downwards as well. 
-        if (planeBody.velocity.y < maxVelocityXY)
+        //Vertical
+        //up
+        if (vertical > 0)
         {
-            //up
-            if (vertical > 0)
+            //zero y vel if it is less than 0
+            if (planeBody.velocity.y < 0)
             {
-                if (transform.position.y < heigtMax)
-                    planeBody.AddForce(0, vertical * strafeSpeed, 0);
-                else
-                    vertical = 0;
+                planeBody.velocity = new Vector3(planeBody.velocity.x, 0, planeBody.velocity.z);
             }
-            //down
-            if (vertical < 0)
-            {
-                if (transform.position.y > heightMin)
-                    planeBody.AddForce(0, vertical * strafeSpeed, 0);
-                else
-                    vertical = 0;
-            }
+            
+            //only add upward force if we are less than height max pos 
+            if (transform.position.y < heigtMax)
+                planeBody.AddForce(0, vertical * strafeSpeed, 0);
         }
-           
-        //zero vel
-        if (vertical == 0)
+        //down
+        else if (vertical < 0)
+        {
+            //zero y vel if it is greater than 0
+            if (planeBody.velocity.y > 0)
+            {
+                planeBody.velocity = new Vector3(planeBody.velocity.x, 0, planeBody.velocity.z);
+            }
+            
+            //only add downward force if we are greater than height min pos 
+            if (transform.position.y > heightMin)
+                planeBody.AddForce(0, vertical * strafeSpeed, 0);
+        }
+        //zero input - zero y vel
+        else if (vertical == 0)
         {
             planeBody.velocity = new Vector3(planeBody.velocity.x, 0, planeBody.velocity.z);
         }
