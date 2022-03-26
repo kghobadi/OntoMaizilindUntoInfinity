@@ -43,18 +43,21 @@ public class TrainEntranceTrigger : TriggerBase
             //idle
             npcMover.SetIdle();
             
-            //teleport to seat
-            npcMover.transform.position = seat.position;
-            
             //set look at obj
-            npcMover.SetLook(lookAtObject);
+            if (lookAtObject)
+            {
+                npcMover.SetLook(lookAtObject);
+            }
+
+            //navigate to seat pos 
+            npcMover.NavigateToPoint(seat.position, false);
             
             //set sitting idle 
-            npcMover.ResetMovement(newMovement);
-            
-            //make npc child of seat 
-            npcMover.transform.SetParent(seat);
-            npcMover.transform.localPosition = Vector3.zero;
+            // npcMover.ResetMovement(newMovement);
+            //
+            // //make npc child of seat 
+            // npcMover.transform.SetParent(seat);
+            // npcMover.transform.localPosition = Vector3.zero;
         }
 
         //only reactivate if there are seats

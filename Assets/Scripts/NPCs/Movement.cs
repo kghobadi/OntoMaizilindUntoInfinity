@@ -610,10 +610,17 @@ namespace NPC
         {
             if (npcType == NPCMovementTypes.FOLLOWER)
             {
-                //are we close to player?
-                if (Vector3.Distance(transform.position, currentPlayer.transform.position) > myNavMesh.stoppingDistance + 1f)
+                //get dist from follow obj
+                float distFromObject = Vector3.Distance(transform.position, followObject.transform.position);
+                //are we close to follow obj?
+                if (distFromObject > myNavMesh.stoppingDistance + 1f)
                 {
                     NavigateToPoint(followObject.position, false);
+                }
+                //idle whenever close enough to the follow obj.
+                else
+                {
+                    SetIdle();
                 }
             }
         }
