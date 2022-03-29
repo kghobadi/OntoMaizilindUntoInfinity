@@ -10,7 +10,7 @@ namespace NPC
         public AudioClip greeting;
         public AudioClip goodbye, react, action;
         public AudioClip[] idleSounds;
-        public AudioClip[] walkingSounds;
+       
         public AudioClip[] screams;
         
         FaceAnimation _faceAnim; 
@@ -22,6 +22,13 @@ namespace NPC
         public int faceIndex = 0;
         public bool manualSetSprites;
         public bool animateFaceToSound = true;
+
+        [Header("Walking Sounds")]
+        public bool playWalkingSounds;
+        public AudioClip[] walkingSounds;
+        private Vector3 lastPosition;
+        public float walkStepTime = 0.35f;
+        private float walkStepTimer = 0;
 
         private void Start()
         {
@@ -84,6 +91,11 @@ namespace NPC
         {
             if(animateFaceToSound)
                 FaceSwap();
+
+            if (playWalkingSounds)
+            {
+                CheckForMovement();
+            }
         }
 
         //swaps face sprite for screaming
@@ -113,6 +125,23 @@ namespace NPC
                         _faceAnim.SetAnimator("idle");
                 }
             }
+        }
+
+        void CheckForMovement()
+        {
+            if (lastPosition != transform.position)
+            {
+                walkStepTimer += Time.deltaTime;
+                
+                //did they walk far enough to play the sound?
+                if (walkStepTimer >= walkStepTime)
+                {
+                    PlayRandomSoundRandomPitch(walkingSounds, 1f);
+                    walkStepTimer = 0;
+                }
+            }
+
+            lastPosition = transform.position;
         }
 
     }
