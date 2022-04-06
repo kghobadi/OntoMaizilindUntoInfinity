@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //controls the spirit trails which exit the praying citizens in the mosque 
+//and which emerge from the soul explosion at the end. 
 public class SpiritTrail : MonoBehaviour {
 
     Vector3 origPos;

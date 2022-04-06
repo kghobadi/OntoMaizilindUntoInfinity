@@ -13,7 +13,13 @@ namespace NPC
        
         public AudioClip[] screams;
         
-        FaceAnimation _faceAnim; 
+        FaceAnimation _faceAnim;
+        //Accessor for face. 
+        public FaceAnimation FaceAnimation
+        {
+            get { return _faceAnim; }
+        }        
+        
         SpriteRenderer face; 
         SpriteRenderer back;
         [Header("Face Animations")]
