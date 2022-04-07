@@ -5284,10 +5284,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2867275333884216053}
-  - component: {fileID: 2761229232997218141}
   - component: {fileID: 2801628020939203517}
-  - component: {fileID: 2754168370387127825}
-  - component: {fileID: 2764132529675172099}
   - component: {fileID: 2811651250383113915}
   - component: {fileID: 2761581011676934805}
   - component: {fileID: 2761653094309068601}
@@ -5295,6 +5292,7 @@ GameObject:
   - component: {fileID: 2761279758664817769}
   - component: {fileID: 2698658363952080981}
   - component: {fileID: 2761305167394217497}
+  - component: {fileID: -7767493275892321726}
   m_Layer: 0
   m_Name: IranianCitizen  (female) ending
   m_TagString: Human
@@ -5317,43 +5315,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2761229232997218141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2864642720962299699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4be4222c5012e8745823d6021bc384ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentSpeed: 0
-  walkSpeed: 50
-  sprintSpeed: 100
-  scrollSpeed: 2
-  sprintTimerMax: 0.15
-  footStepTimerTotal: 0.25
-  footstepVol: 1
-  currentFootsteps:
-  - {fileID: 8300000, guid: 40d2e27a4bd3dd3419fd5a23f28044bb, type: 3}
-  - {fileID: 8300000, guid: f237f5821f3242e4fb095be7da745a6c, type: 3}
-  - {fileID: 8300000, guid: b4af0a3eb7633e34c8fa52d0071ae4c5, type: 3}
-  canMove: 0
-  moving: 0
-  mirrorControls: 0
-  disableOnStart: 1
-  startCam: {fileID: 0}
-  holdingSpot: {fileID: 0}
-  holding: 0
-  pickUp: {fileID: 0}
-  holdingRadius: 2
-  beingHeld:
-    m_PersistentCalls:
-      m_Calls: []
-  personAnimator: {fileID: 0}
-  npcAnimator: {fileID: 0}
 --- !u!82 &2801628020939203517
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5451,41 +5412,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!143 &2754168370387127825
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2864642720962299699}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 7
-  m_Radius: 1
-  m_SlopeLimit: 45
-  m_StepOffset: 0.75
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 2.48, z: 0}
---- !u!114 &2764132529675172099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2864642720962299699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4913aa6ab6e589845a191be5e79dcc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myCamType: 0
-  camObj: {fileID: 2761682193160445987}
-  headset: {fileID: 0}
-  myBody: {fileID: 2864744463056730671}
-  shiftUI: {fileID: 0}
 --- !u!54 &2811651250383113915
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5617,7 +5543,6 @@ MonoBehaviour:
   react: {fileID: 0}
   action: {fileID: 0}
   idleSounds: []
-  walkingSounds: []
   screams:
   - {fileID: 8300000, guid: ad6cc141d84c11b4ab93ddebbbc93290, type: 3}
   - {fileID: 8300000, guid: ad6cc141d84c11b4ab93ddebbbc93290, type: 3}
@@ -5630,6 +5555,9 @@ MonoBehaviour:
   faceIndex: 0
   manualSetSprites: 1
   animateFaceToSound: 1
+  playWalkingSounds: 0
+  walkingSounds: []
+  walkStepTime: 0.35
 --- !u!195 &2698658363952080981
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -5673,6 +5601,19 @@ MonoBehaviour:
   mTrigger: {fileID: 0}
   enableOnStart: 0
   head: {fileID: 0}
+--- !u!65 &-7767493275892321726
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2864642720962299699}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 5, z: 1}
+  m_Center: {x: 0, y: 2.5, z: 0}
 --- !u!1 &2864672544154030349
 GameObject:
   m_ObjectHideFlags: 0

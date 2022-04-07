@@ -14,7 +14,8 @@ public class MusicFader : MonoBehaviour {
 
     public bool switchingSound;
     
-    void Awake () {
+    void Awake () 
+    {
         musicSource = GetComponent<AudioSource>();
     }
 	

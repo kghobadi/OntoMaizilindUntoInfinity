@@ -26,7 +26,8 @@ public class LerpScale : MonoBehaviour {
         }
     }
 
-    void Update () {
+    void Update () 
+    {
         if (lerping)
         {
             transform.localScale = Vector3.Lerp(transform.localScale, desiredScale, Time.deltaTime * lerpSpeed);

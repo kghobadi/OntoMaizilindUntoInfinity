@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using NPC;
 using UnityEngine;
@@ -8,10 +9,26 @@ public class SoulExplosion : MonoBehaviour
     public TrainEntranceTrigger[] allTrainTriggers;
     public List<Movement> npcMovers = new List<Movement>();
     public bool playerEntered;
+    public Transform playerCamera;
     public bool allTrainsFull;
 
     public GameObject soulTrailPrefab;
+
+    private LerpScale[] sphereExplosions;
     
+    public bool soulsExploded;
+
+    private void Start()
+    {
+        sphereExplosions = GetComponentsInChildren<LerpScale>();
+
+        //disable the spheres 
+        foreach (var sphere in sphereExplosions)
+        {
+            sphere.gameObject.SetActive(false);
+        }
+    }
+
     public void SetPlayerEntered()
     {
         playerEntered = true;
@@ -35,8 +52,14 @@ public class SoulExplosion : MonoBehaviour
         }
     }
 
-    public void BeginSoulExplosion()
+    void BeginSoulExplosion()
     {
+        //already called -- do nothing.
+        if (soulsExploded)
+        {
+            return;
+        }
+        
         Debug.Log("Beginning soul explosion");
 
         //loop through all NPCs
@@ -53,5 +76,27 @@ public class SoulExplosion : MonoBehaviour
             //enable spirit
             spirit.EnableSpirit();
         }
+        
+        //Spirit trail for player.
+        //instantiate 
+        GameObject trail = Instantiate(soulTrailPrefab, transform.position, Quaternion.identity);
+        //get spirit trail script 
+        SpiritTrail soul = trail.GetComponent<SpiritTrail>();
+        //get npc face transform.
+        Transform playerFace = playerCamera.transform;
+        //set spirit to face
+        soul.projectionDisplayCorner = playerFace;
+        //enable spirit
+        soul.EnableSpirit();
+
+        //begin all sphere explosions 
+        foreach (var sphereExplosion in sphereExplosions)
+        {
+            sphereExplosion.gameObject.SetActive(true);
+            sphereExplosion.SetLerp();
+        }
+
+        //set bool so this only happens once
+        soulsExploded = true;
     }
 }
