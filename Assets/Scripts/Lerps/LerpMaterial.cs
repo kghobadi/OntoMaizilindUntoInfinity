@@ -227,6 +227,29 @@ public class LerpMaterial : MonoBehaviour {
             halftone.enabled = false;
         }
     }
+    
+    //can be called to Enable renderer
+    public void EnableRenderer()
+    {
+        if(mRenderer)
+            mRenderer.enabled = true;
+        if (skinMeshRenderer)
+            skinMeshRenderer.enabled = true;
+
+        if (halftone)
+        {
+            halftone.enabled = true;
+        }
+    }
+
+    /// <summary>
+    /// Allows you to set load scene bool. 
+    /// </summary>
+    /// <param name="loadsScene"></param>
+    public void SetSceneLoad(bool loadsScene)
+    {
+        loadScene = loadsScene;
+    }
 
     //resets my parent to my start parent 
     public void ResetParent()

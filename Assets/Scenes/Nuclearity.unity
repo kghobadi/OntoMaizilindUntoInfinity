@@ -1463,6 +1463,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &245019287 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 397845273250553951, guid: 00fd2771c8eb2ed4ab2e7f93c9165ccd,
+    type: 3}
+  m_PrefabInstance: {fileID: 5710527340292311966}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &253456002 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4412641556588668, guid: d30f70e89efa40a46a601a9d1d7335ec,
@@ -2156,18 +2162,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 357981804}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &357981806 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114189779293810866, guid: 849adc74f348c1c43952d685fbe769b8,
-    type: 3}
-  m_PrefabInstance: {fileID: 357981804}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8036540983680e34bbdf320cd0ad5f39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &425266897
 GameObject:
   m_ObjectHideFlags: 0
@@ -4494,6 +4488,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToRestart: 5
   restartTimer: 0
+  onSceneLoad:
+    m_PersistentCalls:
+      m_Calls: []
   debug: 0
 --- !u!114 &925286580
 MonoBehaviour:
@@ -4510,127 +4507,9 @@ MonoBehaviour:
   debug: 0
   speedUp: 25
   checkpoints:
-  - {fileID: 11400000, guid: cc630fcfbcec4fa4999b1aa989d1a311, type: 2}
-  - {fileID: 11400000, guid: 1574c056af7d9ca49983748d5002d8b1, type: 2}
-  - {fileID: 11400000, guid: dab5d889ab554294f8a0e9f085b3deed, type: 2}
   - {fileID: 11400000, guid: d30aae0f1aca8774d977da9d52df5b0e, type: 2}
+  - {fileID: 11400000, guid: cc630fcfbcec4fa4999b1aa989d1a311, type: 2}
   events:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1493328066}
-        m_MethodName: FadeIn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 357981806}
-        m_MethodName: FadeIn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2081909990}
-        m_MethodName: FadeIn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 357981806}
-        m_MethodName: FadeOut
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 937742652}
-        m_MethodName: FadeIn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1249635533}
-        m_MethodName: FadeIn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 24552024}
-        m_MethodName: FadeIn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1188386424}
-        m_MethodName: FadeIn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1738737221}
-        m_MethodName: DisableExplosions
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 925286579}
-        m_MethodName: Restart
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1605485584}
@@ -4643,6 +4522,41 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 425266904}
+        m_MethodName: EnableRenderer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 425266904}
+        m_MethodName: LerpBasic
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 425266904}
+        m_MethodName: SetSceneLoad
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
   beginOnStart: 1
   timelineStart: 0
@@ -6157,12 +6071,12 @@ PrefabInstance:
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 3}
       propertyPath: _savedGUID
-      value: 1762782171
+      value: 1549197898
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 3}
       propertyPath: hash.lastHash
-      value: -812917637
+      value: 1404148210
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 3}
@@ -12959,6 +12873,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1605485585}
   - component: {fileID: 1605485584}
+  - component: {fileID: 1605485586}
   m_Layer: 0
   m_Name: Music (torn in two)
   m_TagString: Untagged
@@ -13077,6 +12992,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1605485586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605485583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d7c34e04a92f0e48b79be86e8c7132f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scenesLoaded: 0
+  scenesMax: 2
 --- !u!1001 &1624308613
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21132,7 +21061,7 @@ PrefabInstance:
     - target: {fileID: 3446955022763071077, guid: 5b9ea33c846b079499076874d5905334,
         type: 3}
       propertyPath: fire.m_PersistentCalls.m_Calls.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3446955022763071077, guid: 5b9ea33c846b079499076874d5905334,
         type: 3}
@@ -21161,6 +21090,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3446955022763071077, guid: 5b9ea33c846b079499076874d5905334,
         type: 3}
+      propertyPath: fire.m_PersistentCalls.m_Calls.Array.data[5].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446955022763071077, guid: 5b9ea33c846b079499076874d5905334,
+        type: 3}
       propertyPath: fire.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1605485584}
@@ -21186,6 +21120,11 @@ PrefabInstance:
       objectReference: {fileID: 1351516607762391920}
     - target: {fileID: 3446955022763071077, guid: 5b9ea33c846b079499076874d5905334,
         type: 3}
+      propertyPath: fire.m_PersistentCalls.m_Calls.Array.data[5].m_Target
+      value: 
+      objectReference: {fileID: 245019287}
+    - target: {fileID: 3446955022763071077, guid: 5b9ea33c846b079499076874d5905334,
+        type: 3}
       propertyPath: fire.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
@@ -21202,6 +21141,11 @@ PrefabInstance:
     - target: {fileID: 3446955022763071077, guid: 5b9ea33c846b079499076874d5905334,
         type: 3}
       propertyPath: fire.m_PersistentCalls.m_Calls.Array.data[4].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446955022763071077, guid: 5b9ea33c846b079499076874d5905334,
+        type: 3}
+      propertyPath: fire.m_PersistentCalls.m_Calls.Array.data[5].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3446955022763071077, guid: 5b9ea33c846b079499076874d5905334,
@@ -21223,6 +21167,11 @@ PrefabInstance:
         type: 3}
       propertyPath: fire.m_PersistentCalls.m_Calls.Array.data[4].m_MethodName
       value: DisableMovement
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446955022763071077, guid: 5b9ea33c846b079499076874d5905334,
+        type: 3}
+      propertyPath: fire.m_PersistentCalls.m_Calls.Array.data[5].m_MethodName
+      value: SetActive
       objectReference: {fileID: 0}
     - target: {fileID: 3446955022763071077, guid: 5b9ea33c846b079499076874d5905334,
         type: 3}
@@ -21347,6 +21296,11 @@ PrefabInstance:
     - target: {fileID: 3446955022763071077, guid: 5b9ea33c846b079499076874d5905334,
         type: 3}
       propertyPath: fire.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446955022763071077, guid: 5b9ea33c846b079499076874d5905334,
+        type: 3}
+      propertyPath: fire.m_PersistentCalls.m_Calls.Array.data[5].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3446955022763071077, guid: 5b9ea33c846b079499076874d5905334,
