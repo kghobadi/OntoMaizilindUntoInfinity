@@ -49,6 +49,11 @@ namespace NPC
             npcMovement = GetComponent<Movement>();
             npcSounds = GetComponent<Sounds>();
             npcFaces = GetComponentInChildren<FaceAnimation>();
+            //set npc controller ref in face anim
+            if (npcFaces)
+            {
+                npcFaces.NpcController = this;
+            }
 
             //prob need to fetch monologue text from children 
             npcMonologues = GetComponent<MonologueManager>();

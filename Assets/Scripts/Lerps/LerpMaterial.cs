@@ -101,6 +101,15 @@ public class LerpMaterial : MonoBehaviour {
         lerpingMat = true;
     }
 
+    /// <summary>
+    ///Allows you to just set the speed. 
+    /// </summary>
+    /// <param name="speed"></param>
+    public void SetLerpSpeed(float speed)
+    {
+        lerpSpeed = speed;
+    }
+
     //call to begin lerp 
     public void Lerp(float desiredValue, float speed)
     {

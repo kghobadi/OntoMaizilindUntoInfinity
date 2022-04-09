@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace NPC
 {
@@ -28,6 +30,7 @@ namespace NPC
         public int faceIndex = 0;
         public bool manualSetSprites;
         public bool animateFaceToSound = true;
+        public bool faceShiftEnding;
 
         [Header("Walking Sounds")]
         public bool playWalkingSounds;
@@ -85,6 +88,49 @@ namespace NPC
                     back.sprite = backs[faceIndex];
                 }
             }
+
+            //ending face shift
+            if (_faceAnim)
+            {
+                _faceAnim.onBeginFaceShifting.AddListener(BeginFaceShifting);
+            }
+        }
+
+        private void OnDisable()
+        {
+            _faceAnim.onBeginFaceShifting.RemoveListener(BeginFaceShifting);
+            faceShiftEnding = false; 
+        }
+
+        void BeginFaceShifting()
+        {
+            if (faceShiftEnding)
+            {
+                return;
+            }
+            
+            faceShiftEnding = true;
+            StartCoroutine(FaceShift());
+        }
+
+        IEnumerator FaceShift()
+        {
+            while (faceShiftEnding)
+            {
+                //randomize face index
+                faceIndex = Random.Range(0, normalFace.Length);
+                //face & back change 
+                if (normalFace[faceIndex])
+                {
+                    face.sprite = normalFace[faceIndex];
+                }
+                if (backs.Length > faceIndex)
+                {
+                    back.sprite = backs[faceIndex];
+                }
+                
+                yield return new WaitForSeconds(0.35f);
+            }
         }
 
         public void SetFaceAnim(FaceAnimation faceAnim)
@@ -95,12 +141,19 @@ namespace NPC
 
         private void Update()
         {
-            if(animateFaceToSound)
-                FaceSwap();
-
             if (playWalkingSounds)
             {
                 CheckForMovement();
+            }
+
+            if (faceShiftEnding)
+            {
+                return;
+            }
+
+            if (animateFaceToSound)
+            {
+                FaceSwap();
             }
         }
 

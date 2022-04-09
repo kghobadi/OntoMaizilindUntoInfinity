@@ -6239,6 +6239,8 @@ GameObject:
   - component: {fileID: 2681290111549781931}
   - component: {fileID: 2764151806581360477}
   - component: {fileID: 2761390644799515381}
+  - component: {fileID: 6419012945423838485}
+  - component: {fileID: 5947140162698849233}
   m_Layer: 0
   m_Name: Face (1)
   m_TagString: Untagged
@@ -6339,6 +6341,35 @@ MonoBehaviour:
   characterAnimator: {fileID: 0}
   animationBools: []
   back: {fileID: 0}
+--- !u!65 &6419012945423838485
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2865088595826009261}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10.240001, y: 10.240004, z: 0.2000001}
+  m_Center: {x: -0.00000023841858, y: 0.0000076293945, z: 0}
+--- !u!54 &5947140162698849233
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2865088595826009261}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &2865093657240345291
 GameObject:
   m_ObjectHideFlags: 0
