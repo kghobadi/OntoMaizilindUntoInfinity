@@ -98,7 +98,12 @@ namespace NPC
 
         private void OnDisable()
         {
-            _faceAnim.onBeginFaceShifting.RemoveListener(BeginFaceShifting);
+            //remove event 
+            if (_faceAnim)
+            {
+                _faceAnim.onBeginFaceShifting.RemoveListener(BeginFaceShifting);
+            }
+            
             faceShiftEnding = false; 
         }
 

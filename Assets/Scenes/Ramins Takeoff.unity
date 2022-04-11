@@ -6404,6 +6404,7 @@ MonoBehaviour:
   faceIndex: 0
   manualSetSprites: 0
   animateFaceToSound: 1
+  faceShiftEnding: 0
   playWalkingSounds: 0
   walkingSounds: []
   walkStepTime: 0.35
@@ -19108,6 +19109,7 @@ MonoBehaviour:
   faceIndex: 0
   manualSetSprites: 0
   animateFaceToSound: 1
+  faceShiftEnding: 0
   playWalkingSounds: 0
   walkingSounds: []
   walkStepTime: 0.35
@@ -44831,6 +44833,9 @@ MonoBehaviour:
   - idle
   - talking
   back: {fileID: 0}
+  onBeginFaceShifting:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &965879254
 Animator:
   serializedVersion: 3
@@ -77605,6 +77610,7 @@ MonoBehaviour:
   faceIndex: 0
   manualSetSprites: 0
   animateFaceToSound: 1
+  faceShiftEnding: 0
   playWalkingSounds: 0
   walkingSounds: []
   walkStepTime: 0.35
@@ -80547,6 +80553,9 @@ MonoBehaviour:
   - idle
   - talking
   back: {fileID: 0}
+  onBeginFaceShifting:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &1502745785
 Animator:
   serializedVersion: 3
@@ -91739,7 +91748,7 @@ Transform:
   m_GameObject: {fileID: 1685180556}
   m_LocalRotation: {x: -0.00000035390235, y: 0.0000003394054, z: -0.00000041556825,
     w: 1}
-  m_LocalPosition: {x: -0.0000162954, y: -0.00013581134, z: 0.0012439822}
+  m_LocalPosition: {x: -0.000016295502, y: -0.00013581134, z: 0.0012439822}
   m_LocalScale: {x: 1, y: 1.0135, z: 1.0135007}
   m_Children:
   - {fileID: 668675137}
@@ -97455,6 +97464,9 @@ MonoBehaviour:
   - idle
   - talking
   back: {fileID: 0}
+  onBeginFaceShifting:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &1810417740
 Animator:
   serializedVersion: 3
@@ -105790,8 +105802,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2045468874}
-  m_LocalRotation: {x: 0.062144157, y: -0.0000006109476, z: 0.00000025704296, w: -0.99806726}
-  m_LocalPosition: {x: -0.00001629463, y: 76.27002, z: -165.81876}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -105845,7 +105857,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 60
+  field of view: 40
   orthographic: 0
   orthographic size: 10
   m_Depth: -1
@@ -106668,12 +106680,12 @@ PrefabInstance:
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 3}
       propertyPath: _savedGUID
-      value: 3068238587
+      value: 77227632
       objectReference: {fileID: 0}
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 3}
       propertyPath: hash.lastHash
-      value: 559313820
+      value: 427920398
       objectReference: {fileID: 0}
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 3}
@@ -112379,6 +112391,7 @@ MonoBehaviour:
   faceIndex: 0
   manualSetSprites: 0
   animateFaceToSound: 1
+  faceShiftEnding: 0
   playWalkingSounds: 0
   walkingSounds: []
   walkStepTime: 0.35
@@ -112715,6 +112728,9 @@ MonoBehaviour:
   - idle
   - talking
   back: {fileID: 0}
+  onBeginFaceShifting:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114834274927268293
 MonoBehaviour:
   m_ObjectHideFlags: 0
