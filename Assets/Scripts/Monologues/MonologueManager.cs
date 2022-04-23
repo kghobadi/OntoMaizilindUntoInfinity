@@ -13,6 +13,7 @@ public class MonologueManager : MonoBehaviour
     //player refs
     GameObject currentPlayer;
     CameraSwitcher camSwitcher; 
+    private Camera mainCam;
 
     //npc management refs 
     [HideInInspector]
@@ -21,6 +22,9 @@ public class MonologueManager : MonoBehaviour
     [HideInInspector]
     public Controller npcController;
     MonologueReader monoReader;
+
+    [Tooltip("Is this the player's monologue manager?")]
+    public bool isPlayer;
     
     [Tooltip("if there is a background for speaking text")]
     public FadeUI textBack;
@@ -45,9 +49,47 @@ public class MonologueManager : MonoBehaviour
 
     private IEnumerator newMonologue;
 
+    [Header("Subtitle System")] 
+    public bool useSubtitles;
+    private GameObject mySubtitle;
+    //public bool getAutoSubHeight = true;
+    public float manualSubHeight = 1.5f;
+    public float subSizeMult = 1f;
+    public bool centerOffScreenSub;
+    SubtitleInWorldManager subtitleInWorldManager;
+    private RectTransform subRectTransform;
+    private Image subImageBack;
+    [HideInInspector] public TextMeshProUGUI subtitleTMP;
+    [HideInInspector] public CanvasGroup subCanvasGroup;
+    [HideInInspector] public bool subChanging;
+    [HideInInspector] public float currentSubTim;
+    //[HideInInspector] public float voiceAudibility;
+    private float distToRealP;
+
+    /// <summary>
+    /// Accessor for distance from character to player.
+    /// </summary>
+    public float DistToRealP
+    {
+        get
+        {
+            distToRealP = Vector3.Distance(transform.position, camSwitcher.currentPlayer.transform.position);
+
+            return distToRealP;
+        }
+    }
+
+    Transform rootT;
+    //SpriteRenderer mainSR;
+
+    [HideInInspector] public Image arrowImg;
+    [HideInInspector] public float subPointOffsetX;
+    
     void Awake()
     {
+        mainCam = Camera.main;
         camSwitcher = FindObjectOfType<CameraSwitcher>();
+        subtitleInWorldManager = FindObjectOfType<SubtitleInWorldManager>();
 
         if (textBack)
             animateTextback = textBack.GetComponent<AnimateDialogue>();
@@ -68,6 +110,14 @@ public class MonologueManager : MonoBehaviour
         if(allMyMonologues.Count > 0)
             SetMonologueSystem(0);
 
+        //set up my subtitle.
+        if (useSubtitles)
+        {
+            mySubtitle = subtitleInWorldManager.SetupNewSubtitle(this);
+            subRectTransform = mySubtitle.GetComponent<RectTransform>();
+            subImageBack = mySubtitle.GetComponent<Image>();
+        }
+        
         //play mono 0 
         if (enableOnStart)
         {
@@ -366,5 +416,42 @@ public class MonologueManager : MonoBehaviour
 
         inMonologue = false;
     }
+
+    #region Subtitle Management
+
+    /// <summary>
+    /// Actually sets the subtitle text. 
+    /// </summary>
+    /// <param name="text"></param>
+    public void SetSubtitleText(string text)
+    {
+        subtitleTMP.text = text;
+        RendererExtensions.ChangeWidthOfObject(subRectTransform,subtitleTMP, monoReader.maxWidth, monoReader.sideOffset);
+    }
+
+    public void ManageSubHeightPos()
+    {
+        if (isPlayer)
+        {
+            mySubtitle.transform.position = mainCam.transform.position + mainCam.transform.forward;
+            return;
+        }
+        
+        mySubtitle.transform.position = transform.position + Vector3.up * manualSubHeight;
+        //mySubtitle.transform.position = textBack.transform.position;
+        
+        // if (!getAutoSubHeight)
+        // {
+        //    
+        //     // transform.localPosition = new Vector3(0, manualSubHeight, 0);
+        // }
+        // else
+        // {
+        //     transform.position = mainSR.bounds.ClosestPoint(transform.position + Vector3.up * 5) + Vector3.up * 0.1f;
+        // }
+    }
+
+
+    #endregion
 }
 

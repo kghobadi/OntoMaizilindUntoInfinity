@@ -49,11 +49,9 @@ public class MonologueReader : MonoBehaviour {
     public bool usesScreenReader;
     public ScreenReader screenReader; //assigned by main canvas mono reader
     public FaceAnimationUI faceAnimationUI;
-    private MainCanvasMonologueReader mainCanvasReaderCreator;
 
     void Awake()
     {
-        mainCanvasReaderCreator = FindObjectOfType<MainCanvasMonologueReader>();
         myRectTransform = GetComponent<RectTransform>();
         textBackTransform = transform.parent.GetComponent<RectTransform>();
         mainCam = Camera.main;
@@ -137,21 +135,6 @@ public class MonologueReader : MonoBehaviour {
                     screenReader.SetText(the_Text.text); 
                 else
                     screenReader.SetText(theText.text); 
-            }
-            //don't have a screen reader yet 
-            else
-            {
-                //generate one from the creator
-                if (mainCanvasReaderCreator && usesScreenReader)
-                {
-                    mainCanvasReaderCreator.GenerateReader(this);
-                    
-                    //set text so its not empty!
-                    if (usesTMP)
-                        screenReader.SetText(the_Text.text); 
-                    else
-                        screenReader.SetText(theText.text); 
-                }
             }
         }
     }
@@ -290,6 +273,12 @@ public class MonologueReader : MonoBehaviour {
             if (screenReader)
             {
                 screenReader.SetText(screenText);
+            }
+
+            //set subtitle 
+            if (monoManager.useSubtitles)
+            {
+                monoManager.SetSubtitleText(screenText);
             }
             
             //adjust width of ui
