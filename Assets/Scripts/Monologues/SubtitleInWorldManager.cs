@@ -12,6 +12,7 @@ public class SubtitleInWorldManager : MonoBehaviour
     public Sprite straightArrow, curvyArrow;
     public List<Transform> onlyShowTheseSubs;
     public float maxDistanceFromPlayer = 100f;
+    public float lerpSpeed = 5f;
     private Camera mainCam;
     RectTransform mainCanvas;
     Vector2 screenCanvasPixelRatio;
@@ -102,19 +103,23 @@ public class SubtitleInWorldManager : MonoBehaviour
 
                 mm.ManageSubHeightPos();
 
-                //get necessary values
+                //get subtitle position 
                 Vector3 subPos = subParent.transform.position;
+                //get screen point of monologue manager (character). 
                 Vector3 screenPoint = mainCam.WorldToScreenPoint(mm.transform.position);
+                //get bool to check if on screen 
                 bool onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < mainCam.pixelWidth &&
                                 screenPoint.y > 0 && screenPoint.y < mainCam.pixelHeight;
 
+                //adjust when they're behind because math idk
                 if (screenPoint.z < 0) 
-                    screenPoint.x = mainCam.pixelWidth - screenPoint.x;//adjust when they're behind because math idk
+                    screenPoint.x = mainCam.pixelWidth - screenPoint.x;
 
+                //this scale and pixelratio converts it from local canvas pixels to cam screen pixels
                 float subBoxBorder = arrow.rect.height * 1.5f;
                 Vector2 subSize = new Vector2((subBG.rect.width + subBoxBorder) * subBG.localScale.x,
                                               (subBG.rect.height + subBoxBorder) * subBG.localScale.y)
-                                              * screenCanvasPixelRatio;//this scale and pixelratio converts it from local canvas pixels to cam screen pixels
+                                              * screenCanvasPixelRatio;
 
                 //get target position
                 if (mm.isPlayer)
@@ -160,9 +165,9 @@ public class SubtitleInWorldManager : MonoBehaviour
                     subBG.localScale = Vector3.Lerp(subBG.localScale, Vector3.one * .2f, 0.35f);
                 else
                 {
-                    float atPSubMult = Remaps.EaseInQuad(mm.currentSubTim, 0, 1.5f, 2.2f, 1.6f);
-                    subBG.localScale = Vector3.Lerp(subBG.localScale,
-                                                    Vector3.one * mm.subSizeMult * atPSubMult * Remaps.Linear(mm.DistToRealP, maxDistanceFromPlayer, 0f, .17f, .08f),
+                    float atPSubMult = Remaps.EaseInQuad(mm.currentSubTime, 0, 1.5f, 2.2f, 1.6f);
+                    //TODO play with remap values. 
+                    subBG.localScale = Vector3.Lerp(subBG.localScale, Vector3.one * mm.subSizeMult * atPSubMult * Remaps.Linear(mm.DistToRealP, maxDistanceFromPlayer, 0f, .17f, .08f),
                                                     0.2f);
                 }
                 // print(cv.transform.parent.name + ": " + cv.voiceAudibility);

@@ -52,8 +52,6 @@ public class MonologueManager : MonoBehaviour
     [Header("Subtitle System")] 
     public bool useSubtitles;
     private GameObject mySubtitle;
-    //public bool getAutoSubHeight = true;
-    public float manualSubHeight = 1.5f;
     public float subSizeMult = 1f;
     public bool centerOffScreenSub;
     SubtitleInWorldManager subtitleInWorldManager;
@@ -62,7 +60,8 @@ public class MonologueManager : MonoBehaviour
     [HideInInspector] public TextMeshProUGUI subtitleTMP;
     [HideInInspector] public CanvasGroup subCanvasGroup;
     [HideInInspector] public bool subChanging;
-    [HideInInspector] public float currentSubTim;
+    private string prevSubText;
+    [HideInInspector] public float currentSubTime;
     //[HideInInspector] public float voiceAudibility;
     private float distToRealP;
 
@@ -414,6 +413,8 @@ public class MonologueManager : MonoBehaviour
             npcController.Movement.ResetMovement(mono.newMovement);
         }
 
+        //disable mono and set sub time to 0
+        currentSubTime = 0;
         inMonologue = false;
     }
 
@@ -427,6 +428,11 @@ public class MonologueManager : MonoBehaviour
     {
         subtitleTMP.text = text;
         RendererExtensions.ChangeWidthOfObject(subRectTransform,subtitleTMP, monoReader.maxWidth, monoReader.sideOffset);
+
+        currentSubTime += Time.deltaTime;
+        
+        subChanging = subtitleTMP.text != prevSubText;
+        prevSubText = subtitleTMP.text;
     }
 
     public void ManageSubHeightPos()
@@ -434,23 +440,16 @@ public class MonologueManager : MonoBehaviour
         if (isPlayer)
         {
             mySubtitle.transform.position = mainCam.transform.position + mainCam.transform.forward;
-            return;
         }
-        
-        mySubtitle.transform.position = transform.position + Vector3.up * manualSubHeight;
-        //mySubtitle.transform.position = textBack.transform.position;
-        
-        // if (!getAutoSubHeight)
-        // {
-        //    
-        //     // transform.localPosition = new Vector3(0, manualSubHeight, 0);
-        // }
-        // else
-        // {
-        //     transform.position = mainSR.bounds.ClosestPoint(transform.position + Vector3.up * 5) + Vector3.up * 0.1f;
-        // }
+        else
+        {
+            //TODO this is still off a bit -- need to figure out why. 
+            //maybe i need to convert textback rectransform pos to world pos? just doesn't seem like i am getting the right Y pos. could even use an empty transform. 
+            
+            mySubtitle.transform.position = new Vector3(mySubtitle.transform.position.x, textBack.transform.transform.position.y,
+                mySubtitle.transform.position.z);
+        }
     }
-
 
     #endregion
 }
