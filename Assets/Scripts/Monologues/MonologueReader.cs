@@ -68,12 +68,6 @@ public class MonologueReader : MonoBehaviour {
     {
         //get speaker audio from host object
         speakerAudio = hostObj.GetComponent<SpeakerSound>();
-        
-        //set face anim ui references 
-        if (faceAnimationUI)
-        {
-            faceAnimationUI.SetReader(this, monoManager.textBack.transform);
-        }
 
         //check if TMP or normal Text
         if (usesTMP)
@@ -112,19 +106,11 @@ public class MonologueReader : MonoBehaviour {
             {
                 screenReader.Deactivate();
             }
-            //deactivate face anim ui
-            if (faceAnimationUI)
-            {
-                faceAnimationUI.Deactivate();
-            }
+            //could move Subtitle check here.
         }
         else
         {
-            //activate face anim ui
-            if (faceAnimationUI)
-            {
-                faceAnimationUI.Activate();
-            }
+            //could move Subtitle check here.
             
             //can't see it on screen, activate screen reader
             if (screenReader)

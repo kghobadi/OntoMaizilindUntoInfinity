@@ -19,6 +19,8 @@ public class SubtitleInWorldManager : MonoBehaviour
     float subScreenBorder;
     float bgImgBorder;
     float prevPixelWidth;
+
+    public float heightOffset = 2f;
     
     void Awake()
     {
@@ -57,6 +59,16 @@ public class SubtitleInWorldManager : MonoBehaviour
         g.name = monologueManager.transform.name + " - Subtitle";
         monologueManager.arrowImg = monologueManager.subtitleTMP.transform.parent.GetChild(1).GetComponent<Image>();
         monologueManager.subCanvasGroup = g.GetComponent<CanvasGroup>();
+        
+        //check for face pointer 
+        if (monologueManager.facePointer)
+        {
+            RectTransform arrow = (RectTransform)monologueManager.arrowImg.transform;
+            monologueManager.faceRect.sizeDelta *= monologueManager.faceSizeMult;
+            monologueManager.faceRect.SetParent(arrow);
+            monologueManager.facePointer.gameObject.SetActive(true);
+        }
+       
         g.SetActive(false);
 
         return g;
@@ -98,19 +110,36 @@ public class SubtitleInWorldManager : MonoBehaviour
                     shouldUpdatePos = true;
                 }
                 
-                //enable subtitle text box 
-                mm.subtitleTMP.gameObject.SetActive(true);
-
                 mm.ManageSubHeightPos();
 
                 //get subtitle position 
                 Vector3 subPos = subParent.transform.position;
+                //apply height offset to in world text canvas. 
+                Vector3 pointToCheck = new Vector3(mm.textBack.transform.position.x,
+                    mm.textBack.transform.position.y - heightOffset, mm.textBack.transform.position.z);
                 //get screen point of monologue manager (character). 
-                Vector3 screenPoint = mainCam.WorldToScreenPoint(mm.transform.position);
+                Vector3 screenPoint = mainCam.WorldToScreenPoint(mm.transform.position + new Vector3(0, heightOffset, 0));
+                //Vector3 screenPointHeight = mainCam.WorldToScreenPoint(pointToCheck);
                 //get bool to check if on screen 
                 bool onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < mainCam.pixelWidth &&
                                 screenPoint.y > 0 && screenPoint.y < mainCam.pixelHeight;
 
+                //enable subtitle text box if off screen
+                subParent.SetActive(!onScreen);
+
+                //control activation of face pointer ui.
+                if (mm.facePointer)
+                {
+                    if (subParent.gameObject.activeSelf)
+                    {
+                        mm.facePointer.Activate();
+                    }
+                    else
+                    {
+                        mm.facePointer.Deactivate();
+                    }
+                }
+               
                 //adjust when they're behind because math idk
                 if (screenPoint.z < 0) 
                     screenPoint.x = mainCam.pixelWidth - screenPoint.x;
@@ -207,6 +236,7 @@ public class SubtitleInWorldManager : MonoBehaviour
                 }
 
                 arrow.localPosition = new Vector2(arrowPosX, arrow.localPosition.y);
+                mm.SetFacePointerPos();
 
                 switch (atEdge)
                 {

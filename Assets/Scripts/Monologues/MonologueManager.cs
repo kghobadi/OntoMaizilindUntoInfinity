@@ -62,7 +62,9 @@ public class MonologueManager : MonoBehaviour
     [HideInInspector] public bool subChanging;
     private string prevSubText;
     [HideInInspector] public float currentSubTime;
-    //[HideInInspector] public float voiceAudibility;
+    public float faceSizeMult = 2f;
+    public FaceAnimationUI facePointer;
+    [HideInInspector] public RectTransform faceRect;
     private float distToRealP;
 
     /// <summary>
@@ -100,6 +102,11 @@ public class MonologueManager : MonoBehaviour
         {
             monoReader.hostObj = gameObject;
             monoReader.monoManager = this;
+        }
+
+        if (facePointer)
+        {
+            faceRect = facePointer.GetComponent<RectTransform>();
         }
     }
 
@@ -449,6 +456,16 @@ public class MonologueManager : MonoBehaviour
             mySubtitle.transform.position = new Vector3(mySubtitle.transform.position.x, textBack.transform.transform.position.y,
                 mySubtitle.transform.position.z);
         }
+    }
+
+    /// <summary>
+    /// Arrow pos passed in from subtitle manager. 
+    /// </summary>
+    /// <param name="pos"></param>
+    public void SetFacePointerPos()
+    {
+        float heightOffset = faceRect.sizeDelta.y / 1.5f;
+        faceRect.localPosition = Vector3.zero - new Vector3(0f, heightOffset,0f);
     }
 
     #endregion
