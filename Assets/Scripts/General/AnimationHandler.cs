@@ -24,7 +24,10 @@ public abstract class AnimationHandler : MonoBehaviour
         //turn off all anim bools
         for (int i = 0; i < animationBools.Length; i++)
         {
-            characterAnimator.SetBool(animationBools[i], false);
+            if (HasParameter(animationBools[i]))
+            {
+                characterAnimator.SetBool(animationBools[i], false);
+            }
         }
 
         //set anim bool true

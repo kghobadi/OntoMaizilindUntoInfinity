@@ -45,9 +45,7 @@ public class MonologueReader : MonoBehaviour {
     public float maxWidth = 1000f;
     public float sideOffset = 25f;
 
-    [Header("Main Canvas Reader")] 
-    public bool usesScreenReader;
-    public ScreenReader screenReader; //assigned by main canvas mono reader
+    [Header("Subtitle Reader")] 
     public FaceAnimationUI faceAnimationUI;
 
     void Awake()
@@ -82,15 +80,10 @@ public class MonologueReader : MonoBehaviour {
 
         if (readingMono)
         {
-            CheckVisible();
+            //CheckVisible();
         }
     }
 
-    public void SetScreenReader(ScreenReader reader)
-    {
-        screenReader = reader;
-    }
-    
     /// <summary>
     /// Checks whether the world space monologue reader is visible or not.
     /// </summary>
@@ -101,26 +94,28 @@ public class MonologueReader : MonoBehaviour {
 
         if (isVisible)
         {
-            //we good -- deactivate screen reader if there is one
-            if (screenReader)
+            //set subtitle 
+            if (monoManager.useSubtitles)
             {
-                screenReader.Deactivate();
+                monoManager.DisableSubtitle();
             }
-            //could move Subtitle check here.
         }
         else
         {
-            //could move Subtitle check here.
-            
-            //can't see it on screen, activate screen reader
-            if (screenReader)
+            //set subtitle 
+            if (monoManager.useSubtitles)
             {
-                screenReader.Activate();
-                //set text so its not empty!
+                monoManager.EnableSubtitle();
+
+                //set text 
                 if (usesTMP)
-                    screenReader.SetText(the_Text.text); 
+                {
+                    monoManager.SetSubtitleText(the_Text.text);
+                }
                 else
-                    screenReader.SetText(theText.text); 
+                {
+                    monoManager.SetSubtitleText(theText.text);
+                }
             }
         }
     }
@@ -187,10 +182,10 @@ public class MonologueReader : MonoBehaviour {
         readingMono = false;
         monoManager.DisableMonologue();
             
-        //deactivate screen reader if there is one
-        if (screenReader)
+        //set subtitle disabled
+        if (monoManager.useSubtitles)
         {
-            screenReader.Deactivate();
+            monoManager.DisableSubtitle();
         }
         //deactivate face anim ui
         if (faceAnimationUI)
@@ -254,12 +249,6 @@ public class MonologueReader : MonoBehaviour {
                 theText.text += lineOfText[letter];
                 screenText = theText.text;
             }
-                
-            //set screen reader
-            if (screenReader)
-            {
-                screenReader.SetText(screenText);
-            }
 
             //set subtitle 
             if (monoManager.useSubtitles)
@@ -276,6 +265,7 @@ public class MonologueReader : MonoBehaviour {
             //check what audio to play 
             if(speakerAudio)
                 speakerAudio.AudioCheck(lineOfText, letter);
+            
             //next letter
             letter += 1;
             yield return new WaitForSeconds(timeBetweenLetters);
@@ -296,8 +286,11 @@ public class MonologueReader : MonoBehaviour {
         else
             theText.text = lineOfText;
         
-        if(screenReader)
-            screenReader.SetText(lineOfText);
+        //set subtitle 
+        if (monoManager.useSubtitles)
+        {
+            monoManager.SetSubtitleText(lineOfText);
+        }
         
         isTyping = false;
     }

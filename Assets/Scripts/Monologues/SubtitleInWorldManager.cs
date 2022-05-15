@@ -114,19 +114,15 @@ public class SubtitleInWorldManager : MonoBehaviour
 
                 //get subtitle position 
                 Vector3 subPos = subParent.transform.position;
-                //apply height offset to in world text canvas. 
-                Vector3 pointToCheck = new Vector3(mm.textBack.transform.position.x,
-                    mm.textBack.transform.position.y - heightOffset, mm.textBack.transform.position.z);
                 //get screen point of monologue manager (character). 
-                Vector3 screenPoint = mainCam.WorldToScreenPoint(mm.transform.position + new Vector3(0, heightOffset, 0));
-                //Vector3 screenPointHeight = mainCam.WorldToScreenPoint(pointToCheck);
+                Vector3 screenPoint = mainCam.WorldToScreenPoint(mm.textBack.transform.position);
                 //get bool to check if on screen 
                 bool onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < mainCam.pixelWidth &&
                                 screenPoint.y > 0 && screenPoint.y < mainCam.pixelHeight;
 
                 //enable subtitle text box if off screen
                 subParent.SetActive(!onScreen);
-
+                
                 //control activation of face pointer ui.
                 if (mm.facePointer)
                 {
@@ -170,21 +166,25 @@ public class SubtitleInWorldManager : MonoBehaviour
                     {
                         if (shouldUpdatePos)
                         {
+                            //need to determine x pos
                             float xPos;
-                            float yPos = 0.2f * mainCam.pixelHeight;
                             if (screenPoint.z > 0)
+                            {
                                 xPos = Mathf.Lerp(screenPoint.x, 0.5f * mainCam.pixelWidth, Remaps.Linear(mm.DistToRealP, maxDistanceFromPlayer, 0, 0.1f, 0.9f));
+                            }
                             else
                             {
                                 if (!mm.centerOffScreenSub)
+                                {
                                     xPos = Mathf.Sign(screenPoint.x) * 9999;
+                                }
                                 else
                                 {
                                     xPos = (0.5f * mainCam.pixelWidth) + (Mathf.Sign(screenPoint.x) * 0.15f * mainCam.pixelWidth);
-                                    yPos = 0.1f * mainCam.pixelHeight;
                                 }
                             }
-                            subPos = new Vector3(xPos, yPos, 0);
+                            //set sub x pos and keep screenpoint for y pos 
+                            subPos = new Vector3(xPos, screenPoint. y + (subSize.y / 2), 0);
                         }
                     }
                 }

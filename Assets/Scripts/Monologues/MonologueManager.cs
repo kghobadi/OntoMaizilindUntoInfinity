@@ -51,7 +51,7 @@ public class MonologueManager : MonoBehaviour
 
     [Header("Subtitle System")] 
     public bool useSubtitles;
-    private GameObject mySubtitle;
+    [HideInInspector] public GameObject mySubtitle;
     public float subSizeMult = 1f;
     public bool centerOffScreenSub;
     SubtitleInWorldManager subtitleInWorldManager;
@@ -428,6 +428,24 @@ public class MonologueManager : MonoBehaviour
     #region Subtitle Management
 
     /// <summary>
+    /// Enables the subtitle obj.
+    /// </summary>
+    public void EnableSubtitle()
+    {
+        mySubtitle.SetActive(true);
+        facePointer.Activate();
+    }
+
+    /// <summary>
+    /// Disables the subtitle obj.
+    /// </summary>
+    public void DisableSubtitle()
+    {
+        mySubtitle.SetActive(false);
+        facePointer.Deactivate();
+    }
+    
+    /// <summary>
     /// Actually sets the subtitle text. 
     /// </summary>
     /// <param name="text"></param>
@@ -450,11 +468,7 @@ public class MonologueManager : MonoBehaviour
         }
         else
         {
-            //TODO this is still off a bit -- need to figure out why. 
-            //maybe i need to convert textback rectransform pos to world pos? just doesn't seem like i am getting the right Y pos. could even use an empty transform. 
-            
-            mySubtitle.transform.position = new Vector3(mySubtitle.transform.position.x, textBack.transform.transform.position.y,
-                mySubtitle.transform.position.z);
+            mySubtitle.transform.position = new Vector3(mySubtitle.transform.position.x, textBack.transform.transform.position.y, mySubtitle.transform.position.z);
         }
     }
 
