@@ -413,8 +413,9 @@ public class ThePilot : AudioHandler {
         //down
         else if (vertical < 0)
         {
-            //zero y vel if it is greater than 0
-            if (planeBody.velocity.y > 0)
+            //zero y vel if it is greater than 0 OR if plane is below height min on the y
+            if (planeBody.velocity.y > 0
+                || transform.position.y < heightMin)
             {
                 planeBody.velocity = new Vector3(planeBody.velocity.x, 0, planeBody.velocity.z);
             }
