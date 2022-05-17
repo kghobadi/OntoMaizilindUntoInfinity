@@ -74,7 +74,7 @@ public class DeityHealth : MonoBehaviour {
         ParticleSystem sParticles = splosion.GetComponent<ParticleSystem>();
         sParticles.Play();
         //reset bullet
-        bullet.ResetBullet();
+        bullet.ResetBullet(transform);
         //sub health
         healthPoints--;
         //explosion sound 

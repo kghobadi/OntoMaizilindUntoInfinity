@@ -35,6 +35,11 @@ public class ThePilot : AudioHandler {
     public float weaponsTimerL, firingIntervalL = 0.05f;
     [Tooltip("Time between bullets firing right")]
     public float weaponsTimerR, firingIntervalR = 0.05f;
+
+    public bool useLockOnTargeting;
+    private Transform threeDTarget;
+    private FollowPilot targetFollow;
+    public Transform lockOnTarget;
     [Header("Pilot Views")]
     public bool zoomedIn;
     public GameObject fpCam,cockpit, zoCam;
@@ -59,6 +64,9 @@ public class ThePilot : AudioHandler {
         guns = GetComponentsInChildren<Gun>();
         bText.text = bulletCount.ToString();
         SwitchViews(false);
+        //set up targeting system
+        threeDTarget = GameObject.FindGameObjectWithTag("Target").transform;
+        targetFollow = threeDTarget.GetComponent<FollowPilot>();
     }
     
 	//could play sounds when moving 
@@ -269,6 +277,32 @@ public class ThePilot : AudioHandler {
             }
         }
     }
+
+    
+    public void LockOnToTarget(Transform deityTarget = null)
+    {
+        if (!useLockOnTargeting)
+        {
+            return;
+        }
+
+        if (lockOnTarget != deityTarget)
+        {
+            lockOnTarget = deityTarget;
+
+            if (lockOnTarget != null)
+            {
+                targetFollow.SetXFollow(false);
+                targetFollow.SetYFollow(false);
+            }
+            else
+            {
+                targetFollow.SetXFollow(true);
+                targetFollow.SetYFollow(true);
+            }
+        }
+    }
+    
     #endregion
 
     #region Movement

@@ -7,6 +7,8 @@ public class FollowPilot : MonoBehaviour {
     GameObject pilot;
     MoveTowards mover;
 
+    [Tooltip("Place an object in here to make this follow that object instead of the pilot.")]
+    public GameObject optionalFollowObject;
     public FollowType followType;
     public enum FollowType
     {
@@ -25,7 +27,14 @@ public class FollowPilot : MonoBehaviour {
 
     void Awake()
     {
-        pilot = FindObjectOfType<ThePilot>().gameObject;
+        if (optionalFollowObject)
+        {
+            pilot = optionalFollowObject;
+        }
+        else
+        {
+            pilot = FindObjectOfType<ThePilot>().gameObject;
+        }
 
         if (followType == FollowType.MOVETOWARDS)
         {
@@ -90,5 +99,19 @@ public class FollowPilot : MonoBehaviour {
     public void ResetZDist(float newDist)
     {
         zDistAtStart = newDist;
+    }
+
+    //Allow you to set follow bools for each axes
+    public void SetXFollow(bool follow)
+    {
+        followX = follow;
+    }
+    public void SetYFollow(bool follow)
+    {
+        followY = follow;
+    }
+    public void SetZFollow(bool follow)
+    {
+        followZ = follow;
     }
 }

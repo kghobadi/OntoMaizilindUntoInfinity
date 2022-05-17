@@ -46,19 +46,31 @@ public class Bullet : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         //return bullet and death cloud to their pools on impact 
-        if(other.gameObject.tag == "DeathCloud")
+        if(other.gameObject.CompareTag("DeathCloud"))
         {
             //reset cloud scale && send to poolers
             other.gameObject.transform.localScale = other.gameObject.GetComponent<Cloud>().origScale;
             other.gameObject.GetComponent<PooledObject>().ReturnToPool();
         }
+        
+        //return bullet and death cloud to their pools on impact 
+        if(other.gameObject.CompareTag("Deity"))
+        {
+            //nothing because ResetBullet is called by Deity. 
+        }
     }
 
     //can be called by Deities
-    public void ResetBullet()
+    public void ResetBullet(Transform Deity = null)
     {
         pooledObj.ReturnToPool();
         bulletSpeed = origSpeed;
         bulletTrail.Clear();
+
+        //lock on check for the Deity transforms 
+        if (Deity != null)
+        {
+            pilot.LockOnToTarget(Deity);
+        }
     }
 }
