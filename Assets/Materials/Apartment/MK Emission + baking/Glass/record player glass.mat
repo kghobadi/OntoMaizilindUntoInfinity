@@ -10,9 +10,9 @@ Material:
   m_Name: record player glass
   m_Shader: {fileID: 4800000, guid: 16b0d6396a9a7a14ea55002f9a6e7142, type: 3}
   m_ShaderKeywords: _ALPHABLEND_ON _MK_ALBEDO_MAP _MK_ARTISTIC_PROJECTION_SCREEN_SPACE
-    _MK_ENVIRONMENT_REFLECTIONS_AMBIENT _MK_INDEX_OF_REFRACTION _MK_LIGHT_BANDED
-    _MK_RECEIVE_SHADOWS _MK_SURFACE_TYPE_TRANSPARENT _MK_WRAPPED_DIFFUSE _RECEIVESHADOWS_ON
-    _WRAPPEDLIGHTING_ON
+    _MK_ENVIRONMENT_REFLECTIONS_AMBIENT _MK_INDEX_OF_REFRACTION _MK_IRIDESCENCE_DEFAULT
+    _MK_LIGHT_BANDED _MK_RECEIVE_SHADOWS _MK_REFRACTION_DISTORTION_MAP _MK_SURFACE_TYPE_TRANSPARENT
+    _MK_WRAPPED_DIFFUSE _RECEIVESHADOWS_ON _WRAPPEDLIGHTING_ON
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -82,7 +82,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _IridescenceRamp:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: b8050332509c3cb4d99736b2c86ab9c0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -106,7 +106,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RefractionDistortionMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 6c8ded7dae09977458bde1e5a554f3d9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RimRamp:
@@ -180,7 +180,7 @@ Material:
     - _IndexOfRefraction: 0.03
     - _Initialized: 1
     - _InputTab: 1
-    - _Iridescence: 0
+    - _Iridescence: 1
     - _IridescenceSize: 1
     - _IridescenceSmoothness: 0.5
     - _IridescenceThresholdOffset: 0
@@ -247,7 +247,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GoochBrightColor: {r: 1, g: 1, b: 1, a: 1}
     - _GoochDarkColor: {r: 0, g: 0, b: 0, a: 1}
-    - _IridescenceColor: {r: 1, g: 1, b: 1, a: 0.5}
+    - _IridescenceColor: {r: 0.7647059, g: 0.6962391, b: 0.43358824, a: 0.5}
     - _ReflectColor: {r: 1, g: 1, b: 1, a: 0.5}
     - _RimBrightColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
