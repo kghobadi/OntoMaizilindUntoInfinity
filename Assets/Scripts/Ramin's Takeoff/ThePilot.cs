@@ -35,6 +35,8 @@ public class ThePilot : AudioHandler {
     public float weaponsTimerL, firingIntervalL = 0.05f;
     [Tooltip("Time between bullets firing right")]
     public float weaponsTimerR, firingIntervalR = 0.05f;
+    [Tooltip("Controls UI which appears at start of sequence")] 
+    public FadeUI[] weaponsControlFades;
 
     public bool useLockOnTargeting;
     private Transform threeDTarget;
@@ -211,6 +213,16 @@ public class ThePilot : AudioHandler {
                         bulletCount -= guns.Length;
                         //set bullet text 
                         bText.text = bulletCount.ToString();
+                    }
+                    
+                    //weapons controls UI fade outs can only happen if they are already faded in.
+                    if (weaponsControlFades[0].GetCurrentOpacity() > weaponsControlFades[0].fadeInAmount - 0.1f)
+                    {
+                        //fade out all weapons controls UIs 
+                        for (int i = 0; i < weaponsControlFades.Length; i++)
+                        {
+                            weaponsControlFades[i].FadeOut();
+                        }
                     }
                 }
                 //click click 

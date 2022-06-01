@@ -42,6 +42,7 @@ public class Hallucination : MonoBehaviour
 	
 	[Header("Events")] 
 	public UnityEvent[] events;
+	public UnityEvent[] endEvents;
 	
 	void Start()
 	{
@@ -191,6 +192,12 @@ public class Hallucination : MonoBehaviour
 		for (int i = 0; i < hallucObjects.Length; i++)
 		{
 			hallucObjects[i].SetActive(false);
+		}
+		
+		//trigger events
+		for (int i = 0; i < endEvents.Length; i++)
+		{
+			endEvents[i].Invoke();
 		}
 		
 		//pilot stuff
