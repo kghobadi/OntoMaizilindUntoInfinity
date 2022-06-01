@@ -159,6 +159,8 @@ MonoBehaviour:
   fadeInAmount: 0.5
   fadeOutAmount: 0
   switchingSound: 0
+  trackList: []
+  trackCounter: 0
 --- !u!82 &31025505
 AudioSource:
   m_ObjectHideFlags: 0
@@ -307,6 +309,8 @@ MonoBehaviour:
   fadeInAmount: 0.5
   fadeOutAmount: 0
   switchingSound: 0
+  trackList: []
+  trackCounter: 0
 --- !u!82 &33955858
 AudioSource:
   m_ObjectHideFlags: 0
@@ -631,8 +635,6 @@ MonoBehaviour:
   useDynamicWidth: 0
   maxWidth: 1000
   sideOffset: 25
-  usesScreenReader: 0
-  screenReader: {fileID: 0}
   faceAnimationUI: {fileID: 0}
 --- !u!114 &72270059
 MonoBehaviour:
@@ -7503,10 +7505,10 @@ MonoBehaviour:
   invertY: 1
   canControl: 0
   clamps: 0
-  minX: 0
-  maxX: 0
-  minY: 0
-  maxY: 0
+  minX: -80
+  maxX: 80
+  minY: -80
+  maxY: 80
   currentCamObj: {fileID: 0}
   shiftable:
     serializedVersion: 2
@@ -9018,8 +9020,6 @@ MonoBehaviour:
   useDynamicWidth: 0
   maxWidth: 1000
   sideOffset: 25
-  usesScreenReader: 0
-  screenReader: {fileID: 0}
   faceAnimationUI: {fileID: 0}
 --- !u!114 &339778063
 MonoBehaviour:
@@ -9935,8 +9935,6 @@ MonoBehaviour:
   useDynamicWidth: 0
   maxWidth: 1000
   sideOffset: 25
-  usesScreenReader: 0
-  screenReader: {fileID: 0}
   faceAnimationUI: {fileID: 0}
 --- !u!114 &390098611
 MonoBehaviour:
@@ -11846,6 +11844,8 @@ MonoBehaviour:
   fadeInAmount: 0.5
   fadeOutAmount: 0
   switchingSound: 0
+  trackList: []
+  trackCounter: 0
 --- !u!82 &590361878
 AudioSource:
   m_ObjectHideFlags: 0
@@ -44972,6 +44972,8 @@ MonoBehaviour:
   fadeInAmount: 0.5
   fadeOutAmount: 0
   switchingSound: 0
+  trackList: []
+  trackCounter: 0
 --- !u!82 &973524321
 AudioSource:
   m_ObjectHideFlags: 0
@@ -46097,6 +46099,8 @@ MonoBehaviour:
   fadeInAmount: 0.5
   fadeOutAmount: 0
   switchingSound: 0
+  trackList: []
+  trackCounter: 0
 --- !u!82 &1084861152
 AudioSource:
   m_ObjectHideFlags: 0
@@ -46506,6 +46510,7 @@ MonoBehaviour:
   enableOnStart: 0
   head: {fileID: 0}
   useSubtitles: 0
+  mySubtitle: {fileID: 0}
   subSizeMult: 1
   centerOffScreenSub: 0
   subtitleTMP: {fileID: 0}
@@ -47486,6 +47491,8 @@ MonoBehaviour:
   fadeInAmount: 0.5
   fadeOutAmount: 0
   switchingSound: 0
+  trackList: []
+  trackCounter: 0
 --- !u!82 &1136243205
 AudioSource:
   m_ObjectHideFlags: 0
@@ -86243,9 +86250,29 @@ PrefabInstance:
       objectReference: {fileID: 200456655}
     - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
         type: 3}
+      propertyPath: endEvents.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
       propertyPath: monoManagers.Array.data[0]
       value: 
       objectReference: {fileID: 114937719001616433}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: endEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[3].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
         type: 3}
       propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -86256,6 +86283,56 @@ PrefabInstance:
       propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 590361876}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[3].m_Target
+      value: 
+      objectReference: {fileID: 200456657}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: endEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: endEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 200456657}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[3].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
+      value: SetClamp
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: endEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: endEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetClamp
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: endEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66e84a1385270244e868f4b5736435d1, type: 3}
 --- !u!114 &1547675223
@@ -86747,6 +86824,7 @@ MonoBehaviour:
   enableOnStart: 0
   head: {fileID: 0}
   useSubtitles: 0
+  mySubtitle: {fileID: 0}
   subSizeMult: 1
   centerOffScreenSub: 0
   subtitleTMP: {fileID: 0}
@@ -86983,6 +87061,7 @@ MonoBehaviour:
   monoManagers: []
   monoIndeces: 
   events: []
+  endEvents: []
 --- !u!1 &1667500969
 GameObject:
   m_ObjectHideFlags: 0
@@ -91796,7 +91875,7 @@ Transform:
   m_GameObject: {fileID: 1685180556}
   m_LocalRotation: {x: -0.00000035390235, y: 0.0000003394054, z: -0.00000041556825,
     w: 1}
-  m_LocalPosition: {x: -0.000016298733, y: -0.00013581134, z: 0.0012439822}
+  m_LocalPosition: {x: -0.000016299293, y: -0.00013581134, z: 0.0012439822}
   m_LocalScale: {x: 1, y: 1.0135, z: 1.0135007}
   m_Children:
   - {fileID: 668675137}
@@ -92326,6 +92405,9 @@ MonoBehaviour:
   firingIntervalL: 0.05
   weaponsTimerR: 0
   firingIntervalR: 0.05
+  weaponsControlFades:
+  - {fileID: 114760515384382099}
+  - {fileID: 114636669454266651}
   useLockOnTargeting: 0
   lockOnTarget: {fileID: 0}
   zoomedIn: 0
@@ -105852,8 +105934,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2045468874}
-  m_LocalRotation: {x: 0.062144157, y: -0.0000006109476, z: 0.00000025704296, w: -0.99806726}
-  m_LocalPosition: {x: -0.000016297963, y: 76.27002, z: -165.81876}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -105907,7 +105989,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 60
+  field of view: 40
   orthographic: 0
   orthographic size: 10
   m_Depth: -1
@@ -106173,6 +106255,7 @@ MonoBehaviour:
   enableOnStart: 0
   head: {fileID: 0}
   useSubtitles: 0
+  mySubtitle: {fileID: 0}
   subSizeMult: 1
   centerOffScreenSub: 0
   subtitleTMP: {fileID: 0}
@@ -106743,12 +106826,12 @@ PrefabInstance:
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 3}
       propertyPath: _savedGUID
-      value: 1674869119
+      value: 2774677110
       objectReference: {fileID: 0}
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 3}
       propertyPath: hash.lastHash
-      value: 1964591902
+      value: -1898409102
       objectReference: {fileID: 0}
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 3}
@@ -109398,7 +109481,6 @@ GameObject:
   - component: {fileID: 222169947275516671}
   - component: {fileID: 114834274927268293}
   - component: {fileID: 114760515384382099}
-  - component: {fileID: 114973360062587979}
   m_Layer: 12
   m_Name: SpaceTo Fire Weapons
   m_TagString: Untagged
@@ -113071,6 +113153,7 @@ MonoBehaviour:
   enableOnStart: 0
   head: {fileID: 4989957279540627}
   useSubtitles: 0
+  mySubtitle: {fileID: 0}
   subSizeMult: 1
   centerOffScreenSub: 0
   subtitleTMP: {fileID: 0}
@@ -113082,44 +113165,6 @@ MonoBehaviour:
   faceRect: {fileID: 0}
   arrowImg: {fileID: 0}
   subPointOffsetX: 0
---- !u!114 &114973360062587979
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1932307449817689}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 372c4c62457bfb24993a563fdbf58474, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  events:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114760515384382099}
-        m_MethodName: FadeOut
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 114636669454266651}
-        m_MethodName: FadeOut
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  activated: 0
 --- !u!114 &114975078641117275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113149,8 +113194,6 @@ MonoBehaviour:
   useDynamicWidth: 1
   maxWidth: 1000
   sideOffset: 25
-  usesScreenReader: 0
-  screenReader: {fileID: 0}
   faceAnimationUI: {fileID: 0}
 --- !u!137 &137102532118497167
 SkinnedMeshRenderer:
