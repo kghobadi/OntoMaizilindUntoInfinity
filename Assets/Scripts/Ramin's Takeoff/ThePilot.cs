@@ -188,7 +188,9 @@ public class ThePilot : AudioHandler {
         var inputDevice = InputManager.ActiveDevice;
 
         //fire on space 
-        if ((Input.GetKey(KeyCode.Space) || inputDevice.Action1))
+        if (Input.GetKey(KeyCode.Space) || inputDevice.Action1
+         || Input.GetMouseButton(0) || inputDevice.LeftTrigger || inputDevice.LeftBumper
+         || Input.GetMouseButton(1) || inputDevice.RightTrigger || inputDevice.RightBumper)
         {
             //check can fire 
             if(weaponsTimerL < 0 || weaponsTimerR < 0)
@@ -226,7 +228,7 @@ public class ThePilot : AudioHandler {
         }
 
         //fire left gun 
-        if ((Input.GetMouseButton(0) || inputDevice.LeftTrigger || inputDevice.LeftBumper))
+        /*if (Input.GetMouseButton(0) || inputDevice.LeftTrigger || inputDevice.LeftBumper)
         {
             //check can fire 
             if (weaponsTimerL < 0)
@@ -236,10 +238,14 @@ public class ThePilot : AudioHandler {
                 {
                     //guns fire 
                     guns[0].SpawnBullet();
-                    //lose a bullet for every gun fired 
-                    bulletCount--;
-                    //set bullet text 
-                    bText.text = bulletCount.ToString();
+
+                    if (countingBullets)
+                    {
+                        //lose a bullet for every gun fired 
+                        bulletCount--;
+                        //set bullet text 
+                        bText.text = bulletCount.ToString();
+                    }
                 }
                 //click click 
                 else
@@ -252,7 +258,7 @@ public class ThePilot : AudioHandler {
         }
 
         //fire right gun 
-        if ((Input.GetMouseButton(1) || inputDevice.RightTrigger || inputDevice.RightBumper))
+        if (Input.GetMouseButton(1) || inputDevice.RightTrigger || inputDevice.RightBumper)
         {
             //check can fire 
             if (weaponsTimerR < 0)
@@ -262,10 +268,13 @@ public class ThePilot : AudioHandler {
                 {
                     //guns fire 
                     guns[1].SpawnBullet();
-                    //lose a bullet for every gun fired 
-                    bulletCount --;
-                    //set bullet text 
-                    bText.text = bulletCount.ToString();
+                    if (countingBullets)
+                    {
+                        //lose a bullet for every gun fired 
+                        bulletCount --;
+                        //set bullet text 
+                        bText.text = bulletCount.ToString();
+                    }
                 }
                 //click click 
                 else
@@ -275,7 +284,7 @@ public class ThePilot : AudioHandler {
 
                 weaponsTimerR = firingIntervalR;
             }
-        }
+        }*/
     }
 
     
