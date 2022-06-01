@@ -58,6 +58,11 @@ public class EventTrigger : MonoBehaviour {
 
     public void SetTrigger()
     {
+        if (hasTriggered)
+        {
+            return; 
+        }
+        
         if (waits)
         {
             StartCoroutine(WaitToTrigger());

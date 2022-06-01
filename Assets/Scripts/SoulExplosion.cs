@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using NPC;
 using UnityEngine;
+using UnityEngine.Video;
 
 public class SoulExplosion : MonoBehaviour
 {
@@ -17,6 +18,10 @@ public class SoulExplosion : MonoBehaviour
     private LerpScale[] sphereExplosions;
     
     public bool soulsExploded;
+
+    public VideoPlayer raminEndingVideo;
+    public FadeUI endingRawImage;
+    public AudioSource music;
 
     private void Start()
     {
@@ -95,6 +100,12 @@ public class SoulExplosion : MonoBehaviour
             sphereExplosion.gameObject.SetActive(true);
             sphereExplosion.SetLerp();
         }
+        
+        //video stuff
+        raminEndingVideo.gameObject.SetActive(true);
+        raminEndingVideo.Play();
+        endingRawImage.FadeIn();
+        music.loop = false;
 
         //set bool so this only happens once
         soulsExploded = true;
