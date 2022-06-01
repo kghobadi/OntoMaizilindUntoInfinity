@@ -99,7 +99,7 @@ public class MusicFader : MonoBehaviour {
     /// </summary>
     public void GoToNextTrack()
     {
-        if (trackCounter < trackList.Length - 1)
+        if (trackCounter < trackList.Length)
         {
             trackCounter++;
         }    
@@ -114,7 +114,7 @@ public class MusicFader : MonoBehaviour {
     public void GoToTrack(int index)
     {
         //must be bigger than current track counter. 
-        if (index < trackList.Length - 1 && index > trackCounter)
+        if (index < trackList.Length && index > trackCounter)
         {
             trackCounter = index;
             FadeTo(trackList[index]);

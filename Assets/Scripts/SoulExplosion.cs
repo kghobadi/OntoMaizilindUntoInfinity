@@ -19,8 +19,6 @@ public class SoulExplosion : MonoBehaviour
     
     public bool soulsExploded;
 
-    public VideoPlayer raminEndingVideo;
-    public FadeUI endingRawImage;
     public AudioSource music;
 
     private void Start()
@@ -101,10 +99,7 @@ public class SoulExplosion : MonoBehaviour
             sphereExplosion.SetLerp();
         }
         
-        //video stuff
-        raminEndingVideo.gameObject.SetActive(true);
-        raminEndingVideo.Play();
-        endingRawImage.FadeIn();
+        //music should not loop. 
         music.loop = false;
 
         //set bool so this only happens once

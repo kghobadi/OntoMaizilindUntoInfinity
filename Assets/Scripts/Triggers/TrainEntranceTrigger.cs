@@ -52,19 +52,14 @@ public class TrainEntranceTrigger : TriggerBase
             {
                 //idle 
                 npcMover.SetIdle();
-            
-                //npc has a seat, not a standing pos.
-                // if (seat != standingPos)
-                // {
-                //     //set sitting idle 
-                //     npcMover.ResetMovement(newMovement);
-                // }
-                // //npc will be standing -- so just set idle. 
-                // else
-                // {
-                //     npcMover.SetIdle();
-                // }
-
+                
+                //disable npc particles
+                ParticleSystem soulTrail = npcMover.GetComponentInChildren<ParticleSystem>();
+                if (soulTrail)
+                {
+                    soulTrail.Stop();
+                }
+                
                 //set look at obj
                 if (lookAtObject)
                 {
