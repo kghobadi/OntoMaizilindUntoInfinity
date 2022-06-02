@@ -971,7 +971,7 @@ ParticleSystem:
     m_BurstCount: 0
     m_Bursts: []
   SizeModule:
-    enabled: 0
+    enabled: 1
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -982,22 +982,22 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 1
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
-        - serializedVersion: 3
-          time: 1
           value: 1
-          inSlope: 1
+          inSlope: 0
           outSlope: 0
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 0
+          inSlope: -2
+          outSlope: -2
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -4011,7 +4011,7 @@ ParticleSystem:
     widthOverTrail:
       serializedVersion: 2
       minMaxState: 1
-      scalar: 1
+      scalar: 0.8
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -5599,6 +5599,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wmManager: {fileID: 0}
   npcController: {fileID: 0}
+  isPlayer: 0
   textBack: {fileID: 0}
   currentMonologue: 0
   allMyMonologues: []
@@ -5606,6 +5607,19 @@ MonoBehaviour:
   mTrigger: {fileID: 0}
   enableOnStart: 0
   head: {fileID: 0}
+  useSubtitles: 0
+  mySubtitle: {fileID: 0}
+  subSizeMult: 1
+  centerOffScreenSub: 0
+  subtitleTMP: {fileID: 0}
+  subCanvasGroup: {fileID: 0}
+  subChanging: 0
+  currentSubTime: 0
+  faceSizeMult: 2
+  facePointer: {fileID: 0}
+  faceRect: {fileID: 0}
+  arrowImg: {fileID: 0}
+  subPointOffsetX: 0
 --- !u!65 &-7767493275892321726
 BoxCollider:
   m_ObjectHideFlags: 0
