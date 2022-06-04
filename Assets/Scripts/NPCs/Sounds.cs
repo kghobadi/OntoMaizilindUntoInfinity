@@ -119,7 +119,10 @@ namespace NPC
             
             faceShiftEnding = true;
             //disable the face animator.
-            _faceAnim.Animator.enabled= false;
+            if (_faceAnim.Animator || !manualSetSprites)
+            {
+                _faceAnim.Animator.enabled= false;
+            }
             //disable animator.
             StartCoroutine(FaceShift());
         }

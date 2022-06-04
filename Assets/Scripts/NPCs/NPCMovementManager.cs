@@ -68,7 +68,37 @@ public class NPCMovementManager : NonInstantiatingSingleton<NPCMovementManager>
     }
     
     /// <summary>
-    /// Adds a screaming face to all NPCs. 
+    /// Adds a normal face to all NPCs. 
+    /// </summary>
+    /// <param name="face"></param>
+    public void AddNormalFaceToAllMen(Sprite face)
+    {
+        foreach (var npc in npcControllers)
+        {
+            if (npc.isMan)
+            {
+                npc.Sounds.AddNormalFace(face);
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Adds a normal face to all NPCs. 
+    /// </summary>
+    /// <param name="face"></param>
+    public void AddNormalFaceToAllWomen(Sprite face)
+    {
+        foreach (var npc in npcControllers)
+        {
+            if (!npc.isMan)
+            {
+                npc.Sounds.AddNormalFace(face);
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Adds a screaming face to all men NPCs. 
     /// </summary>
     /// <param name="face"></param>
     public void AddScreamingFaceToAllNPCs(Sprite face)
@@ -88,6 +118,21 @@ public class NPCMovementManager : NonInstantiatingSingleton<NPCMovementManager>
         foreach (var npc in npcControllers)
         {
             npc.Sounds.AddBackFace(face);
+        }
+    }
+    
+    /// <summary>
+    /// Adds a back face to all men NPCs. 
+    /// </summary>
+    /// <param name="face"></param>
+    public void AddBackFaceToAllMen(Sprite face)
+    {
+        foreach (var npc in npcControllers)
+        {
+            if (npc.isMan)
+            {
+                npc.Sounds.AddBackFace(face);
+            }
         }
     }
 
