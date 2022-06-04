@@ -23,9 +23,72 @@ public struct MovementPaths
     public Transform followObject;
 }
 
-public class NPCMovementManager : MonoBehaviour
+public class NPCMovementManager : NonInstantiatingSingleton<NPCMovementManager>
 {
+    // impl for NonInstantiatingSingleton
+    protected override NPCMovementManager GetInstance () { return this; }
+
     public MovementPaths[] movementPaths;
 
     public Transform [] lookAtObjects;
+
+    public bool getAllNpcs;
+    public Controller[] npcControllers;
+    
+    protected override void OnAwake()
+    {
+        base.OnAwake();
+
+        if (getAllNpcs)
+        {
+            //find all npc controllers in scene if the array is empty. 
+            FindAllNPCs();
+        }
+    }
+
+    /// <summary>
+    /// Grabs all NPC controllers in the scene.
+    /// </summary>
+    void FindAllNPCs()
+    {
+        //get all npc controllers in the scene. 
+        npcControllers = FindObjectsOfType<Controller>();
+    }
+
+    /// <summary>
+    /// Adds a normal face to all NPCs. 
+    /// </summary>
+    /// <param name="face"></param>
+    public void AddNormalFaceToAllNPCs(Sprite face)
+    {
+        foreach (var npc in npcControllers)
+        {
+            npc.Sounds.AddNormalFace(face);
+        }
+    }
+    
+    /// <summary>
+    /// Adds a screaming face to all NPCs. 
+    /// </summary>
+    /// <param name="face"></param>
+    public void AddScreamingFaceToAllNPCs(Sprite face)
+    {
+        foreach (var npc in npcControllers)
+        {
+            npc.Sounds.AddScreamingFace(face);
+        }
+    }
+    
+    /// <summary>
+    /// Adds a back face to all NPCs. 
+    /// </summary>
+    /// <param name="face"></param>
+    public void AddBackFaceToAllNPCs(Sprite face)
+    {
+        foreach (var npc in npcControllers)
+        {
+            npc.Sounds.AddBackFace(face);
+        }
+    }
+
 }

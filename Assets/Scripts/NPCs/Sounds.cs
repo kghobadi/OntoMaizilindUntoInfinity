@@ -25,12 +25,15 @@ namespace NPC
         SpriteRenderer face; 
         SpriteRenderer back;
         [Header("Face Animations")]
-        public Sprite [] normalFace, screaming, backs;
+        public List<Sprite> normalFace= new List<Sprite>();
+        public List<Sprite> screaming= new List<Sprite>();
+        public List<Sprite> backs = new List<Sprite>();
         public bool randomizeFace;
         public int faceIndex = 0;
         public bool manualSetSprites;
         public bool animateFaceToSound = true;
         public bool faceShiftEnding;
+        public float faceShiftTimer = 0.35f;
 
         [Header("Walking Sounds")]
         public bool playWalkingSounds;
@@ -77,13 +80,13 @@ namespace NPC
             //randomize face?
             if (randomizeFace)
             {
-                faceIndex = Random.Range(0, normalFace.Length);
+                faceIndex = Random.Range(0, normalFace.Count);
             }
 
             //set back
             if (back)
             {
-                if (backs.Length > faceIndex)
+                if (backs.Count > faceIndex)
                 {
                     back.sprite = backs[faceIndex];
                 }
@@ -115,6 +118,9 @@ namespace NPC
             }
             
             faceShiftEnding = true;
+            //disable the face animator.
+            _faceAnim.Animator.enabled= false;
+            //disable animator.
             StartCoroutine(FaceShift());
         }
 
@@ -123,18 +129,18 @@ namespace NPC
             while (faceShiftEnding)
             {
                 //randomize face index
-                faceIndex = Random.Range(0, normalFace.Length);
+                faceIndex = Random.Range(0, normalFace.Count);
                 //face & back change 
                 if (normalFace[faceIndex])
                 {
                     face.sprite = normalFace[faceIndex];
                 }
-                if (backs.Length > faceIndex)
+                if (backs.Count > faceIndex)
                 {
                     back.sprite = backs[faceIndex];
                 }
                 
-                yield return new WaitForSeconds(0.35f);
+                yield return new WaitForSeconds(faceShiftTimer);
             }
         }
 
@@ -207,7 +213,21 @@ namespace NPC
 
             lastPosition = transform.position;
         }
+        
+        public void AddNormalFace(Sprite face)
+        {
+            normalFace.Add(face);
+        }
 
+        public void AddScreamingFace(Sprite face)
+        {
+            screaming.Add(face);
+        }
+
+        public void AddBackFace(Sprite face)
+        {
+            backs.Add(face);
+        }
     }
 }
 

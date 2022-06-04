@@ -18,6 +18,8 @@ namespace NPC
         public CinematicsManager cineManager;
         [HideInInspector]
         public WorldMonologueManager wmManager;
+        
+        //TODO may want to add a gender bool... for managing the face swaps. 
 
         //npc state manager
         public NPCStates npcState;
