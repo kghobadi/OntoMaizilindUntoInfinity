@@ -10,6 +10,7 @@ using UnityEngine;
 public class GunBullet : MonoBehaviour
 {
     private Rigidbody bulletBody;
+    private BoxCollider bulletCollider;
     public TrailRenderer bulletTrail;
     public bool shooting;
     public MovementPath killPerson;
@@ -21,6 +22,7 @@ public class GunBullet : MonoBehaviour
     void Start()
     {
         bulletBody = GetComponent<Rigidbody>();
+        bulletCollider = GetComponent<BoxCollider>();
         DisableMovement();
     }
 
@@ -28,6 +30,9 @@ public class GunBullet : MonoBehaviour
     {
         if (shooting)
         {
+            //collider must be enabled
+            bulletCollider.enabled = true;
+            
             //forward force over time.
             if (Mathf.Abs(bulletBody.velocity.z) < maxVelocityZ)
             {
@@ -54,6 +59,15 @@ public class GunBullet : MonoBehaviour
         shooting = true;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        //hit something..
+        if (collision.gameObject.CompareTag("Human") && shooting)
+        {
+            HitPerson(collision.gameObject);
+        }
+    }
+    
     private void OnTriggerEnter(Collider other)
     {
         //hit something..
@@ -72,6 +86,8 @@ public class GunBullet : MonoBehaviour
         bloodSpatter.Play();
         
         DisableMovement();
+        
+        Destroy(gameObject);
     }
 
     public void DisableMovement()

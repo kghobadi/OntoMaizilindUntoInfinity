@@ -30,6 +30,7 @@ public class camMouseLook : MonoBehaviour
     public float moveSpeed = 10f;
     public float fovSpeed = 1f;
     public float speedOverTime = 0.05f;
+    public bool gainSpeed;
 
     void Awake()
     {
@@ -39,6 +40,7 @@ public class camMouseLook : MonoBehaviour
         pauseMenu = FindObjectOfType<PauseMenu>();
 
         isActive = true;
+        EnableGainSpeed();
     }
 
     void Update()
@@ -54,7 +56,10 @@ public class camMouseLook : MonoBehaviour
 
             FovControls();
 
-            moveSpeed += (timeDebug.gameTime * Time.deltaTime) * speedOverTime;
+            if (gainSpeed)
+            {
+                moveSpeed += (timeDebug.gameTime * Time.deltaTime) * speedOverTime;
+            }
         }
     }
 
@@ -66,6 +71,16 @@ public class camMouseLook : MonoBehaviour
     public void Deactivate()
     {
         isActive = false;
+    }
+
+    public void EnableGainSpeed()
+    {
+        gainSpeed = true;
+    }
+    
+    public void DisableGainSpeed()
+    {
+        gainSpeed = false;
     }
     
     void WASDmovement()

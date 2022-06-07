@@ -22,7 +22,8 @@ public class Hallucination : MonoBehaviour
 	public GameObject[] hallucObjects;
 	public bool hallucinating;
 
-    [Header("Camera Transitions")]
+	[Header("Camera Transitions")] 
+	public bool playOnStart;
 	public Camera renderCam;
 	private PostProcessingBehaviour hallucCamBehavior;
 	private GroundCamera camMover;
@@ -41,6 +42,7 @@ public class Hallucination : MonoBehaviour
 	
 	[Header("Events")] 
 	public UnityEvent[] events;
+	public UnityEvent[] endEvents;
 	
 	void Start()
 	{
@@ -70,6 +72,12 @@ public class Hallucination : MonoBehaviour
 		for (int i = 0; i < hallucObjects.Length; i++)
 		{
 			hallucObjects[i].SetActive(false);
+		}
+
+		//play on start 
+		if (playOnStart)
+		{
+			PlayHallucination();
 		}
 	}
 
@@ -184,6 +192,12 @@ public class Hallucination : MonoBehaviour
 		for (int i = 0; i < hallucObjects.Length; i++)
 		{
 			hallucObjects[i].SetActive(false);
+		}
+		
+		//trigger events
+		for (int i = 0; i < endEvents.Length; i++)
+		{
+			endEvents[i].Invoke();
 		}
 		
 		//pilot stuff

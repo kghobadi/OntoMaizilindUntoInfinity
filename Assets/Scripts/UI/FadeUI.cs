@@ -31,7 +31,7 @@ public class FadeUI : MonoBehaviour
     public float fadeInWait, fadeOutWait, fadeInSpeed = 0.75f, fadeOutSpeed = 1f;
 
     public bool shownAtStart;
-
+    
     void GetUIType()
     {
         //checks privately whether this object has image or text component
@@ -92,6 +92,33 @@ public class FadeUI : MonoBehaviour
         fadingIn = false;
         fadingOut = true;
     }
+
+    /// <summary>
+    /// Gets current opacity of the fader. 
+    /// </summary>
+    /// <returns></returns>
+    public float GetCurrentOpacity()
+    {
+        float alphaVal = 0;
+        switch (uiType)
+        {
+            case UIType.TEXT:
+                alphaVal = thisText.color.a;
+                break;
+            case UIType.TMPTEXT:
+                alphaVal = tmpText.color.a;
+                break; 
+            case UIType.IMAGE:
+                alphaVal = thisImage.color.a;
+                break;
+            case UIType.RAWIMAGE:
+                alphaVal = rawImage.color.a;
+                break;
+        }
+
+        return alphaVal;
+    }
+
 
     void Update()
     {

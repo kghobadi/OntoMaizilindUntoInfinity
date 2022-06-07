@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //controls the spirit trails which exit the praying citizens in the mosque 
+//and which emerge from the soul explosion at the end. 
 public class SpiritTrail : MonoBehaviour {
 
     Vector3 origPos;
@@ -11,6 +12,8 @@ public class SpiritTrail : MonoBehaviour {
 
     //the projection corner assigned when I enter the mosque 
     public Transform projectionDisplayCorner;
+
+    public float spiritSpeed = 25f;
 
     //bool states
     public bool activated;
@@ -32,7 +35,7 @@ public class SpiritTrail : MonoBehaviour {
 
         Vector3 firstPoint = transform.position + new Vector3(0, Random.Range(15f, 25f), Random.Range(5f, 15f));
 
-        mover.MoveTo(firstPoint, 25f);
+        mover.MoveTo(firstPoint, spiritSpeed);
 
         activated = true;
     }
@@ -44,7 +47,7 @@ public class SpiritTrail : MonoBehaviour {
             //moved up, now to projector 
             if(mover.moving == false && toProj == false)
             {
-                mover.MoveTo(projectionDisplayCorner.position, 25f);
+                mover.MoveTo(projectionDisplayCorner.position, spiritSpeed);
                 toProj = true;
             }
 

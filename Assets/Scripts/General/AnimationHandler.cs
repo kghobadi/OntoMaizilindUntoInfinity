@@ -24,11 +24,17 @@ public abstract class AnimationHandler : MonoBehaviour
         //turn off all anim bools
         for (int i = 0; i < animationBools.Length; i++)
         {
-            characterAnimator.SetBool(animationBools[i], false);
+            if (HasParameter(animationBools[i]))
+            {
+                characterAnimator.SetBool(animationBools[i], false);
+            }
         }
 
         //set anim bool true
-        characterAnimator.SetBool(anim, true);
+        if (HasParameter(anim))
+        {
+            characterAnimator.SetBool(anim, true);
+        }
     }
 
     protected bool AnimationIsActive(string anim) { 
@@ -68,5 +74,20 @@ public abstract class AnimationHandler : MonoBehaviour
         {
             characterAnimator = value;
         }
+    }
+    
+    /// <summary>
+    /// Check if the animator has a parameter of specified name. 
+    /// </summary>
+    /// <param name="paramName"></param>
+    /// <returns></returns>
+    public virtual bool HasParameter(string paramName)
+    {
+        foreach (AnimatorControllerParameter param in Animator.parameters)
+        {
+            if (param.name == paramName)
+                return true;
+        }
+        return false;
     }
 }

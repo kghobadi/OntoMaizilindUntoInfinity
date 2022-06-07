@@ -26,6 +26,7 @@ public class PickUpObject : Interactive
 
 	public bool lockInput; //locks input check
 	public bool holdOverride; //allows you to take from someone else holding it 
+	public bool noDropping; // for things lie the gun in the ending.
 	public UnityEvent pickUpEvent;
 	public FirstPersonController desiredHolder;
 	
@@ -158,6 +159,12 @@ public class PickUpObject : Interactive
 				//right click or back button to Drop the object. 
 				if (Input.GetMouseButtonDown(1)|| inputDevice.Action2.WasPressed)
 				{
+					//no drop!
+					if (noDropping)
+					{
+						return;
+					}
+					
 					DropObject();
 				}
 

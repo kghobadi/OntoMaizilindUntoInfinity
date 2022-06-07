@@ -101,12 +101,22 @@ public class LerpMaterial : MonoBehaviour {
         lerpingMat = true;
     }
 
+    /// <summary>
+    ///Allows you to just set the speed. 
+    /// </summary>
+    /// <param name="speed"></param>
+    public void SetLerpSpeed(float speed)
+    {
+        lerpSpeed = speed;
+    }
+
     //call to begin lerp 
     public void Lerp(float desiredValue, float speed)
     {
         if(lerpMat == null)
             lerpMat = mRenderer.material;
         startValue = lerpMat.GetFloat(floatToLerp);
+        lerpValue = startValue;
         endValue = desiredValue;
         lerpSpeed = speed;
         
@@ -118,6 +128,7 @@ public class LerpMaterial : MonoBehaviour {
     public void LerpBasic(float desiredValue)
     {
         startValue = lerpMat.GetFloat(floatToLerp);
+        lerpValue = startValue;
         endValue = desiredValue;
 
         lerpingMat = true;
@@ -224,6 +235,29 @@ public class LerpMaterial : MonoBehaviour {
         {
             halftone.enabled = false;
         }
+    }
+    
+    //can be called to Enable renderer
+    public void EnableRenderer()
+    {
+        if(mRenderer)
+            mRenderer.enabled = true;
+        if (skinMeshRenderer)
+            skinMeshRenderer.enabled = true;
+
+        if (halftone)
+        {
+            halftone.enabled = true;
+        }
+    }
+
+    /// <summary>
+    /// Allows you to set load scene bool. 
+    /// </summary>
+    /// <param name="loadsScene"></param>
+    public void SetSceneLoad(bool loadsScene)
+    {
+        loadScene = loadsScene;
     }
 
     //resets my parent to my start parent 

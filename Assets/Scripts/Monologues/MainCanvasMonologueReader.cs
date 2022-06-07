@@ -18,7 +18,7 @@ public class MainCanvasMonologueReader : MonoBehaviour
 		ScreenReader screenReader = mcReader.GetComponent<ScreenReader>();
 		// set mono reader refs (in screen reader and in monoreader)
 		screenReader.SetReader(worldReader, worldReader.monoManager.textBack.transform);
-		worldReader.SetScreenReader(screenReader);
+		//worldReader.SetScreenReader(screenReader);
 		//activate
 		screenReader.Activate();
 	}

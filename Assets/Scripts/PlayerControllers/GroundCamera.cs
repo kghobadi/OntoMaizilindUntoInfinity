@@ -147,6 +147,15 @@ public class GroundCamera : MonoBehaviour
             transform.Rotate(vRot, 0, 0);
         }
     }
+
+    /// <summary>
+    /// Public call for clamp bool.
+    /// </summary>
+    /// <param name="clamp"></param>
+    public void SetClamp(bool clamp)
+    {
+        clamps = clamp;
+    }
     
     void ShiftCheck()
     {

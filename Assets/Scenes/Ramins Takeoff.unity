@@ -159,6 +159,8 @@ MonoBehaviour:
   fadeInAmount: 0.5
   fadeOutAmount: 0
   switchingSound: 0
+  trackList: []
+  trackCounter: 0
 --- !u!82 &31025505
 AudioSource:
   m_ObjectHideFlags: 0
@@ -307,6 +309,8 @@ MonoBehaviour:
   fadeInAmount: 0.5
   fadeOutAmount: 0
   switchingSound: 0
+  trackList: []
+  trackCounter: 0
 --- !u!82 &33955858
 AudioSource:
   m_ObjectHideFlags: 0
@@ -628,11 +632,10 @@ MonoBehaviour:
   timeBetweenLines: 0
   conversational: 0
   waitTimes: []
-  usesScreenReader: 0
-  screenReader: {fileID: 0}
-  faceAnimationUI: {fileID: 0}
+  useDynamicWidth: 0
   maxWidth: 1000
   sideOffset: 25
+  faceAnimationUI: {fileID: 0}
 --- !u!114 &72270059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5617,6 +5620,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
   followType: 0
   followX: 1
   followY: 1
@@ -5759,6 +5763,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
   followType: 0
   followX: 1
   followY: 1
@@ -6144,6 +6149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
   followType: 0
   followX: 1
   followY: 1
@@ -6387,7 +6393,6 @@ MonoBehaviour:
   react: {fileID: 0}
   action: {fileID: 0}
   idleSounds: []
-  walkingSounds: []
   screams:
   - {fileID: 8300000, guid: ad6cc141d84c11b4ab93ddebbbc93290, type: 3}
   - {fileID: 8300000, guid: ad6cc141d84c11b4ab93ddebbbc93290, type: 3}
@@ -6404,6 +6409,10 @@ MonoBehaviour:
   faceIndex: 0
   manualSetSprites: 0
   animateFaceToSound: 1
+  faceShiftEnding: 0
+  playWalkingSounds: 0
+  walkingSounds: []
+  walkStepTime: 0.35
 --- !u!114 &140758707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6422,7 +6431,10 @@ MonoBehaviour:
     m_Bits: 1024
   myNavMesh: {fileID: 0}
   randomSpeed: 1
+  speedRange: {x: -5, y: 10}
   startBehavior: {fileID: 11400000, guid: 93b0937b9aae7144383046f5906cd390, type: 2}
+  randomizeStartBehavior: 0
+  startBehaviors: []
   targetPosition: {x: 0, y: 0, z: 0}
   AIenabled: 1
   lookAtTransform: {fileID: 0}
@@ -7493,10 +7505,10 @@ MonoBehaviour:
   invertY: 1
   canControl: 0
   clamps: 0
-  minX: 0
-  maxX: 0
-  minY: 0
-  maxY: 0
+  minX: -80
+  maxX: 80
+  minY: -80
+  maxY: 80
   currentCamObj: {fileID: 0}
   shiftable:
     serializedVersion: 2
@@ -8021,6 +8033,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
   followType: 0
   followX: 1
   followY: 1
@@ -9004,11 +9017,10 @@ MonoBehaviour:
   timeBetweenLines: 0
   conversational: 0
   waitTimes: []
-  usesScreenReader: 0
-  screenReader: {fileID: 0}
-  faceAnimationUI: {fileID: 0}
+  useDynamicWidth: 0
   maxWidth: 1000
   sideOffset: 25
+  faceAnimationUI: {fileID: 0}
 --- !u!114 &339778063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9800,6 +9812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
   followType: 0
   followX: 1
   followY: 1
@@ -9919,11 +9932,10 @@ MonoBehaviour:
   timeBetweenLines: 0
   conversational: 0
   waitTimes: []
-  usesScreenReader: 0
-  screenReader: {fileID: 0}
-  faceAnimationUI: {fileID: 0}
+  useDynamicWidth: 0
   maxWidth: 1000
   sideOffset: 25
+  faceAnimationUI: {fileID: 0}
 --- !u!114 &390098611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10820,6 +10832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
   followType: 0
   followX: 1
   followY: 1
@@ -11772,6 +11785,8 @@ MonoBehaviour:
   - idle
   - moving
   talkingAnimations: 0
+  setAnimSpeed: 0
+  animSpeed: 1
 --- !u!95 &586129621
 Animator:
   serializedVersion: 3
@@ -11829,6 +11844,8 @@ MonoBehaviour:
   fadeInAmount: 0.5
   fadeOutAmount: 0
   switchingSound: 0
+  trackList: []
+  trackCounter: 0
 --- !u!82 &590361878
 AudioSource:
   m_ObjectHideFlags: 0
@@ -19082,7 +19099,6 @@ MonoBehaviour:
   react: {fileID: 0}
   action: {fileID: 0}
   idleSounds: []
-  walkingSounds: []
   screams:
   - {fileID: 8300000, guid: ad6cc141d84c11b4ab93ddebbbc93290, type: 3}
   - {fileID: 8300000, guid: ad6cc141d84c11b4ab93ddebbbc93290, type: 3}
@@ -19099,6 +19115,10 @@ MonoBehaviour:
   faceIndex: 0
   manualSetSprites: 0
   animateFaceToSound: 1
+  faceShiftEnding: 0
+  playWalkingSounds: 0
+  walkingSounds: []
+  walkStepTime: 0.35
 --- !u!114 &616503132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19117,7 +19137,10 @@ MonoBehaviour:
     m_Bits: 1024
   myNavMesh: {fileID: 0}
   randomSpeed: 1
+  speedRange: {x: -5, y: 10}
   startBehavior: {fileID: 11400000, guid: 93b0937b9aae7144383046f5906cd390, type: 2}
+  randomizeStartBehavior: 0
+  startBehaviors: []
   targetPosition: {x: 0, y: 0, z: 0}
   AIenabled: 1
   lookAtTransform: {fileID: 0}
@@ -19427,6 +19450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
   followType: 0
   followX: 1
   followY: 1
@@ -19457,7 +19481,7 @@ GameObject:
   - component: {fileID: 657348987}
   - component: {fileID: 657348988}
   m_Layer: 0
-  m_Name: TriggerApocalypse
+  m_Name: TriggerApocalypse (Out of Bullets)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19511,6 +19535,83 @@ MonoBehaviour:
       - m_Target: {fileID: 2045468880}
         m_MethodName: LerpBasic
         m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 114937719001616433}
+        m_MethodName: WaitToSetNewMonologue
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 6
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 973524320}
+        m_MethodName: FadeOutBasic
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1084861151}
+        m_MethodName: FadeOutBasic
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1136243204}
+        m_MethodName: FadeOutBasic
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 590361877}
+        m_MethodName: FadeOutBasic
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 33955857}
+        m_MethodName: FadeOutBasic
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 31025504}
+        m_MethodName: FadeOutBasic
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -19654,6 +19755,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
   followType: 0
   followX: 1
   followY: 1
@@ -24862,6 +24964,52 @@ PrefabInstance:
       propertyPath: renderCam
       value: 
       objectReference: {fileID: 200456655}
+    - target: {fileID: 114834806459534252, guid: caea05df2fb4eff4fa7ae4ab747d62e4,
+        type: 3}
+      propertyPath: events.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114834806459534252, guid: caea05df2fb4eff4fa7ae4ab747d62e4,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114834806459534252, guid: caea05df2fb4eff4fa7ae4ab747d62e4,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114834806459534252, guid: caea05df2fb4eff4fa7ae4ab747d62e4,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1372408863}
+    - target: {fileID: 114834806459534252, guid: caea05df2fb4eff4fa7ae4ab747d62e4,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114834806459534252, guid: caea05df2fb4eff4fa7ae4ab747d62e4,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ResetMovement
+      objectReference: {fileID: 0}
+    - target: {fileID: 114834806459534252, guid: caea05df2fb4eff4fa7ae4ab747d62e4,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 11400000, guid: 93b0937b9aae7144383046f5906cd390,
+        type: 2}
+    - target: {fileID: 114834806459534252, guid: caea05df2fb4eff4fa7ae4ab747d62e4,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: NPC.MovementPath, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 114886152133037624, guid: caea05df2fb4eff4fa7ae4ab747d62e4,
+        type: 3}
+      propertyPath: idleType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: caea05df2fb4eff4fa7ae4ab747d62e4, type: 3}
 --- !u!1001 &684602084
@@ -24945,7 +25093,7 @@ GameObject:
   - component: {fileID: 702491365}
   - component: {fileID: 702491364}
   m_Layer: 0
-  m_Name: TriggerApocalypse
+  m_Name: TriggerApocalypse (Out of Time)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25015,6 +25163,83 @@ MonoBehaviour:
       - m_Target: {fileID: 2045468880}
         m_MethodName: LerpBasic
         m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 114937719001616433}
+        m_MethodName: WaitToSetNewMonologue
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 7
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 973524320}
+        m_MethodName: FadeOutBasic
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1084861151}
+        m_MethodName: FadeOutBasic
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1136243204}
+        m_MethodName: FadeOutBasic
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 590361877}
+        m_MethodName: FadeOutBasic
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 33955857}
+        m_MethodName: FadeOutBasic
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 31025504}
+        m_MethodName: FadeOutBasic
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -25340,6 +25565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
   followType: 0
   followX: 1
   followY: 1
@@ -27626,6 +27852,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
   followType: 0
   followX: 1
   followY: 1
@@ -38159,6 +38386,18 @@ MonoBehaviour:
   waitTime: 5
   repeats: 0
   resetTime: 5
+--- !u!114 &864541684 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7416623869679521228, guid: 805783ff968a3a543ae83fc27d488bd3,
+    type: 3}
+  m_PrefabInstance: {fileID: 7454878251764360924}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df9fac2accfc58747941c585bbfee7d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &867999333
 GameObject:
   m_ObjectHideFlags: 0
@@ -38338,6 +38577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
   followType: 0
   followX: 1
   followY: 1
@@ -44195,6 +44435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
   followType: 0
   followX: 1
   followY: 1
@@ -44333,6 +44574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
   followType: 0
   followX: 1
   followY: 1
@@ -44604,6 +44846,9 @@ MonoBehaviour:
   - idle
   - talking
   back: {fileID: 0}
+  onBeginFaceShifting:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &965879254
 Animator:
   serializedVersion: 3
@@ -44727,6 +44972,8 @@ MonoBehaviour:
   fadeInAmount: 0.5
   fadeOutAmount: 0
   switchingSound: 0
+  trackList: []
+  trackCounter: 0
 --- !u!82 &973524321
 AudioSource:
   m_ObjectHideFlags: 0
@@ -45545,6 +45792,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
   followType: 0
   followX: 1
   followY: 1
@@ -45773,6 +46021,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
   followType: 0
   followX: 1
   followY: 1
@@ -45850,6 +46099,8 @@ MonoBehaviour:
   fadeInAmount: 0.5
   fadeOutAmount: 0
   switchingSound: 0
+  trackList: []
+  trackCounter: 0
 --- !u!82 &1084861152
 AudioSource:
   m_ObjectHideFlags: 0
@@ -46212,6 +46463,8 @@ MonoBehaviour:
   - idle
   - moving
   talkingAnimations: 0
+  setAnimSpeed: 0
+  animSpeed: 1
 --- !u!95 &1095004485
 Animator:
   serializedVersion: 3
@@ -46247,6 +46500,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wmManager: {fileID: 0}
   npcController: {fileID: 0}
+  isPlayer: 0
   textBack: {fileID: 443637222}
   currentMonologue: 0
   allMyMonologues:
@@ -46255,6 +46509,19 @@ MonoBehaviour:
   mTrigger: {fileID: 0}
   enableOnStart: 0
   head: {fileID: 0}
+  useSubtitles: 0
+  mySubtitle: {fileID: 0}
+  subSizeMult: 1
+  centerOffScreenSub: 0
+  subtitleTMP: {fileID: 0}
+  subCanvasGroup: {fileID: 0}
+  subChanging: 0
+  currentSubTime: 0
+  faceSizeMult: 2
+  facePointer: {fileID: 0}
+  faceRect: {fileID: 0}
+  arrowImg: {fileID: 0}
+  subPointOffsetX: 0
 --- !u!1 &1111025407
 GameObject:
   m_ObjectHideFlags: 0
@@ -46435,6 +46702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
   followType: 0
   followX: 1
   followY: 1
@@ -47223,6 +47491,8 @@ MonoBehaviour:
   fadeInAmount: 0.5
   fadeOutAmount: 0
   switchingSound: 0
+  trackList: []
+  trackCounter: 0
 --- !u!82 &1136243205
 AudioSource:
   m_ObjectHideFlags: 0
@@ -47385,6 +47655,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
   followType: 0
   followX: 1
   followY: 1
@@ -52317,6 +52588,8 @@ MonoBehaviour:
   - idle
   - moving
   talkingAnimations: 0
+  setAnimSpeed: 0
+  animSpeed: 1
 --- !u!95 &1170481409
 Animator:
   serializedVersion: 3
@@ -54453,6 +54726,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
   followType: 0
   followX: 1
   followY: 1
@@ -62122,6 +62396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
   followType: 0
   followX: 1
   followY: 1
@@ -62222,7 +62497,7 @@ PrefabInstance:
     - target: {fileID: 65998655726132486, guid: d28396f746996724c9e07eb67dd2d79b,
         type: 3}
       propertyPath: m_Size.x
-      value: 35
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 65998655726132486, guid: d28396f746996724c9e07eb67dd2d79b,
         type: 3}
@@ -76840,6 +77115,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a12948dfeed0fd947ae45d336aae6356, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1372408863 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114886152133037624, guid: caea05df2fb4eff4fa7ae4ab747d62e4,
+    type: 3}
+  m_PrefabInstance: {fileID: 681480590}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df9fac2accfc58747941c585bbfee7d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1387036003
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -76975,6 +77262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
   followType: 0
   followX: 1
   followY: 1
@@ -77346,7 +77634,6 @@ MonoBehaviour:
   react: {fileID: 0}
   action: {fileID: 0}
   idleSounds: []
-  walkingSounds: []
   screams:
   - {fileID: 8300000, guid: ad6cc141d84c11b4ab93ddebbbc93290, type: 3}
   - {fileID: 8300000, guid: ad6cc141d84c11b4ab93ddebbbc93290, type: 3}
@@ -77363,6 +77650,10 @@ MonoBehaviour:
   faceIndex: 0
   manualSetSprites: 0
   animateFaceToSound: 1
+  faceShiftEnding: 0
+  playWalkingSounds: 0
+  walkingSounds: []
+  walkStepTime: 0.35
 --- !u!114 &1446285557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77381,7 +77672,10 @@ MonoBehaviour:
     m_Bits: 1024
   myNavMesh: {fileID: 0}
   randomSpeed: 1
+  speedRange: {x: -5, y: 10}
   startBehavior: {fileID: 11400000, guid: 93b0937b9aae7144383046f5906cd390, type: 2}
+  randomizeStartBehavior: 0
+  startBehaviors: []
   targetPosition: {x: 0, y: 0, z: 0}
   AIenabled: 1
   lookAtTransform: {fileID: 0}
@@ -80299,6 +80593,9 @@ MonoBehaviour:
   - idle
   - talking
   back: {fileID: 0}
+  onBeginFaceShifting:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &1502745785
 Animator:
   serializedVersion: 3
@@ -80465,7 +80762,7 @@ GameObject:
   - component: {fileID: 1520655465}
   m_Layer: 0
   m_Name: 3d Floating Target
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -80491,7 +80788,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1520655461}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -80543,6 +80840,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
   followType: 0
   followX: 1
   followY: 1
@@ -85952,9 +86250,29 @@ PrefabInstance:
       objectReference: {fileID: 200456655}
     - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
         type: 3}
+      propertyPath: endEvents.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
       propertyPath: monoManagers.Array.data[0]
       value: 
       objectReference: {fileID: 114937719001616433}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: endEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[3].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
         type: 3}
       propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -85965,6 +86283,56 @@ PrefabInstance:
       propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 590361876}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[3].m_Target
+      value: 
+      objectReference: {fileID: 200456657}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: endEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: endEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 200456657}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[3].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
+      value: SetClamp
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: endEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: endEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetClamp
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: endEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66e84a1385270244e868f4b5736435d1, type: 3}
 --- !u!114 &1547675223
@@ -86128,17 +86496,17 @@ PrefabInstance:
     - target: {fileID: 65531060461193016, guid: b13fd18250ce38b488134fb67a85bb83,
         type: 3}
       propertyPath: m_Size.x
-      value: 35
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 65531060461193016, guid: b13fd18250ce38b488134fb67a85bb83,
         type: 3}
       propertyPath: m_Size.y
-      value: 35
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 65531060461193016, guid: b13fd18250ce38b488134fb67a85bb83,
         type: 3}
       propertyPath: m_Size.z
-      value: 75
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 114446658415539840, guid: b13fd18250ce38b488134fb67a85bb83,
         type: 3}
@@ -86446,6 +86814,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wmManager: {fileID: 0}
   npcController: {fileID: 0}
+  isPlayer: 0
   textBack: {fileID: 815467663}
   currentMonologue: 0
   allMyMonologues:
@@ -86454,6 +86823,19 @@ MonoBehaviour:
   mTrigger: {fileID: 0}
   enableOnStart: 0
   head: {fileID: 0}
+  useSubtitles: 0
+  mySubtitle: {fileID: 0}
+  subSizeMult: 1
+  centerOffScreenSub: 0
+  subtitleTMP: {fileID: 0}
+  subCanvasGroup: {fileID: 0}
+  subChanging: 0
+  currentSubTime: 0
+  faceSizeMult: 2
+  facePointer: {fileID: 0}
+  faceRect: {fileID: 0}
+  arrowImg: {fileID: 0}
+  subPointOffsetX: 0
 --- !u!1 &1627286574
 GameObject:
   m_ObjectHideFlags: 0
@@ -86668,15 +87050,18 @@ MonoBehaviour:
   hallucObjects:
   - {fileID: 1236199413}
   hallucinating: 0
+  playOnStart: 0
   renderCam: {fileID: 200456655}
   cameraPos: {fileID: 0}
   camLookAt: {fileID: 0}
   playerToParent: {fileID: 0}
   camLocalPos: {x: 0, y: 0, z: 0}
   imageFade: {fileID: 114751841618770425}
+  airPlayer: {fileID: 0}
   monoManagers: []
   monoIndeces: 
   events: []
+  endEvents: []
 --- !u!1 &1667500969
 GameObject:
   m_ObjectHideFlags: 0
@@ -91453,6 +91838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
   followType: 0
   followX: 1
   followY: 1
@@ -91489,7 +91875,7 @@ Transform:
   m_GameObject: {fileID: 1685180556}
   m_LocalRotation: {x: -0.00000035390235, y: 0.0000003394054, z: -0.00000041556825,
     w: 1}
-  m_LocalPosition: {x: -0.000016277101, y: -0.00013581134, z: 0.0012439822}
+  m_LocalPosition: {x: -0.000016299293, y: -0.00013581134, z: 0.0012439822}
   m_LocalScale: {x: 1, y: 1.0135, z: 1.0135007}
   m_Children:
   - {fileID: 668675137}
@@ -92019,6 +92405,11 @@ MonoBehaviour:
   firingIntervalL: 0.05
   weaponsTimerR: 0
   firingIntervalR: 0.05
+  weaponsControlFades:
+  - {fileID: 114760515384382099}
+  - {fileID: 114636669454266651}
+  useLockOnTargeting: 0
+  lockOnTarget: {fileID: 0}
   zoomedIn: 0
   fpCam: {fileID: 1685180556}
   cockpit: {fileID: 1129960807}
@@ -97205,6 +97596,9 @@ MonoBehaviour:
   - idle
   - talking
   back: {fileID: 0}
+  onBeginFaceShifting:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &1810417740
 Animator:
   serializedVersion: 3
@@ -105667,7 +106061,7 @@ MonoBehaviour:
   startValue: 1.5
   lerpValue: 0
   endValue: 0
-  lerpSpeed: 0.25
+  lerpSpeed: 0.35
   lerpBackForth: 0
   lbfMin: 0
   lbfMax: 0
@@ -105851,6 +106245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wmManager: {fileID: 0}
   npcController: {fileID: 0}
+  isPlayer: 0
   textBack: {fileID: 1013128846}
   currentMonologue: 0
   allMyMonologues:
@@ -105859,6 +106254,19 @@ MonoBehaviour:
   mTrigger: {fileID: 0}
   enableOnStart: 0
   head: {fileID: 0}
+  useSubtitles: 0
+  mySubtitle: {fileID: 0}
+  subSizeMult: 1
+  centerOffScreenSub: 0
+  subtitleTMP: {fileID: 0}
+  subCanvasGroup: {fileID: 0}
+  subChanging: 0
+  currentSubTime: 0
+  faceSizeMult: 2
+  facePointer: {fileID: 0}
+  faceRect: {fileID: 0}
+  arrowImg: {fileID: 0}
+  subPointOffsetX: 0
 --- !u!1 &2077541336
 GameObject:
   m_ObjectHideFlags: 0
@@ -106418,12 +106826,12 @@ PrefabInstance:
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 3}
       propertyPath: _savedGUID
-      value: 3216558242
+      value: 2774677110
       objectReference: {fileID: 0}
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 3}
       propertyPath: hash.lastHash
-      value: 454895596
+      value: -1898409102
       objectReference: {fileID: 0}
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 3}
@@ -109073,7 +109481,6 @@ GameObject:
   - component: {fileID: 222169947275516671}
   - component: {fileID: 114834274927268293}
   - component: {fileID: 114760515384382099}
-  - component: {fileID: 114973360062587979}
   m_Layer: 12
   m_Name: SpaceTo Fire Weapons
   m_TagString: Untagged
@@ -112121,7 +112528,6 @@ MonoBehaviour:
   react: {fileID: 0}
   action: {fileID: 0}
   idleSounds: []
-  walkingSounds: []
   screams: []
   normalFace: []
   screaming: []
@@ -112130,6 +112536,10 @@ MonoBehaviour:
   faceIndex: 0
   manualSetSprites: 0
   animateFaceToSound: 1
+  faceShiftEnding: 0
+  playWalkingSounds: 0
+  walkingSounds: []
+  walkStepTime: 0.35
 --- !u!114 &114313721720449885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112210,6 +112620,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
   followType: 0
   followX: 1
   followY: 1
@@ -112234,6 +112645,8 @@ MonoBehaviour:
   - idle
   - moving
   talkingAnimations: 0
+  setAnimSpeed: 0
+  animSpeed: 1
 --- !u!114 &114447583333604685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112294,6 +112707,8 @@ MonoBehaviour:
   characterAnimator: {fileID: 0}
   animationBools: []
   talkingAnimations: 0
+  setAnimSpeed: 0
+  animSpeed: 1
 --- !u!114 &114569372789451687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112459,6 +112874,9 @@ MonoBehaviour:
   - idle
   - talking
   back: {fileID: 0}
+  onBeginFaceShifting:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114834274927268293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112718,6 +113136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wmManager: {fileID: 0}
   npcController: {fileID: 0}
+  isPlayer: 0
   textBack: {fileID: 114111934177393527}
   currentMonologue: 0
   allMyMonologues:
@@ -112727,48 +113146,25 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a07b9aae75d149b43841a159610b99b7, type: 2}
   - {fileID: 11400000, guid: d72ac9ce463948f4b8c9cfb6cc5b7ac8, type: 2}
   - {fileID: 11400000, guid: 078d97c29a02a2542a2b6d4b3fb35f37, type: 2}
+  - {fileID: 11400000, guid: 0b78b38124faf6344b9a018c51b40e15, type: 2}
+  - {fileID: 11400000, guid: ffed26cbb713985478dd6105db0cbeee, type: 2}
   inMonologue: 0
   mTrigger: {fileID: 0}
   enableOnStart: 0
   head: {fileID: 4989957279540627}
---- !u!114 &114973360062587979
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1932307449817689}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 372c4c62457bfb24993a563fdbf58474, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  events:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114760515384382099}
-        m_MethodName: FadeOut
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 114636669454266651}
-        m_MethodName: FadeOut
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  activated: 0
+  useSubtitles: 0
+  mySubtitle: {fileID: 0}
+  subSizeMult: 1
+  centerOffScreenSub: 0
+  subtitleTMP: {fileID: 0}
+  subCanvasGroup: {fileID: 0}
+  subChanging: 0
+  currentSubTime: 0
+  faceSizeMult: 2
+  facePointer: {fileID: 0}
+  faceRect: {fileID: 0}
+  arrowImg: {fileID: 0}
+  subPointOffsetX: 0
 --- !u!114 &114975078641117275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112795,11 +113191,10 @@ MonoBehaviour:
   timeBetweenLines: 0
   conversational: 0
   waitTimes: []
-  usesScreenReader: 0
-  screenReader: {fileID: 0}
-  faceAnimationUI: {fileID: 0}
+  useDynamicWidth: 1
   maxWidth: 1000
   sideOffset: 25
+  faceAnimationUI: {fileID: 0}
 --- !u!137 &137102532118497167
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -113637,11 +114032,57 @@ PrefabInstance:
       propertyPath: renderCam
       value: 
       objectReference: {fileID: 200456655}
+    - target: {fileID: 7413758279189334104, guid: 805783ff968a3a543ae83fc27d488bd3,
+        type: 3}
+      propertyPath: events.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7413758279189334104, guid: 805783ff968a3a543ae83fc27d488bd3,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7413758279189334104, guid: 805783ff968a3a543ae83fc27d488bd3,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7413758279189334104, guid: 805783ff968a3a543ae83fc27d488bd3,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 864541684}
+    - target: {fileID: 7413758279189334104, guid: 805783ff968a3a543ae83fc27d488bd3,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7413758279189334104, guid: 805783ff968a3a543ae83fc27d488bd3,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ResetMovement
+      objectReference: {fileID: 0}
+    - target: {fileID: 7413758279189334104, guid: 805783ff968a3a543ae83fc27d488bd3,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 11400000, guid: 93b0937b9aae7144383046f5906cd390,
+        type: 2}
+    - target: {fileID: 7413758279189334104, guid: 805783ff968a3a543ae83fc27d488bd3,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: NPC.MovementPath, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 7413969500454086582, guid: 805783ff968a3a543ae83fc27d488bd3,
         type: 3}
       propertyPath: citizenParent
       value: 
       objectReference: {fileID: 4140203705472717}
+    - target: {fileID: 7416623869679521228, guid: 805783ff968a3a543ae83fc27d488bd3,
+        type: 3}
+      propertyPath: idleType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7453693895131057116, guid: 805783ff968a3a543ae83fc27d488bd3,
         type: 3}
       propertyPath: m_Name

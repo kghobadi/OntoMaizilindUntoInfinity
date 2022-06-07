@@ -14,7 +14,11 @@ public class MusicFader : MonoBehaviour {
 
     public bool switchingSound;
     
-    void Awake () {
+    public AudioClip[] trackList;
+    public int trackCounter = 0; 
+    
+    void Awake () 
+    {
         musicSource = GetComponent<AudioSource>();
     }
 	
@@ -88,5 +92,55 @@ public class MusicFader : MonoBehaviour {
     public void FadeOutBasic()
     {
         fadingVolOut = true;
+    }
+    
+    /// <summary>
+    /// Fades to next track in list if we are not on the last one. 
+    /// </summary>
+    public void GoToNextTrack()
+    {
+        if (trackCounter < trackList.Length)
+        {
+            trackCounter++;
+        }    
+        
+        FadeTo(trackList[trackCounter]);
+    }
+
+    /// <summary>
+    /// Fades to specific track index. 
+    /// </summary>
+    /// <param name="index"></param>
+    public void GoToTrack(int index)
+    {
+        //must be bigger than current track counter. 
+        if (index < trackList.Length && index > trackCounter)
+        {
+            trackCounter = index;
+            FadeTo(trackList[index]);
+        }
+    }
+
+    /// <summary>
+    /// Waits to go to the track at specified index. 
+    /// </summary>
+    /// <param name="index"></param>
+    public void SetWaitGoToTrack(int index)
+    {
+        StopAllCoroutines();
+
+        StartCoroutine(WaitForGoToTrack(index));
+    }
+
+    /// <summary>
+    /// Waits until current clip is over to go to next track. 
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
+    private IEnumerator WaitForGoToTrack(int index)
+    {
+        yield return new WaitUntil(() => musicSource.time >= musicSource.clip.length - 0.1f);
+        
+        GoToTrack(index);
     }
 }
