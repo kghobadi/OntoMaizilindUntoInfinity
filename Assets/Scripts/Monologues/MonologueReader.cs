@@ -228,8 +228,11 @@ public class MonologueReader : MonoBehaviour {
             if (monoManager.npcController.Animation)
             {
                 //set talking anim if not already talking 
-                if (monoManager.npcController.Animation.characterAnimator.GetBool("talking") == false)
-                    monoManager.npcController.Animation.SetAnimator("talking");
+                if (monoManager.npcController.Animation.HasParameter("talking"))
+                {
+                    if (monoManager.npcController.Animation.characterAnimator.GetBool("talking") == false)
+                        monoManager.npcController.Animation.SetAnimator("talking");
+                }
             }
         }
 
