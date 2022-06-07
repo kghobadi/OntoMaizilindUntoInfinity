@@ -14,6 +14,7 @@ public class CameraSwitcher : MonoBehaviour
     //camera objects list, current obj, and int to count them
     [Tooltip("Check to test citizens at Start")]
     public bool debug;
+    public bool addAllCamerasInScene = true;
 
     [Header("Camera Objects")]
     public List<CamObject> cameraObjects = new List<CamObject>();
@@ -54,13 +55,16 @@ public class CameraSwitcher : MonoBehaviour
         camManager = FindObjectOfType<CameraManager>();
 
         //find all CamObjects in scene 
-        CamObject[] cams = FindObjectsOfType<CamObject>();
-        for(int i = 0; i < cams.Length; i++)
+        if (addAllCamerasInScene)
         {
-            if(cameraObjects.Contains(cams[i]) == false)
-                cameraObjects.Add(cams[i]);
+            CamObject[] cams = FindObjectsOfType<CamObject>();
+            for(int i = 0; i < cams.Length; i++)
+            {
+                if(cameraObjects.Contains(cams[i]) == false)
+                    cameraObjects.Add(cams[i]);
+            }
         }
-
+        
         //get advance scene comp
         advance = FindObjectOfType<AdvanceScene>();
         if(advance == null)

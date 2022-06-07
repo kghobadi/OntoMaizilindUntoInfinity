@@ -9,6 +9,8 @@ public class Television : MonoBehaviour {
     CameraSwitcher camSwitcher;
     PauseMenu pauseMenu;
 
+    public bool debug;
+
     [Header("Channel Switching Before Speech")]
     public VideoClip[] tvChannels; // news clip, cartoon clip, western clip
     public int[] channelLastFrames;
@@ -64,9 +66,17 @@ public class Television : MonoBehaviour {
         //set frame array length
         channelLastFrames = new int[tvChannels.Length];
         //disable
-        transform.parent.gameObject.SetActive(false);
-        stairwell.SetActive(false);
-        corridor.SetActive(false);
+        if (!debug)
+        {
+            transform.parent.gameObject.SetActive(false);
+            stairwell.SetActive(false);
+            corridor.SetActive(false);
+        }
+        //debug scene -- start the tv at beginning
+        else
+        {
+            SetVideoPlayer(tvChannels[0]);            
+        }
     }
 
     void Update ()
