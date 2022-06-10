@@ -18,6 +18,9 @@ namespace NPC
         public CinematicsManager cineManager;
         [HideInInspector]
         public WorldMonologueManager wmManager;
+        
+        //TODO may want to add a gender bool... for managing the face swaps. 
+        public bool isMan;
 
         //npc state manager
         public NPCStates npcState;
@@ -49,6 +52,11 @@ namespace NPC
             npcMovement = GetComponent<Movement>();
             npcSounds = GetComponent<Sounds>();
             npcFaces = GetComponentInChildren<FaceAnimation>();
+            //set npc controller ref in face anim
+            if (npcFaces)
+            {
+                npcFaces.NpcController = this;
+            }
 
             //prob need to fetch monologue text from children 
             npcMonologues = GetComponent<MonologueManager>();

@@ -13,6 +13,7 @@ public class MonologueManager : MonoBehaviour
     //player refs
     GameObject currentPlayer;
     CameraSwitcher camSwitcher; 
+    private Camera mainCam;
 
     //npc management refs 
     [HideInInspector]
@@ -21,6 +22,9 @@ public class MonologueManager : MonoBehaviour
     [HideInInspector]
     public Controller npcController;
     MonologueReader monoReader;
+
+    [Tooltip("Is this the player's monologue manager?")]
+    public bool isPlayer;
     
     [Tooltip("if there is a background for speaking text")]
     public FadeUI textBack;
@@ -45,9 +49,48 @@ public class MonologueManager : MonoBehaviour
 
     private IEnumerator newMonologue;
 
+    [Header("Subtitle System")] 
+    public bool useSubtitles;
+    [HideInInspector] public GameObject mySubtitle;
+    public float subSizeMult = 1f;
+    public bool centerOffScreenSub;
+    SubtitleInWorldManager subtitleInWorldManager;
+    private RectTransform subRectTransform;
+    private Image subImageBack;
+    [HideInInspector] public TextMeshProUGUI subtitleTMP;
+    [HideInInspector] public CanvasGroup subCanvasGroup;
+    [HideInInspector] public bool subChanging;
+    private string prevSubText;
+    [HideInInspector] public float currentSubTime;
+    public float faceSizeMult = 2f;
+    public FaceAnimationUI facePointer;
+    [HideInInspector] public RectTransform faceRect;
+    private float distToRealP;
+
+    /// <summary>
+    /// Accessor for distance from character to player.
+    /// </summary>
+    public float DistToRealP
+    {
+        get
+        {
+            distToRealP = Vector3.Distance(transform.position, camSwitcher.currentPlayer.transform.position);
+
+            return distToRealP;
+        }
+    }
+
+    Transform rootT;
+    //SpriteRenderer mainSR;
+
+    [HideInInspector] public Image arrowImg;
+    [HideInInspector] public float subPointOffsetX;
+    
     void Awake()
     {
+        mainCam = Camera.main;
         camSwitcher = FindObjectOfType<CameraSwitcher>();
+        subtitleInWorldManager = FindObjectOfType<SubtitleInWorldManager>();
 
         if (textBack)
             animateTextback = textBack.GetComponent<AnimateDialogue>();
@@ -60,6 +103,11 @@ public class MonologueManager : MonoBehaviour
             monoReader.hostObj = gameObject;
             monoReader.monoManager = this;
         }
+
+        if (facePointer)
+        {
+            faceRect = facePointer.GetComponent<RectTransform>();
+        }
     }
 
     void Start()
@@ -68,6 +116,14 @@ public class MonologueManager : MonoBehaviour
         if(allMyMonologues.Count > 0)
             SetMonologueSystem(0);
 
+        //set up my subtitle.
+        if (useSubtitles)
+        {
+            mySubtitle = subtitleInWorldManager.SetupNewSubtitle(this);
+            subRectTransform = mySubtitle.GetComponent<RectTransform>();
+            subImageBack = mySubtitle.GetComponent<Image>();
+        }
+        
         //play mono 0 
         if (enableOnStart)
         {
@@ -364,7 +420,68 @@ public class MonologueManager : MonoBehaviour
             npcController.Movement.ResetMovement(mono.newMovement);
         }
 
+        //disable mono and set sub time to 0
+        currentSubTime = 0;
         inMonologue = false;
     }
+
+    #region Subtitle Management
+
+    /// <summary>
+    /// Enables the subtitle obj.
+    /// </summary>
+    public void EnableSubtitle()
+    {
+        mySubtitle.SetActive(true);
+        facePointer.Activate();
+    }
+
+    /// <summary>
+    /// Disables the subtitle obj.
+    /// </summary>
+    public void DisableSubtitle()
+    {
+        mySubtitle.SetActive(false);
+        facePointer.Deactivate();
+    }
+    
+    /// <summary>
+    /// Actually sets the subtitle text. 
+    /// </summary>
+    /// <param name="text"></param>
+    public void SetSubtitleText(string text)
+    {
+        subtitleTMP.text = text;
+        RendererExtensions.ChangeWidthOfObject(subRectTransform,subtitleTMP, monoReader.maxWidth, monoReader.sideOffset);
+
+        currentSubTime += Time.deltaTime;
+        
+        subChanging = subtitleTMP.text != prevSubText;
+        prevSubText = subtitleTMP.text;
+    }
+
+    public void ManageSubHeightPos()
+    {
+        if (isPlayer)
+        {
+            mySubtitle.transform.position = mainCam.transform.position + mainCam.transform.forward;
+        }
+        else
+        {
+            mySubtitle.transform.position = new Vector3(mySubtitle.transform.position.x, textBack.transform.transform.position.y, mySubtitle.transform.position.z);
+        }
+    }
+
+    /// <summary>
+    /// Arrow pos passed in from subtitle manager. 
+    /// </summary>
+    /// <param name="pos"></param>
+    public void SetFacePointerPos()
+    {
+        float heightOffset = faceRect.sizeDelta.y / 1.5f;
+        faceRect.localPosition = Vector3.zero - new Vector3(0f, heightOffset,0f);
+    }
+
+    #endregion
 }
 

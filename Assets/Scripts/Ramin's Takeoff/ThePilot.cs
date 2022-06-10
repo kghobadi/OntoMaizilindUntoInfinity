@@ -35,6 +35,13 @@ public class ThePilot : AudioHandler {
     public float weaponsTimerL, firingIntervalL = 0.05f;
     [Tooltip("Time between bullets firing right")]
     public float weaponsTimerR, firingIntervalR = 0.05f;
+    [Tooltip("Controls UI which appears at start of sequence")] 
+    public FadeUI[] weaponsControlFades;
+
+    public bool useLockOnTargeting;
+    private Transform threeDTarget;
+    private FollowPilot targetFollow;
+    public Transform lockOnTarget;
     [Header("Pilot Views")]
     public bool zoomedIn;
     public GameObject fpCam,cockpit, zoCam;
@@ -59,6 +66,9 @@ public class ThePilot : AudioHandler {
         guns = GetComponentsInChildren<Gun>();
         bText.text = bulletCount.ToString();
         SwitchViews(false);
+        //set up targeting system
+        threeDTarget = GameObject.FindGameObjectWithTag("Target").transform;
+        targetFollow = threeDTarget.GetComponent<FollowPilot>();
     }
     
 	//could play sounds when moving 
@@ -180,7 +190,9 @@ public class ThePilot : AudioHandler {
         var inputDevice = InputManager.ActiveDevice;
 
         //fire on space 
-        if ((Input.GetKey(KeyCode.Space) || inputDevice.Action1))
+        if (Input.GetKey(KeyCode.Space) || inputDevice.Action1
+         || Input.GetMouseButton(0) || inputDevice.LeftTrigger || inputDevice.LeftBumper
+         || Input.GetMouseButton(1) || inputDevice.RightTrigger || inputDevice.RightBumper)
         {
             //check can fire 
             if(weaponsTimerL < 0 || weaponsTimerR < 0)
@@ -202,6 +214,16 @@ public class ThePilot : AudioHandler {
                         //set bullet text 
                         bText.text = bulletCount.ToString();
                     }
+                    
+                    //weapons controls UI fade outs can only happen if they are already faded in.
+                    if (weaponsControlFades[0].GetCurrentOpacity() > weaponsControlFades[0].fadeInAmount - 0.1f)
+                    {
+                        //fade out all weapons controls UIs 
+                        for (int i = 0; i < weaponsControlFades.Length; i++)
+                        {
+                            weaponsControlFades[i].FadeOut();
+                        }
+                    }
                 }
                 //click click 
                 else
@@ -218,7 +240,7 @@ public class ThePilot : AudioHandler {
         }
 
         //fire left gun 
-        if ((Input.GetMouseButton(0) || inputDevice.LeftTrigger || inputDevice.LeftBumper))
+        /*if (Input.GetMouseButton(0) || inputDevice.LeftTrigger || inputDevice.LeftBumper)
         {
             //check can fire 
             if (weaponsTimerL < 0)
@@ -228,10 +250,14 @@ public class ThePilot : AudioHandler {
                 {
                     //guns fire 
                     guns[0].SpawnBullet();
-                    //lose a bullet for every gun fired 
-                    bulletCount--;
-                    //set bullet text 
-                    bText.text = bulletCount.ToString();
+
+                    if (countingBullets)
+                    {
+                        //lose a bullet for every gun fired 
+                        bulletCount--;
+                        //set bullet text 
+                        bText.text = bulletCount.ToString();
+                    }
                 }
                 //click click 
                 else
@@ -244,7 +270,7 @@ public class ThePilot : AudioHandler {
         }
 
         //fire right gun 
-        if ((Input.GetMouseButton(1) || inputDevice.RightTrigger || inputDevice.RightBumper))
+        if (Input.GetMouseButton(1) || inputDevice.RightTrigger || inputDevice.RightBumper)
         {
             //check can fire 
             if (weaponsTimerR < 0)
@@ -254,10 +280,13 @@ public class ThePilot : AudioHandler {
                 {
                     //guns fire 
                     guns[1].SpawnBullet();
-                    //lose a bullet for every gun fired 
-                    bulletCount --;
-                    //set bullet text 
-                    bText.text = bulletCount.ToString();
+                    if (countingBullets)
+                    {
+                        //lose a bullet for every gun fired 
+                        bulletCount --;
+                        //set bullet text 
+                        bText.text = bulletCount.ToString();
+                    }
                 }
                 //click click 
                 else
@@ -267,8 +296,34 @@ public class ThePilot : AudioHandler {
 
                 weaponsTimerR = firingIntervalR;
             }
+        }*/
+    }
+
+    
+    public void LockOnToTarget(Transform deityTarget = null)
+    {
+        if (!useLockOnTargeting)
+        {
+            return;
+        }
+
+        if (lockOnTarget != deityTarget)
+        {
+            lockOnTarget = deityTarget;
+
+            if (lockOnTarget != null)
+            {
+                targetFollow.SetXFollow(false);
+                targetFollow.SetYFollow(false);
+            }
+            else
+            {
+                targetFollow.SetXFollow(true);
+                targetFollow.SetYFollow(true);
+            }
         }
     }
+    
     #endregion
 
     #region Movement
@@ -316,7 +371,7 @@ public class ThePilot : AudioHandler {
             }
             else
             {
-                horizontal = Mathf.Lerp(horizontal, 0, controllerLerp);
+                horizontal = Mathf.MoveTowards(horizontal, 0, Time.deltaTime * controllerLerp);
             }
             
             //apply lerp to vertical input 
@@ -326,7 +381,7 @@ public class ThePilot : AudioHandler {
             }
             else
             {
-                vertical = Mathf.Lerp(vertical, 0, controllerLerp);
+                vertical = Mathf.MoveTowards(vertical, 0, Time.deltaTime * controllerLerp);
             }
         }
         //keyboard
@@ -341,7 +396,7 @@ public class ThePilot : AudioHandler {
             }
             else
             {
-                horizontal = Mathf.Lerp(horizontal, 0,  keyboardLerp);
+                horizontal = Mathf.MoveTowards(horizontal, 0,  Time.deltaTime * keyboardLerp);
             }
             
             //apply lerp when there is input 
@@ -351,63 +406,81 @@ public class ThePilot : AudioHandler {
             }
             else
             {
-                vertical = Mathf.Lerp(vertical, 0, keyboardLerp) ;
+                vertical = Mathf.MoveTowards(vertical, 0, Time.deltaTime * keyboardLerp) ;
             }
         }
     }
 
+    /// <summary>
+    /// Actual application of the calculated input forces to the plane's rigidbody. 
+    /// </summary>
     void ApplyForces()
     {
-        //horizontal
-        if (Mathf.Abs(planeBody.velocity.x) < maxVelocityXY )
+        //Horizontal
+        //right
+        if (horizontal > 0)
         {
-            //right
-            if (horizontal > 0)
+            //zero x vel if it is less than 0
+            if (planeBody.velocity.x < 0)
             {
-                if (transform.position.x < xMax)
-                    planeBody.AddForce(horizontal * strafeSpeed, 0, 0);
-                else
-                    horizontal = 0;
+                planeBody.velocity = new Vector3(0, planeBody.velocity.y, planeBody.velocity.z);
             }
-            //left
-            if (horizontal < 0)
+            
+            //only add rightward force if we are less than x max pos
+            if (transform.position.x < xMax)
+                planeBody.AddForce(horizontal * strafeSpeed, 0, 0);
+        }
+        //left
+        else if (horizontal < 0)
+        {
+            //zero x vel if it is greater than 0
+            if (planeBody.velocity.x > 0)
             {
-                if (transform.position.x > xMin)
-                    planeBody.AddForce(horizontal * strafeSpeed, 0, 0);
-                else
-                    horizontal = 0;
+                planeBody.velocity = new Vector3(0, planeBody.velocity.y, planeBody.velocity.z);
+            }
+            
+            //only add leftward force if we are greater than x min pos
+            if (transform.position.x > xMin)
+            {
+                planeBody.AddForce(horizontal * strafeSpeed, 0, 0);
             }
         }
-        
-        //zero vel
-        if(horizontal == 0)
+        //zero input - zero x vel
+        else if(horizontal == 0)
         {
             planeBody.velocity = new Vector3(0, planeBody.velocity.y, planeBody.velocity.z);
         }
 
-        //vertical -- this only affects upwards velocity. use Mathf.Abs() to affect downwards as well. 
-        if (planeBody.velocity.y < maxVelocityXY)
+        //Vertical
+        //up
+        if (vertical > 0)
         {
-            //up
-            if (vertical > 0)
+            //zero y vel if it is less than 0
+            if (planeBody.velocity.y < 0)
             {
-                if (transform.position.y < heigtMax)
-                    planeBody.AddForce(0, vertical * strafeSpeed, 0);
-                else
-                    vertical = 0;
+                planeBody.velocity = new Vector3(planeBody.velocity.x, 0, planeBody.velocity.z);
             }
-            //down
-            if (vertical < 0)
-            {
-                if (transform.position.y > heightMin)
-                    planeBody.AddForce(0, vertical * strafeSpeed, 0);
-                else
-                    vertical = 0;
-            }
+            
+            //only add upward force if we are less than height max pos 
+            if (transform.position.y < heigtMax)
+                planeBody.AddForce(0, vertical * strafeSpeed, 0);
         }
-           
-        //zero vel
-        if (vertical == 0)
+        //down
+        else if (vertical < 0)
+        {
+            //zero y vel if it is greater than 0 OR if plane is below height min on the y
+            if (planeBody.velocity.y > 0
+                || transform.position.y < heightMin)
+            {
+                planeBody.velocity = new Vector3(planeBody.velocity.x, 0, planeBody.velocity.z);
+            }
+            
+            //only add downward force if we are greater than height min pos 
+            if (transform.position.y > heightMin)
+                planeBody.AddForce(0, vertical * strafeSpeed, 0);
+        }
+        //zero input - zero y vel
+        else if (vertical == 0)
         {
             planeBody.velocity = new Vector3(planeBody.velocity.x, 0, planeBody.velocity.z);
         }

@@ -24,6 +24,7 @@ public class TitleToRoom : MonoBehaviour {
     public Material niceSky;
     public LerpLighting sunLerp;
     public MenuSelections quitMenu;
+    public AudioSource trainSfx;
 
     //player
     [Header("Player/Room Refs")]
@@ -155,6 +156,9 @@ public class TitleToRoom : MonoBehaviour {
         omMove.moving = true;
         uiMove.moving = true;
         dwMove.moving = true;
+        //train sfx
+        if(trainSfx)
+            trainSfx.Play();
 
         readingPoem = true;
 

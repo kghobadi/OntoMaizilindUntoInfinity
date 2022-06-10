@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectionDisplayCorner: {fileID: 0}
+  spiritSpeed: 25
   activated: 0
 --- !u!96 &96451448248431394
 TrailRenderer:
@@ -62,6 +63,7 @@ TrailRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -73,6 +75,7 @@ TrailRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -214,6 +217,7 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -225,6 +229,7 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -898,6 +903,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -909,6 +915,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -1104,12 +1111,15 @@ MonoBehaviour:
   scrollSpeed: 2
   sprintTimerMax: 0.15
   footStepTimerTotal: 0.25
+  footstepVol: 1
   currentFootsteps:
   - {fileID: 8300000, guid: 40d2e27a4bd3dd3419fd5a23f28044bb, type: 3}
   - {fileID: 8300000, guid: f237f5821f3242e4fb095be7da745a6c, type: 3}
   - {fileID: 8300000, guid: b4af0a3eb7633e34c8fa52d0071ae4c5, type: 3}
   canMove: 1
   moving: 0
+  mirrorControls: 0
+  disableOnStart: 0
   startCam: {fileID: 0}
   holdingSpot: {fileID: 0}
   holding: 0
@@ -1118,6 +1128,8 @@ MonoBehaviour:
   beingHeld:
     m_PersistentCalls:
       m_Calls: []
+  personAnimator: {fileID: 0}
+  npcAnimator: {fileID: 0}
 --- !u!82 &82492344035267308
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1322,7 +1334,10 @@ MonoBehaviour:
     m_Bits: 1024
   myNavMesh: {fileID: 0}
   randomSpeed: 1
+  speedRange: {x: -5, y: 10}
   startBehavior: {fileID: 11400000, guid: 8719cfeb4662aed4ebbbe69974f5a518, type: 2}
+  randomizeStartBehavior: 0
+  startBehaviors: []
   targetPosition: {x: 0, y: 0, z: 0}
   AIenabled: 1
   lookAtTransform: {fileID: 0}
@@ -1371,19 +1386,26 @@ MonoBehaviour:
   react: {fileID: 0}
   action: {fileID: 0}
   idleSounds: []
-  walkingSounds: []
   screams:
   - {fileID: 8300000, guid: ad6cc141d84c11b4ab93ddebbbc93290, type: 3}
   - {fileID: 8300000, guid: ad6cc141d84c11b4ab93ddebbbc93290, type: 3}
   normalFace:
   - {fileID: 21300000, guid: 3e956703e71f8ba489ac77e7e7b998b8, type: 3}
+  - {fileID: 21300000, guid: a28fc23d1c2a64744a0640488fecef18, type: 3}
+  - {fileID: 21300000, guid: 12d813a8708ded546b3ad0146c9ed38d, type: 3}
   screaming:
   - {fileID: 21300000, guid: a3ec5818cb53ce741acd87c6fcb225c4, type: 3}
+  - {fileID: 21300000, guid: a6ccc1414e2a3fc42b982ac0326abdd8, type: 3}
+  - {fileID: 21300000, guid: 0b17add03e480ef4da0cb6367295b26d, type: 3}
   backs: []
   randomizeFace: 1
   faceIndex: 0
   manualSetSprites: 1
   animateFaceToSound: 1
+  faceShiftEnding: 0
+  playWalkingSounds: 0
+  walkingSounds: []
+  walkStepTime: 0.35
 --- !u!195 &195903238207559940
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1623,6 +1645,8 @@ MonoBehaviour:
   - idle
   - moving
   talkingAnimations: 0
+  setAnimSpeed: 0
+  animSpeed: 1
 --- !u!1 &1672868649175800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1852,6 +1876,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1863,6 +1888,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -1915,6 +1941,9 @@ MonoBehaviour:
   characterAnimator: {fileID: 0}
   animationBools: []
   back: {fileID: 0}
+  onBeginFaceShifting:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1873630933609370
 GameObject:
   m_ObjectHideFlags: 0

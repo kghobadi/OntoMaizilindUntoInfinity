@@ -23,8 +23,12 @@ namespace NPC
         [HideInInspector]
         public NavMeshAgent myNavMesh;
         public bool randomSpeed = true;
+        [Tooltip("Random value within this range will be added to navmesh speed.")]
+        public Vector2 speedRange = new Vector2(-5f, 10f);
         Vector3 origPosition;
         public MovementPath startBehavior;
+        public bool randomizeStartBehavior;
+        public MovementPath[] startBehaviors;
         public Vector3 targetPosition;
         float distFromPlayer;
         public bool AIenabled = true;
@@ -113,10 +117,30 @@ namespace NPC
         void Start()
         { 
             origPosition = transform.position;
-            if(myNavMesh && randomSpeed)
-                myNavMesh.speed += Random.Range(-5f, 10f);
+            if (randomSpeed)
+            {
+                RandomizeSpeed();
+            }
+
+            if (randomizeStartBehavior)
+            {
+                RandomizeStartBehavior();
+            }
             ResetMovement(startBehavior);
             SetIdle();
+        }
+
+        void RandomizeSpeed()
+        {
+            if (myNavMesh)
+            {
+                myNavMesh.speed += Random.Range(speedRange.x, speedRange.y);
+            }
+        }
+
+        void RandomizeStartBehavior()
+        {
+            startBehavior = startBehaviors[Random.Range(0, startBehaviors.Length)];
         }
 
         void Update()
@@ -205,8 +229,11 @@ namespace NPC
                     if(idleType == IdleType.DEAD)
                     {
                         //zero local pos & rot
-                        camObj.myBody.transform.localPosition = Vector3.zero;
-                        camObj.myBody.transform.localRotation = Quaternion.identity;
+                        if (camObj)
+                        {
+                            camObj.myBody.transform.localPosition = Vector3.zero;
+                            camObj.myBody.transform.localRotation = Quaternion.identity;
+                        }
                     }
                 }
                 //Set destination based on npc type 
@@ -583,10 +610,17 @@ namespace NPC
         {
             if (npcType == NPCMovementTypes.FOLLOWER)
             {
-                //are we close to player?
-                if (Vector3.Distance(transform.position, currentPlayer.transform.position) > myNavMesh.stoppingDistance + 1f)
+                //get dist from follow obj
+                float distFromObject = Vector3.Distance(transform.position, followObject.transform.position);
+                //are we close to follow obj?
+                if (distFromObject > myNavMesh.stoppingDistance + 1f)
                 {
                     NavigateToPoint(followObject.position, false);
+                }
+                //idle whenever close enough to the follow obj.
+                else
+                {
+                    SetIdle();
                 }
             }
         }

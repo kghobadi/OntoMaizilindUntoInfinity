@@ -91,6 +91,16 @@ public class DebugTime : MonoBehaviour {
         timing = true;
     }
 
+    public void PauseTimeline()
+    {
+        timing = false;
+    }
+
+    public void PlayTimeline()
+    {
+        timing = true;
+    }
+
     //allows you to save checkpoints in the Checkpoints list (from 0 - 9)
     void CheckpointInputs()
     {

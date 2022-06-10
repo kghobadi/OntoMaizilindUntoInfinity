@@ -54,7 +54,8 @@ public static class RendererExtensions
     }
     
     /// <summary>
-    /// Move towards the closest point where to portray the location of the character which is speaking in world space. Stay on Screen. 
+    /// Move towards the closest point where to portray the location of the character which is speaking in world space. Stay on Screen.
+    /// TODO Just use a fake position when the character is not on screen, so it's as if they are, but in the right direction. 
     /// </summary>
     public static void AdjustScreenPosition(Vector3 worldPos, Camera camera, RectTransform canvasRect, RectTransform objTransform)
     {

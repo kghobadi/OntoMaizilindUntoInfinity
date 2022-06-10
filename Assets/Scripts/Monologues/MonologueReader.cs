@@ -38,16 +38,18 @@ public class MonologueReader : MonoBehaviour {
     public bool conversational;
     public float[] waitTimes;
     bool waiting;
+    
+    [Header("Width Altering")]
+    [Tooltip("Check to dynamically alter width of text box.")]
+    public bool useDynamicWidth;
+    public float maxWidth = 1000f;
+    public float sideOffset = 25f;
 
-    [Header("Main Canvas Reader")] 
-    public bool usesScreenReader;
-    public ScreenReader screenReader; //assigned by main canvas mono reader
+    [Header("Subtitle Reader")] 
     public FaceAnimationUI faceAnimationUI;
-    private MainCanvasMonologueReader mainCanvasReaderCreator;
 
     void Awake()
     {
-        mainCanvasReaderCreator = FindObjectOfType<MainCanvasMonologueReader>();
         myRectTransform = GetComponent<RectTransform>();
         textBackTransform = transform.parent.GetComponent<RectTransform>();
         mainCam = Camera.main;
@@ -64,12 +66,6 @@ public class MonologueReader : MonoBehaviour {
     {
         //get speaker audio from host object
         speakerAudio = hostObj.GetComponent<SpeakerSound>();
-        
-        //set face anim ui references 
-        if (faceAnimationUI)
-        {
-            faceAnimationUI.SetReader(this, monoManager.textBack.transform);
-        }
 
         //check if TMP or normal Text
         if (usesTMP)
@@ -84,15 +80,10 @@ public class MonologueReader : MonoBehaviour {
 
         if (readingMono)
         {
-            CheckVisible();
+            //CheckVisible();
         }
     }
 
-    public void SetScreenReader(ScreenReader reader)
-    {
-        screenReader = reader;
-    }
-    
     /// <summary>
     /// Checks whether the world space monologue reader is visible or not.
     /// </summary>
@@ -103,48 +94,27 @@ public class MonologueReader : MonoBehaviour {
 
         if (isVisible)
         {
-            //we good -- deactivate screen reader if there is one
-            if (screenReader)
+            //set subtitle 
+            if (monoManager.useSubtitles)
             {
-                screenReader.Deactivate();
-            }
-            //deactivate face anim ui
-            if (faceAnimationUI)
-            {
-                faceAnimationUI.Deactivate();
+                monoManager.DisableSubtitle();
             }
         }
         else
         {
-            //activate face anim ui
-            if (faceAnimationUI)
+            //set subtitle 
+            if (monoManager.useSubtitles)
             {
-                faceAnimationUI.Activate();
-            }
-            
-            //can't see it on screen, activate screen reader
-            if (screenReader)
-            {
-                screenReader.Activate();
-                //set text so its not empty!
+                monoManager.EnableSubtitle();
+
+                //set text 
                 if (usesTMP)
-                    screenReader.SetText(the_Text.text); 
-                else
-                    screenReader.SetText(theText.text); 
-            }
-            //don't have a screen reader yet 
-            else
-            {
-                //generate one from the creator
-                if (mainCanvasReaderCreator && usesScreenReader)
                 {
-                    mainCanvasReaderCreator.GenerateReader(this);
-                    
-                    //set text so its not empty!
-                    if (usesTMP)
-                        screenReader.SetText(the_Text.text); 
-                    else
-                        screenReader.SetText(theText.text); 
+                    monoManager.SetSubtitleText(the_Text.text);
+                }
+                else
+                {
+                    monoManager.SetSubtitleText(theText.text);
                 }
             }
         }
@@ -212,10 +182,10 @@ public class MonologueReader : MonoBehaviour {
         readingMono = false;
         monoManager.DisableMonologue();
             
-        //deactivate screen reader if there is one
-        if (screenReader)
+        //set subtitle disabled
+        if (monoManager.useSubtitles)
         {
-            screenReader.Deactivate();
+            monoManager.DisableSubtitle();
         }
         //deactivate face anim ui
         if (faceAnimationUI)
@@ -258,8 +228,11 @@ public class MonologueReader : MonoBehaviour {
             if (monoManager.npcController.Animation)
             {
                 //set talking anim if not already talking 
-                if (monoManager.npcController.Animation.characterAnimator.GetBool("talking") == false)
-                    monoManager.npcController.Animation.SetAnimator("talking");
+                if (monoManager.npcController.Animation.HasParameter("talking"))
+                {
+                    if (monoManager.npcController.Animation.characterAnimator.GetBool("talking") == false)
+                        monoManager.npcController.Animation.SetAnimator("talking");
+                }
             }
         }
 
@@ -279,19 +252,23 @@ public class MonologueReader : MonoBehaviour {
                 theText.text += lineOfText[letter];
                 screenText = theText.text;
             }
-                
-            //set screen reader
-            if (screenReader)
+
+            //set subtitle 
+            if (monoManager.useSubtitles)
             {
-                screenReader.SetText(screenText);
+                monoManager.SetSubtitleText(screenText);
             }
             
             //adjust width of ui
-            //ChangeWidthOfObject();
+            if (useDynamicWidth)
+            {
+                RendererExtensions.ChangeWidthOfObject(textBackTransform,the_Text, maxWidth, sideOffset);
+            }
             
             //check what audio to play 
             if(speakerAudio)
                 speakerAudio.AudioCheck(lineOfText, letter);
+            
             //next letter
             letter += 1;
             yield return new WaitForSeconds(timeBetweenLetters);
@@ -312,8 +289,11 @@ public class MonologueReader : MonoBehaviour {
         else
             theText.text = lineOfText;
         
-        if(screenReader)
-            screenReader.SetText(lineOfText);
+        //set subtitle 
+        if (monoManager.useSubtitles)
+        {
+            monoManager.SetSubtitleText(lineOfText);
+        }
         
         isTyping = false;
     }
@@ -350,30 +330,5 @@ public class MonologueReader : MonoBehaviour {
         yield return new WaitForSeconds(time);
 
         ProgressLine();
-    }
-
-    [Header("Width Altering")] 
-    public float maxWidth = 1000f;
-    public float sideOffset = 25f;
-    private void ChangeWidthOfObject()
-    {
-        var width = 0f;
-        if(usesTMP)
-            width = the_Text.preferredWidth;
-        else
-            width = theText.preferredWidth;
-        
-        //set to width if it is less than max
-        if (width < maxWidth)
-        {
-            myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
-            textBackTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width + sideOffset);
-        }
-        //set to max width 
-        else
-        {
-            myRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxWidth);
-            textBackTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxWidth + sideOffset);
-        }
     }
 }
