@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MusicFader : MonoBehaviour {
     AudioSource musicSource;
@@ -12,17 +13,29 @@ public class MusicFader : MonoBehaviour {
     public float fadeInAmount = 0.5f;
     public float fadeOutAmount = 0f;
 
-    public bool switchingSound;
+    public FadeActions nextAction = FadeActions.NONE;
+    public enum FadeActions
+    {
+        NONE,
+        SWITCHSOUND,
+        PAUSE,
+    }
     
+    [Header("Track List Setup")]
     public AudioClip[] trackList;
-    public int trackCounter = 0; 
+    public int trackCounter = 0;
+
+    [Header("Scene Fade Setup")]
+    public bool fadeOnSceneChange;
+    public string sceneName;
     
     void Awake () 
     {
         musicSource = GetComponent<AudioSource>();
     }
 	
-	void Update () {
+	void Update () 
+    {
         if (fadingVolOut)
         {
             musicSource.volume -= Time.deltaTime * currentFadeSpeed;
@@ -31,11 +44,17 @@ public class MusicFader : MonoBehaviour {
             {
                 fadingVolOut = false;
                 //set fade in to new sound
-                if (switchingSound)
+                if (nextAction == FadeActions.SWITCHSOUND)
                 {
                     SetSound(musicTrack);
                     FadeIn(fadeInAmount, fadeSpeed);
-                    switchingSound = false;
+                    nextAction = FadeActions.NONE;
+                }
+                //pause and reset next action. 
+                else if (nextAction == FadeActions.PAUSE)
+                {
+                    musicSource.Pause();
+                    nextAction = FadeActions.NONE;
                 }
             }
         }
@@ -47,6 +66,14 @@ public class MusicFader : MonoBehaviour {
             if (musicSource.volume >= fadeInAmount)
             {
                 fadingVolIn = false;
+            }
+        }
+
+        if (fadeOnSceneChange)
+        {
+            if (SceneManager.GetActiveScene().name == sceneName)
+            {
+                FadeOut(0f, 0.035f);
             }
         }
     }
@@ -62,7 +89,16 @@ public class MusicFader : MonoBehaviour {
     public void FadeTo(AudioClip nextTrack)
     {
         musicTrack = nextTrack;
-        switchingSound = true;
+        nextAction = FadeActions.SWITCHSOUND;
+        FadeOut(fadeInAmount, fadeSpeed);
+    }
+    
+    /// <summary>
+    /// Fades music out and pauses on Fade complete. 
+    /// </summary>
+    public void FadeToPause()
+    {
+        nextAction = FadeActions.PAUSE;
         FadeOut(fadeInAmount, fadeSpeed);
     }
 

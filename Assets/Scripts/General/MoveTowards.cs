@@ -11,6 +11,9 @@ public class MoveTowards : MonoBehaviour
     public Vector3 destination;
     public float necessaryDist = 1f;
 
+    public bool increaseSpeedOverTime;
+    public float speedIncrease;
+
     void Start()
     {
         origSpeed = moveSpeed;
@@ -22,6 +25,12 @@ public class MoveTowards : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, destination, Time.deltaTime * moveSpeed);
 
+            //add to speed over time. 
+            if (increaseSpeedOverTime)
+            {
+                moveSpeed += speedIncrease * Time.deltaTime;
+            }
+            
             if(Vector3.Distance(transform.position, destination) < necessaryDist)
             {
                 moving = false;

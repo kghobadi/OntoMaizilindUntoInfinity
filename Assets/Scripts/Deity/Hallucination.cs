@@ -43,6 +43,11 @@ public class Hallucination : MonoBehaviour
 	[Header("Events")] 
 	public UnityEvent[] events;
 	public UnityEvent[] endEvents;
+
+	[Header("Yarn Variable")] 
+	public string variableName;
+	public string yarnValue;
+	private VariableInterface _variableInterface;
 	
 	void Start()
 	{
@@ -67,6 +72,9 @@ public class Hallucination : MonoBehaviour
 		//check for cam movement
 		if (renderCam)
 			camMover = renderCam.GetComponent<GroundCamera>();
+
+		//variable interface ref
+		_variableInterface = FindObjectOfType<VariableInterface>();
 		
 		//disable hallucination objects
 		for (int i = 0; i < hallucObjects.Length; i++)
@@ -218,6 +226,12 @@ public class Hallucination : MonoBehaviour
 		if (deityMan != null)
 		{
 			deityMan.ResumeDeities();
+		}
+		
+		//yarn variable to save?
+		if (!string.IsNullOrEmpty(variableName))
+		{
+			_variableInterface.SetValue(variableName, yarnValue);	
 		}
 		
 		//fade out

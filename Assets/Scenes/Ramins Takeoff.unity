@@ -158,9 +158,11 @@ MonoBehaviour:
   fadeSpeed: 1
   fadeInAmount: 0.5
   fadeOutAmount: 0
-  switchingSound: 0
+  nextAction: 0
   trackList: []
   trackCounter: 0
+  fadeOnSceneChange: 0
+  sceneName: 
 --- !u!82 &31025505
 AudioSource:
   m_ObjectHideFlags: 0
@@ -308,9 +310,11 @@ MonoBehaviour:
   fadeSpeed: 1
   fadeInAmount: 0.5
   fadeOutAmount: 0
-  switchingSound: 0
+  nextAction: 0
   trackList: []
   trackCounter: 0
+  fadeOnSceneChange: 0
+  sceneName: 
 --- !u!82 &33955858
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5516,6 +5520,8 @@ MonoBehaviour:
   moving: 0
   destination: {x: 0, y: 0, z: 0}
   necessaryDist: 1
+  increaseSpeedOverTime: 0
+  speedIncrease: 0
 --- !u!114 &84589301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7200,14 +7206,49 @@ PrefabInstance:
       objectReference: {fileID: 200456655}
     - target: {fileID: 114953075554909098, guid: d5229616bf5fcb5439379f7158d2c714,
         type: 3}
+      propertyPath: yarnValue
+      value: Seen
+      objectReference: {fileID: 0}
+    - target: {fileID: 114953075554909098, guid: d5229616bf5fcb5439379f7158d2c714,
+        type: 3}
+      propertyPath: variableName
+      value: Aref
+      objectReference: {fileID: 0}
+    - target: {fileID: 114953075554909098, guid: d5229616bf5fcb5439379f7158d2c714,
+        type: 3}
       propertyPath: monoManagers.Array.data[0]
       value: 
       objectReference: {fileID: 114937719001616433}
     - target: {fileID: 114953075554909098, guid: d5229616bf5fcb5439379f7158d2c714,
         type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114953075554909098, guid: d5229616bf5fcb5439379f7158d2c714,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114953075554909098, guid: d5229616bf5fcb5439379f7158d2c714,
+        type: 3}
       propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 33955856}
+    - target: {fileID: 114953075554909098, guid: d5229616bf5fcb5439379f7158d2c714,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 582247384}
+    - target: {fileID: 114953075554909098, guid: d5229616bf5fcb5439379f7158d2c714,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114953075554909098, guid: d5229616bf5fcb5439379f7158d2c714,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5229616bf5fcb5439379f7158d2c714, type: 3}
 --- !u!1 &183332910
@@ -11732,6 +11773,26 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 114578452879493764, guid: 004947fbf1c5f5f42bdb6e4eef9f4357, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 004947fbf1c5f5f42bdb6e4eef9f4357, type: 3}
+--- !u!1 &582247384 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1996373475809988, guid: 004947fbf1c5f5f42bdb6e4eef9f4357,
+    type: 3}
+  m_PrefabInstance: {fileID: 582247383}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &582247385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582247384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5f57ef43156a04448282799936aee81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showDebug: 0
+  debugTextView: {fileID: 0}
 --- !u!1 &586129618
 GameObject:
   m_ObjectHideFlags: 0
@@ -11845,9 +11906,11 @@ MonoBehaviour:
   fadeSpeed: 1
   fadeInAmount: 0.5
   fadeOutAmount: 0
-  switchingSound: 0
+  nextAction: 0
   trackList: []
   trackCounter: 0
+  fadeOnSceneChange: 0
+  sceneName: 
 --- !u!82 &590361878
 AudioSource:
   m_ObjectHideFlags: 0
@@ -24968,6 +25031,16 @@ PrefabInstance:
       propertyPath: renderCam
       value: 
       objectReference: {fileID: 200456655}
+    - target: {fileID: 114834806459534252, guid: caea05df2fb4eff4fa7ae4ab747d62e4,
+        type: 3}
+      propertyPath: yarnValue
+      value: Seen
+      objectReference: {fileID: 0}
+    - target: {fileID: 114834806459534252, guid: caea05df2fb4eff4fa7ae4ab747d62e4,
+        type: 3}
+      propertyPath: variableName
+      value: Kas
+      objectReference: {fileID: 0}
     - target: {fileID: 114834806459534252, guid: caea05df2fb4eff4fa7ae4ab747d62e4,
         type: 3}
       propertyPath: events.Array.size
@@ -44975,9 +45048,11 @@ MonoBehaviour:
   fadeSpeed: 1
   fadeInAmount: 0.5
   fadeOutAmount: 0
-  switchingSound: 0
+  nextAction: 0
   trackList: []
   trackCounter: 0
+  fadeOnSceneChange: 0
+  sceneName: 
 --- !u!82 &973524321
 AudioSource:
   m_ObjectHideFlags: 0
@@ -46013,6 +46088,8 @@ MonoBehaviour:
   moving: 0
   destination: {x: 0, y: 0, z: 0}
   necessaryDist: 1
+  increaseSpeedOverTime: 0
+  speedIncrease: 0
 --- !u!114 &1068886502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46102,9 +46179,11 @@ MonoBehaviour:
   fadeSpeed: 1
   fadeInAmount: 0.5
   fadeOutAmount: 0
-  switchingSound: 0
+  nextAction: 0
   trackList: []
   trackCounter: 0
+  fadeOnSceneChange: 0
+  sceneName: 
 --- !u!82 &1084861152
 AudioSource:
   m_ObjectHideFlags: 0
@@ -47494,9 +47573,11 @@ MonoBehaviour:
   fadeSpeed: 1
   fadeInAmount: 0.5
   fadeOutAmount: 0
-  switchingSound: 0
+  nextAction: 0
   trackList: []
   trackCounter: 0
+  fadeOnSceneChange: 0
+  sceneName: 
 --- !u!82 &1136243205
 AudioSource:
   m_ObjectHideFlags: 0
@@ -62125,6 +62206,8 @@ MonoBehaviour:
   moving: 0
   destination: {x: 0, y: 0, z: 0}
   necessaryDist: 1
+  increaseSpeedOverTime: 0
+  speedIncrease: 0
 --- !u!114 &1219201849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86256,6 +86339,16 @@ PrefabInstance:
       objectReference: {fileID: 200456655}
     - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
         type: 3}
+      propertyPath: yarnValue
+      value: Seen
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
+      propertyPath: variableName
+      value: Gluttony
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
       propertyPath: endEvents.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -87068,6 +87161,8 @@ MonoBehaviour:
   monoIndeces: 
   events: []
   endEvents: []
+  variableName: 
+  yarnValue: 
 --- !u!1 &1667500969
 GameObject:
   m_ObjectHideFlags: 0
@@ -91881,7 +91976,7 @@ Transform:
   m_GameObject: {fileID: 1685180556}
   m_LocalRotation: {x: -0.00000035390235, y: 0.0000003394054, z: -0.00000041556825,
     w: 1}
-  m_LocalPosition: {x: -0.000016299366, y: -0.00013581134, z: 0.0012439822}
+  m_LocalPosition: {x: -0.000016300202, y: -0.00013581134, z: 0.0012439822}
   m_LocalScale: {x: 1, y: 1.0135, z: 1.0135007}
   m_Children:
   - {fileID: 668675137}
@@ -97440,6 +97535,8 @@ MonoBehaviour:
   moving: 0
   destination: {x: 0, y: 0, z: 0}
   necessaryDist: 1
+  increaseSpeedOverTime: 0
+  speedIncrease: 0
 --- !u!114 &1794765979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100011,6 +100108,8 @@ MonoBehaviour:
   moving: 0
   destination: {x: 0, y: 0, z: 0}
   necessaryDist: 1
+  increaseSpeedOverTime: 0
+  speedIncrease: 0
 --- !u!114 &1870660313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100564,6 +100663,16 @@ PrefabInstance:
       propertyPath: renderCam
       value: 
       objectReference: {fileID: 200456655}
+    - target: {fileID: 114011098574534234, guid: 6ea8d3a58212dd3498b60b7329d93234,
+        type: 3}
+      propertyPath: yarnValue
+      value: Seen
+      objectReference: {fileID: 0}
+    - target: {fileID: 114011098574534234, guid: 6ea8d3a58212dd3498b60b7329d93234,
+        type: 3}
+      propertyPath: variableName
+      value: Email
+      objectReference: {fileID: 0}
     - target: {fileID: 114011098574534234, guid: 6ea8d3a58212dd3498b60b7329d93234,
         type: 3}
       propertyPath: monoManagers.Array.data[0]
@@ -105641,6 +105750,8 @@ MonoBehaviour:
   moving: 0
   destination: {x: 0, y: 0, z: 0}
   necessaryDist: 5
+  increaseSpeedOverTime: 0
+  speedIncrease: 0
 --- !u!114 &2012305834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105941,7 +106052,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2045468874}
   m_LocalRotation: {x: 0.062144157, y: -0.0000006109476, z: 0.00000025704296, w: -0.99806726}
-  m_LocalPosition: {x: -0.000016298596, y: 76.27002, z: -165.81876}
+  m_LocalPosition: {x: -0.000016299433, y: 76.27002, z: -165.81876}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -106412,6 +106523,8 @@ MonoBehaviour:
   moving: 0
   destination: {x: 0, y: 0, z: 0}
   necessaryDist: 1
+  increaseSpeedOverTime: 0
+  speedIncrease: 0
 --- !u!114 &2088905182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106755,6 +106868,8 @@ MonoBehaviour:
   moving: 0
   destination: {x: 0, y: 0, z: 0}
   necessaryDist: 1
+  increaseSpeedOverTime: 0
+  speedIncrease: 0
 --- !u!114 &2107883822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107072,6 +107187,16 @@ PrefabInstance:
       propertyPath: renderCam
       value: 
       objectReference: {fileID: 200456655}
+    - target: {fileID: 114914787360804874, guid: 055c1dadd68b9904f8f198b094b5739a,
+        type: 3}
+      propertyPath: yarnValue
+      value: Seen
+      objectReference: {fileID: 0}
+    - target: {fileID: 114914787360804874, guid: 055c1dadd68b9904f8f198b094b5739a,
+        type: 3}
+      propertyPath: variableName
+      value: Panic
+      objectReference: {fileID: 0}
     - target: {fileID: 114914787360804874, guid: 055c1dadd68b9904f8f198b094b5739a,
         type: 3}
       propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -114039,6 +114164,16 @@ PrefabInstance:
       propertyPath: renderCam
       value: 
       objectReference: {fileID: 200456655}
+    - target: {fileID: 7413758279189334104, guid: 805783ff968a3a543ae83fc27d488bd3,
+        type: 3}
+      propertyPath: yarnValue
+      value: Seen
+      objectReference: {fileID: 0}
+    - target: {fileID: 7413758279189334104, guid: 805783ff968a3a543ae83fc27d488bd3,
+        type: 3}
+      propertyPath: variableName
+      value: Kathy
+      objectReference: {fileID: 0}
     - target: {fileID: 7413758279189334104, guid: 805783ff968a3a543ae83fc27d488bd3,
         type: 3}
       propertyPath: events.Array.size
