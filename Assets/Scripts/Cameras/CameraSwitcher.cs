@@ -182,6 +182,15 @@ public class CameraSwitcher : MonoBehaviour
     }
 
     /// <summary>
+    /// Sets a random cam active. 
+    /// </summary>
+    public void SetRandomCam()
+    {
+        int index = Random.Range(1, cameraObjects.Count);
+        SetCam(index);
+    }
+
+    /// <summary>
     /// Set player to a specific cam object index.
     /// </summary>
     /// <param name="num"></param>
