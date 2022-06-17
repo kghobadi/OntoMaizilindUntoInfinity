@@ -51,6 +51,8 @@ public class MonologueManager : MonoBehaviour
 
     [Header("Subtitle System")] 
     public bool useSubtitles;
+    [Tooltip("Position for the Subtitle system to target.")]
+    public Transform subtitleTarget;
     [HideInInspector] public GameObject mySubtitle;
     public float subSizeMult = 1f;
     public bool centerOffScreenSub;
