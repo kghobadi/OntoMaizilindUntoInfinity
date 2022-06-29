@@ -28,6 +28,9 @@ public class DestructibleBuilding : MonoBehaviour {
     public GameObject smokePrefab;
     ParticleSystem smokeParticles;
 
+    public string pilot = "Ramins Takeoff";
+    public string nuclearity = "Nuclearity";
+
     void Awake()
     {
         the_pilot = FindObjectOfType<ThePilot>();
@@ -48,8 +51,22 @@ public class DestructibleBuilding : MonoBehaviour {
         }
     }
 
+    void Start ()
+    {
+        GenerateEffects();
+
+        totalHeight = buildingMesh.bounds.extents.y * 2;
+        health = segments * healthMultiplier;
+    }
+    
     void GenerateEffects()
     {
+        //only generate these effects in the pilot scene. 
+        if (SceneManager.GetActiveScene().name != pilot)
+        {
+            return;
+        }
+        
         //instantiate and parent smoke to me, get particle
         GameObject smoke = Instantiate(smokePrefab, transform);
         smokeParticles = smoke.GetComponent<ParticleSystem>();
@@ -57,14 +74,6 @@ public class DestructibleBuilding : MonoBehaviour {
         //instantiate and parent explosion to me, get particle
         GameObject explosion = Instantiate(explosionPrefab, transform);
         explosionParticles = explosion.GetComponent<ParticleSystem>();
-    }
-
-    void Start ()
-    {
-        GenerateEffects();
-
-        totalHeight = buildingMesh.bounds.extents.y * 2;
-        health = segments * healthMultiplier;
     }
 	
 	void Update ()
@@ -122,7 +131,7 @@ public class DestructibleBuilding : MonoBehaviour {
         }
 
         //destroyed in nuclearity 
-        if (other.gameObject.tag == "Explosion" && SceneManager.GetActiveScene().buildIndex == 3)
+        if (other.gameObject.tag == "Explosion" && SceneManager.GetActiveScene().name == nuclearity)
         {
             gameObject.SetActive(false);
         }

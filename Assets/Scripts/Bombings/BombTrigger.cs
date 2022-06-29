@@ -51,7 +51,7 @@ public class BombTrigger : MonoBehaviour {
                         //enough people to transition back to running as random person. 
                         if (camSwitcher.cameraObjects.Count > camSwitcher.transitionAmount)
                         {
-                            camSwitcher.SetRandomCam();
+                            camSwitcher.WaitSetRandomCam();
                         }
                         //out of people, transition directly to mosque view & begin projection    
                         else
