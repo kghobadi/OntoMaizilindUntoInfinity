@@ -5,9 +5,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 
 //allows you to speed up time scale 
-public class DebugTime : MonoBehaviour {
-    Clock clock;
-
+public class DebugTime : MonoBehaviour 
+{
     public bool debug;
     public float speedUp = 10f;
 
@@ -28,11 +27,6 @@ public class DebugTime : MonoBehaviour {
     float pressTimer, pressTimeToSave = 1f;
     float timeToSave;
     int keyPressed;
-   
-    void Awake()
-    {
-        clock = FindObjectOfType<Clock>();
-    }
 
     void Start()
     {
@@ -40,7 +34,7 @@ public class DebugTime : MonoBehaviour {
             StartTimeline();
     }
 
-    void Update ()
+    void FixedUpdate ()
     {
         //are we debugging currently?
         if (debug)
@@ -64,7 +58,7 @@ public class DebugTime : MonoBehaviour {
         if (timing)
         {
             //calc game time 
-            gameTime = Time.time - timelineStart;
+            gameTime = Time.fixedTime - timelineStart;
             
             //loop thru checkpoints
             for(int i = 0; i < checkpoints.Count; i++)
@@ -87,7 +81,8 @@ public class DebugTime : MonoBehaviour {
     //called elsewhere
     public void StartTimeline()
     {
-        timelineStart = Time.time;
+        timelineStart = Time.fixedTime;
+        //TODO Need to convert to real time - rather than unity time 
         timing = true;
     }
 
@@ -113,14 +108,14 @@ public class DebugTime : MonoBehaviour {
                 //set pressing, int val, and time to save
                 pressing = true;
                 keyPressed = i;
-                timeToSave = Time.time - timelineStart;
+                timeToSave = Time.fixedTime - timelineStart;
             }
         }
 
         //timer increases
         if (pressing)
         {
-            pressTimer += Time.deltaTime;
+            pressTimer += Time.fixedDeltaTime;
         }
         
         //get all the numbers 
