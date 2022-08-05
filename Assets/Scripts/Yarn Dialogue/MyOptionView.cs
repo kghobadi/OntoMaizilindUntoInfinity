@@ -32,7 +32,7 @@ namespace Yarn.Unity
             set
             {
                 _option = value;
-
+                
                 hasSubmittedOptionSelection = false;
 
                 // When we're given an Option, use its text and update our
@@ -70,6 +70,12 @@ namespace Yarn.Unity
         /// </summary>
         void CheckForInputs()
         {
+            //take no more input!
+            if (hasSubmittedOptionSelection || !optionListView.canSelectOption)
+            {
+                return;
+            }
+            
             //left click/ square button for Dialogue Option 1
             if (Input.GetMouseButtonDown(0) || inputDevice.Action3.WasPressed)
             {
@@ -107,7 +113,7 @@ namespace Yarn.Unity
         {
             optionIndex = index;
             optionListView = optionList;
-
+            hasSubmittedOptionSelection = false;
             SetControlImage();
         }
 
@@ -165,6 +171,7 @@ namespace Yarn.Unity
             {
                 OnOptionSelected.Invoke(Option);
                 hasSubmittedOptionSelection = true;
+                optionListView.canSelectOption = false;
             }
         }
 

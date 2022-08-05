@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using InControl;
 using Cameras;
+using Cinemachine;
 using UnityEngine.AI;
 using NPC;
 
 public class CameraSwitcher : MonoBehaviour 
 {
     CameraManager camManager;
+    private Camera mainCam;
+    private CinemachineBrain cineBrain;
 
     [HideInInspector] public ObjectViewer objViewer;
     //camera objects list, current obj, and int to count them
@@ -53,6 +56,8 @@ public class CameraSwitcher : MonoBehaviour
     {
         //camera manager ref 
         camManager = FindObjectOfType<CameraManager>();
+        mainCam =  Camera.main;
+        cineBrain = mainCam.GetComponent<CinemachineBrain>();
 
         //find all CamObjects in scene 
         if (addAllCamerasInScene)
@@ -179,6 +184,35 @@ public class CameraSwitcher : MonoBehaviour
     public int GetCurrentCamIndex()
     {
         return cameraObjects.IndexOf(currentCamObj);
+    }
+
+    public void WaitSetRandomCam()
+    {
+        StartCoroutine(WaitToSetRandomCam());
+    }
+
+    IEnumerator WaitToSetRandomCam()
+    {
+        //null cine brain check.
+        if (cineBrain == null)
+        {
+            SetRandomCam();
+            yield break;
+        }
+        
+        //wait until main camera is NOT blending
+        yield return new WaitUntil(() => cineBrain.IsBlending == false);
+        
+        SetRandomCam();
+    }
+    
+    /// <summary>
+    /// Sets a random cam active. 
+    /// </summary>
+    public void SetRandomCam()
+    {
+        int index = Random.Range(1, cameraObjects.Count);
+        SetCam(index);
     }
 
     /// <summary>

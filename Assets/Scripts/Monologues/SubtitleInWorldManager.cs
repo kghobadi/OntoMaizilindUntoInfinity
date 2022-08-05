@@ -12,15 +12,14 @@ public class SubtitleInWorldManager : MonoBehaviour
     public Sprite straightArrow, curvyArrow;
     public List<Transform> onlyShowTheseSubs;
     public float maxDistanceFromPlayer = 100f;
-    public float lerpSpeed = 5f;
+    public float subscreenBorderPercentage = 0.04f;
+    
     private Camera mainCam;
     RectTransform mainCanvas;
     Vector2 screenCanvasPixelRatio;
     float subScreenBorder;
     float bgImgBorder;
     float prevPixelWidth;
-
-    public float heightOffset = 2f;
     
     void Awake()
     {
@@ -34,7 +33,7 @@ public class SubtitleInWorldManager : MonoBehaviour
         if (mainCam.pixelWidth != prevPixelWidth)
         {
             screenCanvasPixelRatio = new Vector2(mainCam.pixelWidth / mainCanvas.rect.width, mainCam.pixelHeight / mainCanvas.rect.height);
-            subScreenBorder = 0.02f * mainCam.pixelWidth;//% of width
+            subScreenBorder = subscreenBorderPercentage * mainCam.pixelWidth;//% of width
         }
         prevPixelWidth = mainCam.pixelWidth;
 
@@ -115,18 +114,18 @@ public class SubtitleInWorldManager : MonoBehaviour
                 //get subtitle position 
                 Vector3 subPos = subParent.transform.position;
                 //get screen point of monologue manager (character). 
-                Vector3 screenPoint = mainCam.WorldToScreenPoint(mm.textBack.transform.position);
+                Vector3 screenPoint = mainCam.WorldToScreenPoint(mm.subtitleTarget.position);
                 //get bool to check if on screen 
                 bool onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < mainCam.pixelWidth &&
                                 screenPoint.y > 0 && screenPoint.y < mainCam.pixelHeight;
 
                 //enable subtitle text box if off screen
-                subParent.SetActive(!onScreen);
+                //subParent.SetActive(!onScreen);
                 
                 //control activation of face pointer ui.
                 if (mm.facePointer)
                 {
-                    if (subParent.gameObject.activeSelf)
+                    if (!onScreen)
                     {
                         mm.facePointer.Activate();
                     }
@@ -141,7 +140,7 @@ public class SubtitleInWorldManager : MonoBehaviour
                     screenPoint.x = mainCam.pixelWidth - screenPoint.x;
 
                 //this scale and pixelratio converts it from local canvas pixels to cam screen pixels
-                float subBoxBorder = arrow.rect.height * 1.5f;
+                float subBoxBorder = arrow.rect.height * 2f;
                 Vector2 subSize = new Vector2((subBG.rect.width + subBoxBorder) * subBG.localScale.x,
                                               (subBG.rect.height + subBoxBorder) * subBG.localScale.y)
                                               * screenCanvasPixelRatio;
@@ -184,7 +183,7 @@ public class SubtitleInWorldManager : MonoBehaviour
                                 }
                             }
                             //set sub x pos and keep screenpoint for y pos 
-                            subPos = new Vector3(xPos, screenPoint. y + (subSize.y / 2), 0);
+                            subPos = new Vector3(xPos, screenPoint.y + (subSize.y / 2), 0);
                         }
                     }
                 }
@@ -258,7 +257,7 @@ public class SubtitleInWorldManager : MonoBehaviour
                 //todo sometimes this doesnt fully do it
                 Rect subRect = new Rect(new Vector2(subPos.x, subPos.y), subSize);
 
-                //avoid all other active subs
+                //avoid all other active subs -- TODO SOMETIMES THIS PUSHES UP ONSCREEN SUBS WAY TOO HIGH WHEN OFFSCREEN SUBS GET IN THEIR WAY. 
                 foreach (KeyValuePair<MonologueManager, Rect> acr in activeSubRects)
                 {
                     if (acr.Key == mm)
@@ -266,7 +265,18 @@ public class SubtitleInWorldManager : MonoBehaviour
 
                     if (acr.Value.Overlaps(subRect))
                     {
-                        subPos.y = acr.Value.y + (acr.Value.height * 0.5f) + (subRect.height * 0.5f);
+                        //get different multiplier if onscreen or not.
+                        float mult = 1f;
+                        if (onScreen)
+                        {
+                            mult = 0.25f;
+                        }
+                        else
+                        {
+                            mult = 0.5f;
+                        }
+                        
+                        subPos.y = acr.Value.y + (acr.Value.height * mult) + (subRect.height * mult);
                         subRect.y = subPos.y;
                     }
                 }

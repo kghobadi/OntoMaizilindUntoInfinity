@@ -171,6 +171,8 @@ MonoBehaviour:
   moving: 0
   destination: {x: 0, y: 0, z: 0}
   necessaryDist: 1
+  increaseSpeedOverTime: 0
+  speedIncrease: 0
 --- !u!1 &1020820112671462
 GameObject:
   m_ObjectHideFlags: 0
@@ -586,7 +588,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1260286919878412}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.000018119812, y: 6.4, z: 0.32006836}
+  m_LocalPosition: {x: -0.000018119812, y: 6, z: 0.32006836}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4785582888146864}
@@ -1313,6 +1315,7 @@ MonoBehaviour:
   moveManager: {fileID: 0}
   cineManager: {fileID: 0}
   wmManager: {fileID: 0}
+  isMan: 0
   npcState: 0
   npcLayer:
     serializedVersion: 2
@@ -1403,6 +1406,7 @@ MonoBehaviour:
   manualSetSprites: 1
   animateFaceToSound: 1
   faceShiftEnding: 0
+  faceShiftTimer: 0.35
   playWalkingSounds: 0
   walkingSounds: []
   walkStepTime: 0.35
@@ -1442,6 +1446,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wmManager: {fileID: 0}
   npcController: {fileID: 0}
+  isPlayer: 0
   textBack: {fileID: 0}
   currentMonologue: 0
   allMyMonologues: []
@@ -1449,6 +1454,19 @@ MonoBehaviour:
   mTrigger: {fileID: 0}
   enableOnStart: 0
   head: {fileID: 0}
+  useSubtitles: 0
+  mySubtitle: {fileID: 0}
+  subSizeMult: 1
+  centerOffScreenSub: 0
+  subtitleTMP: {fileID: 0}
+  subCanvasGroup: {fileID: 0}
+  subChanging: 0
+  currentSubTime: 0
+  faceSizeMult: 2
+  facePointer: {fileID: 0}
+  faceRect: {fileID: 0}
+  arrowImg: {fileID: 0}
+  subPointOffsetX: 0
 --- !u!1 &1531453744970926
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Timeline;
 using UnityEngine.Playables;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class TimelinePlaybackManager : MonoBehaviour {
 	[Header("Timeline References")]
@@ -50,6 +51,10 @@ public class TimelinePlaybackManager : MonoBehaviour {
     private bool playerInZone = false;
 	private bool timelinePlaying = false;
 	private float timelineDuration;
+	
+	[Header("Playback Events")] 
+	public UnityEvent onTimelineStart;
+	public UnityEvent onTimelineEnd;
     
     void Awake()
     {

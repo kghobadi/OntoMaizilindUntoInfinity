@@ -17,6 +17,8 @@ namespace Yarn.Unity
         [SerializeField] float fadeTime = 0.1f;
 
         [SerializeField] bool showUnavailableOptions = false;
+
+        public bool canSelectOption;
         
         [Header("Controls for Options UI")]
         public Sprite optionOneControl;
@@ -62,6 +64,8 @@ namespace Yarn.Unity
             {
                 optionView.gameObject.SetActive(false);
             }
+
+            canSelectOption = true;
 
             // If we don't already have enough option views, create more
             while (dialogueOptions.Length > optionViews.Count)

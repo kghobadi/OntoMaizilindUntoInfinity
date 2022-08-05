@@ -105,6 +105,11 @@ public class PostProcessor : MonoBehaviour
 
     void SpawnBomb()
     {
+        if (nuclearBomb == null)
+        {
+            return;
+        }
+
         Vector2 xz = Random.insideUnitCircle * 2500;
         Vector3 spawnPos = new Vector3(xz.x, 0, xz.y);
         GameObject nuke = Instantiate(nuclearBomb, spawnPos, Quaternion.identity, explosionParent);

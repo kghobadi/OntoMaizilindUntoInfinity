@@ -51,6 +51,8 @@ public class MonologueManager : MonoBehaviour
 
     [Header("Subtitle System")] 
     public bool useSubtitles;
+    [Tooltip("Position for the Subtitle system to target.")]
+    public Transform subtitleTarget;
     [HideInInspector] public GameObject mySubtitle;
     public float subSizeMult = 1f;
     public bool centerOffScreenSub;
@@ -68,13 +70,31 @@ public class MonologueManager : MonoBehaviour
     private float distToRealP;
 
     /// <summary>
+    /// Gets player pos in different scenes. 
+    /// </summary>
+    public Vector3 PlayerPos
+    {
+        get
+        {
+            if (camSwitcher != null)
+            {
+                return camSwitcher.currentPlayer.transform.position;
+            }
+            else
+            {
+                return Vector3.zero;
+            }
+        }
+    }
+    
+    /// <summary>
     /// Accessor for distance from character to player.
     /// </summary>
     public float DistToRealP
     {
         get
         {
-            distToRealP = Vector3.Distance(transform.position, camSwitcher.currentPlayer.transform.position);
+            distToRealP = Vector3.Distance(transform.position, PlayerPos);
 
             return distToRealP;
         }
