@@ -15,12 +15,12 @@
   This shader was automatically generated from
   Imported\Raymarching Toolkit\Assets\Shaders\RaymarchTemplate.shader
   
-  for Raymarcher named 'Raymarcher' in scene '_NewApartment'.
+  for Raymarcher named 'Raymarcher' in scene 'The Fall of Tehran'.
 
 */
 
 
-Shader "Hidden/__NewApartment_935176638.generated"
+Shader "Hidden/_The Fall of Tehran_2930695328.generated"
 {
 
 SubShader
@@ -1213,9 +1213,51 @@ float fersertWaves(float3 p, float height) {
 // no light uniforms in scene
 
 // UNIFORMS AND FUNCTIONS
+uniform float2 x_3321770347_1ec48586_freq;
+uniform float2 x_3321770347_1ec48586_extranoise;
+float object_Desert(float3 p , float2 _INP_freq, float2 _INP_extranoise) {
+    // Generated from Assets/Imported/Raymarching Toolkit/Examples/Assets/Desert/Desert.asset
+    float disp = 1.0;
+    float noise = snoise(float2(p.x * _INP_freq.x, p.z * _INP_freq.y))
+;
+    disp = abs(atan((noise)*2));
+    disp += snoise(p.xz * _INP_extranoise.x) * _INP_extranoise.y;
+    return p.y + disp;
+}
+// uniforms for Terrain
+uniform float4x4 _3321770347Matrix;
+uniform float _3321770347MinScale;
+uniform sampler2D x_3321770347_3f06f9be_textureMap;
+uniform float x_3321770347_3f06f9be_textureMapSize;
+uniform sampler2D x_3321770347_3f06f9be_bumpmap;
+uniform float x_3321770347_3f06f9be_bumpfactor;
+uniform float x_3321770347_3f06f9be_bumpmapsize;
+uniform float4 x_3321770347_3f06f9be_color;
+uniform float x_3321770347_3f06f9be_angle;
+uniform float2 x_3321770347_3f06f9be_flatnessmask1;
+uniform float2 x_3321770347_3f06f9be_flatnessmask2;
+float3 material_DesertMaterial(inout float3 normal, float3 p, float3 rayDir, sampler2D _INP_textureMap, float _INP_textureMapSize, sampler2D _INP_bumpmap, float _INP_bumpfactor, float _INP_bumpmapsize, float4 _INP_color, float _INP_angle, float2 _INP_flatnessmask1, float2 _INP_flatnessmask2) {
+    // Generated from Assets/Imported/Raymarching Toolkit/Examples/Assets/Desert/Desert Material.asset
+    float3 col = triplanarTex3D(p * _INP_textureMapSize, normal, _INP_textureMap);
+    
+    col = tex2Dlod(_INP_textureMap, float4(rotateY(p,_INP_angle).xz,0,0));
+    float flatness = length(float3(0,1,0) + -normal);
+    float f1 = (flatness - _INP_flatnessmask1.x) / (_INP_flatnessmask1.y - _INP_flatnessmask1.x);
+    float f2 = (flatness - _INP_flatnessmask2.x) / (_INP_flatnessmask2.y - _INP_flatnessmask2.x);
+    //col = float3(1,1,1) * fmod(f1, 0.1);
+    //return col;
+    
+    normal = doBumpMap(p * _INP_bumpmapsize, normal, _INP_bumpmap, _INP_bumpfactor);
+    
+    return lerp(_INP_color, col, _INP_color.a);
+}
 float3 MaterialFunc(float nf, inout float3 normal, float3 p, float3 rayDir, out float objectID)
 {
-    objectID = ceil(nf) / (float)0;
+    objectID = ceil(nf) / (float)1;
+    [branch] if (nf <= 1) {
+    //    objectID = 1;
+        return material_DesertMaterial(normal, objPos(_3321770347Matrix, p), rayDir, x_3321770347_3f06f9be_textureMap, x_3321770347_3f06f9be_textureMapSize, x_3321770347_3f06f9be_bumpmap, x_3321770347_3f06f9be_bumpfactor, x_3321770347_3f06f9be_bumpmapsize, x_3321770347_3f06f9be_color, x_3321770347_3f06f9be_angle, x_3321770347_3f06f9be_flatnessmask1, x_3321770347_3f06f9be_flatnessmask2);
+    }
         objectID = 0;
         return float3(1.0, 0.0, 1.0);
     }
@@ -1224,8 +1266,8 @@ float2 map(float3 p) {
 	float2 result = float2(1.0, 0.0);
 	
 {
-    /* no visible objects */
-    result = 1.0;
+    float _3321770347Distance = object_Desert(objPos(_3321770347Matrix, p), x_3321770347_1ec48586_freq, x_3321770347_1ec48586_extranoise) * _3321770347MinScale;
+    result = float2(_3321770347Distance, /*material ID*/0.5);
     }
 	return result;
 }
