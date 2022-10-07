@@ -4,7 +4,7 @@ using UnityEngine;
 using NPC;
 using InControl;
 
-public class MonologueTrigger : MonoBehaviour
+public class MonologueTrigger : TriggerBase
 {
     //player refs
     GameObject currentPlayer;
@@ -29,6 +29,8 @@ public class MonologueTrigger : MonoBehaviour
     public int[] monoNumbers;
 
     [Header("NPC stuff")]
+    [Tooltip("Check to make it only activate by speaker host NPC.")]
+    public bool mustBeSpeakerHost;
     [Tooltip("Only need this if the Trigger first becomes active when an NPC moves into it")]
     public GameObject speakerHost;
     [Tooltip("NPC movement system -- generally the same as speaker host?")]
@@ -59,7 +61,11 @@ public class MonologueTrigger : MonoBehaviour
         }
 
         //npc entered trigger -- activate 
-        if ((other.gameObject == speakerHost || other.gameObject.tag == "Human") && canActivate == false)
+        if (other.gameObject == speakerHost && mustBeSpeakerHost && canActivate == false)
+        {
+            NPCEnteredZone();
+        }
+        else if (!mustBeSpeakerHost && other.gameObject.tag == "Human" && canActivate == false)
         {
             NPCEnteredZone();
         }
@@ -80,7 +86,11 @@ public class MonologueTrigger : MonoBehaviour
         }
 
         //npc entered trigger -- activate 
-        if ((other.gameObject == speakerHost || other.gameObject.tag == "Human") && canActivate == false)
+        if (other.gameObject == speakerHost && mustBeSpeakerHost && canActivate == false)
+        {
+            NPCEnteredZone();
+        }
+        else if (!mustBeSpeakerHost && other.gameObject.tag == "Human" && canActivate == false)
         {
             NPCEnteredZone();
         }
