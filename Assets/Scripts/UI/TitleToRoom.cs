@@ -194,7 +194,10 @@ public class TitleToRoom : MonoBehaviour {
         callToPrayer.SetSound(callToPrayer.musicTrack);
         callToPrayer.FadeIn(callToPrayer.fadeInAmount, callToPrayer.fadeSpeed);
         warAmbience.FadeOut(0f, warAmbience.fadeSpeed);
-        clock.gameObject.SetActive(true);
+        if (clock)
+        {
+            clock.gameObject.SetActive(true);
+        }
         //timeline.StartTimeline();
 
         //set cursor again
