@@ -143,7 +143,7 @@ public abstract class TriggerBase : MonoBehaviour
     /// <summary>
     /// Allows you to manually reset a trigger at runtime.
     /// </summary>
-    public void ManualReset()
+    public virtual void ManualReset()
     {
         hasTriggered = false;
     }

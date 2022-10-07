@@ -2,71 +2,60 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActivationTrigger : MonoBehaviour {
+public class ActivationTrigger : TriggerBase
+{
+    [Header("Activation Settings")]
+    [Tooltip("objectsToDestroy are permanently destroyed when this gameobject is entered. They are not revived.")]
+    [SerializeField] GameObject[] objectsToActivate;
+    [Tooltip("objectsToEnable are enabled when this gameobject is entered.")]
+    [SerializeField] GameObject[] objectsToDeactivate;
 
-    public bool hasTriggered;
-    public bool playerOnly;
-    public bool waitToTrigger;
-    public float waitTime = 5f;
-
-    public GameObject[] objectsToActivate;
-    public GameObject[] objectsToDeactivate;
-
-
-    void OnTriggerEnter(Collider other)
+    public override void ActivateTriggerEffect()
     {
         if (!hasTriggered)
         {
-            if (playerOnly)
+            foreach (GameObject objectToDeactivate in objectsToDeactivate)
             {
-                if (other.gameObject.tag == "Player")
+                if (objectToDeactivate != null)
                 {
-                    if (waitToTrigger)
-                        StartCoroutine(WaitToTrigger());
-                    else
-                        SetTrigger();
-
-                    Debug.Log(other.gameObject.name + " triggered " + gameObject.name);
+                    objectToDeactivate.SetActive(false);
                 }
             }
-            else
-            {
-                if (other.gameObject.tag == "Human" || other.gameObject.tag == "Player")
-                {
-                    if (waitToTrigger)
-                        StartCoroutine(WaitToTrigger());
-                    else 
-                        SetTrigger();
 
-                    Debug.Log(other.gameObject.name + " triggered " + gameObject.name);
+            foreach (GameObject objectToActivate in objectsToActivate)
+            {
+                if (objectToActivate != null)
+                {
+                    objectToActivate.SetActive(true);
                 }
             }
-           
         }
-        
     }
 
-    IEnumerator WaitToTrigger()
+    /// <summary>
+    /// Resets the trigger
+    /// </summary>
+    public override void ManualReset()
     {
-        yield return new WaitForSeconds(waitTime);
-
-        SetTrigger();
-    }
-
-    void SetTrigger()
-    {
-        //activate stuff
-        for(int i = 0; i < objectsToActivate.Length; i++)
+        if (hasTriggered)
         {
-            objectsToActivate[i].SetActive(true);
+            foreach (GameObject objectToDeactivate in objectsToDeactivate)
+            {
+                if (objectToDeactivate != null)
+                {
+                    objectToDeactivate.SetActive(true);
+                }
+            }
+
+            foreach (GameObject objectToActivate in objectsToActivate)
+            {
+                if (objectToActivate != null)
+                {
+                    objectToActivate.SetActive(false);
+                }
+            }
         }
 
-        //deactivate stuff
-        for (int i = 0; i < objectsToDeactivate.Length; i++)
-        {
-            objectsToDeactivate[i].SetActive(false);
-        }
-
-        hasTriggered = true;
+        base.ManualReset();
     }
 }
