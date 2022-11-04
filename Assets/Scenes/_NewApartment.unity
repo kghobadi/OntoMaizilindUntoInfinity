@@ -428,10 +428,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasTriggered: 0
-  playerOnly: 1
-  npcOnly: 0
+  acceptedTags: []
   specificObject: 0
   specificObj: {fileID: 0}
+  waits: 0
+  waitTime: 5
+  repeats: 0
+  resetTime: 5
   events:
   - m_PersistentCalls:
       m_Calls:
@@ -512,10 +515,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  waits: 0
-  waitTime: 5
-  repeats: 0
-  resetTime: 5
 --- !u!114 &33499716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -530,9 +529,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasTriggered: 0
-  playerOnly: 1
-  waitToTrigger: 0
+  acceptedTags: []
+  specificObject: 0
+  specificObj: {fileID: 0}
+  waits: 0
   waitTime: 3
+  repeats: 0
+  resetTime: 5
   objectsToActivate:
   - {fileID: 544991632}
   - {fileID: 1739969053}
@@ -827,6 +830,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &40470497
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -968,6 +973,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &46242624
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1490,6 +1497,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &56806254
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1631,6 +1640,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &63931494
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2291,6 +2302,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &100927891
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3372,6 +3385,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b67d42dd3ac25f34eb09eca7247920d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasTriggered: 0
+  acceptedTags: []
+  specificObject: 0
+  specificObj: {fileID: 0}
+  waits: 0
+  waitTime: 5
+  repeats: 0
+  resetTime: 5
   playerTag: Human
   canActivate: 1
   autoActivate: 1
@@ -3381,6 +3402,7 @@ MonoBehaviour:
   - {fileID: 1898712204}
   - {fileID: 599653854}
   monoNumbers: 0000000000000000
+  mustBeSpeakerHost: 0
   speakerHost: {fileID: 0}
   npcMovement: {fileID: 0}
   monologuePoint: {fileID: 0}
@@ -4451,6 +4473,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &228611971
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4878,10 +4902,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasTriggered: 0
-  playerOnly: 1
-  npcOnly: 0
+  acceptedTags: []
   specificObject: 0
   specificObj: {fileID: 0}
+  waits: 0
+  waitTime: 5
+  repeats: 0
+  resetTime: 5
   events:
   - m_PersistentCalls:
       m_Calls:
@@ -4951,10 +4978,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  waits: 0
-  waitTime: 5
-  repeats: 0
-  resetTime: 5
 --- !u!65 &241754465
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9336,6 +9359,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &403168587
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10339,6 +10364,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &464170429
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10694,6 +10721,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &472790442
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10970,10 +10999,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasTriggered: 0
-  playerOnly: 0
-  npcOnly: 0
+  acceptedTags: []
   specificObject: 1
   specificObj: {fileID: 1464690832}
+  waits: 0
+  waitTime: 5
+  repeats: 0
+  resetTime: 5
   events:
   - m_PersistentCalls:
       m_Calls:
@@ -11047,10 +11079,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  waits: 0
-  waitTime: 5
-  repeats: 0
-  resetTime: 5
 --- !u!54 &480542369
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11334,10 +11362,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasTriggered: 0
-  playerOnly: 0
-  npcOnly: 1
+  acceptedTags: []
   specificObject: 0
   specificObj: {fileID: 0}
+  waits: 0
+  waitTime: 5
+  repeats: 0
+  resetTime: 5
   events:
   - m_PersistentCalls:
       m_Calls:
@@ -11407,10 +11438,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  waits: 0
-  waitTime: 5
-  repeats: 0
-  resetTime: 5
 --- !u!114 &496269915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11424,6 +11451,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b67d42dd3ac25f34eb09eca7247920d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasTriggered: 0
+  acceptedTags: []
+  specificObject: 0
+  specificObj: {fileID: 0}
+  waits: 0
+  waitTime: 5
+  repeats: 0
+  resetTime: 5
   playerTag: Human
   canActivate: 0
   autoActivate: 1
@@ -11432,6 +11467,7 @@ MonoBehaviour:
   myMonologues:
   - {fileID: 1003771893}
   monoNumbers: 08000000
+  mustBeSpeakerHost: 0
   speakerHost: {fileID: 389472690}
   npcMovement: {fileID: 389472695}
   monologuePoint: {fileID: 0}
@@ -11828,10 +11864,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasTriggered: 0
-  playerOnly: 1
-  npcOnly: 0
+  acceptedTags: []
   specificObject: 0
   specificObj: {fileID: 0}
+  waits: 0
+  waitTime: 5
+  repeats: 0
+  resetTime: 5
   events:
   - m_PersistentCalls:
       m_Calls:
@@ -11846,10 +11885,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  waits: 0
-  waitTime: 5
-  repeats: 0
-  resetTime: 5
 --- !u!114 &515655092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11862,6 +11897,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b67d42dd3ac25f34eb09eca7247920d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasTriggered: 0
+  acceptedTags: []
+  specificObject: 0
+  specificObj: {fileID: 0}
+  waits: 0
+  waitTime: 5
+  repeats: 0
+  resetTime: 5
   playerTag: Human
   canActivate: 1
   autoActivate: 1
@@ -11870,6 +11913,7 @@ MonoBehaviour:
   myMonologues:
   - {fileID: 1003771893}
   monoNumbers: 00000000
+  mustBeSpeakerHost: 0
   speakerHost: {fileID: 0}
   npcMovement: {fileID: 0}
   monologuePoint: {fileID: 0}
@@ -12164,6 +12208,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &523218272
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12338,6 +12384,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &526243182
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12748,6 +12796,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &544991638
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12982,6 +13032,98 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 100, y: 10, z: 25}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &561420405
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 561420407}
+  - component: {fileID: 561420406}
+  m_Layer: 0
+  m_Name: Point Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!108 &561420406
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561420405}
+  m_Enabled: 1
+  serializedVersion: 10
+  m_Type: 2
+  m_Shape: 0
+  m_Color: {r: 1, g: 0.98616, b: 0.8726415, a: 1}
+  m_Intensity: 4
+  m_Range: 12
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 2
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 0
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+--- !u!4 &561420407
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561420405}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 96.83, y: 122.74, z: 100.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 21
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &572702727
 GameObject:
   m_ObjectHideFlags: 0
@@ -13188,6 +13330,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &574644905
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13447,10 +13591,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasTriggered: 0
-  playerOnly: 0
-  npcOnly: 1
+  acceptedTags: []
   specificObject: 0
   specificObj: {fileID: 0}
+  waits: 0
+  waitTime: 5
+  repeats: 0
+  resetTime: 5
   events:
   - m_PersistentCalls:
       m_Calls:
@@ -13476,10 +13623,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  waits: 0
-  waitTime: 5
-  repeats: 0
-  resetTime: 5
 --- !u!114 &586921981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13493,6 +13636,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b67d42dd3ac25f34eb09eca7247920d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasTriggered: 0
+  acceptedTags: []
+  specificObject: 0
+  specificObj: {fileID: 0}
+  waits: 0
+  waitTime: 5
+  repeats: 0
+  resetTime: 5
   playerTag: Human
   canActivate: 0
   autoActivate: 1
@@ -13501,6 +13652,7 @@ MonoBehaviour:
   myMonologues:
   - {fileID: 248959503}
   monoNumbers: 03000000
+  mustBeSpeakerHost: 0
   speakerHost: {fileID: 248959504}
   npcMovement: {fileID: 248959508}
   monologuePoint: {fileID: 0}
@@ -13793,6 +13945,7 @@ MonoBehaviour:
   enableOnStart: 0
   head: {fileID: 1809686518}
   useSubtitles: 1
+  subtitleTarget: {fileID: 0}
   mySubtitle: {fileID: 0}
   subSizeMult: 1
   centerOffScreenSub: 0
@@ -14437,6 +14590,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &636229254
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15253,6 +15408,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &673980830
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16306,6 +16463,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &728058548
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16544,6 +16703,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &737111561
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16665,6 +16826,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &739516576
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17075,9 +17238,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasTriggered: 0
-  playerOnly: 1
-  waitToTrigger: 0
+  acceptedTags: []
+  specificObject: 0
+  specificObj: {fileID: 0}
+  waits: 0
   waitTime: 5
+  repeats: 0
+  resetTime: 5
   objectsToActivate:
   - {fileID: 0}
   - {fileID: 0}
@@ -19076,9 +19243,11 @@ MonoBehaviour:
   fadeSpeed: 1
   fadeInAmount: 0.5
   fadeOutAmount: 0
-  switchingSound: 0
+  nextAction: 0
   trackList: []
   trackCounter: 0
+  fadeOnSceneChange: 0
+  sceneName: 
 --- !u!1 &838588208
 GameObject:
   m_ObjectHideFlags: 0
@@ -19771,6 +19940,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &877450337
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21982,6 +22153,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &954993255
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22108,10 +22281,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasTriggered: 0
-  playerOnly: 1
-  npcOnly: 0
+  acceptedTags: []
   specificObject: 0
   specificObj: {fileID: 0}
+  waits: 0
+  waitTime: 5
+  repeats: 0
+  resetTime: 5
   events:
   - m_PersistentCalls:
       m_Calls:
@@ -22192,10 +22368,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  waits: 0
-  waitTime: 5
-  repeats: 0
-  resetTime: 5
 --- !u!65 &962667511
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22365,6 +22537,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &967010923
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22922,6 +23096,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &993487427
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23266,6 +23442,7 @@ MonoBehaviour:
   enableOnStart: 0
   head: {fileID: 1255119964}
   useSubtitles: 1
+  subtitleTarget: {fileID: 0}
   mySubtitle: {fileID: 0}
   subSizeMult: 1
   centerOffScreenSub: 0
@@ -23451,6 +23628,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &1011496695
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24409,6 +24588,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &1040370348
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24787,6 +24968,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &1063297895
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25433,9 +25616,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasTriggered: 0
-  playerOnly: 1
-  waitToTrigger: 0
+  acceptedTags: []
+  specificObject: 0
+  specificObj: {fileID: 0}
+  waits: 0
   waitTime: 5
+  repeats: 0
+  resetTime: 5
   objectsToActivate:
   - {fileID: 0}
   objectsToDeactivate: []
@@ -26193,6 +26380,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &1135436572
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27543,6 +27732,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &1177869869
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28306,6 +28497,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &1198032740
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29101,6 +29294,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &1225056413
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29148,6 +29343,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b67d42dd3ac25f34eb09eca7247920d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasTriggered: 0
+  acceptedTags: []
+  specificObject: 0
+  specificObj: {fileID: 0}
+  waits: 0
+  waitTime: 5
+  repeats: 0
+  resetTime: 5
   playerTag: Human
   canActivate: 1
   autoActivate: 1
@@ -29156,6 +29359,7 @@ MonoBehaviour:
   myMonologues:
   - {fileID: 599653854}
   monoNumbers: 01000000
+  mustBeSpeakerHost: 0
   speakerHost: {fileID: 0}
   npcMovement: {fileID: 0}
   monologuePoint: {fileID: 0}
@@ -29412,6 +29616,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &1237402837
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30253,6 +30459,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &1250060654
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32409,6 +32617,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &1329222326
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33491,10 +33701,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasTriggered: 0
-  playerOnly: 0
-  npcOnly: 1
+  acceptedTags: []
   specificObject: 0
   specificObj: {fileID: 0}
+  waits: 0
+  waitTime: 5
+  repeats: 0
+  resetTime: 5
   events:
   - m_PersistentCalls:
       m_Calls:
@@ -33553,10 +33766,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  waits: 0
-  waitTime: 5
-  repeats: 0
-  resetTime: 5
 --- !u!114 &1413415827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33571,9 +33780,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasTriggered: 0
-  playerOnly: 0
-  waitToTrigger: 0
+  acceptedTags: []
+  specificObject: 0
+  specificObj: {fileID: 0}
+  waits: 0
   waitTime: 5
+  repeats: 0
+  resetTime: 5
   objectsToActivate: []
   objectsToDeactivate:
   - {fileID: 389472690}
@@ -34619,6 +34832,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &1459805244
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35569,6 +35784,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &1480040569
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36075,10 +36292,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasTriggered: 0
-  playerOnly: 1
-  npcOnly: 0
+  acceptedTags: []
   specificObject: 0
   specificObj: {fileID: 0}
+  waits: 0
+  waitTime: 0
+  repeats: 0
+  resetTime: 5
   events:
   - m_PersistentCalls:
       m_Calls:
@@ -36093,10 +36313,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  waits: 0
-  waitTime: 0
-  repeats: 0
-  resetTime: 5
 --- !u!54 &1508461383
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -36841,10 +37057,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasTriggered: 0
-  playerOnly: 1
-  npcOnly: 0
+  acceptedTags: []
   specificObject: 0
   specificObj: {fileID: 0}
+  waits: 1
+  waitTime: 17
+  repeats: 0
+  resetTime: 5
   events:
   - m_PersistentCalls:
       m_Calls:
@@ -36860,10 +37079,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  waits: 1
-  waitTime: 17
-  repeats: 0
-  resetTime: 5
 --- !u!54 &1558421054
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -37787,9 +38002,11 @@ MonoBehaviour:
   fadeSpeed: 0.25
   fadeInAmount: 1
   fadeOutAmount: 0
-  switchingSound: 0
+  nextAction: 0
   trackList: []
   trackCounter: 0
+  fadeOnSceneChange: 0
+  sceneName: 
 --- !u!114 &1607274118 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114269189805515106, guid: 81efc98043bfd554dada31cec897792c,
@@ -39629,6 +39846,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &1682829784
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -39795,10 +40014,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasTriggered: 0
-  playerOnly: 1
-  npcOnly: 0
+  acceptedTags: []
   specificObject: 0
   specificObj: {fileID: 0}
+  waits: 0
+  waitTime: 5
+  repeats: 0
+  resetTime: 5
   events:
   - m_PersistentCalls:
       m_Calls:
@@ -39824,10 +40046,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  waits: 0
-  waitTime: 5
-  repeats: 0
-  resetTime: 5
 --- !u!54 &1685189228
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -40856,6 +41074,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &1739969059
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -40977,6 +41197,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &1746056546
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41698,6 +41920,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &1802547059
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -42441,6 +42665,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &1822882412
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -42661,6 +42887,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &1827688651
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -43538,6 +43766,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &1894218374
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -45870,9 +46100,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasTriggered: 0
-  playerOnly: 1
-  waitToTrigger: 0
+  acceptedTags: []
+  specificObject: 0
+  specificObj: {fileID: 0}
+  waits: 0
   waitTime: 5
+  repeats: 0
+  resetTime: 5
   objectsToActivate: []
   objectsToDeactivate:
   - {fileID: 2055918559}
@@ -45889,6 +46123,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b67d42dd3ac25f34eb09eca7247920d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasTriggered: 0
+  acceptedTags: []
+  specificObject: 0
+  specificObj: {fileID: 0}
+  waits: 0
+  waitTime: 5
+  repeats: 0
+  resetTime: 5
   playerTag: Human
   canActivate: 1
   autoActivate: 1
@@ -45897,6 +46139,7 @@ MonoBehaviour:
   myMonologues:
   - {fileID: 248959503}
   monoNumbers: 00000000
+  mustBeSpeakerHost: 0
   speakerHost: {fileID: 248959504}
   npcMovement: {fileID: 0}
   monologuePoint: {fileID: 0}
@@ -47053,6 +47296,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &2022495722
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -47270,6 +47515,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &2042522942
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -47424,6 +47671,8 @@ MonoBehaviour:
   fallSpeed: 3
   explosionPrefab: {fileID: 0}
   smokePrefab: {fileID: 0}
+  pilot: Ramins Takeoff
+  nuclearity: Nuclearity
 --- !u!65 &2045376752
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -49875,6 +50124,76 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 243689532524220919, guid: b133e9e836fbec64996dae63feee8d90,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: aba41eca4e79c6442b1824d25527697f, type: 2}
+    - target: {fileID: 1000905017968563331, guid: b133e9e836fbec64996dae63feee8d90,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2fa4bace3cd7c7d428b28f7fcbc293de, type: 2}
+    - target: {fileID: 1223576206151385323, guid: b133e9e836fbec64996dae63feee8d90,
+        type: 3}
+      propertyPath: m_Materials.Array.data[4]
+      value: 
+      objectReference: {fileID: 2100000, guid: 539ab6289acada441bc1b5f8ce36e3a4, type: 2}
+    - target: {fileID: 1223576206151385323, guid: b133e9e836fbec64996dae63feee8d90,
+        type: 3}
+      propertyPath: m_Materials.Array.data[5]
+      value: 
+      objectReference: {fileID: 2100000, guid: f079246b60362de4fbc1b4de3d020174, type: 2}
+    - target: {fileID: 1223576206151385323, guid: b133e9e836fbec64996dae63feee8d90,
+        type: 3}
+      propertyPath: m_Materials.Array.data[6]
+      value: 
+      objectReference: {fileID: 2100000, guid: f079246b60362de4fbc1b4de3d020174, type: 2}
+    - target: {fileID: 2376920432476422955, guid: b133e9e836fbec64996dae63feee8d90,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b01e11276e151dc439d4d6cc568d5c3c, type: 2}
+    - target: {fileID: 2648739566646510313, guid: b133e9e836fbec64996dae63feee8d90,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9e03df48094e90c48a47a946475dacdf, type: 2}
+    - target: {fileID: 3337068596556933759, guid: b133e9e836fbec64996dae63feee8d90,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c4be391b6d4b7054c9286b47873c88ea, type: 2}
+    - target: {fileID: 3337068596556933759, guid: b133e9e836fbec64996dae63feee8d90,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9e03df48094e90c48a47a946475dacdf, type: 2}
+    - target: {fileID: 3337068596556933759, guid: b133e9e836fbec64996dae63feee8d90,
+        type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9e03df48094e90c48a47a946475dacdf, type: 2}
+    - target: {fileID: 3337068596556933759, guid: b133e9e836fbec64996dae63feee8d90,
+        type: 3}
+      propertyPath: m_Materials.Array.data[3]
+      value: 
+      objectReference: {fileID: 2100000, guid: c4be391b6d4b7054c9286b47873c88ea, type: 2}
+    - target: {fileID: 5423207167482365379, guid: b133e9e836fbec64996dae63feee8d90,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: aba41eca4e79c6442b1824d25527697f, type: 2}
+    - target: {fileID: 6907128530595038858, guid: b133e9e836fbec64996dae63feee8d90,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2fa4bace3cd7c7d428b28f7fcbc293de, type: 2}
+    - target: {fileID: 7677336060718749486, guid: b133e9e836fbec64996dae63feee8d90,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9cadbf5128c909c4ba24ea2ef3335dba, type: 2}
     - target: {fileID: 7677336062364940952, guid: b133e9e836fbec64996dae63feee8d90,
         type: 3}
       propertyPath: m_Name
@@ -49935,5 +50254,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8331917150459945312, guid: b133e9e836fbec64996dae63feee8d90,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9e03df48094e90c48a47a946475dacdf, type: 2}
+    - target: {fileID: 8477744478155446639, guid: b133e9e836fbec64996dae63feee8d90,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9e03df48094e90c48a47a946475dacdf, type: 2}
+    - target: {fileID: 8477744478155446639, guid: b133e9e836fbec64996dae63feee8d90,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7272f9a44e35de5458444fc0253ac7bc, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b133e9e836fbec64996dae63feee8d90, type: 3}
