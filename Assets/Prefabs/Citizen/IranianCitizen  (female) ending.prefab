@@ -1303,11 +1303,11 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 0.48235294}
-        key1: {r: 1, g: 1, b: 1, a: 0.83137256}
-        key2: {r: 0, g: 0, b: 0, a: 0.7764706}
-        key3: {r: 0, g: 0, b: 0, a: 1}
-        key4: {r: 0, g: 0, b: 0, a: 0}
+        key0: {r: 1, g: 1, b: 1, a: 0}
+        key1: {r: 1, g: 1, b: 1, a: 0.13725491}
+        key2: {r: 0, g: 0, b: 0, a: 0.13725491}
+        key3: {r: 0, g: 0, b: 0, a: 0.20784314}
+        key4: {r: 0, g: 0, b: 0, a: 0.20784314}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
@@ -1320,16 +1320,16 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 30840
-        atime2: 65535
+        atime1: 9445
+        atime2: 54548
         atime3: 65535
-        atime4: 0
+        atime4: 65535
         atime5: 0
         atime6: 0
         atime7: 0
         m_Mode: 0
         m_NumColorKeys: 2
-        m_NumAlphaKeys: 3
+        m_NumAlphaKeys: 4
       minGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4710,7 +4710,7 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5463,6 +5463,7 @@ MonoBehaviour:
   moveManager: {fileID: 0}
   cineManager: {fileID: 0}
   wmManager: {fileID: 0}
+  isMan: 0
   npcState: 0
   npcLayer:
     serializedVersion: 2
@@ -5560,6 +5561,7 @@ MonoBehaviour:
   manualSetSprites: 1
   animateFaceToSound: 1
   faceShiftEnding: 0
+  faceShiftTimer: 0.35
   playWalkingSounds: 0
   walkingSounds: []
   walkStepTime: 0.35
@@ -5608,6 +5610,7 @@ MonoBehaviour:
   enableOnStart: 0
   head: {fileID: 0}
   useSubtitles: 0
+  subtitleTarget: {fileID: 0}
   mySubtitle: {fileID: 0}
   subSizeMult: 1
   centerOffScreenSub: 0
