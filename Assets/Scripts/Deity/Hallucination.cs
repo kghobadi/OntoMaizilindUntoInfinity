@@ -157,11 +157,6 @@ public class Hallucination : MonoBehaviour
 			renderCam.transform.localPosition = camLocalPos;
 			//enable camera movement
 			camMover.GetRefs();
-			//disable pilot cam 
-			if (pilotCam)
-			{
-				pilotCam.isActive = false;
-			}
 		}
 		
 		//set camera TODO may need more ways to orient camera at the beginning
@@ -189,11 +184,6 @@ public class Hallucination : MonoBehaviour
 			renderCam.transform.SetParent(null);
 			//disable camera movement
 			camMover.canControl = false;
-			//enable pilot cam 
-			if (pilotCam)
-			{
-				pilotCam.isActive = true;
-			}
 		}
 		
 		//disable hallucination objects
