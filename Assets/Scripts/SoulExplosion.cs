@@ -21,6 +21,8 @@ public class SoulExplosion : MonoBehaviour
 
     public AudioSource music;
 
+    public Orbit trainOrbit;
+
     private void Start()
     {
         sphereExplosions = GetComponentsInChildren<LerpScale>();
@@ -49,7 +51,7 @@ public class SoulExplosion : MonoBehaviour
 
         allTrainsFull = true;
 
-        if (playerEntered)
+        if (playerEntered && !soulsExploded)
         {
             BeginSoulExplosion();
         }

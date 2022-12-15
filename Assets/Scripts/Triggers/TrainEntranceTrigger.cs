@@ -7,6 +7,7 @@ using UnityEngine;
 public class TrainEntranceTrigger : TriggerBase
 {
     private SoulExplosion soulExplosion;
+    public Transform mainTrainTransform;
     
     [Header("Train Entrance Settings")]
     public Transform[] seats;

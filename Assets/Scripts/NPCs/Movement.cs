@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 namespace NPC
 {
@@ -61,6 +63,14 @@ namespace NPC
         public enum IdleType
         {
             STANDING, SITTING, PRAYING, DEAD,
+        }
+
+        private Action onIdleAction;
+
+        public Action OnIdleAction
+        {
+            get => onIdleAction;
+            set => onIdleAction = value;
         }
         
         public RunType runType;
@@ -309,6 +319,12 @@ namespace NPC
             CheckIdleType();
             npcAnimations.SetAnimator("idle");
             controller.npcState = Controller.NPCStates.IDLE;
+            //play idle action and nullify 
+            if (onIdleAction != null)
+            {
+                onIdleAction.Invoke();
+                onIdleAction = null;
+            }
         }
 
         //switch idle type in animator!

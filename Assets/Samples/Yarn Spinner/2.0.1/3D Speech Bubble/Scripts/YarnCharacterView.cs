@@ -143,29 +143,26 @@ namespace Yarn.Unity.Example
         void Update()
         {
             // this all in Update instead of RunLine because characters might walk around or move during the dialogue
-            if (dialogueBubbleRect.gameObject.activeInHierarchy)
+            if (useWorldPos)
             {
-                if (useWorldPos)
+                if (speakerCharacter != null) 
                 {
-                    if (speakerCharacter != null) 
-                    {
-                        dialogueBubbleRect.anchoredPosition = WorldToAnchoredPosition(dialogueBubbleRect, speakerCharacter.positionWithOffset, bubbleMargin);
-                    } 
-                    else 
-                    {   // if no speaker defined, then display speech above playerCharacter as a default
-                        dialogueBubbleRect.anchoredPosition = WorldToAnchoredPosition(dialogueBubbleRect, playerCharacter.positionWithOffset, bubbleMargin);
-                    }
+                    dialogueBubbleRect.anchoredPosition = WorldToAnchoredPosition(dialogueBubbleRect, speakerCharacter.positionWithOffset, bubbleMargin);
+                } 
+                else 
+                {   // if no speaker defined, then display speech above playerCharacter as a default
+                    dialogueBubbleRect.anchoredPosition = WorldToAnchoredPosition(dialogueBubbleRect, playerCharacter.positionWithOffset, bubbleMargin);
                 }
-                else
+            }
+            else
+            {
+                if (speakerCharacter != null)
                 {
-                    if (speakerCharacter != null)
-                    {
-                        dialogueBubbleRect.anchoredPosition = speakerCharacter.anchoredUiPos;
-                    } 
-                    else 
-                    {   // if no speaker defined, then display speech above playerCharacter as a default
-                        dialogueBubbleRect.anchoredPosition = playerCharacter.anchoredUiPos;
-                    }
+                    dialogueBubbleRect.anchoredPosition = speakerCharacter.anchoredUiPos;
+                } 
+                else 
+                {   // if no speaker defined, then display speech above playerCharacter as a default
+                    dialogueBubbleRect.anchoredPosition = playerCharacter.anchoredUiPos;
                 }
             }
 
