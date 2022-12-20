@@ -8,6 +8,7 @@ public class Television : MonoBehaviour {
     VideoPlayer vidPlayer; 
     CameraSwitcher camSwitcher;
     PauseMenu pauseMenu;
+    private MeshRenderer screenRender;
 
     public bool debug;
 
@@ -55,10 +56,11 @@ public class Television : MonoBehaviour {
     {
         vidPlayer = GetComponent<VideoPlayer>();
         tvSource = GetComponent<AudioSource>();
+        screenRender = GetComponent<MeshRenderer>();
         radioSource = radio.GetComponent<AudioSource>();
         camSwitcher = FindObjectOfType<CameraSwitcher>();
         pauseMenu = FindObjectOfType<PauseMenu>();
-        origMat = vidPlayer.targetMaterialRenderer.material;
+        origMat = screenRender.material;
 	}
 
     void Start()
@@ -90,7 +92,7 @@ public class Television : MonoBehaviour {
             if (vidPlayer.isPrepared && vidPlayer.isPlaying == false && waitingForStatic && pauseMenu.paused == false)
             {
                 //set mat to playable and play 
-                vidPlayer.targetMaterialRenderer.material = origMat;
+                screenRender.material = origMat;
                 vidPlayer.Play();
                 //play radio and enable monologue at the same time 
                 radioSource.Play();
@@ -124,7 +126,7 @@ public class Television : MonoBehaviour {
             if (vidPlayer.isPrepared && vidPlayer.isPlaying == false && pauseMenu.paused == false)
             {
                 //set mat to playable and play 
-                vidPlayer.targetMaterialRenderer.material = origMat;
+                screenRender.material = origMat;
                 vidPlayer.Play();
                 //set to previous last frame 
                 if(channelLastFrames[currentClip] > 0)
@@ -157,7 +159,7 @@ public class Television : MonoBehaviour {
     public void SetVideoPlayer(VideoClip clip)
     {
         vidPlayer.Stop();
-        vidPlayer.targetMaterialRenderer.material = staticEffect;
+        screenRender.material = staticEffect;
         vidPlayer.clip = clip;
         vidPlayer.Prepare();
     }
@@ -247,7 +249,7 @@ public class Television : MonoBehaviour {
     void EndSpeech()
     {
         vidPlayer.Stop();
-        vidPlayer.targetMaterialRenderer.material = staticEffect;
+        screenRender.material = staticEffect;
         //planes.SetActive(true);
         sirens.SetActive(true);
         //music.Play();
