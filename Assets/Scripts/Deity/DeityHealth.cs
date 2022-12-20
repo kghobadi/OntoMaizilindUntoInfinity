@@ -70,6 +70,7 @@ public class DeityHealth : MonoBehaviour {
         //spawn splosion
         GameObject splosion = splosionPooler.GrabObject();
         splosion.transform.position = bull.transform.position;
+        splosion.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
         //particle system
         ParticleSystem sParticles = splosion.GetComponent<ParticleSystem>();
         sParticles.Play();
