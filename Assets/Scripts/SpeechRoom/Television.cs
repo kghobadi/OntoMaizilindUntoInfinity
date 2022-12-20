@@ -5,7 +5,7 @@ using UnityEngine.Video;
 using UnityEngine.Audio;
 
 public class Television : MonoBehaviour {
-    VideoPlayer vidPlayer;
+    VideoPlayer vidPlayer; 
     CameraSwitcher camSwitcher;
     PauseMenu pauseMenu;
 
@@ -69,8 +69,10 @@ public class Television : MonoBehaviour {
         if (!debug)
         {
             transform.parent.gameObject.SetActive(false);
-            stairwell.SetActive(false);
-            corridor.SetActive(false);
+            if(stairwell)
+                stairwell.SetActive(false);
+            if(corridor)
+                corridor.SetActive(false);
         }
         //debug scene -- start the tv at beginning
         else
@@ -231,9 +233,12 @@ public class Television : MonoBehaviour {
 
         //enable front door, disable back building, enable corridor and stairwell
         frontDoorCollider.enabled = true;
-        backBuilding.SetActive(false);
-        stairwell.SetActive(true);
-        corridor.SetActive(true);
+        if(backBuilding)
+            backBuilding.SetActive(false);
+        if(stairwell)
+            stairwell.SetActive(true);
+        if(corridor)
+            corridor.SetActive(true);
 
         speechStarted = true;
     }
