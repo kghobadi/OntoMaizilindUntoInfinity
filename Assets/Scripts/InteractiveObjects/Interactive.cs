@@ -205,50 +205,23 @@ public class Interactive : AudioHandler
 
 	void OnInteractInput()
 	{
-		//null check on interact obj
-		if (InteractRaycaster.Instance.currentInteractObject != gameObject)
+		//must be the interact obj
+		if (InteractRaycaster.Instance.currentInteractObject == gameObject)
 		{
-			return;
-		}
-		
-		//only interact if this obj is active :)
-		if (active)
-		{
-			Interact();
-
-			//if we have click UI, disable it and fade out permanently 
-			if (clickerUI)
+			//only interact if this obj is active :)
+			if (active)
 			{
-				clickerUI.keepActive = false;
-				clickerUI.FadeOut();
-			}
+				Interact();
+
+				//if we have click UI, disable it and fade out permanently 
+				if (clickerUI)
+				{
+					clickerUI.keepActive = false;
+					clickerUI.FadeOut();
+				}
 				
-			hasClicked = true;
+				hasClicked = true;
+			}
 		}
 	}
-
-	#region Mouse Input
-	/*void OnMouseEnter()
-	{
-		CheckActive();
-	}
-	
-	//for distance check
-	void OnMouseOver()
-	{
-		CheckActive();
-	}
-	
-	void OnMouseDown()
-	{
-		OnInteractInput(gameObject);
-	}
-	
-	void OnMouseExit()
-	{
-		SetInactive();
-	}*/
-	#endregion
-	
-
 }

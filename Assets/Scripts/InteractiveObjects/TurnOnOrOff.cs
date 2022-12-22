@@ -16,16 +16,32 @@ public class TurnOnOrOff : Interactive
 	//sounds
 	public AudioSource[] audioSources;
 	public MusicFader[] musicFaders;
+	[Tooltip("These particles will play while the object is set to on state.")]
+	[SerializeField] 
+	private ParticleSystem[] onFx;
+
+	public override void Awake()
+	{
+		base.Awake();
+
+		onFx = GetComponentsInChildren<ParticleSystem>();
+
+		if (isOn)
+		{
+			//play on fx particles
+			foreach (var fx in onFx)
+			{
+				fx.Play();
+			}
+		}
+	}
 
 	protected override void Interact()
 	{
 		//on -- turn off
 		if (isOn)
 		{
-			for (int i = 0; i < objects.Length; i++)
-			{
-				objects[i].SetActive(false);
-			}
+			TurnOff();
 			
 			//play the sound!
 			if(offSound)
@@ -36,44 +52,79 @@ public class TurnOnOrOff : Interactive
 				if(interactSound)
 					_cameraSwitcher.objViewer.PlaySound(interactSound, 1f);
 			}
-
-			for (int i = 0; i < audioSources.Length; i++)
-			{
-				audioSources[i].Stop();
-			}
-			
-			for (int i = 0; i < musicFaders.Length; i++)
-			{
-				musicFaders[i].FadeOut(0f, musicFaders[i].fadeSpeed);
-			}
-			
-			
 		}
 		//off -- turn on
 		else
 		{
-			for (int i = 0; i < objects.Length; i++)
-			{
-				objects[i].SetActive(true);
-			}
+			TurnOn();
 			
 			//play the sound!
 			if(interactSound)
 				_cameraSwitcher.objViewer.PlaySound(interactSound, 1f);
-			
-			for (int i = 0; i < audioSources.Length; i++)
-			{
-				audioSources[i].Play();
-			}
-			
-			for (int i = 0; i < musicFaders.Length; i++)
-			{
-				musicFaders[i].SetSound(musicFaders[i].musicTrack);
-				musicFaders[i].FadeIn(1f, musicFaders[i].fadeSpeed);
-			}
 		}
 		
 		//switch bool
 		isOn = !isOn;
+	}
+
+	/// <summary>
+	/// Change this object to its on state. 
+	/// </summary>
+	void TurnOn()
+	{
+		//enable any objects
+		foreach (var obj in objects)
+		{
+			obj.SetActive(true);
+		}
+			
+		//play on fx particles
+		foreach (var fx in onFx)
+		{
+			fx.Play();
+		}
+		
+		//play any audio sources
+		foreach (var audioSource in audioSources)
+		{
+			audioSource.Play();
+		}
+			
+		//set and fade in all music faders 
+		foreach (var musicFader in musicFaders)
+		{
+			musicFader.SetSound(musicFader.musicTrack);
+			musicFader.FadeIn(1f, musicFader.fadeSpeed);
+		}
+	}
+
+	/// <summary>
+	/// Change this object to its off state. 
+	/// </summary>
+	void TurnOff()
+	{
+		//disable any objects
+		foreach (var obj in objects)
+		{
+			obj.SetActive(false);
+		}
+
+		//stop on fx particles
+		foreach (var fx in onFx)
+		{
+			fx.Stop();
+		}
+		
+		//stop the audio source
+		foreach (var audioSource in audioSources)
+		{
+			audioSource.Stop();
+		}
+			
+		//fade out all music faders
+		foreach (var musicFader in musicFaders)
+		{
+			musicFader.FadeOut(0f, musicFader.fadeSpeed);
+		}
 	}
 }
