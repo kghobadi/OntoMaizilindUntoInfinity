@@ -70,7 +70,7 @@ public class TurnOnOrOff : Interactive
 	/// <summary>
 	/// Change this object to its on state. 
 	/// </summary>
-	void TurnOn()
+	public void TurnOn()
 	{
 		//enable any objects
 		foreach (var obj in objects)
@@ -101,7 +101,7 @@ public class TurnOnOrOff : Interactive
 	/// <summary>
 	/// Change this object to its off state. 
 	/// </summary>
-	void TurnOff()
+	public void TurnOff()
 	{
 		//disable any objects
 		foreach (var obj in objects)
