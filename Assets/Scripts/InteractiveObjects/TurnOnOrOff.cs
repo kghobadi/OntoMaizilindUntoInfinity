@@ -62,9 +62,6 @@ public class TurnOnOrOff : Interactive
 			if(interactSound)
 				_cameraSwitcher.objViewer.PlaySound(interactSound, 1f);
 		}
-		
-		//switch bool
-		isOn = !isOn;
 	}
 
 	/// <summary>
@@ -96,6 +93,9 @@ public class TurnOnOrOff : Interactive
 			musicFader.SetSound(musicFader.musicTrack);
 			musicFader.FadeIn(1f, musicFader.fadeSpeed);
 		}
+
+		//set on
+		isOn = true;
 	}
 
 	/// <summary>
@@ -126,5 +126,8 @@ public class TurnOnOrOff : Interactive
 		{
 			musicFader.FadeOut(0f, musicFader.fadeSpeed);
 		}
+		
+		//set off
+		isOn = false;
 	}
 }

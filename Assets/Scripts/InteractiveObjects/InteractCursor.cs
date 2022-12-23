@@ -20,6 +20,7 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 	private RectTransform m_rectTransform;
 	private Image imageHolder;
 	private TMP_Text interactText;
+	private ObjectViewer objectViewer;
 	public bool active;
 
 	protected override void OnAwake()
@@ -44,6 +45,7 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 		m_rectTransform = GetComponent<RectTransform>();
 		imageHolder = GetComponent<Image>();
 		interactText = GetComponentInChildren<TMP_Text>();
+		objectViewer = FindObjectOfType<ObjectViewer>();
 
 		init = true;
 	}
@@ -69,29 +71,32 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 	{
 		Init();
 
-		//do we have a unique interact sprite?
-		if (newSprite != null)
+		if (!objectViewer.viewing)
 		{
-			imageHolder.sprite = newSprite;
-		}
+			//do we have a unique interact sprite?
+			if (newSprite != null)
+			{
+				imageHolder.sprite = newSprite;
+			}
 
-		//do we have a message?
-		if (string.IsNullOrEmpty(message) == false)
-		{
-			interactText.text = message;
-			interactText.enabled = true;
-		}
-		//no message, text disabled
-		else
-		{
-			interactText.enabled = false;
-		}
+			//do we have a message?
+			if (string.IsNullOrEmpty(message) == false)
+			{
+				interactText.text = message;
+				interactText.enabled = true;
+			}
+			//no message, text disabled
+			else
+			{
+				interactText.enabled = false;
+			}
 			
-		imageHolder.enabled = true;
-		active = true;
+			imageHolder.enabled = true;
+			active = true;
 		
-		//can pass in world pos for assign pos from the Interactive obj
-		//RenderExtensions.AdjustScreenPosition(worldPosition);
+			//can pass in world pos for assign pos from the Interactive obj
+			//RenderExtensions.AdjustScreenPosition(worldPosition);
+		}
 	}
 	
 	public void Deactivate()

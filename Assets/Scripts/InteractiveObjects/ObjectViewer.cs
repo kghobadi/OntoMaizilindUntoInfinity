@@ -107,6 +107,9 @@ public class ObjectViewer : AudioHandler
 			viewObjectSetup[i].SetActive(true);
 		}
 		
+		//disable Interact cursor
+		InteractCursor.Instance.Deactivate();
+		
 		viewing = true;
 	}
 
