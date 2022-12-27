@@ -2279,10 +2279,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasTriggered: 0
-  playerOnly: 0
-  npcOnly: 0
+  acceptedTags: []
   specificObject: 1
   specificObj: {fileID: 2088938826}
+  waits: 0
+  waitTime: 5
+  repeats: 0
+  resetTime: 5
   events:
   - m_PersistentCalls:
       m_Calls:
@@ -2297,10 +2300,6 @@ MonoBehaviour:
           m_StringArgument: RaminFinalDialogue
           m_BoolArgument: 1
         m_CallState: 2
-  waits: 0
-  waitTime: 5
-  repeats: 0
-  resetTime: 5
 --- !u!54 &446545372
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3106,6 +3105,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2511174997614320001, guid: d267dfedba088474aa024311940ea5c5,
+        type: 3}
+      propertyPath: maxX
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2511174997614320001, guid: d267dfedba088474aa024311940ea5c5,
+        type: 3}
+      propertyPath: maxY
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2511174997614320001, guid: d267dfedba088474aa024311940ea5c5,
+        type: 3}
+      propertyPath: minX
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2511174997614320001, guid: d267dfedba088474aa024311940ea5c5,
+        type: 3}
+      propertyPath: minY
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2511174997614320001, guid: d267dfedba088474aa024311940ea5c5,
+        type: 3}
+      propertyPath: clamps
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2511174997614320030, guid: d267dfedba088474aa024311940ea5c5,
         type: 3}
@@ -4374,22 +4398,8 @@ MonoBehaviour:
   debug: 0
   speedUp: 25
   checkpoints:
-  - {fileID: 11400000, guid: d30aae0f1aca8774d977da9d52df5b0e, type: 2}
   - {fileID: 11400000, guid: cc630fcfbcec4fa4999b1aa989d1a311, type: 2}
   events:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1605485587}
-        m_MethodName: FadeToPause
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 425266904}
@@ -4434,9 +4444,9 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0.79
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
-  beginOnStart: 1
+  beginOnStart: 0
   timelineStart: 0
   timing: 0
   gameTime: 0
@@ -5951,12 +5961,12 @@ PrefabInstance:
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 3}
       propertyPath: _savedGUID
-      value: 3637589213
+      value: 2047887120
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 3}
       propertyPath: hash.lastHash
-      value: 166088162
+      value: -177823966
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 3}
@@ -8171,6 +8181,9 @@ MonoBehaviour:
   trackCounter: 0
   fadeOnSceneChange: 1
   sceneName: Train to the Spirit World
+  pauseClips: 1
+  pauseTimes:
+  - 50
 --- !u!1001 &1624308613
 PrefabInstance:
   m_ObjectHideFlags: 0

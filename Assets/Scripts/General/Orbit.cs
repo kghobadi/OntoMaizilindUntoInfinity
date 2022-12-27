@@ -16,6 +16,14 @@ public class Orbit : MonoBehaviour {
     public bool localOrWorld;
     Vector3 chosenAxis;
 
+    private bool accelerate;
+    private float accelerationForce;
+    private float maxSpeedAmt;
+    
+    private bool decelerate;
+    private float decelerationForce;
+    private float minSpeedAmt;
+
     public enum Axes
     {
         X, Y, Z,
@@ -42,10 +50,29 @@ public class Orbit : MonoBehaviour {
         }
     }
 
-    void Update () {
+    void Update () 
+    {
         if (orbiting)
         {
             transform.RotateAround(planetToOrbit.position, chosenAxis, orbitalSpeed * Time.deltaTime);
+        }
+
+        if (accelerate)
+        {
+            orbitalSpeed += accelerationForce * Time.deltaTime;
+            if (orbitalSpeed >= maxSpeedAmt)
+            {
+                accelerate = false;
+            }
+        }
+        
+        if (decelerate)
+        {
+            orbitalSpeed -= decelerationForce * Time.deltaTime;
+            if (orbitalSpeed <= minSpeedAmt)
+            {
+                decelerate = false;
+            }
         }
 	}
 
@@ -105,5 +132,29 @@ public class Orbit : MonoBehaviour {
                 chosenAxis = Vector3.forward;
             }
         }
+    }
+
+    /// <summary>
+    /// Allows you to accelerate orbital speed over time by acceleration force until we reach max speed. 
+    /// </summary>
+    /// <param name="acceleration"></param>
+    /// <param name="maxSpeed"></param>
+    public void Accelerate(float acceleration, float maxSpeed)
+    {
+        accelerationForce = acceleration;
+        maxSpeedAmt = maxSpeed;
+        accelerate = true;
+    }
+    
+    /// <summary>
+    /// Allows you to decelerate orbital speed over time by acceleration force until we reach max speed. 
+    /// </summary>
+    /// <param name="deceleration"></param>
+    /// <param name="maxSpeed"></param>
+    public void Decelerate(float deceleration, float minSpeed)
+    {
+        decelerationForce = deceleration;
+        minSpeedAmt = minSpeed;
+        decelerate = true;
     }
 }

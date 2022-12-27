@@ -5,9 +5,10 @@ using UnityEngine.Video;
 using UnityEngine.Audio;
 
 public class Television : MonoBehaviour {
-    VideoPlayer vidPlayer;
+    VideoPlayer vidPlayer; 
     CameraSwitcher camSwitcher;
     PauseMenu pauseMenu;
+    private MeshRenderer screenRender;
 
     public bool debug;
 
@@ -55,10 +56,11 @@ public class Television : MonoBehaviour {
     {
         vidPlayer = GetComponent<VideoPlayer>();
         tvSource = GetComponent<AudioSource>();
+        screenRender = GetComponent<MeshRenderer>();
         radioSource = radio.GetComponent<AudioSource>();
         camSwitcher = FindObjectOfType<CameraSwitcher>();
         pauseMenu = FindObjectOfType<PauseMenu>();
-        origMat = vidPlayer.targetMaterialRenderer.material;
+        origMat = screenRender.material;
 	}
 
     void Start()
@@ -69,8 +71,10 @@ public class Television : MonoBehaviour {
         if (!debug)
         {
             transform.parent.gameObject.SetActive(false);
-            stairwell.SetActive(false);
-            corridor.SetActive(false);
+            if(stairwell)
+                stairwell.SetActive(false);
+            if(corridor)
+                corridor.SetActive(false);
         }
         //debug scene -- start the tv at beginning
         else
@@ -88,7 +92,7 @@ public class Television : MonoBehaviour {
             if (vidPlayer.isPrepared && vidPlayer.isPlaying == false && waitingForStatic && pauseMenu.paused == false)
             {
                 //set mat to playable and play 
-                vidPlayer.targetMaterialRenderer.material = origMat;
+                screenRender.material = origMat;
                 vidPlayer.Play();
                 //play radio and enable monologue at the same time 
                 radioSource.Play();
@@ -122,7 +126,7 @@ public class Television : MonoBehaviour {
             if (vidPlayer.isPrepared && vidPlayer.isPlaying == false && pauseMenu.paused == false)
             {
                 //set mat to playable and play 
-                vidPlayer.targetMaterialRenderer.material = origMat;
+                screenRender.material = origMat;
                 vidPlayer.Play();
                 //set to previous last frame 
                 if(channelLastFrames[currentClip] > 0)
@@ -155,7 +159,7 @@ public class Television : MonoBehaviour {
     public void SetVideoPlayer(VideoClip clip)
     {
         vidPlayer.Stop();
-        vidPlayer.targetMaterialRenderer.material = staticEffect;
+        screenRender.material = staticEffect;
         vidPlayer.clip = clip;
         vidPlayer.Prepare();
     }
@@ -231,9 +235,12 @@ public class Television : MonoBehaviour {
 
         //enable front door, disable back building, enable corridor and stairwell
         frontDoorCollider.enabled = true;
-        backBuilding.SetActive(false);
-        stairwell.SetActive(true);
-        corridor.SetActive(true);
+        if(backBuilding)
+            backBuilding.SetActive(false);
+        if(stairwell)
+            stairwell.SetActive(true);
+        if(corridor)
+            corridor.SetActive(true);
 
         speechStarted = true;
     }
@@ -242,7 +249,7 @@ public class Television : MonoBehaviour {
     void EndSpeech()
     {
         vidPlayer.Stop();
-        vidPlayer.targetMaterialRenderer.material = staticEffect;
+        screenRender.material = staticEffect;
         //planes.SetActive(true);
         sirens.SetActive(true);
         //music.Play();

@@ -6,12 +6,22 @@ using UnityEngine;
 public class PickUpAirplane : PickUpObject
 {
     private Animator airplaneAnimator;
+    
+    private enum AirplaneStates
+    {
+        IDLE,
+        FLYING,
+        FALLING
+    }
+
     [Header("Airplane Settings")] 
-    public TrailRenderer[] airplaneTrails;
-    public bool flying;
-    public float throwMultiplier = 5f;
-    public float flySpeed;
-    public float maxVelocityZ;
+    [SerializeField] private AirplaneStates airplaneState;
+    [SerializeField] private float throwMultiplier = 5f;
+    [SerializeField] private float flySpeed;
+    [SerializeField] private float maxVelocityZ;
+    [SerializeField] private float fallSpeed = 5f;
+    [SerializeField] private float maxVelocityY = 8f;
+    [SerializeField] private TrailRenderer[] airplaneTrails;
 
     protected override void Start()
     {
@@ -21,7 +31,18 @@ public class PickUpAirplane : PickUpObject
         airplaneAnimator = GetComponent<Animator>();
         
         //make sure not flying
-        DisableFlying();
+        DisableFlying(true);
+        
+        //start in Idle 
+        SetIdle();
+    }
+
+    public override void HoldItem()
+    {
+        //ensure idle while holding 
+        SetIdle();
+        
+        base.HoldItem();
     }
 
     /// <summary>
@@ -43,18 +64,35 @@ public class PickUpAirplane : PickUpObject
 
     private void FixedUpdate()
     {
-        if (flying)
+        //Flying state
+        if (airplaneState == AirplaneStates.FLYING)
         {
             //forward force over time.
             if (Mathf.Abs(_rigidbody.velocity.z) < maxVelocityZ)
             {
                 _rigidbody.AddRelativeForce(0, 0, flySpeed );
             }
-            //artificially restrict player's velocity when it exceeds max
+            //artificially restrict plane's velocity when it exceeds max
             else
             {
                 //velocity limit
                 Vector3 properVel = new Vector3(_rigidbody.velocity.x, _rigidbody.velocity.y, maxVelocityZ);
+                _rigidbody.velocity = Vector3.MoveTowards(_rigidbody.velocity, properVel, 50 * Time.deltaTime);
+            }
+        }
+        //Falling state
+        else if (airplaneState == AirplaneStates.FALLING)
+        {
+            //downward force over time.
+            if (Mathf.Abs(_rigidbody.velocity.y) < maxVelocityY)
+            {
+                _rigidbody.AddForce(0, -fallSpeed,  0f);
+            }
+            //artificially restrict plane's velocity when it exceeds max
+            else
+            {
+                //velocity limit
+                Vector3 properVel = new Vector3(_rigidbody.velocity.x, maxVelocityY, _rigidbody.velocity.z);
                 _rigidbody.velocity = Vector3.MoveTowards(_rigidbody.velocity, properVel, 50 * Time.deltaTime);
             }
         }
@@ -68,23 +106,38 @@ public class PickUpAirplane : PickUpObject
         }
 
         airplaneAnimator.speed = 5;
-        flying = true;
+
+        airplaneState = AirplaneStates.FLYING;
     }
     
-    void DisableFlying()
+    void DisableFlying(bool atStart)
     {
         foreach (var airTrail in airplaneTrails)
         {
             airTrail.emitting = false;
         }
         airplaneAnimator.speed = 1;
-        flying = false;
-
-        //repulse airplane (bounce)
-        _rigidbody.AddRelativeForce(0, 0, -flySpeed * throwMultiplier);
         
-        //zero angular vel
+        if (!atStart)
+        {
+            //set falling state
+            airplaneState = AirplaneStates.FALLING;
+            
+            //repulse airplane (bounce)
+            _rigidbody.AddRelativeForce(0, 0, -flySpeed * throwMultiplier);
+        
+            //zero angular vel
+            _rigidbody.angularVelocity = Vector3.zero;
+        }
+    }
+
+    void SetIdle()
+    {
+        //zero velocity 
+        _rigidbody.velocity = Vector3.zero;
         _rigidbody.angularVelocity = Vector3.zero;
+        //idle
+        airplaneState = AirplaneStates.IDLE;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -93,17 +146,15 @@ public class PickUpAirplane : PickUpObject
         if (collision.gameObject.CompareTag("Player") == false)
         {
             //bumped into something while flying
-            if (flying)
+            if (airplaneState == AirplaneStates.FLYING)
             {
-                DisableFlying();
+                DisableFlying(false);
             }
-            else
+            //hit something while falling
+            else if(airplaneState == AirplaneStates.FALLING)
             {
-                //zero velocity 
-                _rigidbody.velocity = Vector3.zero;
-                _rigidbody.angularVelocity = Vector3.zero;
+                SetIdle();
             }
         }
-       
     }
 }

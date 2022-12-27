@@ -9,6 +9,7 @@ public class PilotView : MonoBehaviour
 {
     PauseMenu pauseMenu;
     Camera mainCam;
+    private InputDevice inputDevice;
 
     [Header("FPS Camera Controls")]
     public bool isActive;
@@ -33,7 +34,7 @@ public class PilotView : MonoBehaviour
     void Update()
     {
         //get input device 
-        var inputDevice = InputManager.ActiveDevice;
+        inputDevice = InputManager.ActiveDevice;
 
         //for viewing with cam
         if (isActive && pauseMenu.paused == false)
@@ -44,9 +45,6 @@ public class PilotView : MonoBehaviour
 
     void CameraRotation()
     {
-        //get input device 
-        var inputDevice = InputManager.ActiveDevice;
-
         if (clamps)
         {
             //controller 

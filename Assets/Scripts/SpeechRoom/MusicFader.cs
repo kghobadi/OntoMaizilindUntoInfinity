@@ -28,6 +28,12 @@ public class MusicFader : MonoBehaviour {
     [Header("Scene Fade Setup")]
     public bool fadeOnSceneChange;
     public string sceneName;
+
+    [Header("Pause Settings")] 
+    public bool pauseClips;
+    private int pauseCounter;
+    public float[] pauseTimes;
+    
     
     void Awake () 
     {
@@ -46,15 +52,12 @@ public class MusicFader : MonoBehaviour {
                 //set fade in to new sound
                 if (nextAction == FadeActions.SWITCHSOUND)
                 {
-                    SetSound(musicTrack);
-                    FadeIn(fadeInAmount, fadeSpeed);
-                    nextAction = FadeActions.NONE;
+                    SwitchSoundAction();
                 }
                 //pause and reset next action. 
                 else if (nextAction == FadeActions.PAUSE)
                 {
-                    musicSource.Pause();
-                    nextAction = FadeActions.NONE;
+                   PauseAction();
                 }
             }
         }
@@ -76,12 +79,33 @@ public class MusicFader : MonoBehaviour {
                 FadeOut(0f, 0.035f);
             }
         }
+
+        //pause clips at set of times
+        if (pauseClips)
+        {
+            if (pauseCounter < pauseTimes.Length)
+            {
+                if (musicSource.time > pauseTimes[pauseCounter])
+                {
+                    FadeToPause();
+                    pauseCounter++;
+                }
+            }
+        }
+    }
+
+    void SwitchSoundAction()
+    {
+        SetSound(musicTrack);
+        FadeIn(fadeInAmount, fadeSpeed);
+        nextAction = FadeActions.NONE;
     }
 
     public void SetSound(AudioClip track)
     {
         musicSource.Stop();
         musicSource.clip = track;
+        pauseCounter = 0;
         musicSource.Play();
     }
 
@@ -100,6 +124,15 @@ public class MusicFader : MonoBehaviour {
     {
         nextAction = FadeActions.PAUSE;
         FadeOut(fadeInAmount, fadeSpeed);
+    }
+
+    /// <summary>
+    /// Actual pause. 
+    /// </summary>
+    void PauseAction()
+    {
+        musicSource.Pause();
+        nextAction = FadeActions.NONE;
     }
 
     //starts fade in to specified amount  

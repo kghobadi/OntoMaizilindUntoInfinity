@@ -7,6 +7,7 @@ public class PickUpTea : PickUpObject
    [Header("Tea Settings")]
    public AudioClip[] sipTeaSounds;
 
+   private Quaternion origRotation;
    private Animator teaCupAnimator;
 
    protected override void Start()
@@ -14,6 +15,24 @@ public class PickUpTea : PickUpObject
       base.Start();
 
       teaCupAnimator = GetComponent<Animator>();
+   }
+
+   public override void HoldItem()
+   {
+      base.HoldItem();
+
+      //save orig rot and enable animator
+      origRotation = transform.rotation;
+      teaCupAnimator.enabled = true;
+   }
+
+   protected override void DropObject()
+   {
+      base.DropObject();
+
+      //disable animator and apply orig rot 
+      teaCupAnimator.enabled = false;
+      transform.rotation = origRotation;
    }
 
    public override void UseObject()
