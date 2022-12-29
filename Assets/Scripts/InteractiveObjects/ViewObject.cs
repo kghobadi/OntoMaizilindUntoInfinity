@@ -18,6 +18,7 @@ public class ViewObject : Interactive
 	public float scaleFactor = 1f;
 
 	public Vector3 positionOffset = Vector3.zero;
+	public Vector3 rotationOffset = Vector3.zero;
 	//how to do a rotation offset?
 	public TextAsset objDescription;
 	private void Awake()

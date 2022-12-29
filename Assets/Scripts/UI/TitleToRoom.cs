@@ -16,7 +16,6 @@ public class TitleToRoom : MonoBehaviour {
     public LerpScale omScale, uiScale;
     public MoveUI omMove, uiMove, dwMove;
     public Animator scribeAnimator;
-    public FadeSprite scribeFade;
     public FadeSprite blackground;
     public MusicFader callToPrayer;
     public GameObject[] characters;
@@ -187,7 +186,6 @@ public class TitleToRoom : MonoBehaviour {
         poemFader.FadeOut();
         blackground.FadeOut();
         scribeAnimator.transform.SetParent(null);
-        scribeFade.FadeOut();
 
         //activate room stuff 
         camManager.Set(roomCam);

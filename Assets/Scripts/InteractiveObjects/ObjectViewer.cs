@@ -87,7 +87,7 @@ public class ObjectViewer : AudioHandler
 		}
 		
 		//set rotation
-		obj.transform.localRotation = Quaternion.identity; // this may be problematic
+		obj.transform.localRotation = Quaternion.Euler(obj.rotationOffset); // this may be problematic
 		//scale
 		if (obj.scaleFactor != 1f)
 			obj.transform.localScale *= obj.scaleFactor;
