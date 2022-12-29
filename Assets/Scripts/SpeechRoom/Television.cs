@@ -101,7 +101,9 @@ public class Television : MonoBehaviour {
                 {
                     extraRadios[i].Play();
                     //disable their click scripts
-                    extraRadios[i].GetComponent<TurnOnOrOff>().enabled = false;
+                    TurnOnOrOff radioToggler = extraRadios[i].GetComponent<TurnOnOrOff>();
+                    if(radioToggler)
+                        radioToggler.enabled = false;
                     extraRadios[i].GetComponent<Collider>().enabled = false;
                 }
                 waitingForStatic = false;
