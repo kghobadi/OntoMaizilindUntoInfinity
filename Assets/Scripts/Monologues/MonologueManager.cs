@@ -25,7 +25,7 @@ public class MonologueManager : MonoBehaviour
 
     [Tooltip("Is this the player's monologue manager?")]
     public bool isPlayer;
-    
+
     [Tooltip("if there is a background for speaking text")]
     public FadeUI textBack;
     AnimateDialogue animateTextback;
@@ -61,13 +61,21 @@ public class MonologueManager : MonoBehaviour
     private Image subImageBack;
     [HideInInspector] public TextMeshProUGUI subtitleTMP;
     [HideInInspector] public CanvasGroup subCanvasGroup;
-    [HideInInspector] public bool subChanging;
+    /// <summary>
+    /// True whenever our subtitle's text does not match previously recorded set text. 
+    /// </summary>
+    public bool SubChanging => subtitleTMP.text != prevSubText;
     private string prevSubText;
     [HideInInspector] public float currentSubTime;
     public float faceSizeMult = 2f;
     public FaceAnimationUI facePointer;
     [HideInInspector] public RectTransform faceRect;
     private float distToRealP;
+
+    /// <summary>
+    /// Fetch the face height. 
+    /// </summary>
+    public float FaceHeightOffset => faceRect.sizeDelta.y;
 
     /// <summary>
     /// Gets player pos in different scenes. 
@@ -474,12 +482,15 @@ public class MonologueManager : MonoBehaviour
         subtitleTMP.text = text;
         RendererExtensions.ChangeWidthOfObject(subRectTransform,subtitleTMP, monoReader.maxWidth, monoReader.sideOffset);
 
+        //set sub time - is this correct?
         currentSubTime += Time.deltaTime;
         
-        subChanging = subtitleTMP.text != prevSubText;
         prevSubText = subtitleTMP.text;
     }
 
+    /// <summary>
+    /// Determines the height y position of the subtitle's transform. 
+    /// </summary>
     public void ManageSubHeightPos()
     {
         if (isPlayer)
