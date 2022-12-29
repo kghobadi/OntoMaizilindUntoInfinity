@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using InControl;
@@ -27,13 +28,22 @@ public class GroundCamera : MonoBehaviour
     public bool clamps;
     public float minX, maxX;
     public float minY, maxY;
-    //public float smoothing = 2.0f;
 
     void Awake()
     {
         if (transform.parent)
         {
             GetRefs();
+        }
+    }
+
+    private void Start()
+    {
+        //set starting values for rotations. 
+        if (clamps)
+        {
+            hRot = transform.parent.eulerAngles.y;
+            vRot = transform.eulerAngles.x;
         }
     }
 

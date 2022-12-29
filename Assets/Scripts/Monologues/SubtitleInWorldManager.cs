@@ -7,12 +7,25 @@ using System.Linq;
 
 public class SubtitleInWorldManager : MonoBehaviour
 {
-    public GameObject subtitlePrefab;
-    public List<MonologueManager> voices;
-    public Sprite straightArrow, curvyArrow;
-    public List<Transform> onlyShowTheseSubs;
-    public float maxDistanceFromPlayer = 100f;
-    public float subscreenBorderPercentage = 0.04f;
+    [SerializeField] private GameObject subtitlePrefab;
+    [SerializeField] private List<MonologueManager> voices;
+    [SerializeField] private Sprite straightArrow, curvyArrow;
+    [SerializeField] private List<Transform> onlyShowTheseSubs;
+    [SerializeField] private float maxDistanceFromPlayer = 100f;
+    [SerializeField] private float subscreenBorderPercentage = 0.04f;
+    [SerializeField] private float subtitleAvoidanceMultOnscreen = 0.35f;
+    [SerializeField] private float subtitleAvoidanceMultOffscreen = 0.25f;
+    [SerializeField] private float scaleDownLerpSpeed = 0.4f;
+    //for player positioning
+    [Header("Player Specific Settings")]
+    [SerializeField] private float defaultPlayerWidthPosMult = 0.5f;
+    [SerializeField] private float defaultPlayerHeightPosMult = 0.2f;
+    [SerializeField] private float defaultPlayerScaleMult = 0.2f;
+
+    //all active character monologue managers 
+    List<MonologueManager> activeVoicesSorted = new List<MonologueManager>();
+    //all active monologue managers paired with their subtitle rects
+    Dictionary<MonologueManager, Rect> activeSubRects = new Dictionary<MonologueManager, Rect>();
     
     private Camera mainCam;
     RectTransform mainCanvas;
@@ -37,12 +50,11 @@ public class SubtitleInWorldManager : MonoBehaviour
         }
         prevPixelWidth = mainCam.pixelWidth;
 
-        ManageSubPositions();
+        SortSubs();
     }
 
     void FixedUpdate()
     {
-        SortSubs();
         ManageSubPositions();
     }
     
@@ -72,43 +84,94 @@ public class SubtitleInWorldManager : MonoBehaviour
 
         return g;
     }
-
-    List<MonologueManager> activeVoicesSorted = new List<MonologueManager>();
+    
+    /// <summary>
+    /// Clear active voices and check which characters are active again.
+    /// </summary>
     void SortSubs()
     {
-        activeVoicesSorted.Clear();
+        //loop through all characters monologue managers
         foreach (MonologueManager mm in voices)
         {
-            if (IsSubActive(mm)) 
-                activeVoicesSorted.Add(mm);
+            if (IsSubActive(mm))
+            {
+                AddVoice(mm);
+            }
+            else
+            {
+                RemoveVoice(mm);
+            }
         }
-        activeVoicesSorted.OrderBy(mm => mm.DistToRealP);//voiceAudibility);
+        
+        //sort every frame since distance can always change 
+        activeVoicesSorted.OrderBy(mm => mm.DistToRealP);
     }
 
+    /// <summary>
+    /// Adds a character voice to be actively sorted. 
+    /// </summary>
+    /// <param name="monologueManager"></param>
+    void AddVoice(MonologueManager monologueManager)
+    {
+        //only add that voice if we don't have it already. 
+        if (!activeVoicesSorted.Contains(monologueManager))
+        {
+            activeVoicesSorted.Add(monologueManager);
+        }
+    }
+
+    /// <summary>
+    /// Removes a character voice from sorting.
+    /// </summary>
+    /// <param name="monologueManager"></param>
+    void RemoveVoice(MonologueManager monologueManager)
+    {
+        if (activeVoicesSorted.Contains(monologueManager))
+        {
+            activeVoicesSorted.Remove(monologueManager);
+        }
+    }
+
+    /// <summary>
+    /// Lets us check whether a character's monologue manager has an active subtitle they are speaking with. 
+    /// </summary>
+    /// <param name="mm"></param>
+    /// <returns></returns>
     bool IsSubActive(MonologueManager mm)
     {
         return mm.inMonologue && (onlyShowTheseSubs.Count == 0 || onlyShowTheseSubs.Contains(mm.transform.parent));
     }
 
-    Dictionary<MonologueManager, Rect> activeSubRects = new Dictionary<MonologueManager, Rect>();
-  
+    
+    /// <summary>
+    /// Manage the positions, sizes, and contents of the subtitles we see on the screen. 
+    /// </summary>
     void ManageSubPositions()
     {
+        //loop through monologue managers (characters who can talk)
         foreach (MonologueManager mm in voices)
         {
+            //get parent object of the subtitle text 
             GameObject subParent = mm.subtitleTMP.transform.parent.gameObject;
+            //get subtitle background rect transform 
             RectTransform subBG = (RectTransform)mm.subtitleTMP.rectTransform.parent;
+            
+            //Is this character's monologue mgr contained in active voices dictionary? 
             if (activeVoicesSorted.Contains(mm))
             {
-                RectTransform arrow = (RectTransform)mm.arrowImg.transform;
+                //Handle subtitle parent activation check, initial height pos management, and declare local variables for managing this character's subtitle. 
+                #region Activation and Local Variables
                 //manage activation
-                bool shouldUpdatePos = mm.subChanging;
+                bool shouldUpdatePos = mm.SubChanging;
+                //ensure our parent is active. 
                 if (!subParent.activeSelf)
                 {
                     subParent.SetActive(true);
+                    //need to update pos since it was just activated. 
                     shouldUpdatePos = true;
                 }
                 
+                //first manage the height of the subtitle. 
                 mm.ManageSubHeightPos();
 
                 //get subtitle position 
@@ -118,11 +181,30 @@ public class SubtitleInWorldManager : MonoBehaviour
                 //get bool to check if on screen 
                 bool onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < mainCam.pixelWidth &&
                                 screenPoint.y > 0 && screenPoint.y < mainCam.pixelHeight;
-
-                //enable subtitle text box if off screen
-                //subParent.SetActive(!onScreen);
                 
-                //control activation of face pointer ui.
+                //get arrow
+                RectTransform arrow = (RectTransform)mm.arrowImg.transform;
+                //calc added scale of twice arrow height and face pointer height 
+                float subBoxBorder = arrow.rect.height * 2f + mm.FaceHeightOffset;
+                //get true subtitle size by adding adjustment for arrow and face pointer
+                Vector2 subSize = new Vector2((subBG.rect.width + subBoxBorder) * subBG.localScale.x,
+                                      (subBG.rect.height + subBoxBorder) * subBG.localScale.y)
+                                  * screenCanvasPixelRatio; //pixel ratio converts it from local canvas pixels to cam screen pixels
+                //half of sub size x 
+                float halfSizeX = subSize.x / 2;
+                //half of sub size y
+                float halfSizeY = subSize.y / 2;
+                
+                //get half of main cam pixel width 
+                float halfPixelWidth = mainCam.pixelWidth / 2;
+                
+                //declare avoidance multiplier
+                float avoidanceMultiplier = 1f;
+
+                #endregion
+
+                //Control activation of face pointer ui.
+                #region Face Pointer Activation
                 if (mm.facePointer)
                 {
                     if (!onScreen)
@@ -134,52 +216,65 @@ public class SubtitleInWorldManager : MonoBehaviour
                         mm.facePointer.Deactivate();
                     }
                 }
-               
+                #endregion
+                
                 //adjust when they're behind because math idk
-                if (screenPoint.z < 0) 
-                    screenPoint.x = mainCam.pixelWidth - screenPoint.x;
-
-                //this scale and pixelratio converts it from local canvas pixels to cam screen pixels
-                float subBoxBorder = arrow.rect.height * 2f;
-                Vector2 subSize = new Vector2((subBG.rect.width + subBoxBorder) * subBG.localScale.x,
-                                              (subBG.rect.height + subBoxBorder) * subBG.localScale.y)
-                                              * screenCanvasPixelRatio;
-
-                //get target position
+                // if (screenPoint.z < 0) 
+                //     screenPoint.x = mainCam.pixelWidth - screenPoint.x;
+                
+                //Get target position depending on who subtitle belongs to.
+                #region Subtitle Position Management
                 if (mm.isPlayer)
-                    subPos = new Vector3(mainCam.pixelWidth * 0.5f, mainCam.pixelHeight * 0.2f, 0);
+                {
+                    //simply base pos on multiplier of main cam pixel width and height. 
+                    subPos = new Vector3(mainCam.pixelWidth * defaultPlayerWidthPosMult, mainCam.pixelHeight * defaultPlayerHeightPosMult, 0);
+                }
                 else
                 {
+                    //is it on screen?
                     if (onScreen)
                     {
+                        //should we update the subtitle pos?
                         if (shouldUpdatePos)
                         {
-                            float dist = (mainCam.pixelWidth / 2) - screenPoint.x;
-                            float halfSizeX = subSize.x / 2;
+                            //get dist from half of pixel width minus screen point x pos
+                            float dist = halfPixelWidth - screenPoint.x;
+                          
+                            //set sub point offset x with dist clamped by size 
                             mm.subPointOffsetX = Mathf.Clamp(dist * 0.2f, -halfSizeX, halfSizeX);
                         }
+                        
+                        //set sub pos x to screenpoint x pos + offset x
                         subPos.x = screenPoint.x + mm.subPointOffsetX;
-                        subPos.y = screenPoint.y + (subSize.y / 2);
+                        //set sub pos y to screenpoint y pos + half of sub size y
+                        subPos.y = screenPoint.y + halfSizeY;
                     }
+                    //It's off screen...
                     else
                     {
+                        //should we update the subtitle pos?
                         if (shouldUpdatePos)
                         {
                             //need to determine x pos
                             float xPos;
+                            //is the tentative screen point greater than 0 on z?
                             if (screenPoint.z > 0)
                             {
-                                xPos = Mathf.Lerp(screenPoint.x, 0.5f * mainCam.pixelWidth, Remaps.Linear(mm.DistToRealP, maxDistanceFromPlayer, 0, 0.1f, 0.9f));
+                                //lerp x position value to half our main camera's pixel width
+                                xPos = Mathf.Lerp(screenPoint.x, halfPixelWidth, Remaps.Linear(mm.DistToRealP, maxDistanceFromPlayer, 0, 0.1f, 0.9f));
                             }
+                            //screen point is less or equal to 0 on z 
                             else
                             {
-                                if (!mm.centerOffScreenSub)
+                                //do we center the sub?
+                                if (mm.centerOffScreenSub)
                                 {
-                                    xPos = Mathf.Sign(screenPoint.x) * 9999;
+                                    xPos = halfPixelWidth + (Mathf.Sign(screenPoint.x) * 0.15f * mainCam.pixelWidth);
                                 }
+                                //No centering - x pos is now the Sign of screen point x multiplied by big number 
                                 else
                                 {
-                                    xPos = (0.5f * mainCam.pixelWidth) + (Mathf.Sign(screenPoint.x) * 0.15f * mainCam.pixelWidth);
+                                    xPos = Mathf.Sign(screenPoint.x) * 9999;
                                 }
                             }
                             //set sub x pos and keep screenpoint for y pos 
@@ -187,33 +282,50 @@ public class SubtitleInWorldManager : MonoBehaviour
                         }
                     }
                 }
-
-                //set size
+                #endregion
+                
+                ///Update the subtitle size over time depending on who it belongs to. 
+                #region Update Size
                 if (mm.isPlayer)
-                    subBG.localScale = Vector3.Lerp(subBG.localScale, Vector3.one * .2f, 0.35f);
+                {
+                    //lerp to default player scale mult 
+                    subBG.localScale = Vector3.Lerp(subBG.localScale, Vector3.one * defaultPlayerScaleMult, 0.35f);
+                }
                 else
                 {
+                    //get sub mult from current sub time 
                     float atPSubMult = Remaps.EaseInQuad(mm.currentSubTime, 0, 1.5f, 2.2f, 1.6f);
-                    //TODO play with remap values. 
+                    //TODO play with remap values. or better yet just use a lerp that you understand. 
                     subBG.localScale = Vector3.Lerp(subBG.localScale, Vector3.one * mm.subSizeMult * atPSubMult * Remaps.Linear(mm.DistToRealP, maxDistanceFromPlayer, 0f, .17f, .08f),
-                                                    0.2f);
+                        0.2f);
                 }
-                // print(cv.transform.parent.name + ": " + cv.voiceAudibility);
+                
+                //get half sizes again
+                halfSizeX = subSize.x / 2;
+                halfSizeY = subSize.y / 2;
+                #endregion
+                
+                //Clamp the subtitle's screen position based on size in relationship to screen size. 
+                #region Screen Position Clamp
+                //Get x min and max
+                float xMin = halfSizeX + subScreenBorder;
+                float xMax = (mainCam.pixelWidth - halfSizeX) - subScreenBorder;
+                //Get y min and max 
+                float yMin = halfSizeY + subScreenBorder;
+                float yMax = (mainCam.pixelHeight - halfSizeY) - subScreenBorder;
 
-                //clamp so they're always on screen
-                float xMin = (subSize.x / 2) + subScreenBorder;
-                float xMax = (mainCam.pixelWidth - subSize.x / 2) - subScreenBorder;
-                float yMin = (subSize.y / 2) + subScreenBorder;
-                float yMax = (mainCam.pixelHeight - subSize.y / 2) - subScreenBorder;
-
+                //Clamp so they're always on screen
                 subPos.x = Mathf.Clamp(subPos.x, xMin, xMax);
                 subPos.y = Mathf.Clamp(subPos.y, yMin, yMax);
+                #endregion
 
-                //do the little arrow
+                //Handle the position of the arrow and how we display it. 
+                #region Manage Arrow Position
                 float arrowPosRange = (subBG.rect.width / 2) - bgImgBorder - (arrow.rect.width / 2);
                 float distToScreenPoint = ((screenPoint.x - subPos.x) / screenCanvasPixelRatio.x) / subBG.localScale.x;
                 float arrowPosX;
-                int atEdge = 0;//-1 = edge left, 0 not at edge, 1 = edge right
+                //-1 = edge left, 0 not at edge, 1 = edge right
+                int atEdge = 0;
                 if (onScreen)
                 {
                     arrowPosX = distToScreenPoint;
@@ -235,71 +347,96 @@ public class SubtitleInWorldManager : MonoBehaviour
                 }
 
                 arrow.localPosition = new Vector2(arrowPosX, arrow.localPosition.y);
-                mm.SetFacePointerPos();
-
+                
+                //Alter display sprite and scale of the arrow depending on whether it's at edge of screen. 
                 switch (atEdge)
                 {
+                    //-1 = edge left
                     case -1:
                         mm.arrowImg.sprite = curvyArrow;
                         arrow.localScale = new Vector3(-1, 1, 1);//to flip it
                         break;
+                    //0 not at edge
                     case 0:
                         mm.arrowImg.sprite = straightArrow;
                         arrow.localScale = Vector3.one;
                         break;
+                    //1 = edge right
                     case 1:
                         mm.arrowImg.sprite = curvyArrow;
                         arrow.localScale = Vector3.one;
                         break;
                 }
+                #endregion
 
-                //sort their positions so they're not on top of each other
-                //todo sometimes this doesnt fully do it
+                //Ensure our subtitle doesn't overlap on screen with other subtitles actively being displayed - handle dictionary addition. 
+                #region Avoid Other Active Sub Rects
+                
+                //Get local version of sub rect with position in altered state
                 Rect subRect = new Rect(new Vector2(subPos.x, subPos.y), subSize);
 
-                //avoid all other active subs -- TODO SOMETIMES THIS PUSHES UP ONSCREEN SUBS WAY TOO HIGH WHEN OFFSCREEN SUBS GET IN THEIR WAY. 
-                foreach (KeyValuePair<MonologueManager, Rect> acr in activeSubRects)
+                //Loop through and avoid all other active subs -- TODO SOMETIMES THIS PUSHES UP ONSCREEN SUBS WAY TOO HIGH WHEN OFFSCREEN SUBS GET IN THEIR WAY. 
+                foreach (KeyValuePair<MonologueManager, Rect> activeSubRect in activeSubRects)
                 {
-                    if (acr.Key == mm)
+                    //Don't compare against myself!
+                    if (activeSubRect.Key == mm)
                         break;
 
-                    if (acr.Value.Overlaps(subRect))
+                    //Does the given sub rect overlap with our current sub rect we are managing?
+                    if (activeSubRect.Value.Overlaps(subRect))
                     {
-                        //get different multiplier if onscreen or not.
-                        float mult = 1f;
+                        //Set onscreen mult
                         if (onScreen)
                         {
-                            mult = 0.25f;
+                            avoidanceMultiplier = subtitleAvoidanceMultOnscreen;
                         }
+                        //Set offscreen mult
                         else
                         {
-                            mult = 0.5f;
+                            avoidanceMultiplier = subtitleAvoidanceMultOffscreen;
                         }
                         
-                        subPos.y = acr.Value.y + (acr.Value.height * mult) + (subRect.height * mult);
+                        //get sub pos y from obscured sub rect y + obscured subrect height * avoidance mult + my subrect height * avoidance mult 
+                        subPos.y = activeSubRect.Value.y + (activeSubRect.Value.height * avoidanceMultiplier) + (subRect.height * avoidanceMultiplier);
+                        //set sub rect new to new y value 
                         subRect.y = subPos.y;
                     }
                 }
 
+                //Ensure we update the subrect info for our matching monologue manager
                 if (activeSubRects.ContainsKey(mm))
                     activeSubRects[mm] = subRect;
+                //Or or add it if it's not part of the dict.
                 else
                     activeSubRects.Add(mm, subRect);
-
-
+                
+                #endregion
+                
                 //set pos finally
                 subParent.transform.position = subPos;
+                
+                //update face pointer as well 
+                mm.SetFacePointerPos();
             }
+            //Was not in the active voices dict...
             else
             {
+                //Shrinks down and inevitably disables subtitles of inactive character voices.  
+                #region Handle Inactive Voices
+                //Is subparent active and local scale is bigger than 0?
                 if (subParent.activeSelf && subBG.localScale.magnitude > 0.01f)
-                    subBG.localScale = Vector3.Lerp(subBG.localScale, Vector3.zero, 0.4f);
+                {
+                    //scale down to complete 0 scale. 
+                    subBG.localScale = Vector3.Lerp(subBG.localScale, Vector3.zero, scaleDownLerpSpeed);
+                }
+                //Scale is near 0, deactivate subparent and remove monologue mgr from dictionary 
                 else
                 {
                     subParent.SetActive(false);
                     if (activeSubRects.ContainsKey(mm))
                         activeSubRects.Remove(mm);
                 }
+                #endregion
             }
         }
     }
