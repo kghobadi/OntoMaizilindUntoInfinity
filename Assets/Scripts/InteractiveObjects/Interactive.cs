@@ -24,14 +24,14 @@ public class Interactive : AudioHandler
 	public Sprite iCursorSprite;
 	public string interactMessage;
 	public Material activeMat;
-	private Material[] activeMats;
+	protected Material[] activeMats;
 	public Material inactiveMat;
-	private Material[] inactiveMats;
+	protected Material[] inactiveMats;
 	public AudioClip interactSound;
 	public float distNecessary = 7.5f;
 	public FadeUI clickerUI;
 	public bool hasClicked;
-	
+
 	protected virtual void Start ()
 	{
 		Init();
@@ -180,33 +180,43 @@ public class Interactive : AudioHandler
 		}
 	}
 
-	protected virtual void SetActive()
+	/// <summary>
+	/// Assigns proper material[s] to the renderer[s]. 
+	/// </summary>
+	/// <param name="mat"></param>
+	/// <param name="mats"></param>
+	public virtual void SetMaterials(Material mat, Material[] mats)
 	{
-		Init();
-		
-		//highlight obj
 		if (_meshRenderer)
 		{
 			if (_meshRenderer.materials.Length > 1)
 			{
-				_meshRenderer.materials = activeMats;
+				_meshRenderer.materials = mats;
 			}
 			else
 			{
-				_meshRenderer.material = activeMat;
+				_meshRenderer.material = mat;
 			}
 		}
 		if (_SkinnedMeshRenderer)
 		{
 			if (_SkinnedMeshRenderer.materials.Length > 0)
 			{
-				_SkinnedMeshRenderer.materials = activeMats;
+				_SkinnedMeshRenderer.materials = mats;
 			}
 			else
 			{
-				_SkinnedMeshRenderer.material = activeMat;
+				_SkinnedMeshRenderer.material = mat;
 			}
 		}
+	}
+
+	protected virtual void SetActive()
+	{
+		Init();
+		
+		//highlight obj
+		SetMaterials(activeMat, activeMats);
 			
 		active = true;
 		
@@ -231,28 +241,7 @@ public class Interactive : AudioHandler
 		Init();
 
 		//unhighlight obj
-		if (_meshRenderer)
-		{
-			if (_meshRenderer.materials.Length > 1)
-			{
-				_meshRenderer.materials = inactiveMats;
-			}
-			else
-			{
-				_meshRenderer.material = inactiveMat;
-			}
-		}
-		if (_SkinnedMeshRenderer)
-		{
-			if (_SkinnedMeshRenderer.materials.Length > 0)
-			{
-				_SkinnedMeshRenderer.materials = inactiveMats;
-			}
-			else
-			{
-				_SkinnedMeshRenderer.material = inactiveMat;
-			}
-		}
+		SetMaterials(inactiveMat, inactiveMats);
 		
 		active = false;
 		

@@ -98,6 +98,12 @@ public class ObjectViewer : AudioHandler
 			obj.transform.GetChild(i).gameObject.layer = 16;
 		}
 		
+		//set view materials if there is one. 
+		if (obj.viewMaterial != null)
+		{
+			obj.SetMaterials(obj.viewMaterial, obj.ViewMaterials);
+		}
+		
 		//set camera culling mask
 		mainCam.cullingMask = 1 << LayerMask.NameToLayer("ObjectView");
 		

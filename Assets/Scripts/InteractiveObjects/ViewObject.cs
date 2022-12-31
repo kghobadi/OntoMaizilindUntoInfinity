@@ -16,11 +16,17 @@ public class ViewObject : Interactive
 
 	[Header("View Object Settings")]
 	public float scaleFactor = 1f;
-
+	public Material viewMaterial;
+	private Material[] viewMaterials;
+	
 	public Vector3 positionOffset = Vector3.zero;
 	public Vector3 rotationOffset = Vector3.zero;
 	//how to do a rotation offset?
 	public TextAsset objDescription;
+	
+	//Properties
+	public Material[] ViewMaterials => viewMaterials;
+	
 	private void Awake()
 	{
 		_objectViewer = FindObjectOfType<ObjectViewer>();
@@ -32,11 +38,52 @@ public class ViewObject : Interactive
 		colliders = GetComponentsInChildren<Collider>();
 	}
 
+	protected override void Init()
+	{
+		base.Init();
+		
+		//generate view mat array to length of renderer mats 
+		if (_meshRenderer != null)
+		{
+			viewMaterials = new Material[_meshRenderer.materials.Length];
+		}
+		if (_SkinnedMeshRenderer != null)
+		{
+			viewMaterials = new Material[_SkinnedMeshRenderer.materials.Length];
+		}
+		
+		//set view mats 
+		for (int i = 0; i < viewMaterials.Length; i++)
+		{
+			viewMaterials[i] = viewMaterial;
+		}
+	}
+
 	protected override void SetActive()
 	{
 		if (_objectViewer.viewing == false)
 		{
 			base.SetActive();
+		}
+	}
+
+	protected override void SetInactive()
+	{
+		Init();
+
+		//unhighlight obj only if we are not in viewing mode
+		if (_objectViewer.currentViewObj != this)
+		{
+			SetMaterials(inactiveMat, inactiveMats);
+		}
+
+		active = false;
+		
+		//if we have ui to fade out 
+		if (clickerUI)
+		{
+			if(clickerUI.gameObject.activeSelf)
+				clickerUI.FadeOut();
 		}
 	}
 
@@ -78,5 +125,8 @@ public class ViewObject : Interactive
 		{
 			colliders[i].enabled = true;
 		}
+		
+		//material back to inactive
+		SetMaterials(inactiveMat, inactiveMats);
 	}
 }
