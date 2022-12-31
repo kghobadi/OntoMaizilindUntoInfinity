@@ -75,7 +75,24 @@ public class MonologueManager : MonoBehaviour
     /// <summary>
     /// Fetch the face height. 
     /// </summary>
-    public float FaceHeightOffset => faceRect.sizeDelta.y;
+    public float FaceHeightOffset
+    {
+        get
+        {
+            float height = faceRect.sizeDelta.y;
+
+            if (facePointer.active)
+            {
+                height *= 2;
+            }
+            else
+            {
+                height = 0;
+            }
+
+            return height;
+        }
+    }
 
     /// <summary>
     /// Gets player pos in different scenes. 

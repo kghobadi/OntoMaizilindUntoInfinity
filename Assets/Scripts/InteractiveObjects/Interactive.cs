@@ -24,7 +24,9 @@ public class Interactive : AudioHandler
 	public Sprite iCursorSprite;
 	public string interactMessage;
 	public Material activeMat;
+	private Material[] activeMats;
 	public Material inactiveMat;
+	private Material[] inactiveMats;
 	public AudioClip interactSound;
 	public float distNecessary = 7.5f;
 	public FadeUI clickerUI;
@@ -60,6 +62,28 @@ public class Interactive : AudioHandler
 			_SkinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
 			if(_SkinnedMeshRenderer == null)
 				_SkinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+		}
+		
+		//generate mat arrays to length of renderer mats 
+		if (_meshRenderer != null)
+		{
+			activeMats = new Material[_meshRenderer.materials.Length];
+			inactiveMats = new Material[_meshRenderer.materials.Length];
+		}
+		if (_SkinnedMeshRenderer != null)
+		{
+			activeMats = new Material[_SkinnedMeshRenderer.materials.Length];
+			inactiveMats = new Material[_SkinnedMeshRenderer.materials.Length];
+		}
+		
+		//set up mat arrays if we have them 
+		for (int i = 0; i < activeMats.Length; i++)
+		{
+			activeMats[i] = activeMat;
+		}
+		for (int i = 0; i < inactiveMats.Length; i++)
+		{
+			inactiveMats[i] = inactiveMat;
 		}
 		
 		//set layer to interactable
@@ -161,10 +185,29 @@ public class Interactive : AudioHandler
 		Init();
 		
 		//highlight obj
-		if(_meshRenderer)
-			_meshRenderer.material = activeMat;
+		if (_meshRenderer)
+		{
+			if (_meshRenderer.materials.Length > 1)
+			{
+				_meshRenderer.materials = activeMats;
+			}
+			else
+			{
+				_meshRenderer.material = activeMat;
+			}
+		}
 		if (_SkinnedMeshRenderer)
-			_SkinnedMeshRenderer.material = activeMat;
+		{
+			if (_SkinnedMeshRenderer.materials.Length > 0)
+			{
+				_SkinnedMeshRenderer.materials = activeMats;
+			}
+			else
+			{
+				_SkinnedMeshRenderer.material = activeMat;
+			}
+		}
+			
 		active = true;
 		
 		//cursor
@@ -188,11 +231,29 @@ public class Interactive : AudioHandler
 		Init();
 
 		//unhighlight obj
-		if(_meshRenderer)
-			_meshRenderer.material = inactiveMat;
+		if (_meshRenderer)
+		{
+			if (_meshRenderer.materials.Length > 1)
+			{
+				_meshRenderer.materials = inactiveMats;
+			}
+			else
+			{
+				_meshRenderer.material = inactiveMat;
+			}
+		}
 		if (_SkinnedMeshRenderer)
-			_SkinnedMeshRenderer.material = inactiveMat;
-
+		{
+			if (_SkinnedMeshRenderer.materials.Length > 0)
+			{
+				_SkinnedMeshRenderer.materials = inactiveMats;
+			}
+			else
+			{
+				_SkinnedMeshRenderer.material = inactiveMat;
+			}
+		}
+		
 		active = false;
 		
 		//if we have ui to fade out 

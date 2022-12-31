@@ -217,13 +217,14 @@ public class SubtitleInWorldManager : MonoBehaviour
                     }
                 }
                 #endregion
-                
-                //adjust when they're behind because math idk
-                // if (screenPoint.z < 0) 
-                //     screenPoint.x = mainCam.pixelWidth - screenPoint.x;
-                
+
                 //Get target position depending on who subtitle belongs to.
                 #region Subtitle Position Management
+                
+                //adjust when they're behind so we flip we side of the screen they are on. 
+                if (screenPoint.z < 0) 
+                    screenPoint.x = mainCam.pixelWidth - screenPoint.x;
+                
                 if (mm.isPlayer)
                 {
                     //simply base pos on multiplier of main cam pixel width and height. 
@@ -278,7 +279,7 @@ public class SubtitleInWorldManager : MonoBehaviour
                                 }
                             }
                             //set sub x pos and keep screenpoint for y pos 
-                            subPos = new Vector3(xPos, screenPoint.y + (subSize.y / 2), 0);
+                            subPos = new Vector3(xPos, screenPoint.y + halfSizeY, 0);
                         }
                     }
                 }
@@ -342,7 +343,7 @@ public class SubtitleInWorldManager : MonoBehaviour
                 }
                 else
                 {
-                    atEdge = (int)Mathf.Sign(subPos.x - (mainCam.pixelWidth / 2));
+                    atEdge = (int)Mathf.Sign(subPos.x - halfPixelWidth);
                     arrowPosX = arrowPosRange * atEdge;
                 }
 
