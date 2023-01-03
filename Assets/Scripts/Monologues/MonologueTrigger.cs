@@ -4,6 +4,9 @@ using UnityEngine;
 using NPC;
 using InControl;
 
+/// <summary>
+/// Todo this script has some issues relating to the trigger logic. Better to just use an EventTrigger set with Specific object as the NPC that activates. 
+/// </summary>
 public class MonologueTrigger : TriggerBase
 {
     //player refs

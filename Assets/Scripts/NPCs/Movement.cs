@@ -277,9 +277,8 @@ namespace NPC
                 //waits until player is near then walks to next point 
                 else if (npcType == NPCMovementTypes.PATHFINDER)
                 {
-                
                     //goes to next point if timer reaches 0 or player is near 
-                    //Only does this if there are currenltly points in my list 
+                    //Only does this if there are currently points in my list 
                     if (!waitingToGiveMonologue)
                     {
                         //make sure there is more waypoints!
@@ -589,7 +588,7 @@ namespace NPC
                 }
 
                 //stop running after we are close to position
-                if (Vector3.Distance(transform.position, targetPosition) < myNavMesh.stoppingDistance + 3f)
+                if (Vector3.Distance(transform.position, targetPosition) < myNavMesh.stoppingDistance + 1f)
                 {
                     //can be called by triggers or smth
                     if (resetsMovement)
