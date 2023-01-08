@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: hall_wall3
   m_Shader: {fileID: 4800000, guid: 429906c315e13714b96502fd220a11d1, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: _ALIGNONWORLDX_ON
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -20,7 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Texture:
-        m_Texture: {fileID: 2800000, guid: 9f754b83aaea3344daf1c26cfd803969, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -28,6 +28,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _AlignOnWorldX: 1
     - _TessellationValue: 1
     - _WaveSpeed: 1
     - _WaveTile: 30
@@ -36,6 +37,6 @@ Material:
     - _Color1: {r: 0.28773582, g: 0.7472291, b: 1, a: 0}
     - _Color2: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 0}
-    - _WaveDirection: {r: 0, g: 1.2, b: 0, a: 0}
-    - _WaveSize: {r: 0.2, g: 0.2, b: 0, a: 0}
+    - _WaveDirection: {r: 1.2, g: 1.2, b: 0, a: 0}
+    - _WaveSize: {r: 0.2, g: 9, b: 0, a: 0}
     - _WaveUp: {r: 0, g: 0, b: 0, a: 0}
