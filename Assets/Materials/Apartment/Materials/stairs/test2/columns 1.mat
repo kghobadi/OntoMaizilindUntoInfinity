@@ -8,10 +8,10 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: columns 1
-  m_Shader: {fileID: 4800000, guid: d0941449c153a934f83a81b9a91d6dd2, type: 3}
+  m_Shader: {fileID: 4800000, guid: 82716e815f4859747ab5d1f9eec48ee7, type: 3}
   m_ShaderKeywords: _MK_ALBEDO_MAP _MK_ARTISTIC_PROJECTION_SCREEN_SPACE _MK_EMISSION_MAP
     _MK_LIGHT_BANDED _MK_RECEIVE_SHADOWS _MK_WRAPPED_DIFFUSE _RECEIVESHADOWS_ON _TOGGLESWITCH0_ON
-    _USE2TEXTURES_ON _USELIGHT_ON _WRAPPEDLIGHTING_ON
+    _USELIGHT_ON _WRAPPEDLIGHTING_ON
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -127,7 +127,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture1:
-        m_Texture: {fileID: 2800000, guid: ac27f71af49b7684fb60eb16ea254730, type: 3}
+        m_Texture: {fileID: 2800000, guid: 512f21abbafe7064f9e714b3688edc36, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture2:
@@ -191,9 +191,9 @@ Material:
     - _LightSteps: 4
     - _LightStrength: 4
     - _LightThreshold: 0.39
-    - _MaskRange: 0.25
+    - _MaskRange: 1
     - _MaskRange2: 0.1
-    - _MaskRangeMin: 0.46
+    - _MaskRangeMin: 0.83
     - _Metallic: 0
     - _Mode: 0
     - _NormalMapIntensity: 1
@@ -238,7 +238,7 @@ Material:
     - _ThresholdMapScale: 1
     - _ToggleSwitch0: 1
     - _UVSec: 0
-    - _Use2Textures: 1
+    - _Use2Textures: 0
     - _Use2ndTexture: 0
     - _UseLight: 1
     - _UseTransparency: 0
@@ -259,11 +259,13 @@ Material:
     - _AlbedoColor: {r: 1, g: 1, b: 1, a: 1}
     - _BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 0.9629769, b: 0.9198113, a: 1}
-    - _Color1: {r: 1, g: 0.5668886, b: 0, a: 0}
-    - _Color2: {r: 1, g: 0.5668886, b: 0, a: 0}
+    - _Color0: {r: 0.7075472, g: 0.3940067, b: 0, a: 0}
+    - _Color1: {r: 1, g: 1, b: 1, a: 0}
+    - _Color2: {r: 1, g: 1, b: 1, a: 0}
     - _Color3: {r: 1, g: 0.7607844, b: 0, a: 0}
     - _DissolveBorderColor: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0.14061944, g: 0.14831826, b: 0.3773585, a: 0}
+    - _EmissionColor: {r: 1, g: 0.5668886, b: 0, a: 0}
+    - _EmissionColor1: {r: 0, g: 0, b: 0, a: 0}
     - _GoochBrightColor: {r: 1, g: 1, b: 1, a: 1}
     - _GoochDarkColor: {r: 0, g: 0, b: 0, a: 1}
     - _IridescenceColor: {r: 1, g: 1, b: 1, a: 0.5}
@@ -274,8 +276,8 @@ Material:
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimDarkColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Tex1TilingOffset: {r: 0.2, g: 0.6, b: 0, a: 0}
+    - _Tex1TilingOffset: {r: 1, g: 1.5, b: -0.5, a: 1}
     - _Tex2TilingOffset: {r: 1, g: 1, b: 0.1, a: 0.05}
     - _Tex3TilingOffset: {r: 0.05, g: 0.05, b: 0, a: 0}
-    - _Vector0: {r: 0.3, g: 1, b: 0.2, a: 0.2}
+    - _Vector0: {r: 0.3, g: 0, b: 0.2, a: 0.2}
     - _VertexAnimationFrequency: {r: 2.5, g: 2.5, b: 2.5, a: 1}
