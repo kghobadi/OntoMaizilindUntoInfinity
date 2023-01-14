@@ -24,7 +24,8 @@ public class TitleToRoom : MonoBehaviour {
     public LerpLighting sunLerp;
     public MenuSelections quitMenu;
     public AudioSource trainSfx;
-
+    public Vector3 sunStartRotation = new Vector3(43.197f, 72.951f, 4.012f);
+    
     //player
     [Header("Player/Room Refs")]
     public FirstPersonController player;
@@ -205,6 +206,8 @@ public class TitleToRoom : MonoBehaviour {
 
         //set sun
         sunLerp.SetLightLerp(sunLerp.sunNice, sunLerp.sunNice);
+        //set sun rotation
+        sunLerp.transform.localEulerAngles = sunStartRotation;
 
         //activate all the characters in the family 
         for (int i = 0; i < characters.Length; i++)
