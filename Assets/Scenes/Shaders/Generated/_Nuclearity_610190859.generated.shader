@@ -1190,9 +1190,9 @@ float fersertWaves(float3 p, float height) {
 }
 
 // UNIFORMS AND FUNCTIONS
-uniform int x_3637589213_1d0a4544_iterations;
-uniform float x_3637589213_1d0a4544_bailout;
-uniform float x_3637589213_1d0a4544_power;
+uniform int x_1047227719_1d0a4544_iterations;
+uniform float x_1047227719_1d0a4544_bailout;
+uniform float x_1047227719_1d0a4544_power;
 float object_FractalMandelbub(float3 p , int _INP_iterations, float _INP_bailout, float _INP_power) {
     // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Objects/Fractal Mandelbub.asset
     // http://iquilezles.org/www/articles/mandelbulb/mandelbulb.htm
@@ -1220,10 +1220,10 @@ float object_FractalMandelbub(float3 p , int _INP_iterations, float _INP_bailout
     return 0.5*log(r)*r/dr;
 }
 // uniforms for Fractal
-uniform float4x4 _3637589213Matrix;
-uniform float _3637589213MinScale;
-uniform float2 x_3637589213_07ee3232_position;
-uniform sampler2D x_3637589213_07ee3232_gradient;
+uniform float4x4 _1047227719Matrix;
+uniform float _1047227719MinScale;
+uniform float2 x_1047227719_07ee3232_position;
+uniform sampler2D x_1047227719_07ee3232_gradient;
 float3 material_Gradient(inout float3 normal, float3 p, float3 rayDir, float2 _INP_position, sampler2D _INP_gradient) {
     // Generated from Assets/Imported/Raymarching Toolkit/Assets/Snippets/Materials/Gradient.asset
     float f = clamp((p.y - _INP_position.x) / _INP_position.y,0,1);
@@ -1234,7 +1234,7 @@ float3 MaterialFunc(float nf, inout float3 normal, float3 p, float3 rayDir, out 
     objectID = ceil(nf) / (float)1;
     [branch] if (nf <= 1) {
     //    objectID = 1;
-        return material_Gradient(normal, objPos(_3637589213Matrix, p), rayDir, x_3637589213_07ee3232_position, x_3637589213_07ee3232_gradient);
+        return material_Gradient(normal, objPos(_1047227719Matrix, p), rayDir, x_1047227719_07ee3232_position, x_1047227719_07ee3232_gradient);
     }
         objectID = 0;
         return float3(1.0, 0.0, 1.0);
@@ -1245,8 +1245,8 @@ float2 map(float3 p) {
 	float2 result = float2(1.0, 0.0);
 	
 {
-    float _3637589213Distance = object_FractalMandelbub(objPos(_3637589213Matrix, p), x_3637589213_1d0a4544_iterations, x_3637589213_1d0a4544_bailout, x_3637589213_1d0a4544_power) * _3637589213MinScale;
-    result = float2(_3637589213Distance, /*material ID*/0.5);
+    float _1047227719Distance = object_FractalMandelbub(objPos(_1047227719Matrix, p), x_1047227719_1d0a4544_iterations, x_1047227719_1d0a4544_bailout, x_1047227719_1d0a4544_power) * _1047227719MinScale;
+    result = float2(_1047227719Distance, /*material ID*/0.5);
     }
 	return result;
 }
