@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4429540878300518050}
   - component: {fileID: 4429540878300518052}
   - component: {fileID: 4429540878300518053}
+  - component: {fileID: 4080376878115034252}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
@@ -74,6 +75,30 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4080376878115034252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4429540878300518051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8036540983680e34bbdf320cd0ad5f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiType: 0
+  fadingIn: 0
+  fadingOut: 0
+  keepActive: 1
+  fadeOutImmediately: 0
+  fadeInAmount: 1
+  fadeOutAmount: 0
+  fadeInWait: 0
+  fadeOutWait: 0
+  fadeInSpeed: 1
+  fadeOutSpeed: 1
+  shownAtStart: 1
 --- !u!1 &4430797780152110925
 GameObject:
   m_ObjectHideFlags: 0
@@ -85,6 +110,7 @@ GameObject:
   - component: {fileID: 4495442100613019283}
   - component: {fileID: 4494809796681568889}
   - component: {fileID: 4390361850348287701}
+  - component: {fileID: 298564401276842362}
   m_Layer: 0
   m_Name: Text
   m_TagString: Untagged
@@ -208,6 +234,30 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &298564401276842362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4430797780152110925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8036540983680e34bbdf320cd0ad5f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiType: 0
+  fadingIn: 0
+  fadingOut: 0
+  keepActive: 1
+  fadeOutImmediately: 0
+  fadeInAmount: 1
+  fadeOutAmount: 0
+  fadeInWait: 0
+  fadeOutWait: 0
+  fadeInSpeed: 1
+  fadeOutSpeed: 1
+  shownAtStart: 1
 --- !u!1 &4431249512194805459
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,6 +270,7 @@ GameObject:
   - component: {fileID: 4498913438230826687}
   - component: {fileID: 4386717475645175895}
   - component: {fileID: 896139550806957335}
+  - component: {fileID: 432558631451992174}
   m_Layer: 0
   m_Name: ScreenSubtitle
   m_TagString: Untagged
@@ -297,3 +348,27 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &432558631451992174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4431249512194805459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8036540983680e34bbdf320cd0ad5f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiType: 0
+  fadingIn: 0
+  fadingOut: 0
+  keepActive: 1
+  fadeOutImmediately: 0
+  fadeInAmount: 1
+  fadeOutAmount: 0
+  fadeInWait: 0
+  fadeOutWait: 0
+  fadeInSpeed: 1
+  fadeOutSpeed: 1
+  shownAtStart: 1

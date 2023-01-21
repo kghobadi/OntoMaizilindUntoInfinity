@@ -71,6 +71,11 @@ public class MonologueManager : MonoBehaviour
     public FaceAnimationUI facePointer;
     [HideInInspector] public RectTransform faceRect;
     private float distToRealP;
+    
+    [Tooltip("If you set this to anything greater than 0 the character's Subtitle will fade in and out at that dist from player.")]
+    [SerializeField]
+    private float distanceActive = 0f;
+    private FadeUI[] subtitleFades;
 
     /// <summary>
     /// Fetch the face height. 
@@ -125,6 +130,9 @@ public class MonologueManager : MonoBehaviour
         }
     }
 
+    public float DistActive => distanceActive;
+    public FadeUI[] SubtitleFades => subtitleFades;
+
     Transform rootT;
     //SpriteRenderer mainSR;
 
@@ -167,6 +175,7 @@ public class MonologueManager : MonoBehaviour
             mySubtitle = subtitleInWorldManager.SetupNewSubtitle(this);
             subRectTransform = mySubtitle.GetComponent<RectTransform>();
             subImageBack = mySubtitle.GetComponent<Image>();
+            subtitleFades = mySubtitle.GetComponentsInChildren<FadeUI>();
         }
         
         //play mono 0 
@@ -318,7 +327,17 @@ public class MonologueManager : MonoBehaviour
                 npcController.Animation.SetAnimator("talking");
             }
         }
-        
+
+        //use new dist fading value provided by the mono.
+        if (mono.useDistFading)
+        {
+            distanceActive = mono.activeFadeDistance;
+        }
+        //return to 0 for distance active so we have no fading.
+        else
+        {
+            distanceActive = 0f;
+        }
 
         //begin mono 
         inMonologue = true;
@@ -503,6 +522,38 @@ public class MonologueManager : MonoBehaviour
         currentSubTime += Time.deltaTime;
         
         prevSubText = subtitleTMP.text;
+    }
+
+    /// <summary>
+    /// Fades in the subtitle.
+    /// </summary>
+    public void FadeInSubtitle()
+    {
+        foreach (var subtitleFade in subtitleFades)
+        {
+            subtitleFade.FadeIn();
+        }
+
+        if (facePointer)
+        {
+            facePointer.FadeInFaces();
+        }
+    }
+    
+    /// <summary>
+    /// Fades out the subtitle.
+    /// </summary>
+    public void FadeOutSubtitle()
+    {
+        foreach (var subtitleFade in subtitleFades)
+        {
+            subtitleFade.FadeOut();
+        }
+
+        if (facePointer)
+        {
+            facePointer.FadeOutFaces();
+        }
     }
 
     /// <summary>
