@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class SpawnFromMap : MonoBehaviour
 {
@@ -18,20 +19,37 @@ public class SpawnFromMap : MonoBehaviour
     Color pixel_colour;
     List<Vector3> worldPos;
     List<Color> colors;
+    List<Quaternion> rots;
+    List<Material> mats;
 
     public List<GameObject> buildings;
-
-    void Start()
-    {
-        //GetComponent<Collider>().bounds.min.x;
-    }
+    public Transform cityParent;
 
     void Reset()
     {
-        foreach (Transform child in transform)
-        {
-            DestroyImmediate(child.gameObject);
-        }
+        buildings.Add(Resources.Load("Buildings/building 1") as GameObject);
+        buildings.Add(Resources.Load("Buildings/building 2") as GameObject);
+        buildings.Add(Resources.Load("Buildings/building 3") as GameObject);
+        buildings.Add(Resources.Load("Buildings/building 4") as GameObject);
+
+        rots.Add(Quaternion.Euler(0, 0, 0));
+        rots.Add(Quaternion.Euler(0, 90, 0));
+        rots.Add(Quaternion.Euler(0, 180, 0));
+        rots.Add(Quaternion.Euler(0, 270, 0));
+
+        mats.Add(Resources.Load("Buildings/building mat") as Material);
+        mats.Add(Resources.Load("Buildings/building mat 1") as Material);
+        mats.Add(Resources.Load("Buildings/building mat 2") as Material);
+        mats.Add(Resources.Load("Buildings/building mat 3") as Material);
+
+        cityParent = transform.FindChild("CITY");
+        DestroyImmediate(cityParent.gameObject);
+        GameObject city = new GameObject("CITY");
+		city.transform.position = transform.position;
+		city.transform.rotation = Quaternion.identity;
+        city.name = "CITY";
+        city.transform.SetParent(transform);
+        cityParent = city.transform;
 
         worldPos.Clear();
         colors.Clear();
@@ -41,16 +59,12 @@ public class SpawnFromMap : MonoBehaviour
         size.y = tex.height;
         range = ((1 / size.x) * 10)/2;
 
-        buildings.Add(Resources.Load("Buildings/building 1") as GameObject);
-
         SpawnGrid();
     }
 
 
     void SpawnGrid()
     {
-        //int layerMask = 1 << 31;
-        //RaycastHit hit;
         Vector3 pos;
 
         for (int x = 0; x < tiling.x; x++)
@@ -60,7 +74,6 @@ public class SpawnFromMap : MonoBehaviour
                 coorX = (size.x * (x / tiling.x))+range;
                 coorY = (size.y * (z / tiling.y))+range;
                 pixel_colour = tex.GetPixel(x,z);
-                //print(x + " + " + z + " = " + pixel_colour);
 
                 float localX = (x / size.x) * 10 - 0.5f * 10 + range;
                 float localY = (z / size.x) * 10 - 0.5f * 10 + range;
@@ -69,10 +82,22 @@ public class SpawnFromMap : MonoBehaviour
                 worldPos.Add(pos);
                 colors.Add(pixel_colour);
 
-                if (pixel_colour == red)
+                if (pixel_colour == green)
                 {
-                    GameObject clone = Instantiate(buildings[0], pos, transform.rotation);
-                    clone.transform.SetParent(this.transform);
+                    GameObject clone = PrefabUtility.InstantiatePrefab(buildings[Random.Range(0, buildings.Count)]) as GameObject;
+                    clone.transform.position = pos;
+                    clone.transform.rotation = rots[Random.Range(0, rots.Count)];
+                    clone.transform.localScale = new Vector3(
+                        transform.localScale.x, 
+                        transform.localScale.y * (float)System.Math.Round(Random.Range(0.6f, 1.2f), 1),
+                        transform.localScale.z);
+                    clone.transform.SetParent(cityParent);
+                    MeshRenderer[] rends = clone.GetComponentsInChildren<MeshRenderer>();
+                    Material mat = mats[Random.Range(0, mats.Count)];
+                    foreach(MeshRenderer mR in rends)
+                    {
+                        mR.material = mat;
+                    }
                 }
 
                 /*GameObject clone = Instantiate(prefabToSpawn,
