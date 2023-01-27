@@ -8,6 +8,8 @@ public class SpawnFromMap : MonoBehaviour
     public Vector2 tiling = new Vector2(10, 10);
     public Vector2 size;
     public Texture2D tex;
+    public Texture2D texHeight;
+    public Vector2 heightRange = new Vector2(0, 5);
     float coorX;
     float coorY;
     float range;
@@ -17,9 +19,10 @@ public class SpawnFromMap : MonoBehaviour
     Color green = Color.green;
     Color black = Color.black;
     Color pixel_colour;
+    float pixel_height;
     List<Vector3> worldPos;
     List<Color> colors;
-    List<Quaternion> rots;
+    public List<Quaternion> rots;
     List<Material> mats;
 
     public List<GameObject> buildings;
@@ -31,6 +34,8 @@ public class SpawnFromMap : MonoBehaviour
         buildings.Add(Resources.Load("Buildings/building 2") as GameObject);
         buildings.Add(Resources.Load("Buildings/building 3") as GameObject);
         buildings.Add(Resources.Load("Buildings/building 4") as GameObject);
+        buildings.Add(Resources.Load("Buildings/building 5") as GameObject);
+        buildings.Add(Resources.Load("Buildings/building 6") as GameObject);
 
         rots.Add(Quaternion.Euler(0, 0, 0));
         rots.Add(Quaternion.Euler(0, 90, 0));
@@ -41,6 +46,12 @@ public class SpawnFromMap : MonoBehaviour
         mats.Add(Resources.Load("Buildings/building mat 1") as Material);
         mats.Add(Resources.Load("Buildings/building mat 2") as Material);
         mats.Add(Resources.Load("Buildings/building mat 3") as Material);
+
+        tex = Resources.Load("map grid") as Texture2D;
+        texHeight = Resources.Load("map noise") as Texture2D;
+        size.x = tex.width;
+        size.y = tex.height;
+        range = ((1 / size.x) * 10) / 2;
 
         cityParent = transform.FindChild("CITY");
         DestroyImmediate(cityParent.gameObject);
@@ -54,14 +65,10 @@ public class SpawnFromMap : MonoBehaviour
         worldPos.Clear();
         colors.Clear();
 
-        tex = Resources.Load("map grid") as Texture2D;
-        size.x = tex.width;
-        size.y = tex.height;
-        range = ((1 / size.x) * 10)/2;
-
         SpawnGrid();
     }
 
+    GameObject clone;
 
     void SpawnGrid()
     {
@@ -82,37 +89,42 @@ public class SpawnFromMap : MonoBehaviour
                 worldPos.Add(pos);
                 colors.Add(pixel_colour);
 
-                if (pixel_colour == green)
+                if (pixel_colour == white)
                 {
-                    GameObject clone = PrefabUtility.InstantiatePrefab(buildings[Random.Range(0, buildings.Count)]) as GameObject;
-                    clone.transform.position = pos;
+                    clone = PrefabUtility.InstantiatePrefab(buildings[Random.Range(0, buildings.Count)]) as GameObject;
                     clone.transform.rotation = rots[Random.Range(0, rots.Count)];
+                }
+
+                if (clone != null)
+                {
+                    //clone.transform.position = pos;
+                    pixel_height = texHeight.GetPixel(x, z).a;
+                    clone.transform.position = new Vector3(pos.x, pos.y + (Mathf.Lerp(heightRange.x, heightRange.y, pixel_height)), pos.z);
                     clone.transform.localScale = new Vector3(
-                        transform.localScale.x, 
-                        transform.localScale.y * (float)System.Math.Round(Random.Range(0.6f, 1.2f), 1),
+                        transform.localScale.x,
+                        transform.localScale.y * (float)System.Math.Round(Random.Range(0.7f, 1.2f), 1),
                         transform.localScale.z);
-                    clone.transform.SetParent(cityParent);
                     MeshRenderer[] rends = clone.GetComponentsInChildren<MeshRenderer>();
                     Material mat = mats[Random.Range(0, mats.Count)];
-                    foreach(MeshRenderer mR in rends)
+                    foreach (MeshRenderer mR in rends)
                     {
                         mR.material = mat;
                     }
+                    clone.transform.SetParent(cityParent);
                 }
-
-                /*GameObject clone = Instantiate(prefabToSpawn,
-                    transform.position + gridOrigin + new Vector3(gridOffset * x, 0, gridOffset * z), transform.rotation);
-                clone.transform.SetParent(this.transform);*/
             }
         }
     }
 
     void OnDrawGizmos()
     {
-        for (int i = 0; i < worldPos.Count; i++)
+        if (worldPos.Count > 0)
         {
-            Gizmos.color = colors[i];
-            Gizmos.DrawSphere(worldPos[i], 0.3f);
+            for (int i = 0; i < worldPos.Count; i++)
+            {
+                Gizmos.color = colors[i];
+                Gizmos.DrawSphere(worldPos[i], 0.3f);
+            }
         }
     }
 }

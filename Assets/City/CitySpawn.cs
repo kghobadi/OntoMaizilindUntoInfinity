@@ -8,7 +8,7 @@ public class CitySpawn: MonoBehaviour
     public List<GameObject> buildings;
     public Transform cityParent;
     public Quaternion rotation = Quaternion.Euler(0, 180, 0);
-	List<Quaternion> rots;
+	public List<Quaternion> rots;
 	List<Material> mats;
 	public float threshold = -300;
     public float childNumber;
@@ -23,6 +23,8 @@ public class CitySpawn: MonoBehaviour
 		buildings.Add(Resources.Load("Buildings/building 2") as GameObject);
 		buildings.Add(Resources.Load("Buildings/building 3") as GameObject);
 		buildings.Add(Resources.Load("Buildings/building 4") as GameObject);
+		buildings.Add(Resources.Load("Buildings/building 5") as GameObject);
+		buildings.Add(Resources.Load("Buildings/building 6") as GameObject);
 
 		rots.Add(Quaternion.Euler(0, 0, 0));
 		rots.Add(Quaternion.Euler(0, 90, 0));
@@ -73,7 +75,7 @@ public class CitySpawn: MonoBehaviour
 				clone.transform.rotation = rots[Random.Range(0, rots.Count)];
 				clone.transform.localScale = new Vector3(
 					6,
-					6 * (float)System.Math.Round(Random.Range(0.6f, 1.2f), 1),
+					6 * (float)System.Math.Round(Random.Range(0.7f, 1.2f), 1),
 					6);
 				clone.transform.SetParent(cityParent);
 				MeshRenderer[] rends = clone.GetComponentsInChildren<MeshRenderer>();
