@@ -4,48 +4,63 @@ using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.Audio;
 
-public class Television : MonoBehaviour {
+public class Television : MonoBehaviour 
+{
     VideoPlayer vidPlayer; 
-    CameraSwitcher camSwitcher;
     PauseMenu pauseMenu;
-    private MeshRenderer screenRender;
+    MeshRenderer screenRender;
 
-    public bool debug;
+    [SerializeField]
+    private bool debug;
 
     [Header("Channel Switching Before Speech")]
-    public VideoClip[] tvChannels; // news clip, cartoon clip, western clip
-    public int[] channelLastFrames;
-    public int currentClip = 0; //defaults to the news channel 
+    [SerializeField]
+    private VideoClip[] tvChannels; // news clip, cartoon clip, western clip
+    [SerializeField]
+    private int[] channelLastFrames;
+    [SerializeField]
+    private int currentClip = 0; //defaults to the news channel 
 
     [Header("On Speech Start")]
-    public VideoClip staticBroadcast;
-    public VideoClip theSpeech;
-    public Material staticEffect;
-        Material origMat;
-    public MusicFader warAmbience;
-    public Material scarySky;
-    public LerpLighting sunLerp;
+    [SerializeField]
+    private VideoClip staticBroadcast;
+    [SerializeField]
+    private VideoClip theSpeech;
+    [SerializeField]
+    private Material staticEffect;
+    Material origMat;
+    [SerializeField]
+    private MusicFader warAmbience;
+    [SerializeField]
+    private Material scarySky;
+    [SerializeField]
+    private LerpLighting sunLerp;
 
     [Header("Objects to Activate")]
-    public GameObject planes;
-    public GameObject sirens;
-    public GameObject citizens;
-    public AudioSource music;
-    public FadeUI speechPanel;
-    public FadeUI shiftToChange;
-    public BoxCollider frontDoorCollider;
-    public GameObject backBuilding;
-    public GameObject stairwell;
-    public GameObject corridor;
+    [SerializeField]
+    private GameObject sirens;
+    [SerializeField]
+    private FadeUI speechPanel;
+    [SerializeField]
+    private BoxCollider frontDoorCollider;
+    [SerializeField]
+    private GameObject backBuilding;
+    [SerializeField]
+    private GameObject stairwell;
+    [SerializeField]
+    private GameObject corridor;
 
     [Header("Audio Switching during Speech")]
-    public Radio radio;
+    [SerializeField]
+    private Radio radio;
     AudioSource tvSource;
     AudioSource radioSource;
-    public AudioSource[] extraRadios;
-    public MonologueManager shahSpeech;
-    public MonologueReader shahReader;
-    public int [] transitionLines;
+    [SerializeField]
+    private AudioSource[] extraRadios;
+    [SerializeField]
+    private MonologueManager shahSpeech;
+    [SerializeField]
+    private MonologueReader shahReader;
     int currentTransition = 0;
     public bool waitingForStatic;
     public bool speechStarted;
@@ -58,9 +73,22 @@ public class Television : MonoBehaviour {
         tvSource = GetComponent<AudioSource>();
         screenRender = GetComponent<MeshRenderer>();
         radioSource = radio.GetComponent<AudioSource>();
-        camSwitcher = FindObjectOfType<CameraSwitcher>();
         pauseMenu = FindObjectOfType<PauseMenu>();
         origMat = screenRender.material;
+
+        //Null checks
+        if (tvSource == null)
+        {
+            Debug.LogError("Television could not find its audiosource!");
+        }
+        if (radio == null || radioSource == null)
+        {
+            Debug.LogError("Radio could not be found or it could not find its audiosource!");
+        }
+        if (sunLerp == null)
+        {
+            Debug.LogError("You are missing the reference to the Sun Lerp for the Lighting change!");   
+        }
 	}
 
     void Start()
@@ -157,6 +185,14 @@ public class Television : MonoBehaviour {
         SetVideoPlayer(tvChannels[currentClip]);
     }
 
+    /// <summary>
+    /// Begins the starting interview with the Shah.
+    /// </summary>
+    public void SetStartingInterview()
+    {
+        SetVideoPlayer(tvChannels[0]);
+    }
+
     //stop -- static -- set new clip to play 
     public void SetVideoPlayer(VideoClip clip)
     {
@@ -202,8 +238,11 @@ public class Television : MonoBehaviour {
 
         //sky and sun
         RenderSettings.skybox = scarySky;
-        sunLerp.SetLightLerp(sunLerp.sunScary, sunLerp.sunNice);
-
+        if (sunLerp)
+        {
+            sunLerp.SetLightLerp(sunLerp.sunScary, sunLerp.sunNice);
+        }
+        
         //wait for static to end
         waitingForStatic = true;
         yield return new WaitForSeconds((float)staticBroadcast.length);
@@ -236,7 +275,8 @@ public class Television : MonoBehaviour {
         }
 
         //enable front door, disable back building, enable corridor and stairwell
-        frontDoorCollider.enabled = true;
+        if(frontDoorCollider)
+            frontDoorCollider.enabled = true;
         if(backBuilding)
             backBuilding.SetActive(false);
         if(stairwell)
@@ -252,14 +292,9 @@ public class Television : MonoBehaviour {
     {
         vidPlayer.Stop();
         screenRender.material = staticEffect;
-        //planes.SetActive(true);
         sirens.SetActive(true);
-        //music.Play();
 
-        //camSwitcher.canShift = true;
-        //shiftToChange.FadeIn();
         bombing.TransitionTo(3f);
-       
         speechEnded = true;
     }
 

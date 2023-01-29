@@ -41,6 +41,4 @@ public class MoveUI : MonoBehaviour {
         moveSpeed = speed;
         moving = true;
     }
-
-	
 }

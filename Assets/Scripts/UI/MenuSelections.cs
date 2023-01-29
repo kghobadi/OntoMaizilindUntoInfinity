@@ -18,7 +18,9 @@ public class MenuSelections : AudioHandler
 
     //for controller selections 
     bool canChange;
-    int changeTimer, changeReset = 10;
+    //counted in frames because time is Stopped in pause.
+    private int changeTimer;
+    public int changeReset = 30;
     InputDevice inputDevice;
 
     private void Start()
@@ -39,9 +41,10 @@ public class MenuSelections : AudioHandler
         {
             //handles controller inputs for the menu
             ControlSelections();
-            //resets when you change selectors
-            ChangeReset();
         }
+        
+        //resets when you change selectors
+        ChangeReset();
 
         //detection of closing submenus
         if (inputDevice.Action2.WasPressed)
@@ -70,6 +73,7 @@ public class MenuSelections : AudioHandler
         currentSelector = 0;
         if (menuSelections.Count > 0)
             menuSelections[currentSelector].ActivateSelectors();
+        canChange = true;
     }
     
     public void DeactivateMenu(bool disableObject)
@@ -101,29 +105,35 @@ public class MenuSelections : AudioHandler
         else
         {
             //up
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.LeftArrow) )
             {
                 inputValY = 1f;
             }
             //down
-            else if(Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+            else if(Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.RightArrow))
             {
                 inputValY = -1f;
             }
         }
 
+        //if we have no input then set can change true again.
+        if (inputValY == 0)
+        {
+            SetCanChange();
+        }
+
         //detection of changing 
         if (canChange)
         {
-            //pos val, selection moves up
-            if (inputValY < 0)
-            {
-                ChangeMenuSelector(true);
-            }
-            //neg val, selection moves down
-            else if (inputValY > 0)
+            //pos val, selection moves down
+            if (inputValY > 0)
             {
                 ChangeMenuSelector(false);
+            }
+            //neg val, selection moves up
+            else if (inputValY < 0)
+            {
+                ChangeMenuSelector(true);
             }
         }
 
@@ -175,7 +185,6 @@ public class MenuSelections : AudioHandler
 
             //change reset called 
             canChange = false;
-            changeTimer = 0;
         }
     }
 
@@ -184,13 +193,21 @@ public class MenuSelections : AudioHandler
     {
         if (canChange == false)
         {
+            //add a frame
             changeTimer += 1;
 
+            //time to reset?
             if (changeTimer > changeReset)
             {
-                canChange = true;
+                SetCanChange();
             }
         }
+    }
+
+    void SetCanChange()
+    {
+        canChange = true;
+        changeTimer = 0;
     }
 
     //turns on all menu selections

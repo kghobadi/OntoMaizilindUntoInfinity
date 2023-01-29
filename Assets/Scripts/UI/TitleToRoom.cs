@@ -7,7 +7,6 @@ using Cameras;
 public class TitleToRoom : MonoBehaviour {
     CameraManager camManager;
     Clock clock;
-    DebugTime timeline;
     //for all the text refs
     [Header("Title Canvas Refs")]
     public FadeUI omFade;
@@ -30,8 +29,7 @@ public class TitleToRoom : MonoBehaviour {
     [Header("Player/Room Refs")]
     public FirstPersonController player;
     //other game objs involved in transition
-    public GameCamera startCam, roomCam;
-    public GameObject  textPanel;
+    public GameCamera roomCam;
     Television tele;
     Radio radioScript;
     GameObject tv, radio;
@@ -48,7 +46,6 @@ public class TitleToRoom : MonoBehaviour {
         //managers
         camManager = FindObjectOfType<CameraManager>();
         clock = FindObjectOfType<Clock>();
-        timeline = FindObjectOfType<DebugTime>();
         //tv ref
         tele = FindObjectOfType<Television>();
         tv = tele.transform.parent.gameObject;
@@ -197,7 +194,6 @@ public class TitleToRoom : MonoBehaviour {
         {
             clock.gameObject.SetActive(true);
         }
-        //timeline.StartTimeline();
 
         //set cursor again
         Cursor.lockState = CursorLockMode.Locked;
@@ -227,7 +223,7 @@ public class TitleToRoom : MonoBehaviour {
 
         //enable TV and RADIO
         tv.SetActive(true);
-        tele.SetVideoPlayer(tele.tvChannels[0]);
+        tele.SetStartingInterview();
         radio.SetActive(true);
 
         //change skybox
