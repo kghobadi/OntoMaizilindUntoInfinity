@@ -9,9 +9,7 @@ public class SpawnFromMap : MonoBehaviour
     public Vector2 size;
     public Texture2D tex;
     public Texture2D texHeight;
-    public Vector2 heightRange = new Vector2(0, 5);
-    float coorX;
-    float coorY;
+    Vector2 heightRange = new Vector2(0, 450);
     float range;
     Color white = Color.white;
     Color red = Color.red;
@@ -26,7 +24,10 @@ public class SpawnFromMap : MonoBehaviour
     List<Material> mats;
 
     public List<GameObject> buildings;
+    public List<GameObject> interiors;
     public Transform cityParent;
+    public GameObject terrain;
+    int oldlayer;
 
     void Reset()
     {
@@ -36,6 +37,7 @@ public class SpawnFromMap : MonoBehaviour
         buildings.Add(Resources.Load("Buildings/building 4") as GameObject);
         buildings.Add(Resources.Load("Buildings/building 5") as GameObject);
         buildings.Add(Resources.Load("Buildings/building 6") as GameObject);
+        interiors.Add(Resources.Load("Buildings/building 9int") as GameObject);
 
         rots.Add(Quaternion.Euler(0, 0, 0));
         rots.Add(Quaternion.Euler(0, 90, 0));
@@ -45,10 +47,15 @@ public class SpawnFromMap : MonoBehaviour
         mats.Add(Resources.Load("Buildings/building mat") as Material);
         mats.Add(Resources.Load("Buildings/building mat 1") as Material);
         mats.Add(Resources.Load("Buildings/building mat 2") as Material);
-        mats.Add(Resources.Load("Buildings/building mat 3") as Material);
+        //mats.Add(Resources.Load("Buildings/building mat 3") as Material);
 
-        tex = Resources.Load("map grid") as Texture2D;
-        texHeight = Resources.Load("map noise") as Texture2D;
+        terrain = GameObject.Find("terrain");
+        oldlayer = terrain.layer;
+        terrain.layer = 31;
+        MeshCollider mCollider = terrain.AddComponent<MeshCollider>();
+
+        tex = Resources.Load("city grid") as Texture2D;
+        //texHeight = Resources.Load("heightmap") as Texture2D;
         size.x = tex.width;
         size.y = tex.height;
         range = ((1 / size.x) * 10) / 2;
@@ -66,6 +73,9 @@ public class SpawnFromMap : MonoBehaviour
         colors.Clear();
 
         SpawnGrid();
+
+        terrain.layer = oldlayer;
+        DestroyImmediate(mCollider);
     }
 
     GameObject clone;
@@ -73,17 +83,18 @@ public class SpawnFromMap : MonoBehaviour
     void SpawnGrid()
     {
         Vector3 pos;
+        RaycastHit hit;
+        float hitY;
+        int layerMask = 1 << 31;
 
-        for (int x = 0; x < tiling.x; x++)
+        for (int x = 0; x < size.x; x++)
         {
-            for (int z = 0; z < tiling.y; z++)
+            for (int z = 0; z < size.y; z++)
             {
-                coorX = (size.x * (x / tiling.x))+range;
-                coorY = (size.y * (z / tiling.y))+range;
                 pixel_colour = tex.GetPixel(x,z);
 
-                float localX = (x / size.x) * 10 - 0.5f * 10 + range;
-                float localY = (z / size.x) * 10 - 0.5f * 10 + range;
+                float localX = ((x / size.x) * 10 - 0.5f * 10 + range)*size.x/10;
+                float localY = ((z / size.x) * 10 - 0.5f * 10 + range)*size.x / 10;
 
                 pos = transform.TransformPoint(new Vector3(localX, 0, localY));
                 worldPos.Add(pos);
@@ -93,17 +104,37 @@ public class SpawnFromMap : MonoBehaviour
                 {
                     clone = PrefabUtility.InstantiatePrefab(buildings[Random.Range(0, buildings.Count)]) as GameObject;
                     clone.transform.rotation = rots[Random.Range(0, rots.Count)];
+                    //clone.name = "White - LocalPos: " + localX as string + "," + localY as string + "; Pixel: " + x as string + "," + z as string;
+                    clone.transform.localScale = new Vector3(
+                        transform.localScale.x,
+                        transform.localScale.y * (float)System.Math.Round(Random.Range(0.8f, 1.2f), 1),
+                        transform.localScale.z);
+                }
+                else if (pixel_colour == blue)
+                {
+                    clone = PrefabUtility.InstantiatePrefab(interiors[Random.Range(0, interiors.Count)]) as GameObject;
+                    clone.transform.rotation = rots[Random.Range(0, rots.Count)];
+                    //clone.name = "Blue - LocalPos: " + localX as string + "," + localY as string + "; Pixel: " + x as string + "," + z as string;
+                    clone.transform.localScale = new Vector3(
+                        transform.localScale.x,
+                        transform.localScale.y * (float)System.Math.Round(Random.Range(1f, 1.2f), 1),
+                        transform.localScale.z);
+                }
+                else
+                {
+                    clone = null;
                 }
 
                 if (clone != null)
                 {
                     //clone.transform.position = pos;
-                    pixel_height = texHeight.GetPixel(x, z).a;
-                    clone.transform.position = new Vector3(pos.x, pos.y + (Mathf.Lerp(heightRange.x, heightRange.y, pixel_height)), pos.z);
-                    clone.transform.localScale = new Vector3(
-                        transform.localScale.x,
-                        transform.localScale.y * (float)System.Math.Round(Random.Range(0.7f, 1.2f), 1),
-                        transform.localScale.z);
+                    if (Physics.Raycast(pos, Vector3.down, out hit, Mathf.Infinity, layerMask))
+                    {
+                        hitY = hit.point.y;
+                        clone.transform.position = new Vector3(pos.x, hitY, pos.z);
+                    }
+                    //pixel_height = texHeight.GetPixel(x, z).a;
+                    //clone.transform.position = new Vector3(pos.x, pos.y + (Mathf.Lerp(heightRange.x, heightRange.y, pixel_height)), pos.z);
                     MeshRenderer[] rends = clone.GetComponentsInChildren<MeshRenderer>();
                     Material mat = mats[Random.Range(0, mats.Count)];
                     foreach (MeshRenderer mR in rends)
@@ -116,6 +147,7 @@ public class SpawnFromMap : MonoBehaviour
         }
     }
 
+    /*
     void OnDrawGizmos()
     {
         if (worldPos.Count > 0)
@@ -126,5 +158,5 @@ public class SpawnFromMap : MonoBehaviour
                 Gizmos.DrawSphere(worldPos[i], 0.3f);
             }
         }
-    }
+    }*/
 }

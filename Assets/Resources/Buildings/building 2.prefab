@@ -168,12 +168,13 @@ GameObject:
   m_Component:
   - component: {fileID: 7472339913531141690}
   - component: {fileID: 3981510384589418070}
+  - component: {fileID: 8071634403577767293}
   m_Layer: 0
   m_Name: building 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 22
+  m_StaticEditorFlags: 30
   m_IsActive: 1
 --- !u!4 &7472339913531141690
 Transform:
@@ -205,12 +206,25 @@ LODGroup:
   m_AnimateCrossFading: 1
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.30474398
+  - screenRelativeHeight: 0.35057923
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 8453023353828444256}
-  - screenRelativeHeight: 0.0074207606
+  - screenRelativeHeight: 0.046883736
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 6299125160237705764}
   m_Enabled: 1
+--- !u!65 &8071634403577767293
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7472339913530716698}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
