@@ -16,6 +16,7 @@ public class SpawnFromMap : MonoBehaviour
     Color blue = Color.blue;
     Color green = Color.green;
     Color black = Color.black;
+    Color grey = Color.grey;
     Color pixel_colour;
     float pixel_height;
     List<Vector3> worldPos;
@@ -102,16 +103,11 @@ public class SpawnFromMap : MonoBehaviour
 
                 if (pixel_colour == white)
                 {
-                    clone = PrefabUtility.InstantiatePrefab(buildings[Random.Range(0, buildings.Count)]) as GameObject;
-                    clone.transform.rotation = rots[Random.Range(0, rots.Count)];
-                    //clone.name = "White - LocalPos: " + localX as string + "," + localY as string + "; Pixel: " + x as string + "," + z as string;
-                    clone.transform.localScale = new Vector3(
-                        transform.localScale.x,
-                        transform.localScale.y * (float)System.Math.Round(Random.Range(0.8f, 1.2f), 1),
-                        transform.localScale.z);
+                    SetBuilding(x,z);
                 }
                 else if (pixel_colour == blue)
                 {
+                    print("blue");
                     clone = PrefabUtility.InstantiatePrefab(interiors[Random.Range(0, interiors.Count)]) as GameObject;
                     clone.transform.rotation = rots[Random.Range(0, rots.Count)];
                     //clone.name = "Blue - LocalPos: " + localX as string + "," + localY as string + "; Pixel: " + x as string + "," + z as string;
@@ -144,6 +140,54 @@ public class SpawnFromMap : MonoBehaviour
                     clone.transform.SetParent(cityParent);
                 }
             }
+        }
+    }
+
+    void SetBuilding(int x, int y)
+    {
+        int i = 0;
+        Color adjacentPixel = tex.GetPixel(x, y + 1);
+        if (adjacentPixel != black && adjacentPixel != grey)
+        {
+            i++;
+        }
+        adjacentPixel = tex.GetPixel(x, y - 1);
+        if (adjacentPixel != black && adjacentPixel != grey)
+        {
+            i++;
+        }
+        adjacentPixel = tex.GetPixel(x + 1, y);
+        if (adjacentPixel != black && adjacentPixel != grey)
+        {
+            i++;
+        }
+        adjacentPixel = tex.GetPixel(x - 1, y);
+        if (adjacentPixel != black && adjacentPixel != grey)
+        {
+            i++;
+        }
+        if (i == 4)
+        {
+            print("interior");
+            //if all adjacent pixels are buildings, instantiate a "interior" building prefab
+            clone = PrefabUtility.InstantiatePrefab(interiors[Random.Range(0, interiors.Count)]) as GameObject;
+            clone.transform.rotation = rots[Random.Range(0, rots.Count)];
+            //clone.name = "Blue - LocalPos: " + localX as string + "," + localY as string + "; Pixel: " + x as string + "," + z as string;
+            clone.transform.localScale = new Vector3(
+                transform.localScale.x,
+                transform.localScale.y * (float)System.Math.Round(Random.Range(1f, 1.2f), 1),
+                transform.localScale.z);
+        } else
+        {
+            print("normal building");
+            //otherwise, choose from the normal buildings
+            clone = PrefabUtility.InstantiatePrefab(buildings[Random.Range(0, buildings.Count)]) as GameObject;
+            clone.transform.rotation = rots[Random.Range(0, rots.Count)];
+            //clone.name = "White - LocalPos: " + localX as string + "," + localY as string + "; Pixel: " + x as string + "," + z as string;
+            clone.transform.localScale = new Vector3(
+                transform.localScale.x,
+                transform.localScale.y * (float)System.Math.Round(Random.Range(0.8f, 1.2f), 1),
+                transform.localScale.z);
         }
     }
 
