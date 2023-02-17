@@ -31,6 +31,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 934ae56049cdf494aa54234d1170c474, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Detail:
+        m_Texture: {fileID: 2800000, guid: 59578a8d90747c2489d0ebc3f66ca605, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -42,6 +46,10 @@ Material:
     - _DetailNormalMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 26.62, y: 24}
         m_Offset: {x: 0, y: 0}
     - _DiffuseRamp:
         m_Texture: {fileID: 0}
@@ -131,6 +139,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TopTexture0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _VertexAnimationMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -140,8 +152,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _2NoiseContrast: 3
-    - _2NoiseStrength: 1
+    - _2NoiseContrast: 2
+    - _2NoiseStrength: 0.8
+    - _3DNoiseTime: 0.1
+    - _3DNoiseTime1: 0.1
     - _ASEOutlineWidth: 0.01
     - _AdvancedTab: 0
     - _AlphaClipping: 0
@@ -189,6 +203,8 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _NoiseAlignment: 2
+    - _NoiseScale: 10
+    - _NoiseScale1: 10
     - _NormalMapIntensity: 0.5
     - _OcclusionStrength: 1
     - _OptionsTab: 1
@@ -240,10 +256,11 @@ Material:
     - __dirty: 0
     m_Colors:
     - _ASEOutlineColor: {r: 0, g: 0, b: 0, a: 0}
-    - _Albedo: {r: 1, g: 0.6396222, b: 0, a: 1}
+    - _Albedo: {r: 0.8, g: 0.51089114, b: 0, a: 1}
     - _AlbedoColor: {r: 1, g: 0.6396222, b: 0, a: 1}
-    - _CircularNoiseTileAndSpeed: {r: 0, g: 10, b: 0, a: 0.06}
+    - _CircularNoiseTileAndSpeed: {r: 0, g: 0.05, b: 0, a: 12}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _DetailTiling: {r: 0.04, g: 0.04, b: 0, a: 0}
     - _DissolveBorderColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GoochBrightColor: {r: 1, g: 1, b: 1, a: 1}
@@ -251,7 +268,7 @@ Material:
     - _IridescenceColor: {r: 1, g: 1, b: 1, a: 0.5}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _RemapValue: {r: 0, g: 0, b: 0, a: 0}
-    - _RemapValues: {r: 0, g: 0.6, b: 0.6, a: 1.6}
+    - _RemapValues: {r: 0, g: 0.6, b: 0, a: 1.6}
     - _RimBrightColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimDarkColor: {r: 0, g: 0, b: 0, a: 1}
