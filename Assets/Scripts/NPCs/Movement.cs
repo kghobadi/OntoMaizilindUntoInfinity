@@ -412,7 +412,6 @@ namespace NPC
                 }
             }
         }
-        
 
         #endregion
         
@@ -712,7 +711,31 @@ namespace NPC
             }
         }
         
+        /// <summary>
+        /// Teleports AI to Ground Pos. 
+        /// </summary>
+        public void SnapToGroundPoint()
+        {
+            RaycastHit hit;
+            Vector3 targetPos = Vector3.zero;
+            // Does the ray intersect any objects excluding the player layer
+            if (Physics.Raycast(transform.position, Vector3.down, out hit, 1500f, grounded))
+            {
+                targetPos = hit.point;
+            }
+            // Try up
+            else if (Physics.Raycast(transform.position, Vector3.up, out hit, 1500f, grounded))
+            {
+                targetPos = hit.point;
+            }
 
+            //teleport game obj
+            if (targetPos != Vector3.zero)
+            {
+                transform.position = targetPos;
+            }
+        }
+        
         #endregion
         
         //Talking state --
