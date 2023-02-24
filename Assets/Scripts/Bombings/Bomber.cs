@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using InControl;
 
+/// <summary>
+/// Controls the bombers
+/// </summary>
 public class Bomber : MonoBehaviour {
     EffectsManager effectsMan;
     CameraSwitcher camSwitcher;
@@ -11,6 +14,7 @@ public class Bomber : MonoBehaviour {
     public GameObject bombPrefab;
     public bool bombing;
 
+    //TODO add variable for bomb amount at a time. 
     public float bombInterval = 0.45f;
     public float spawnRadius = 25f;
     public int bombMin = 5, bombMax = 15;

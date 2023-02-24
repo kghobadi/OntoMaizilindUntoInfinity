@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 //bombs are generated when player presses space while controlling planes
@@ -52,6 +53,10 @@ public class Bomb : MonoBehaviour {
         int randomFall = Random.Range(0, bombfalls.Length);
         bombAudio.clip = bombfalls[randomFall];
         bombAudio.Play();
+        
+        //TODO try do tween for moving bombs instead of physics
+        //transform.DOMoveY()
+        //Could add randomization of speed. 
 	}
 
     //called by bomber

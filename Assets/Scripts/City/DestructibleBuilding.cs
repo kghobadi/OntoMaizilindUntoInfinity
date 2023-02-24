@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//TODO rework this script so it doesn't use Update
+//This will probably only be used for the Pilot scene. 
 public class DestructibleBuilding : MonoBehaviour {
     ThePilot the_pilot;
     
