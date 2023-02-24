@@ -10,7 +10,7 @@ Material:
   m_Name: landScape
   m_Shader: {fileID: 4800000, guid: 730901af97de77546831ac9bc71028ee, type: 3}
   m_ShaderKeywords: _NOISEALIGNMENT_ALIGNONZ _USELIGHT_ON
-  m_LightmapFlags: 4
+  m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -23,9 +23,13 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Height:
+        m_Texture: {fileID: 2800000, guid: ac0c0a1768fc71143b68c75ac7ac2c13, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTexture:
-        m_Texture: {fileID: 2800000, guid: f560965f4b074b246abc3394bd364eb1, type: 3}
-        m_Scale: {x: 16, y: 24}
+        m_Texture: {fileID: 2800000, guid: 9e5d834f114be6744a8a217d24b3f6b8, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture:
         m_Texture: {fileID: 0}
@@ -39,14 +43,18 @@ Material:
     - _2NoiseContrast: 1
     - _2NoiseStrength: 0.792
     - _3DNoiseTime: 0.1
-    - _ASEOutlineWidth: 0.01
+    - _ASEOutlineWidth: 2.34
     - _AlignOnWorldX: 0
     - _BlendStrength: 0
     - _DepthDistance: 0
     - _Float0: 1
-    - _LightSteps: 3
+    - _LightSteps: 50
+    - _MainTexIntensity: 1
+    - _MaximumHeight: 450
     - _NoiseAlignment: 1
-    - _NoiseScale: 10
+    - _NoiseScale: 1
+    - _NoiseStrength: 0
+    - _NoiseStrength1: 0
     - _TessellationValue: 1
     - _UseLight: 1
     - _WaveSpeed: 1
@@ -63,9 +71,11 @@ Material:
     - _Color2: {r: 0, g: 0, b: 0, a: 0}
     - _DetailTiling: {r: 1, g: 1, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+    - _GradientEnd: {r: 1, g: 1, b: 1, a: 0}
+    - _GradientStart: {r: 0.7921569, g: 0, b: 0, a: 0}
     - _NoiseDirection: {r: 0, g: 2, b: 0, a: 0}
     - _PublicColor: {r: 0.5849056, g: 0.3265723, b: 0, a: 0}
-    - _RemapValues: {r: 0, g: 1, b: 0, a: 1}
+    - _RemapValues: {r: 0.85, g: 1, b: 0, a: 0.7}
     - _WaveDirection: {r: 0, g: 2, b: 0, a: 0}
     - _WaveSize: {r: 5, g: 5, b: 0, a: 0}
     - _WaveUp: {r: 0, g: 0, b: 0, a: 0}

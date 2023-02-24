@@ -83,6 +83,7 @@ public class SpawnFromMap : MonoBehaviour
 
         terrain.layer = oldlayer;
         DestroyImmediate(mCollider);
+        DestroyImmediate(mCollider2);
     }
 
     GameObject clone;
