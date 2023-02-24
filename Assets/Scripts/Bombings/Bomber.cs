@@ -26,7 +26,7 @@ public class Bomber : MonoBehaviour {
         camSwitcher = FindObjectOfType<CameraSwitcher>();
 	}
 	
-	void Update () {
+	/*void Update () {
         //get input device 
         var inputDevice = InputManager.ActiveDevice;
 
@@ -34,7 +34,7 @@ public class Bomber : MonoBehaviour {
         {
             StartCoroutine(SpawnBombs());
         }
-	}
+	}*/
 
     //public bomb call 
     public void DropBombs()

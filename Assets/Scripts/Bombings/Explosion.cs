@@ -5,6 +5,7 @@ using NPC;
 using UnityEngine;
 using UnityEngine.Audio;
 using Debug = UnityEngine.Debug;
+using DG.Tweening;
 
 //explosion is produced by the bomb class
 public class Explosion : AudioHandler {
@@ -64,14 +65,14 @@ public class Explosion : AudioHandler {
         FireSound();
     }
     
-	void Update ()
+	/*void Update ()
     {
         //on fire buring 
         if(explosionAudio.clip == fireBurning)
         {
             AudioCheck();
         }
-	}
+	}*/
 
     void ExplosionSound()
     {
@@ -88,6 +89,8 @@ public class Explosion : AudioHandler {
         explosionAudio.clip = fireBurning;
         explosionAudio.outputAudioMixerGroup = fireGroup;
         explosionAudio.loop = true;
+
+        InvokeRepeating("AudioCheck", Random.value, 1);
     }
 
     //checks whether to play looping audio based on distance from current player 

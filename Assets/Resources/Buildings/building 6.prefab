@@ -170,12 +170,13 @@ GameObject:
   - component: {fileID: 3981510384589418070}
   - component: {fileID: -8853148629358364559}
   - component: {fileID: -5872239740906759999}
+  - component: {fileID: 3575421863768699213}
   m_Layer: 0
   m_Name: building 6
-  m_TagString: Untagged
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 22
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &7472339913531141690
 Transform:
@@ -227,8 +228,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 2, z: 1}
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Size: {x: 1, y: 2.6798844, z: 1}
+  m_Center: {x: 0, y: 1.3399422, z: 0}
 --- !u!208 &-5872239740906759999
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -245,3 +246,17 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &3575421863768699213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7472339913530716698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8123b2d4e79e3b949845f66f823a7d31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smokePrefab: {fileID: 0}
+  howManyHits: 0

@@ -28,6 +28,7 @@ public class SpawnFromMap : MonoBehaviour
     public List<GameObject> interiors;
     public Transform cityParent;
     public GameObject terrain;
+    public GameObject landScape;
     int oldlayer;
 
     void Reset()
@@ -54,6 +55,11 @@ public class SpawnFromMap : MonoBehaviour
         oldlayer = terrain.layer;
         terrain.layer = 31;
         MeshCollider mCollider = terrain.AddComponent<MeshCollider>();
+
+        landScape = GameObject.Find("LandScape");
+        oldlayer = landScape.layer;
+        landScape.layer = 31;
+        MeshCollider mCollider2 = landScape.AddComponent<MeshCollider>();
 
         tex = Resources.Load("city grid") as Texture2D;
         //texHeight = Resources.Load("heightmap") as Texture2D;
