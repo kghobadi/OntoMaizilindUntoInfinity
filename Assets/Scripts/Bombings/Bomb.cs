@@ -16,7 +16,10 @@ public class Bomb : MonoBehaviour {
     PooledObject _pooledObj;
     public float moveSpeedOverTime;
     public float startSpeed = 10000f;
-
+    public bool randomizeSpeed;
+    public Vector2 randomStartSpeedRange = new Vector2(10000f, 15000f);
+    public Vector2 randomMoveSpeedRange = new Vector2(2500f, 5000f);
+    
     //audio vars
     AudioSource bombAudio;
     public AudioClip[] bombfalls;
@@ -48,22 +51,29 @@ public class Bomb : MonoBehaviour {
     void Start () {
         //pooled 
         _pooledObj = GetComponent<PooledObject>();
+    }
 
+    //called by bomber
+    public void SetBombFall()
+    {
         //set fall sound
         int randomFall = Random.Range(0, bombfalls.Length);
         bombAudio.clip = bombfalls[randomFall];
         bombAudio.Play();
         
-        //TODO try do tween for moving bombs instead of physics
-        //transform.DOMoveY()
-        //Could add randomization of speed. 
-	}
-
-    //called by bomber
-    public void SetBombFall()
-    {
+        //physx
         bombBody.isKinematic = false;
         bombBody.AddForce(0f, startSpeed, 0f);
+        
+        //TODO try do tween for moving bombs instead of physics
+        //transform.DOMoveY()
+        
+        //Randomize speed?
+        if (randomizeSpeed)
+        {
+            startSpeed = Random.Range(randomStartSpeedRange.x, randomStartSpeedRange.y);
+            moveSpeedOverTime = Random.Range(randomMoveSpeedRange.x, randomMoveSpeedRange.y);
+        }
     }
 
     //fall force 
@@ -133,6 +143,8 @@ public class Bomb : MonoBehaviour {
         {
             moveTowards.enabled = false;
         }
+        //stop audio 
+        bombAudio.Stop();
         //zero velocity
         bombBody.velocity = Vector3.zero;
         //disable forces 

@@ -153,6 +153,7 @@ namespace NPC
             startBehavior = startBehaviors[Random.Range(0, startBehaviors.Length)];
         }
 
+        //Fundamentally most of these behaviors could be called as coroutines. 
         void Update()
         {
             //player ref -- this is giving OutOfRange Exception when player dies? or switches? 
@@ -161,8 +162,6 @@ namespace NPC
                 
             if (AIenabled)
             {
-                //dist from player 
-                //DistanceCheck();
                 //idle state
                 Idle();
                 //moving state
@@ -697,6 +696,7 @@ namespace NPC
             }
 
             myNavMesh.SetDestination(targetPosition);
+            //TODO use Calculate Path instead and figure out how to store the paths and less frequently update. 
 
             myNavMesh.isStopped = false;
 

@@ -14,11 +14,10 @@ public class Bomber : MonoBehaviour {
     public GameObject bombPrefab;
     public bool bombing;
 
-    //TODO add variable for bomb amount at a time. 
+    [SerializeField] private int bombsToDrop = 2;
     public float bombInterval = 0.45f;
     public float spawnRadius = 25f;
     public int bombMin = 5, bombMax = 15;
-    ////int bombsToDrop;
 
 	void Awake ()
     {
@@ -50,10 +49,18 @@ public class Bomber : MonoBehaviour {
         int randomBcount = Random.Range(bombMin, bombMax);
 
         //Debug.Log("Spawning " + randomBcount + " bombs");
-
+        //set bombs left
+        int bombsLeft = randomBcount;
         for(int i = 0; i < randomBcount; i++)
         {
-            DropBomb();
+            if (bombsLeft > 0)
+            {
+                for (int b = 0; b < bombsToDrop; b++)
+                {
+                    DropBomb();
+                    bombsLeft--;
+                }
+            }
             //wait
             yield return new WaitForSeconds(bombInterval);
         }
