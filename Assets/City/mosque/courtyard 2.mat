@@ -8,11 +8,11 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: courtyard 2
-  m_Shader: {fileID: 4800000, guid: f4b42a7d4ab9129479daaaf27fcb5d6b, type: 3}
+  m_Shader: {fileID: 4800000, guid: 56c40b27be0a3e24d964a07526dd8417, type: 3}
   m_ShaderKeywords: _MK_ALBEDO_MAP _MK_ARTISTIC_PROJECTION_SCREEN_SPACE _MK_EMISSION_MAP
     _MK_LIGHT_BANDED _MK_RECEIVE_SHADOWS _MK_WRAPPED_DIFFUSE _RECEIVESHADOWS_ON _TOGGLESWITCH0_ON
     _USELIGHT_ON _WRAPPEDLIGHTING_ON
-  m_LightmapFlags: 0
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -127,7 +127,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture1:
-        m_Texture: {fileID: 2800000, guid: 5c0d01a670cd56949954f39d01862a2d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7a170cdb7cc88024cb628cfcdbb6705c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture2:
@@ -147,6 +147,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _2NoiseContrast: 1.5
+    - _2NoiseStrength: 1
+    - _3DNoiseTime: 0.1
     - _ASEOutlineWidth: 0.05
     - _AdvancedTab: 1
     - _AlphaClipping: 0
@@ -191,11 +194,13 @@ Material:
     - _LightSteps: 4
     - _LightSteps1: 4
     - _LightThreshold: 0.39
-    - _MaskRange: 0.88
+    - _MaskRange: 0.727
     - _MaskRange2: 0.1
-    - _MaskRangeMin: 0.7
+    - _MaskRangeMin: 0.4
+    - _MaskSoftness1: 0.2
     - _Metallic: 0
     - _Mode: 0
+    - _NoiseScale: 5
     - _NormalMapIntensity: 1
     - _OcclusionStrength: 1
     - _OffsetSpeed: 0.5
@@ -256,9 +261,11 @@ Material:
     m_Colors:
     - _ASEOutlineColor: {r: 0, g: 0, b: 0, a: 0}
     - _AlbedoColor: {r: 1, g: 1, b: 1, a: 1}
-    - _AmbientColor: {r: 2.9960785, g: 1.5372549, b: 0, a: 1}
+    - _AmbientColor: {r: 0.6037736, g: 0.3097896, b: 0, a: 1}
+    - _BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+    - _CircularNoiseTileAndSpeed: {r: 15, g: 25, b: 0, a: 0.03}
     - _Color: {r: 1, g: 0.9629769, b: 0.9198113, a: 1}
-    - _Color0: {r: 0.23584908, g: 0.021137413, b: 0.021137413, a: 0}
+    - _Color0: {r: 0.754717, g: 0.53123546, b: 0, a: 0}
     - _Color1: {r: 1, g: 1, b: 1, a: 0}
     - _Color2: {r: 1, g: 1, b: 1, a: 0}
     - _Color3: {r: 1, g: 0.7607844, b: 0, a: 0}
