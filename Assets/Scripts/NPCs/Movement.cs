@@ -24,6 +24,7 @@ namespace NPC
         public LayerMask grounded;
         [HideInInspector]
         public NavMeshAgent myNavMesh;
+        private NavMeshPath path;
         public bool randomSpeed = true;
         [Tooltip("Random value within this range will be added to navmesh speed.")]
         public Vector2 speedRange = new Vector2(-5f, 10f);
@@ -98,7 +99,7 @@ namespace NPC
 
         [Header("Follower Logic")] 
         public Transform followObject;
-
+        
         void Awake()
         {
             GetRefs();
@@ -131,7 +132,8 @@ namespace NPC
             {
                 RandomizeSpeed();
             }
-
+            path = new NavMeshPath();
+            
             if (randomizeStartBehavior)
             {
                 RandomizeStartBehavior();
@@ -586,8 +588,10 @@ namespace NPC
                     camObj.myBody.transform.localRotation = Quaternion.identity;
                 }
 
+                //get dist
+                float dist = Vector3.Distance(transform.position, targetPosition);
                 //stop running after we are close to position
-                if (Vector3.Distance(transform.position, targetPosition) < myNavMesh.stoppingDistance + 3f)
+                if (dist < myNavMesh.stoppingDistance + 3f)
                 {
                     //can be called by triggers or smth
                     if (resetsMovement)
@@ -695,8 +699,12 @@ namespace NPC
                 targetPosition = hit.point;
             }
 
-            myNavMesh.SetDestination(targetPosition);
-            //TODO use Calculate Path instead and figure out how to store the paths and less frequently update. 
+            //Old set dest method 
+            //myNavMesh.SetDestination(targetPosition);
+            
+            //new path calc method 
+            NavMesh.CalculatePath(transform.position, targetPosition, NavMesh.AllAreas, path);
+            myNavMesh.SetPath(path);
 
             myNavMesh.isStopped = false;
 
