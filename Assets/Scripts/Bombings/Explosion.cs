@@ -156,6 +156,9 @@ public class Explosion : AudioHandler {
 
         //destroy the human
         Movement npc = humanObj.GetComponent<Movement>();
-        npc.ResetMovement(camSwitcher.death);
+        if (npc)
+        {
+            npc.ResetMovement(camSwitcher.death);
+        }
     }
 }
