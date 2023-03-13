@@ -39,7 +39,17 @@ public class SpiritTrail : MonoBehaviour {
 
         activated = true;
     }
+
+    public void DeathTrail()
+    {
+        //get point from bomber
+        projectionDisplayCorner = GameObject.FindGameObjectWithTag("Plane").transform;
+
+        //enable
+        EnableSpirit();
+    }
 	
+    //Could revise this to be a coroutine as well
 	void Update ()
     {
         if (activated)

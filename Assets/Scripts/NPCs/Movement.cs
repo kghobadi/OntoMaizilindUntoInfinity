@@ -99,7 +99,7 @@ namespace NPC
 
         [Header("Follower Logic")] 
         public Transform followObject;
-        
+
         void Awake()
         {
             GetRefs();
@@ -448,6 +448,14 @@ namespace NPC
                 waypointCounter = 0;
 
                 waitingToGiveMonologue = false;
+            }
+
+            //Die i die? 
+            if (newMove.pathName == "Die")
+            {
+                //assign spirit trail a corner of the screen corresponding to sitting point 
+                if(spiritTrail != null)
+                    spiritTrail.DeathTrail();
             }
 
             resetsMovement = false;

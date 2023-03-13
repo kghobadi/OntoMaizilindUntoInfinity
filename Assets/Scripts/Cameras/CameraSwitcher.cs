@@ -314,9 +314,12 @@ public class CameraSwitcher : MonoBehaviour
             if(cam.gameObject.activeSelf == false)
                 cam.gameObject.SetActive(true);
             //turn off that persons NavMeshAgent
-            cam.GetNMA().enabled = false;
-            //turn off that persons AI movement 
-            cam.GetMovement().AIenabled = false;
+            if (cam.GetNMA())
+            {
+                cam.GetNMA().enabled = false;
+                //turn off that persons AI movement 
+                cam.GetMovement().AIenabled = false;
+            }
             //set the body's parent to its camera
             cam.myBody.transform.SetParent(cam.camObj.transform);
             //set new cam
