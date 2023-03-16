@@ -30,6 +30,94 @@ public class SpawnFromMap : MonoBehaviour
     public GameObject terrain;
     public GameObject landScape;
     int oldlayer;
+    public List<GameObject> interiorsObj;
+
+    private void Start()
+    {
+        if (!interiorsObj[0].activeSelf)
+        {
+            print("activate interior buildings coroutine");
+            StartCoroutine(ActivateInteriors());
+        }
+    }
+
+    IEnumerator ActivateInteriors()
+    {
+        print("start coroutine");
+        Transform cam = Camera.main.transform;
+        int i = 0;
+        while (true)
+        {
+            if (i < interiorsObj.Count)
+            {
+                print("activate game object");
+                interiorsObj[i].SetActive(true);
+                i++;
+            }
+            else
+            {
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
+    [ContextMenu("Spawn City")]
+    void SpawnCity()
+    {
+        interiorsObj.Clear();
+
+        rots.Add(Quaternion.Euler(0, 0, 0));
+        rots.Add(Quaternion.Euler(0, 90, 0));
+        rots.Add(Quaternion.Euler(0, 180, 0));
+        rots.Add(Quaternion.Euler(0, 270, 0));
+
+        mats.Add(Resources.Load("Buildings/building mat") as Material);
+        mats.Add(Resources.Load("Buildings/building mat 1") as Material);
+        mats.Add(Resources.Load("Buildings/building mat 2") as Material);
+        //mats.Add(Resources.Load("Buildings/building mat 3") as Material);
+
+        terrain = GameObject.Find("terrain");
+        oldlayer = terrain.layer;
+        terrain.layer = 31;
+        MeshCollider mCollider = terrain.AddComponent<MeshCollider>();
+
+        landScape = GameObject.Find("LandScape");
+        oldlayer = landScape.layer;
+        landScape.layer = 31;
+        MeshCollider mCollider2 = landScape.AddComponent<MeshCollider>();
+
+        size.x = tex.width;
+        size.y = tex.height;
+        range = ((1 / size.x) * 10) / 2;
+
+        cityParent = transform.FindChild("CITY");
+        DestroyImmediate(cityParent.gameObject);
+        GameObject city = new GameObject("CITY");
+        city.transform.position = transform.position;
+        city.transform.rotation = Quaternion.identity;
+        city.name = "CITY";
+        city.transform.SetParent(transform);
+        cityParent = city.transform;
+
+        worldPos.Clear();
+        colors.Clear();
+
+        SpawnGrid();
+
+        terrain.layer = oldlayer;
+        DestroyImmediate(mCollider);
+        DestroyImmediate(mCollider2);
+    }
+
+    [ContextMenu("Deactivate Interiors")]
+    void DeactivateInteriors()
+    {
+        foreach (GameObject obj in interiorsObj)
+        {
+            obj.SetActive(false);
+        }
+    }
 
     void Reset()
     {
@@ -39,7 +127,7 @@ public class SpawnFromMap : MonoBehaviour
         buildings.Add(Resources.Load("Buildings/building 4") as GameObject);
         buildings.Add(Resources.Load("Buildings/building 5") as GameObject);
         buildings.Add(Resources.Load("Buildings/building 6") as GameObject);
-        interiors.Add(Resources.Load("Buildings/building 9int") as GameObject);
+        interiors.Add(Resources.Load("Buildings/interior 2") as GameObject);
 
         rots.Add(Quaternion.Euler(0, 0, 0));
         rots.Add(Quaternion.Euler(0, 90, 0));
@@ -179,11 +267,16 @@ public class SpawnFromMap : MonoBehaviour
             //if all adjacent pixels are buildings, instantiate a "interior" building prefab
             clone = PrefabUtility.InstantiatePrefab(interiors[Random.Range(0, interiors.Count)]) as GameObject;
             clone.transform.rotation = rots[Random.Range(0, rots.Count)];
+            if (Random.value > 0.5f)
+            {
+                clone.transform.GetChild(0).rotation = Quaternion.Euler(90, 0, 0);
+            }
             //clone.name = "Blue - LocalPos: " + localX as string + "," + localY as string + "; Pixel: " + x as string + "," + z as string;
             clone.transform.localScale = new Vector3(
                 transform.localScale.x,
-                transform.localScale.y * (float)System.Math.Round(Random.Range(1f, 1.2f), 1),
+                transform.localScale.y * Random.Range(9, 11)/ 10,
                 transform.localScale.z);
+            interiorsObj.Add(clone);
         } else
         {
             print("normal building");

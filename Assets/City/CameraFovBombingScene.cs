@@ -42,7 +42,7 @@ public class CameraFovBombingScene : MonoBehaviour
 			UpdateT = -UpdateT;
         }
 
-		remapValue = Mathf.InverseLerp(-0.2f, 0.3f, UpdateT);
+		remapValue = Mathf.InverseLerp(-0.27f, 0.27f, UpdateT);
 
 		updateRot = Mathf.Lerp(MinFOV, MaxFOV, remapValue);
 
