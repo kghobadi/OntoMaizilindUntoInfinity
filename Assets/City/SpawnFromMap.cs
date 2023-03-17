@@ -22,7 +22,8 @@ public class SpawnFromMap : MonoBehaviour
     List<Vector3> worldPos;
     List<Color> colors;
     public List<Quaternion> rots;
-    List<Material> mats;
+    public List<Quaternion> rots2;
+    public List<Material> mats;
 
     public List<GameObject> buildings;
     public List<GameObject> interiors;
@@ -66,16 +67,6 @@ public class SpawnFromMap : MonoBehaviour
     void SpawnCity()
     {
         interiorsObj.Clear();
-
-        rots.Add(Quaternion.Euler(0, 0, 0));
-        rots.Add(Quaternion.Euler(0, 90, 0));
-        rots.Add(Quaternion.Euler(0, 180, 0));
-        rots.Add(Quaternion.Euler(0, 270, 0));
-
-        mats.Add(Resources.Load("Buildings/building mat") as Material);
-        mats.Add(Resources.Load("Buildings/building mat 1") as Material);
-        mats.Add(Resources.Load("Buildings/building mat 2") as Material);
-        //mats.Add(Resources.Load("Buildings/building mat 3") as Material);
 
         terrain = GameObject.Find("terrain");
         oldlayer = terrain.layer;
@@ -224,8 +215,6 @@ public class SpawnFromMap : MonoBehaviour
                         hitY = hit.point.y;
                         clone.transform.position = new Vector3(pos.x, hitY, pos.z);
                     }
-                    //pixel_height = texHeight.GetPixel(x, z).a;
-                    //clone.transform.position = new Vector3(pos.x, pos.y + (Mathf.Lerp(heightRange.x, heightRange.y, pixel_height)), pos.z);
                     MeshRenderer[] rends = clone.GetComponentsInChildren<MeshRenderer>();
                     Material mat = mats[Random.Range(0, mats.Count)];
                     foreach (MeshRenderer mR in rends)
@@ -271,7 +260,6 @@ public class SpawnFromMap : MonoBehaviour
             {
                 clone.transform.GetChild(0).rotation = Quaternion.Euler(90, 0, 0);
             }
-            //clone.name = "Blue - LocalPos: " + localX as string + "," + localY as string + "; Pixel: " + x as string + "," + z as string;
             clone.transform.localScale = new Vector3(
                 transform.localScale.x,
                 transform.localScale.y * Random.Range(9, 11)/ 10,
@@ -283,10 +271,10 @@ public class SpawnFromMap : MonoBehaviour
             //otherwise, choose from the normal buildings
             clone = PrefabUtility.InstantiatePrefab(buildings[Random.Range(0, buildings.Count)]) as GameObject;
             clone.transform.rotation = rots[Random.Range(0, rots.Count)];
-            //clone.name = "White - LocalPos: " + localX as string + "," + localY as string + "; Pixel: " + x as string + "," + z as string;
             clone.transform.localScale = new Vector3(
                 transform.localScale.x,
-                transform.localScale.y * (float)System.Math.Round(Random.Range(0.8f, 1.2f), 1),
+                transform.localScale.y * Random.Range(8, 13) / 10,
+                //transform.localScale.y * (float)System.Math.Round(Random.Range(0.8f, 1.2f), 1),
                 transform.localScale.z);
         }
     }
