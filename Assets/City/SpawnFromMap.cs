@@ -9,7 +9,6 @@ public class SpawnFromMap : MonoBehaviour
     public Vector2 size;
     public Texture2D tex;
     public Texture2D texHeight;
-    Vector2 heightRange = new Vector2(0, 450);
     float range;
     Color white = Color.white;
     Color red = Color.red;
@@ -18,7 +17,6 @@ public class SpawnFromMap : MonoBehaviour
     Color black = Color.black;
     Color grey = Color.grey;
     Color pixel_colour;
-    float pixel_height;
     List<Vector3> worldPos;
     List<Color> colors;
     public List<Quaternion> rots;
@@ -32,13 +30,21 @@ public class SpawnFromMap : MonoBehaviour
     public GameObject landScape;
     int oldlayer;
     public List<GameObject> interiorsObj;
+    public List<Vector3> buildingPos;
+    public List<Vector3> interiorPos;
+    public bool InstantiateOnStart = false;
+    public bool ActivateInteriorsLoop = false;
 
     private void Start()
     {
-        if (!interiorsObj[0].activeSelf)
+        if (ActivateInteriorsLoop)
         {
-            print("activate interior buildings coroutine");
             StartCoroutine(ActivateInteriors());
+        }
+
+        if (InstantiateOnStart)
+        {
+            StartCoroutine(SpawnBuildingsLoop());
         }
     }
 
@@ -95,6 +101,57 @@ public class SpawnFromMap : MonoBehaviour
         colors.Clear();
 
         SpawnGrid();
+
+        terrain.layer = oldlayer;
+        DestroyImmediate(mCollider);
+        DestroyImmediate(mCollider2);
+    }
+
+    [ContextMenu("Find Building Positions")]
+    void FindPositions()
+    {
+        interiorsObj.Clear();
+        buildingPos.Clear();
+        interiorPos.Clear();
+
+        terrain = GameObject.Find("terrain");
+        oldlayer = terrain.layer;
+        terrain.layer = 31;
+        MeshCollider mCollider = terrain.AddComponent<MeshCollider>();
+
+        landScape = GameObject.Find("LandScape");
+        oldlayer = landScape.layer;
+        landScape.layer = 31;
+        MeshCollider mCollider2 = landScape.AddComponent<MeshCollider>();
+
+        size.x = tex.width;
+        size.y = tex.height;
+        range = ((1 / size.x) * 10) / 2;
+
+        Vector3 pos;
+        RaycastHit hit;
+        float hitY;
+        int layerMask = 1 << 31;
+
+        for (int x = 0; x < size.x; x++)
+        {
+            for (int z = 0; z < size.y; z++)
+            {
+                pixel_colour = tex.GetPixel(x, z);
+
+                float localX = ((x / size.x) * 10 - 0.5f * 10 + range) * size.x / 10;
+                float localY = ((z / size.x) * 10 - 0.5f * 10 + range) * size.x / 10;
+
+                pos = transform.TransformPoint(new Vector3(localX, 0, localY));
+                worldPos.Add(pos);
+                colors.Add(pixel_colour);
+
+                if (pixel_colour == white)
+                {
+                    SetBuilding(x, z, false);
+                }
+            }
+        }
 
         terrain.layer = oldlayer;
         DestroyImmediate(mCollider);
@@ -189,7 +246,7 @@ public class SpawnFromMap : MonoBehaviour
 
                 if (pixel_colour == white)
                 {
-                    SetBuilding(x,z);
+                    SetBuilding(x,z, true);
                 }
                 else if (pixel_colour == blue)
                 {
@@ -227,7 +284,7 @@ public class SpawnFromMap : MonoBehaviour
         }
     }
 
-    void SetBuilding(int x, int y)
+    void SetBuilding(int x, int y, bool instantiate)
     {
         int i = 0;
         Color adjacentPixel = tex.GetPixel(x, y + 1);
@@ -254,29 +311,124 @@ public class SpawnFromMap : MonoBehaviour
         {
             print("interior");
             //if all adjacent pixels are buildings, instantiate a "interior" building prefab
-            clone = PrefabUtility.InstantiatePrefab(interiors[Random.Range(0, interiors.Count)]) as GameObject;
-            clone.transform.rotation = rots[Random.Range(0, rots.Count)];
-            if (Random.value > 0.5f)
+            if (instantiate)
             {
-                clone.transform.GetChild(0).rotation = Quaternion.Euler(90, 0, 0);
+                clone = PrefabUtility.InstantiatePrefab(interiors[Random.Range(0, interiors.Count)]) as GameObject;
+                clone.transform.rotation = rots[Random.Range(0, rots.Count)];
+                if (Random.value > 0.5f)
+                {
+                    clone.transform.GetChild(0).rotation = Quaternion.Euler(90, 0, 0);
+                }
+                clone.transform.localScale = new Vector3(
+                    transform.localScale.x,
+                    transform.localScale.y * Random.Range(9, 11) / 10,
+                    transform.localScale.z);
+                interiorsObj.Add(clone);
             }
-            clone.transform.localScale = new Vector3(
-                transform.localScale.x,
-                transform.localScale.y * Random.Range(9, 11)/ 10,
-                transform.localScale.z);
-            interiorsObj.Add(clone);
+            else
+            {
+                Vector3 pos;
+                RaycastHit hit;
+                float hitY;
+                int layerMask = 1 << 31;
+                float localX = ((x / size.x) * 10 - 0.5f * 10 + range) * size.x / 10;
+                float localY = ((y / size.x) * 10 - 0.5f * 10 + range) * size.x / 10;
+                pos = transform.TransformPoint(new Vector3(localX, 0, localY));
+                if (Physics.Raycast(pos, Vector3.down, out hit, Mathf.Infinity, layerMask))
+                {
+                    hitY = hit.point.y;
+                    interiorPos.Add(new Vector3(pos.x, hitY, pos.z));
+                }
+            }
+
         } else
         {
             print("normal building");
-            //otherwise, choose from the normal buildings
-            clone = PrefabUtility.InstantiatePrefab(buildings[Random.Range(0, buildings.Count)]) as GameObject;
-            clone.transform.rotation = rots[Random.Range(0, rots.Count)];
-            clone.transform.localScale = new Vector3(
-                transform.localScale.x,
-                transform.localScale.y * Random.Range(8, 13) / 10,
-                //transform.localScale.y * (float)System.Math.Round(Random.Range(0.8f, 1.2f), 1),
-                transform.localScale.z);
+            if (instantiate)
+            {
+                //otherwise, choose from the normal buildings
+                clone = PrefabUtility.InstantiatePrefab(buildings[Random.Range(0, buildings.Count)]) as GameObject;
+                clone.transform.rotation = rots[Random.Range(0, rots.Count)];
+                clone.transform.localScale = new Vector3(
+                    transform.localScale.x,
+                    transform.localScale.y * Random.Range(8, 13) / 10,
+                    //transform.localScale.y * (float)System.Math.Round(Random.Range(0.8f, 1.2f), 1),
+                    transform.localScale.z);
+            }
+            else
+            {
+                Vector3 pos;
+                RaycastHit hit;
+                float hitY;
+                int layerMask = 1 << 31;
+                float localX = ((x / size.x) * 10 - 0.5f * 10 + range) * size.x / 10;
+                float localY = ((y / size.x) * 10 - 0.5f * 10 + range) * size.x / 10;
+                pos = transform.TransformPoint(new Vector3(localX, 0, localY));
+                if (Physics.Raycast(pos, Vector3.down, out hit, Mathf.Infinity, layerMask))
+                {
+                    hitY = hit.point.y;
+                    buildingPos.Add(new Vector3(pos.x, hitY, pos.z));
+                }
+            }
+
         }
+    }
+
+    IEnumerator SpawnBuildingsLoop()
+    {
+        int i = 0;
+        bool go = true;
+        while (go)
+        {
+            if (i < buildingPos.Count)
+            {
+                clone = PrefabUtility.InstantiatePrefab(buildings[Random.Range(0, buildings.Count)]) as GameObject;
+                clone.transform.rotation = rots[Random.Range(0, rots.Count)];
+                clone.transform.localScale = new Vector3(
+                    transform.localScale.x,
+                    transform.localScale.y * Random.Range(8, 13) / 10,
+                    //transform.localScale.y * (float)System.Math.Round(Random.Range(0.8f, 1.2f), 1),
+                    transform.localScale.z);
+                clone.transform.position = new Vector3(buildingPos[i].x, buildingPos[i].y, buildingPos[i].z);
+                clone.transform.SetParent(cityParent);
+                i++;
+            }
+            else
+            {
+                go = false;
+            }
+            yield return null;
+        }
+
+        i = 0;
+        go = true;
+
+        while (go)
+        {
+            if (i < interiorPos.Count)
+            {
+                clone = PrefabUtility.InstantiatePrefab(interiors[Random.Range(0, interiors.Count)]) as GameObject;
+                clone.transform.rotation = rots[Random.Range(0, rots.Count)];
+                if (Random.value > 0.5f)
+                {
+                    clone.transform.GetChild(0).rotation = Quaternion.Euler(90, 0, 0);
+                }
+                clone.transform.localScale = new Vector3(
+                    transform.localScale.x,
+                    transform.localScale.y * Random.Range(8, 13) / 10,
+                    //transform.localScale.y * (float)System.Math.Round(Random.Range(0.8f, 1.2f), 1),
+                    transform.localScale.z);
+                clone.transform.position = new Vector3(interiorPos[i].x, interiorPos[i].y, interiorPos[i].z);
+                clone.transform.SetParent(cityParent);
+                i++;
+            }
+            else
+            {
+                go = false;
+            }
+            yield return null;
+        }
+        yield break;
     }
 
     /*
