@@ -24,16 +24,6 @@ public class Bomber : MonoBehaviour {
         effectsMan = FindObjectOfType<EffectsManager>();
         camSwitcher = FindObjectOfType<CameraSwitcher>();
 	}
-	
-	/*void Update () {
-        //get input device 
-        var inputDevice = InputManager.ActiveDevice;
-
-        if (Input.GetKeyDown(KeyCode.Space) || inputDevice.Action1.WasPressed)
-        {
-            StartCoroutine(SpawnBombs());
-        }
-	}*/
 
     //public bomb call 
     public void DropBombs()
