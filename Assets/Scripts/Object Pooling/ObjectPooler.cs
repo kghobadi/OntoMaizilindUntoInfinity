@@ -31,6 +31,9 @@ public class ObjectPooler : MonoBehaviour {
 
     protected virtual void ActivateObject(GameObject activatedObject) {
         activatedObject.SetActive(true);
+        
+        PooledObject pooledObject = activatedObject.GetComponent<PooledObject>();
+        pooledObject.GrabObject();
     }
 
 
@@ -43,8 +46,6 @@ public class ObjectPooler : MonoBehaviour {
         GameObject grabbedObject = objects[index];
         index++;
         if (index >= startingNumber) { index = 0; }
-
-
         // If there are inactive objects in the list, return the top one. Otherwise, instantiate a new one and return that.
         //if (inactiveObjects.Count > 0) {
         //grabbedObject = inactiveObjects[0];
@@ -62,7 +63,8 @@ public class ObjectPooler : MonoBehaviour {
     }
 
 
-    public virtual void ReturnObject(GameObject returnedObject) {
+    public virtual void ReturnObject(GameObject returnedObject) 
+    {
         returnedObject.transform.parent = transform;
         DeactivateObject(returnedObject);
     }
