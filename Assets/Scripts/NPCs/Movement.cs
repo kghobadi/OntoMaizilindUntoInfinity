@@ -229,9 +229,9 @@ namespace NPC
                     {
                         if (spiritTrail)
                         {
-                            if(spiritTrail.activated == false)
+                            if(spiritTrail.Trail.enabled == false)
                             {
-                                spiritTrail.EnableSpirit();
+                                spiritTrail.ProjectTrail();
                             }
                         }
                     }

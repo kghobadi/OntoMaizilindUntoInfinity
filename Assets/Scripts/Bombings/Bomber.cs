@@ -4,7 +4,7 @@ using UnityEngine;
 using InControl;
 
 /// <summary>
-/// Controls the bombers
+/// Controls the bomber planes and spawning of bombs. 
 /// </summary>
 public class Bomber : MonoBehaviour {
     EffectsManager effectsMan;
@@ -103,7 +103,7 @@ public class Bomber : MonoBehaviour {
         {
             //add move towards
             moveTo = bomb.AddComponent<MoveTowards>();
-            moveTo.MoveTo(playerT.position, 500f);
+            moveTo.MoveTo(playerT, 500f);
             //set homing missle hehe 
             bombScript.moveTowards = moveTo;
             bombScript.playerDest = playerT;
@@ -112,7 +112,7 @@ public class Bomber : MonoBehaviour {
         else
         {
             moveTo.enabled = true;
-            moveTo.MoveTo(playerT.position, 500f);
+            moveTo.MoveTo(playerT, 500f);
         }
     }
     
@@ -136,7 +136,7 @@ public class Bomber : MonoBehaviour {
         {
             //add move towards
             moveTo = bomb.AddComponent<MoveTowards>();
-            moveTo.MoveTo(mom.position, 500f);
+            moveTo.MoveTo(mom, 500f);
             //set homing missle hehe 
             bombScript.moveTowards = moveTo;
             bombScript.playerDest = mom;
@@ -145,7 +145,7 @@ public class Bomber : MonoBehaviour {
         else
         {
             moveTo.enabled = true;
-            moveTo.MoveTo(mom.position, 500f);
+            moveTo.MoveTo(mom, 500f);
         }
     }
 }
