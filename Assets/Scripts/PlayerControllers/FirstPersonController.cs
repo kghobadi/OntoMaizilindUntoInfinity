@@ -63,7 +63,7 @@ public class FirstPersonController : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         //get input device 
         var inputDevice = InputManager.ActiveDevice;
@@ -90,8 +90,8 @@ public class FirstPersonController : MonoBehaviour
                 movement = transform.rotation * movement;
                 player.Move(movement * Time.deltaTime);
                 
-                if(resetAudio)
-                    resetAudio.ResetNearbyAudio();
+                //if(resetAudio)
+                    //resetAudio.ResetNearbyAudio();
 
                 if (npcAnimator)
                 {

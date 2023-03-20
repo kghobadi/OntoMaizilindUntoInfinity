@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using NPC;
@@ -6,12 +7,15 @@ using UnityEngine;
 using UnityEngine.Audio;
 using Debug = UnityEngine.Debug;
 using DG.Tweening;
+using Random = UnityEngine.Random;
 
 //explosion is produced by the bomb class
 public class Explosion : AudioHandler {
     //world manager ref
     WorldManager worldMan;
     CameraSwitcher camSwitcher;
+    private PooledObject pooledObj;
+    private int enableCounter;
 
     //audio vars
     AudioSource explosionAudio;
@@ -19,6 +23,7 @@ public class Explosion : AudioHandler {
     public AudioClip[] explosions;
     public AudioClip fireBurning;
     public AudioMixerGroup fireGroup;
+    public float fireLifetime = 35f;
     int randomFall;
 
     //particles
@@ -41,21 +46,34 @@ public class Explosion : AudioHandler {
         //component refs
         explosionAudio = GetComponent<AudioSource>();
         explosionParts = GetComponent<ParticleSystem>();
+        pooledObj = GetComponent<PooledObject>();
     }
     
-    void Start () 
+    void OnEnable ()
+    {
+        enableCounter++;
+        if (enableCounter > 1)
+        {
+            worldMan.explosionsToDelete.Add(gameObject);
+            ResetExplosion();
+        }
+    }
+
+    void ResetExplosion()
     {
         //set particles 
-        worldMan.explosionsToDelete.Add(gameObject);
         eMain = explosionParts.main;
         
         //play particles 
         explosionParts.Play();
+        
+        //stop existing coroutine 
+        StopAllCoroutines();
 
         //audio 
         StartCoroutine(ExplodeThenFireSounds());
     }
-
+    
     IEnumerator ExplodeThenFireSounds()
     {
         ExplosionSound();
@@ -63,16 +81,20 @@ public class Explosion : AudioHandler {
         yield return new WaitForSeconds(explosionAudio.clip.length);
 
         FireSound();
-    }
-    
-	/*void Update ()
-    {
-        //on fire buring 
-        if(explosionAudio.clip == fireBurning)
+
+        yield return new WaitForSeconds(fireLifetime);
+
+        //stop particles 
+        explosionParts.Stop();
+        
+        yield return new WaitForSeconds(eMain.startLifetime.constant);
+        
+        //auto return to pool
+        if (pooledObj)
         {
-            AudioCheck();
+            pooledObj.ReturnToPool();
         }
-	}*/
+    }
 
     void ExplosionSound()
     {

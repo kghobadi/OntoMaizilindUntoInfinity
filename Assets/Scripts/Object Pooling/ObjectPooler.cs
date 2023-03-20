@@ -31,9 +31,6 @@ public class ObjectPooler : MonoBehaviour {
 
     protected virtual void ActivateObject(GameObject activatedObject) {
         activatedObject.SetActive(true);
-        
-        PooledObject pooledObject = activatedObject.GetComponent<PooledObject>();
-        pooledObject.GrabObject();
     }
 
 
