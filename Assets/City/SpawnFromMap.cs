@@ -103,6 +103,7 @@ public class SpawnFromMap : MonoBehaviour
         SpawnGrid();
 
         terrain.layer = oldlayer;
+        landScape.layer = oldlayer;
         DestroyImmediate(mCollider);
         DestroyImmediate(mCollider2);
     }
