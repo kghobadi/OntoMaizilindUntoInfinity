@@ -62,7 +62,8 @@ public class Bomber : MonoBehaviour {
     void DropBomb()
     {
         //find spawn pos and grab obj 
-        Vector3 spawnPos = transform.position - new Vector3(0, 7, 0) + Random.insideUnitSphere * spawnRadius;
+        Vector3 randomInsideSphere = (Random.insideUnitSphere * spawnRadius);
+        Vector3 spawnPos = transform.position - new Vector3(0, 7, 0) + randomInsideSphere;
         GameObject bomb =  effectsMan.bombPooler.GrabObject();
         //set pos 
         bomb.transform.position = spawnPos;

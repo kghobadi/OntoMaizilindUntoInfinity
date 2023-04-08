@@ -84,10 +84,13 @@ public class Bomb : MonoBehaviour {
         bombBody.AddForce(0, -moveSpeedOverTime, 0);
         
         //y check 
-        if(transform.position.y < 0f)
+        
+        if(transform.position.y < -150f)
         {
-            SpawnExplosion(null);
+            ResetBomb();
+            //SpawnExplosion(null);
         }
+        
 	}
     
     void OnTriggerEnter(Collider other)
@@ -95,8 +98,13 @@ public class Bomb : MonoBehaviour {
         //collision checks 
         if (other.gameObject.tag == "Building" || other.gameObject.tag == "Ground" || other.gameObject.tag == "Car" || other.gameObject.tag == "Human" || other.gameObject.tag == "Player") 
         {
+            print(other.gameObject.tag);
             SpawnExplosion(other.gameObject);
-        } 
+        }
+        else
+        {
+            ResetBomb();
+        }
     }
     
     void SpawnExplosion(GameObject obj)

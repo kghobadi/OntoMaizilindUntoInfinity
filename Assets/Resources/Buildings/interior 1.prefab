@@ -88,8 +88,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7472339913531141690}
+  - component: {fileID: 5563697296371785612}
   - component: {fileID: -530441288355873654}
   - component: {fileID: 8369220716748711472}
+  - component: {fileID: -8351760346991827689}
   m_Layer: 22
   m_Name: interior 1
   m_TagString: Building
@@ -112,6 +114,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 0}
+--- !u!205 &5563697296371785612
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7472339913530716698}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.00015127659, y: 0.83922505, z: 0.00028586388}
+  m_Size: 3.1693068
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.14793605
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 6299125160237705764}
+  m_Enabled: 1
 --- !u!208 &-530441288355873654
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -141,3 +162,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2.639475, z: 1}
   m_Center: {x: 0, y: 0.8195807, z: 0}
+--- !u!114 &-8351760346991827689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7472339913530716698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8123b2d4e79e3b949845f66f823a7d31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smokePrefab: {fileID: 325493562403967690, guid: 7b46b98bff14ea84685a74ded8e5254a,
+    type: 3}
+  angleRange: 7
+  howManyHits: 0
+  explosion: 0
+  hitMaterials:
+  - {fileID: 2100000, guid: 2a39e088eeca81749945a45302f07fd5, type: 2}
+  - {fileID: 2100000, guid: f922a949980959e4e8b1c19b667f2da8, type: 2}
+  rend:
+  - {fileID: 6299125160237705764}
