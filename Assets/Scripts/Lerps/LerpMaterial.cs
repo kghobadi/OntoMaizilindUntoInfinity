@@ -30,7 +30,7 @@ public class LerpMaterial : MonoBehaviour {
     public bool resetParent;
     public bool resetOnDisable;
     private bool wasCalled;
-    [Tooltip("Check this to reset parent at end")]
+    [Tooltip("Check this to load scene after transition")]
     public bool loadScene;
     [Tooltip("Start value = floatToLerp when Lerp is called")]
     public float startValue;
