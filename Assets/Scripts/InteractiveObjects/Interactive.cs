@@ -184,29 +184,7 @@ public class Interactive : AudioHandler
 	{
 		Init();
 		
-		//highlight obj
-		if (_meshRenderer)
-		{
-			if (_meshRenderer.materials.Length > 1)
-			{
-				_meshRenderer.materials = activeMats;
-			}
-			else
-			{
-				_meshRenderer.material = activeMat;
-			}
-		}
-		if (_SkinnedMeshRenderer)
-		{
-			if (_SkinnedMeshRenderer.materials.Length > 0)
-			{
-				_SkinnedMeshRenderer.materials = activeMats;
-			}
-			else
-			{
-				_SkinnedMeshRenderer.material = activeMat;
-			}
-		}
+		SetMaterials(activeMat, activeMats);
 			
 		active = true;
 		
@@ -220,6 +198,33 @@ public class Interactive : AudioHandler
 				clickerUI.FadeIn();
 		}
 	}
+
+	protected void SetMaterials(Material material, Material[] materials)
+	{
+		//highlight obj
+		if (_meshRenderer)
+		{
+			if (_meshRenderer.materials.Length > 1)
+			{
+				_meshRenderer.materials = materials;
+			}
+			else
+			{
+				_meshRenderer.material = material;
+			}
+		}
+		if (_SkinnedMeshRenderer)
+		{
+			if (_SkinnedMeshRenderer.materials.Length > 0)
+			{
+				_SkinnedMeshRenderer.materials = materials;
+			}
+			else
+			{
+				_SkinnedMeshRenderer.material = material;
+			}
+		}
+	}
 	
 	protected virtual void Interact()
 	{
@@ -230,29 +235,13 @@ public class Interactive : AudioHandler
 	{
 		Init();
 
-		//unhighlight obj
-		if (_meshRenderer)
+		//already inactive
+		if (!active)
 		{
-			if (_meshRenderer.materials.Length > 1)
-			{
-				_meshRenderer.materials = inactiveMats;
-			}
-			else
-			{
-				_meshRenderer.material = inactiveMat;
-			}
+			return;
 		}
-		if (_SkinnedMeshRenderer)
-		{
-			if (_SkinnedMeshRenderer.materials.Length > 0)
-			{
-				_SkinnedMeshRenderer.materials = inactiveMats;
-			}
-			else
-			{
-				_SkinnedMeshRenderer.material = inactiveMat;
-			}
-		}
+
+		SetMaterials(inactiveMat, inactiveMats);
 		
 		active = false;
 		

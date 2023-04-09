@@ -16,6 +16,7 @@ public class ViewObject : Interactive
 
 	[Header("View Object Settings")]
 	public float scaleFactor = 1f;
+	public Material viewMaterial;
 
 	public Vector3 positionOffset = Vector3.zero;
 	public Vector3 rotationOffset = Vector3.zero;
@@ -37,6 +38,22 @@ public class ViewObject : Interactive
 		if (_objectViewer.viewing == false)
 		{
 			base.SetActive();
+		}
+		else if(_objectViewer.currentViewObj == this)
+		{
+			SetMaterials(viewMaterial, new []{viewMaterial});
+		}
+	}
+
+	protected override void SetInactive()
+	{
+		if (_objectViewer.viewing == false)
+		{
+			base.SetInactive();
+		}
+		else if(_objectViewer.currentViewObj == this)
+		{
+			SetMaterials(viewMaterial, new []{viewMaterial});
 		}
 	}
 

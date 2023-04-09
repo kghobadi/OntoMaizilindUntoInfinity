@@ -7,24 +7,24 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pictures bedroom
+  m_Name: pictures realView
   m_Shader: {fileID: 4800000, guid: 851f2d9f112af2f4390a3d702e3e6553, type: 3}
-  m_ShaderKeywords: _ALPHACLIPPING_ON _MK_ALBEDO_MAP _MK_ALPHA_CLIPPING _MK_ARTISTIC_PROJECTION_SCREEN_SPACE
-    _MK_EMISSION _MK_EMISSION_MAP _MK_ENVIRONMENT_REFLECTIONS_AMBIENT _MK_IRIDESCENCE_DEFAULT
+  m_ShaderKeywords: _MK_ALBEDO_MAP _MK_ARTISTIC_PROJECTION_SCREEN_SPACE _MK_EMISSION
+    _MK_EMISSION_MAP _MK_ENVIRONMENT_REFLECTIONS_AMBIENT _MK_IRIDESCENCE_DEFAULT
     _MK_LIGHT_BANDED _MK_RECEIVE_SHADOWS _MK_WRAPPED_DIFFUSE _RECEIVESHADOWS_ON _WRAPPEDLIGHTING_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2450
+  m_CustomRenderQueue: 2000
   stringTagMap:
-    IGNOREPROJECTOR: true
-    RenderType: TransparentCutout
+    IGNOREPROJECTOR: False
+    RenderType: Opaque
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _AlbedoMap:
-        m_Texture: {fileID: 2800000, guid: dcb7edb9aefcfa74ca60a0ce157ecb04, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1177d89566cc86f47942552ea07ead89, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -60,7 +60,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: dcb7edb9aefcfa74ca60a0ce157ecb04, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1177d89566cc86f47942552ea07ead89, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GoochRamp:
@@ -80,7 +80,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: dcb7edb9aefcfa74ca60a0ce157ecb04, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1177d89566cc86f47942552ea07ead89, type: 3}
         m_Scale: {x: 3.5, y: 3.5}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -137,7 +137,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AdvancedTab: 0
-    - _AlphaClipping: 1
+    - _AlphaClipping: 0
     - _AlphaCutoff: 0.5
     - _Artistic: 0
     - _ArtisticFrequency: 1
@@ -175,7 +175,7 @@ Material:
     - _IridescenceThresholdOffset: 0
     - _Light: 2
     - _LightBands: 4
-    - _LightBandsScale: 0.179
+    - _LightBandsScale: 0.5
     - _LightThreshold: 0.39
     - _Metallic: 0
     - _Mode: 0
