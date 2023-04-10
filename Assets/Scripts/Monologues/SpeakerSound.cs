@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,7 +21,32 @@ public class SpeakerSound : AudioHandler
     public List<char> capitalLetters = new List<char>();
     //for matching up letters with sounds 
     public List<AudioClip> spokenLetters = new List<AudioClip>();
+    
+    //Face anim stuff 
+    public bool animateFaceToSound;
+    FaceAnimation _faceAnim;
+    //Accessor for face. 
+    public FaceAnimation FaceAnimation => _faceAnim;
+    SpriteRenderer face; 
 
+    private void Start()
+    {
+        if (animateFaceToSound)
+        {
+            GetFaceReferences();
+        }
+    }
+    
+    void GetFaceReferences()
+    {
+        //get face anim
+        _faceAnim = GetComponent<FaceAnimation>();
+        if (_faceAnim == null)
+        {
+            _faceAnim = GetComponentInChildren<FaceAnimation>();
+        }
+    }
+    
     //checks what kind of audio to play for the speaker 
     public void AudioCheck(string lineOfText, int letter)
     {
@@ -92,6 +118,29 @@ public class SpeakerSound : AudioHandler
             //Debug.Log("gibberish");
         }
 
+    }
+
+    void Update()
+    {
+        if (animateFaceToSound)
+        {
+            FaceSwap();
+        }
+    }
+
+    //swaps face sprite for talking/idle
+    void FaceSwap()
+    {
+        if (myAudioSource.isPlaying)
+        {
+            if (_faceAnim)
+                _faceAnim.SetAnimator("talking");
+        }
+        else
+        {
+            if (_faceAnim)
+                _faceAnim.SetAnimator("idle");
+        }
     }
 
 }

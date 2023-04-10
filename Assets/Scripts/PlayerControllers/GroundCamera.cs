@@ -34,16 +34,13 @@ public class GroundCamera : MonoBehaviour
         if (transform.parent)
         {
             GetRefs();
-        }
-    }
-
-    private void Start()
-    {
-        //set starting values for rotations. 
-        if (clamps)
-        {
-            hRot = transform.parent.eulerAngles.y;
-            vRot = transform.eulerAngles.x;
+            
+            //set starting values for rotations. 
+            if (clamps)
+            {
+                hRot = transform.parent.eulerAngles.y;
+                vRot = transform.eulerAngles.x;
+            }
         }
     }
 

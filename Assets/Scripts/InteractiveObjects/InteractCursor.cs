@@ -71,32 +71,38 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 	{
 		Init();
 
-		if (!objectViewer.viewing)
+		//Object viewer active check
+		if (objectViewer != null)
 		{
-			//do we have a unique interact sprite?
-			if (newSprite != null)
+			if (objectViewer.viewing)
 			{
-				imageHolder.sprite = newSprite;
+				return;
 			}
-
-			//do we have a message?
-			if (string.IsNullOrEmpty(message) == false)
-			{
-				interactText.text = message;
-				interactText.enabled = true;
-			}
-			//no message, text disabled
-			else
-			{
-				interactText.enabled = false;
-			}
-			
-			imageHolder.enabled = true;
-			active = true;
-		
-			//can pass in world pos for assign pos from the Interactive obj
-			//RenderExtensions.AdjustScreenPosition(worldPosition);
 		}
+		
+		//do we have a unique interact sprite?
+		if (newSprite != null)
+		{
+			imageHolder.sprite = newSprite;
+		}
+
+		//do we have a message?
+		if (string.IsNullOrEmpty(message) == false)
+		{
+			interactText.text = message;
+			interactText.enabled = true;
+		}
+		//no message, text disabled
+		else
+		{
+			interactText.enabled = false;
+		}
+			
+		imageHolder.enabled = true;
+		active = true;
+		
+		//can pass in world pos for assign pos from the Interactive obj
+		//RenderExtensions.AdjustScreenPosition(worldPosition);
 	}
 	
 	public void Deactivate()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,16 @@ public class FadeUI : MonoBehaviour
     Text thisText;
     TMP_Text tmpText;
     Color alphaValue;
+
+    //Get current alpha value
+    public float AlphaVal
+    {
+        get
+        {
+            SetAlpha();
+            return alphaValue.a;
+        }
+    } 
 
     //these will be on during the fades
     public bool fadingIn, fadingOut, keepActive = true, fadeOutImmediately;
@@ -68,10 +79,13 @@ public class FadeUI : MonoBehaviour
         }
     }
 
-    void Start()
+    private void Awake()
     {
         GetUIType();
+    }
 
+    void Start()
+    {
         SetAlpha();
         alphaValue.a = 0;
         UpdateAlpha();

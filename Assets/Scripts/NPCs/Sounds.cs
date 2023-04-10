@@ -17,10 +17,7 @@ namespace NPC
         
         FaceAnimation _faceAnim;
         //Accessor for face. 
-        public FaceAnimation FaceAnimation
-        {
-            get { return _faceAnim; }
-        }        
+        public FaceAnimation FaceAnimation => _faceAnim;
         
         SpriteRenderer face; 
         SpriteRenderer back;
@@ -43,6 +40,17 @@ namespace NPC
         private float walkStepTimer = 0;
 
         private void Start()
+        {
+            GetFaceReferences();
+
+            //ending face shift
+            if (_faceAnim)
+            {
+                _faceAnim.onBeginFaceShifting.AddListener(BeginFaceShifting);
+            }
+        }
+
+        void GetFaceReferences()
         {
             //get face anim
             _faceAnim = GetComponent<FaceAnimation>();
@@ -90,12 +98,6 @@ namespace NPC
                 {
                     back.sprite = backs[faceIndex];
                 }
-            }
-
-            //ending face shift
-            if (_faceAnim)
-            {
-                _faceAnim.onBeginFaceShifting.AddListener(BeginFaceShifting);
             }
         }
 

@@ -67,6 +67,11 @@ public class Monologue : ScriptableObject
     public int headLookAt;
     [Tooltip("Uncheck this to make the NPC continue looking at new points")]
     public bool returnToOriginalRotation = true;
+
+    [Tooltip("Check to use distance fading and active distance below.")]
+    public bool useDistFading;
+    [Tooltip("Sets the Mono Managers distance Active for subtitle fading.")]
+    public float activeFadeDistance = 10f;
     //new animation state?
     //new vo?
 }

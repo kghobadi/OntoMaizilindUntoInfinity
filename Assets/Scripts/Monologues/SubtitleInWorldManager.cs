@@ -203,6 +203,38 @@ public class SubtitleInWorldManager : MonoBehaviour
 
                 #endregion
 
+                #region Potential Fade In/Out
+                //Do we have an 'activation distance' for the subtitle?
+                if (mm.DistActive > 0)
+                {
+                    //is the distance to the character from player greater than active?
+                    //Fade out
+                    if (mm.DistToRealP >= mm.DistActive)
+                    {
+                        if (mm.SubtitleFades[0].AlphaVal > 0.5f && !mm.SubtitleFades[0].fadingOut)
+                        {
+                            mm.FadeOutSubtitle();
+                        }
+                    }
+                    //Fade in!
+                    else
+                    {
+                        if (mm.SubtitleFades[0].AlphaVal < 0.5f && !mm.SubtitleFades[0].fadingIn)
+                        {
+                            mm.FadeInSubtitle();
+                        }
+                    }
+                }
+                else
+                {
+                    //Fade in if we need to
+                    if (mm.SubtitleFades[0].AlphaVal < 0.5f)
+                    {
+                        mm.FadeInSubtitle();
+                    }
+                }
+                #endregion
+
                 //Control activation of face pointer ui.
                 #region Face Pointer Activation
                 if (mm.facePointer)

@@ -7,7 +7,6 @@ using Cameras;
 public class TitleToRoom : MonoBehaviour {
     CameraManager camManager;
     Clock clock;
-    DebugTime timeline;
     //for all the text refs
     [Header("Title Canvas Refs")]
     public FadeUI omFade;
@@ -24,13 +23,13 @@ public class TitleToRoom : MonoBehaviour {
     public LerpLighting sunLerp;
     public MenuSelections quitMenu;
     public AudioSource trainSfx;
-
+    public Vector3 sunStartRotation = new Vector3(43.197f, 72.951f, 4.012f);
+    
     //player
     [Header("Player/Room Refs")]
     public FirstPersonController player;
     //other game objs involved in transition
-    public GameCamera startCam, roomCam;
-    public GameObject  textPanel;
+    public GameCamera roomCam;
     Television tele;
     Radio radioScript;
     GameObject tv, radio;
@@ -47,7 +46,6 @@ public class TitleToRoom : MonoBehaviour {
         //managers
         camManager = FindObjectOfType<CameraManager>();
         clock = FindObjectOfType<Clock>();
-        timeline = FindObjectOfType<DebugTime>();
         //tv ref
         tele = FindObjectOfType<Television>();
         tv = tele.transform.parent.gameObject;
@@ -196,7 +194,6 @@ public class TitleToRoom : MonoBehaviour {
         {
             clock.gameObject.SetActive(true);
         }
-        //timeline.StartTimeline();
 
         //set cursor again
         Cursor.lockState = CursorLockMode.Locked;
@@ -205,6 +202,8 @@ public class TitleToRoom : MonoBehaviour {
 
         //set sun
         sunLerp.SetLightLerp(sunLerp.sunNice, sunLerp.sunNice);
+        //set sun rotation
+        sunLerp.transform.localEulerAngles = sunStartRotation;
 
         //activate all the characters in the family 
         for (int i = 0; i < characters.Length; i++)
@@ -224,7 +223,7 @@ public class TitleToRoom : MonoBehaviour {
 
         //enable TV and RADIO
         tv.SetActive(true);
-        tele.SetVideoPlayer(tele.tvChannels[0]);
+        tele.SetStartingInterview();
         radio.SetActive(true);
 
         //change skybox
