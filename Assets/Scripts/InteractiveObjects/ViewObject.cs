@@ -95,5 +95,7 @@ public class ViewObject : Interactive
 		{
 			colliders[i].enabled = true;
 		}
+		
+		SetInactive();
 	}
 }

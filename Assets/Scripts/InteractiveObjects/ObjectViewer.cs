@@ -161,11 +161,6 @@ public class ObjectViewer : AudioHandler
 	//turn off object viewer and return obj to its original place. 
 	public void StopViewing()
 	{
-		//reset position
-		currentViewObj.ResetViewObject();
-		//nullify view obj
-		currentViewObj = null;
-		
 		//reset camera culling mask to original
 		mainCam.cullingMask = mainCullingMask;
 
@@ -180,5 +175,10 @@ public class ObjectViewer : AudioHandler
 		}
 		
 		viewing = false;
+		
+		//reset position
+		currentViewObj.ResetViewObject();
+		//nullify view obj
+		currentViewObj = null;
 	}
 }
