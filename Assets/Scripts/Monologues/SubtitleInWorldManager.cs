@@ -211,7 +211,7 @@ public class SubtitleInWorldManager : MonoBehaviour
                     //Fade out
                     if (mm.DistToRealP >= mm.DistActive)
                     {
-                        if (mm.SubtitleFades[0].AlphaVal > 0.5f && !mm.SubtitleFades[0].fadingOut)
+                        if (mm.SubtitleFades[0].IsShowing)
                         {
                             mm.FadeOutSubtitle();
                         }
@@ -219,7 +219,7 @@ public class SubtitleInWorldManager : MonoBehaviour
                     //Fade in!
                     else
                     {
-                        if (mm.SubtitleFades[0].AlphaVal < 0.5f && !mm.SubtitleFades[0].fadingIn)
+                        if (!mm.SubtitleFades[0].IsShowing)
                         {
                             mm.FadeInSubtitle();
                         }
@@ -228,7 +228,7 @@ public class SubtitleInWorldManager : MonoBehaviour
                 else
                 {
                     //Fade in if we need to
-                    if (mm.SubtitleFades[0].AlphaVal < 0.5f)
+                    if (!mm.SubtitleFades[0].IsShowing)
                     {
                         mm.FadeInSubtitle();
                     }
@@ -241,11 +241,17 @@ public class SubtitleInWorldManager : MonoBehaviour
                 {
                     if (!onScreen)
                     {
-                        mm.facePointer.Activate();
+                        if (!mm.facePointer.active)
+                        {
+                            mm.facePointer.Activate();
+                        }
                     }
                     else
                     {
-                        mm.facePointer.Deactivate();
+                        if (mm.facePointer.active)
+                        {
+                            mm.facePointer.Deactivate();
+                        }
                     }
                 }
                 #endregion
@@ -332,6 +338,10 @@ public class SubtitleInWorldManager : MonoBehaviour
                     subBG.localScale = Vector3.Lerp(subBG.localScale, Vector3.one * mm.subSizeMult * atPSubMult * Remaps.Linear(mm.DistToRealP, maxDistanceFromPlayer, 0f, .17f, .08f),
                         0.2f);
                 }
+                
+                //get true subtitle size by adding adjustment for arrow and face pointer
+                subSize = new Vector2((subBG.rect.width + subBoxBorder) * subBG.localScale.x,
+                                      (subBG.rect.height + subBoxBorder) * subBG.localScale.y) * screenCanvasPixelRatio; //pixel ratio converts it from local canvas pixels to cam screen pixels
                 
                 //get half sizes again
                 halfSizeX = subSize.x / 2;
