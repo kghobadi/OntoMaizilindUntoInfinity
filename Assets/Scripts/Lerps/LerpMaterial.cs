@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class LerpMaterial : MonoBehaviour {
 
@@ -40,7 +41,23 @@ public class LerpMaterial : MonoBehaviour {
     public float endValue;
     [Tooltip("Speed of lerping value ")]
     public float lerpSpeed = 0.5f;
-
+    
+    [Header("Color Lerp")]
+    [Tooltip("True when lerping mat color val")]
+    public bool lerpingMatColor;
+    [Tooltip("How long when lerping mat color val")]
+    public float colorLerpLength = 1f;
+    private float startColorTime;
+    private float endColorTime;
+    [Tooltip("Name of Color to lerp in mat/shader")]
+    public string colorToLerp = "_Color";
+    [Tooltip("Start value = colorToLerp when Lerp is called")]
+    public Color startColorValue;
+    [Tooltip("Value actively lerping to set mats Color towards end value")]
+    public Color lerpColorValue;
+    [Tooltip("Set publicly or when passed when Lerp is called")]
+    public Color endColorValue;
+    
     //for resetting parent + scale
     Transform origParent;
     Vector3 origScale;
@@ -58,7 +75,9 @@ public class LerpMaterial : MonoBehaviour {
     public float lbfMin, lbfMax;
     private float lbfTimer;
     [Tooltip("Amount of time between lerp back and forth behavior")]
-    public float lbfTime = 1f; 
+    public float lbfTime = 1f;
+
+    public UnityEvent eventOnFinish;
 
     void Awake()
     {
@@ -134,14 +153,26 @@ public class LerpMaterial : MonoBehaviour {
         lerpingMat = true;
         wasCalled = true;
     }
+    
+    //call to begin color lerp 
+    public void LerpColor()
+    {
+        startColorValue = lerpMat.GetColor(colorToLerp);
+        lerpColorValue = startColorValue;
+        startColorTime = Time.fixedTime;
+        endColorTime = startColorTime + colorLerpLength;
 
-	void Update ()
+        lerpingMatColor = true;
+        wasCalled = true;
+    }
+
+	void FixedUpdate()
     {
         //lerp back and forth 
         if (lerpBackForth)
         {
             //timer
-            lbfTimer -= Time.deltaTime;
+            lbfTimer -= Time.fixedDeltaTime;
             if (lbfTimer < 0)
             {
                 CheckLerpBackForth();
@@ -155,13 +186,13 @@ public class LerpMaterial : MonoBehaviour {
             if (moveTowardsOrLerp)
             {
                 //change mat Tp value 
-                lerpValue = Mathf.MoveTowards(lerpValue, endValue, Time.deltaTime * lerpSpeed);
+                lerpValue = Mathf.MoveTowards(lerpValue, endValue, Time.fixedDeltaTime * lerpSpeed);
             }
             //lerp
             else
             {
                 //lerp mat Tp value 
-                lerpValue = Mathf.Lerp(lerpValue, endValue, Time.deltaTime * lerpSpeed);
+                lerpValue = Mathf.Lerp(lerpValue, endValue, Time.fixedDeltaTime * lerpSpeed);
             }
 
             //set float to lerp val
@@ -174,38 +205,71 @@ public class LerpMaterial : MonoBehaviour {
             {
                 //hard set float to end value
                 lerpMat.SetFloat(floatToLerp, endValue);
-                //disable renderer when we finish!
-                if (disableOnFinish)
-                {
-                    DisableRenderer();
-                }
-                //reset parent
-                if (resetParent)
-                {
-                    ResetParent();
-                }
-                //resets scale
-                if (resetsScale)
-                {
-                    ResetScale();
-                }
-                //load
-                if (loadScene)
-                {
-                    if (LoadSceneAsync.Instance != null)
-                    {
-                        LoadSceneAsync.Instance.TransitionImmediate();
-                    }
-                    else
-                    {
-                        advance.LoadNextScene();
-                    }
-                }
-
+               
+                EndLerp();
+                
                 //stop lerping
                 lerpingMat = false;
             }
         }
+        
+        //lerp is under way!
+        if (lerpingMatColor)
+        {
+            //get time val
+            float tVal = (Time.fixedTime - startColorTime) / colorLerpLength;
+            //change mat color value 
+            lerpColorValue = Color.Lerp(lerpColorValue, endColorValue, tVal);
+
+            //set float to lerp val
+            lerpMat.SetColor(colorToLerp, lerpColorValue);
+
+            //close enough, let's finish im
+            if (tVal >= 0.999f)
+            {
+                //hard set color to end value
+                lerpMat.SetColor(colorToLerp, endColorValue);
+               
+                EndLerp();
+                
+                //stop lerping
+                lerpingMatColor = false;
+            }
+        }
+    }
+
+    void EndLerp()
+    {
+        //disable renderer when we finish!
+        if (disableOnFinish)
+        {
+            DisableRenderer();
+        }
+        //reset parent
+        if (resetParent)
+        {
+            ResetParent();
+        }
+        //resets scale
+        if (resetsScale)
+        {
+            ResetScale();
+        }
+        //load
+        if (loadScene)
+        {
+            if (LoadSceneAsync.Instance != null)
+            {
+                LoadSceneAsync.Instance.TransitionImmediate();
+            }
+            else
+            {
+                advance.LoadNextScene();
+            }
+        }
+                
+        //invoke event 
+        eventOnFinish.Invoke();
     }
 
     void CheckLerpBackForth()
@@ -278,6 +342,11 @@ public class LerpMaterial : MonoBehaviour {
         {
             //hard set float to end value
             lerpMat.SetFloat(floatToLerp, startValue);
+            //reset color 
+            if (!string.IsNullOrEmpty(colorToLerp))
+            {
+                lerpMat.SetColor(colorToLerp, startColorValue);
+            }
         }
     }
 }

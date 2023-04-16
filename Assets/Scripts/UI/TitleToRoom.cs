@@ -64,7 +64,7 @@ public class TitleToRoom : MonoBehaviour {
         //get input device 
         var inputDevice = InputManager.ActiveDevice;
 
-        //contiually make sure click will not go thru while quit menu open
+        //continually make sure click will not go thru while quit menu open
         if (quitMenu.gameObject.activeSelf)
         {
             ClickReset();
@@ -221,9 +221,9 @@ public class TitleToRoom : MonoBehaviour {
         player.canMove = true;
         transitioned = true;
 
-        //enable TV and RADIO
+        //enable RADIO
         tv.SetActive(true);
-        tele.SetStartingInterview();
+        //tele.SetStartingInterview(); TV now enabled by end of bedroom fade out 
         radio.SetActive(true);
 
         //change skybox

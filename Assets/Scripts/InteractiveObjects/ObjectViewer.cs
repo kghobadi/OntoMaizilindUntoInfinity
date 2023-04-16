@@ -43,6 +43,13 @@ public class ObjectViewer : AudioHandler
 		currentViewObj = obj;
 		//play interact sound
 		PlaySound(obj.interactSound, 1f);
+
+		//play view audio clip
+		if (obj.viewAudioClip)
+		{
+			myAudioSource.clip = obj.viewAudioClip;
+			myAudioSource.Play();
+		}
 		//disable player movement and camera controls
 		couldMove = camSwitcher.currentPlayer.GetComponent<FirstPersonController>().canMove;
 		camSwitcher.currentPlayer.GetComponent<FirstPersonController>().canMove = false;
@@ -172,6 +179,13 @@ public class ObjectViewer : AudioHandler
 		for (int i = 0; i < viewObjectSetup.Length; i++)
 		{
 			viewObjectSetup[i].SetActive(false);
+		}
+		
+		//disable audio
+		if (myAudioSource.clip != null)
+		{
+			myAudioSource.Stop();
+			myAudioSource.clip = null;
 		}
 		
 		viewing = false;

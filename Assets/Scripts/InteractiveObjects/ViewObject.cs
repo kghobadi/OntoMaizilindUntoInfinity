@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ViewObject : Interactive
 {
@@ -22,6 +23,8 @@ public class ViewObject : Interactive
 	public Vector3 rotationOffset = Vector3.zero;
 	//how to do a rotation offset?
 	public TextAsset objDescription;
+	public AudioClip viewAudioClip;
+	
 	private void Awake()
 	{
 		_objectViewer = FindObjectOfType<ObjectViewer>();
@@ -96,6 +99,8 @@ public class ViewObject : Interactive
 			colliders[i].enabled = true;
 		}
 		
+		TriggerInteractEvent();
+
 		SetInactive();
 	}
 }

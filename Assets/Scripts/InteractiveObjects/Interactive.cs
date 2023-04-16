@@ -32,6 +32,11 @@ public class Interactive : AudioHandler
 	public FadeUI clickerUI;
 	public bool hasClicked;
 	
+	[Header("Interact Event")]
+	public bool oneTimeEvent;
+	private int interactCount;
+	public UnityEvent interactionEvent;
+
 	protected virtual void Start ()
 	{
 		Init();
@@ -229,6 +234,24 @@ public class Interactive : AudioHandler
 	protected virtual void Interact()
 	{
 		Debug.Log("interacting with " + gameObject.name);
+	}
+
+	//set any events!
+	protected virtual void TriggerInteractEvent()
+	{
+		if (oneTimeEvent)
+		{
+			if (interactCount == 0)
+			{
+				interactionEvent.Invoke();
+			}
+
+			interactCount++;
+		}
+		else
+		{
+			interactionEvent.Invoke();
+		}
 	}
 
 	protected virtual void SetInactive()

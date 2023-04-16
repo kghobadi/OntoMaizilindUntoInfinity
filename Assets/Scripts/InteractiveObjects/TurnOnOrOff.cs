@@ -62,6 +62,8 @@ public class TurnOnOrOff : Interactive
 			if(interactSound)
 				_cameraSwitcher.objViewer.PlaySound(interactSound, 1f);
 		}
+		
+		TriggerInteractEvent();
 	}
 
 	/// <summary>
