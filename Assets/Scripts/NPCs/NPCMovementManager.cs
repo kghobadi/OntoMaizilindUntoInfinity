@@ -49,10 +49,21 @@ public class NPCMovementManager : NonInstantiatingSingleton<NPCMovementManager>
     /// <summary>
     /// Grabs all NPC controllers in the scene.
     /// </summary>
-    void FindAllNPCs()
+    public void FindAllNPCs()
     {
         //get all npc controllers in the scene. 
         npcControllers = FindObjectsOfType<Controller>();
+    }
+
+    /// <summary>
+    /// Snaps all NPCs to Ground Point.
+    /// </summary>
+    public void SnapAllNPCsToGround()
+    {
+        foreach (Controller npc in npcControllers)
+        {
+            npc.Movement.SnapToGroundPoint();
+        }
     }
 
     /// <summary>

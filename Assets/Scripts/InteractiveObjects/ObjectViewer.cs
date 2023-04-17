@@ -43,6 +43,13 @@ public class ObjectViewer : AudioHandler
 		currentViewObj = obj;
 		//play interact sound
 		PlaySound(obj.interactSound, 1f);
+
+		//play view audio clip
+		if (obj.viewAudioClip)
+		{
+			myAudioSource.clip = obj.viewAudioClip;
+			myAudioSource.Play();
+		}
 		//disable player movement and camera controls
 		couldMove = camSwitcher.currentPlayer.GetComponent<FirstPersonController>().canMove;
 		camSwitcher.currentPlayer.GetComponent<FirstPersonController>().canMove = false;
@@ -96,12 +103,6 @@ public class ObjectViewer : AudioHandler
 		for (int i = 0; i < obj.transform.childCount; i++)
 		{
 			obj.transform.GetChild(i).gameObject.layer = 16;
-		}
-		
-		//set view materials if there is one. 
-		if (obj.viewMaterial != null)
-		{
-			obj.SetMaterials(obj.viewMaterial, obj.ViewMaterials);
 		}
 		
 		//set camera culling mask
@@ -167,11 +168,6 @@ public class ObjectViewer : AudioHandler
 	//turn off object viewer and return obj to its original place. 
 	public void StopViewing()
 	{
-		//reset position
-		currentViewObj.ResetViewObject();
-		//nullify view obj
-		currentViewObj = null;
-		
 		//reset camera culling mask to original
 		mainCam.cullingMask = mainCullingMask;
 
@@ -185,6 +181,18 @@ public class ObjectViewer : AudioHandler
 			viewObjectSetup[i].SetActive(false);
 		}
 		
+		//disable audio
+		if (myAudioSource.clip != null)
+		{
+			myAudioSource.Stop();
+			myAudioSource.clip = null;
+		}
+		
 		viewing = false;
+		
+		//reset position
+		currentViewObj.ResetViewObject();
+		//nullify view obj
+		currentViewObj = null;
 	}
 }

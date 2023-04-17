@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ViewObject : Interactive
 {
@@ -17,15 +18,12 @@ public class ViewObject : Interactive
 	[Header("View Object Settings")]
 	public float scaleFactor = 1f;
 	public Material viewMaterial;
-	private Material[] viewMaterials;
-	
+
 	public Vector3 positionOffset = Vector3.zero;
 	public Vector3 rotationOffset = Vector3.zero;
 	//how to do a rotation offset?
 	public TextAsset objDescription;
-	
-	//Properties
-	public Material[] ViewMaterials => viewMaterials;
+	public AudioClip viewAudioClip;
 	
 	private void Awake()
 	{
@@ -38,52 +36,27 @@ public class ViewObject : Interactive
 		colliders = GetComponentsInChildren<Collider>();
 	}
 
-	protected override void Init()
-	{
-		base.Init();
-		
-		//generate view mat array to length of renderer mats 
-		if (_meshRenderer != null)
-		{
-			viewMaterials = new Material[_meshRenderer.materials.Length];
-		}
-		if (_SkinnedMeshRenderer != null)
-		{
-			viewMaterials = new Material[_SkinnedMeshRenderer.materials.Length];
-		}
-		
-		//set view mats 
-		for (int i = 0; i < viewMaterials.Length; i++)
-		{
-			viewMaterials[i] = viewMaterial;
-		}
-	}
-
 	protected override void SetActive()
 	{
 		if (_objectViewer.viewing == false)
 		{
 			base.SetActive();
 		}
+		else if(_objectViewer.currentViewObj == this)
+		{
+			SetMaterials(viewMaterial, new []{viewMaterial});
+		}
 	}
 
 	protected override void SetInactive()
 	{
-		Init();
-
-		//unhighlight obj only if we are not in viewing mode
-		if (_objectViewer.currentViewObj != this)
+		if (_objectViewer.viewing == false)
 		{
-			SetMaterials(inactiveMat, inactiveMats);
+			base.SetInactive();
 		}
-
-		active = false;
-		
-		//if we have ui to fade out 
-		if (clickerUI)
+		else if(_objectViewer.currentViewObj == this)
 		{
-			if(clickerUI.gameObject.activeSelf)
-				clickerUI.FadeOut();
+			SetMaterials(viewMaterial, new []{viewMaterial});
 		}
 	}
 
@@ -126,7 +99,8 @@ public class ViewObject : Interactive
 			colliders[i].enabled = true;
 		}
 		
-		//material back to inactive
-		SetMaterials(inactiveMat, inactiveMats);
+		TriggerInteractEvent();
+
+		SetInactive();
 	}
 }

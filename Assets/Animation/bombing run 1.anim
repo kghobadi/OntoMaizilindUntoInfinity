@@ -4,7 +4,8 @@
 AnimationClip:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: bombing run 1
   serializedVersion: 6
   m_Legacy: 0
@@ -37,7 +38,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 6.4791665
-        value: {x: 0, y: 1000, z: 1000}
+        value: {x: 0, y: 650, z: 1000}
         inSlope: {x: 0, y: 0, z: -1013.96454}
         outSlope: {x: 0, y: 0, z: -1013.96454}
         tangentMode: 0
@@ -46,18 +47,18 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 7.5
-        value: {x: 0, y: 1000, z: -208}
-        inSlope: {x: 0, y: 0, z: -1088.6597}
-        outSlope: {x: 0, y: 0, z: -1088.6597}
+        value: {x: 0, y: 750, z: -208}
+        inSlope: {x: 0, y: 98.96906, z: -1088.6597}
+        outSlope: {x: 0, y: 98.96906, z: -1088.6597}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 8.5
-        value: {x: 0, y: 1000, z: -1200}
-        inSlope: {x: 0, y: 0, z: -952.5714}
-        outSlope: {x: 0, y: 0, z: -952.5714}
+        value: {x: 0, y: 850, z: -1200}
+        inSlope: {x: 0, y: 114.28572, z: -952.5714}
+        outSlope: {x: 0, y: 114.28572, z: -952.5714}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
@@ -107,7 +108,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 13.979167
+    m_StopTime: 14
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -219,7 +220,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 6.4791665
-        value: 1000
+        value: 650
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -228,18 +229,18 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 7.5
-        value: 1000
-        inSlope: 0
-        outSlope: 0
+        value: 750
+        inSlope: 98.96906
+        outSlope: 98.96906
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 8.5
-        value: 1000
-        inSlope: 0
-        outSlope: 0
+        value: 850
+        inSlope: 114.28572
+        outSlope: 114.28572
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
@@ -345,5 +346,18 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 1
   m_HasMotionFloatCurves: 0
-  m_GenerateMotionCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 7
+    functionName: FullSquadronBombing
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 14
+    functionName: RandomSquadRotation
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

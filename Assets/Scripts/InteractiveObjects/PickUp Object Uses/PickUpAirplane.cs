@@ -60,6 +60,8 @@ public class PickUpAirplane : PickUpObject
         
         //throw it (and enable trail renderers
         EnableFlying();
+        
+        TriggerInteractEvent();
     }
 
     private void FixedUpdate()

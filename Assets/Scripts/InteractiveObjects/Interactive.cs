@@ -24,13 +24,18 @@ public class Interactive : AudioHandler
 	public Sprite iCursorSprite;
 	public string interactMessage;
 	public Material activeMat;
-	protected Material[] activeMats;
+	private Material[] activeMats;
 	public Material inactiveMat;
-	protected Material[] inactiveMats;
+	private Material[] inactiveMats;
 	public AudioClip interactSound;
 	public float distNecessary = 7.5f;
 	public FadeUI clickerUI;
 	public bool hasClicked;
+	
+	[Header("Interact Event")]
+	public bool oneTimeEvent;
+	private int interactCount;
+	public UnityEvent interactionEvent;
 
 	protected virtual void Start ()
 	{
@@ -180,42 +185,10 @@ public class Interactive : AudioHandler
 		}
 	}
 
-	/// <summary>
-	/// Assigns proper material[s] to the renderer[s]. 
-	/// </summary>
-	/// <param name="mat"></param>
-	/// <param name="mats"></param>
-	public virtual void SetMaterials(Material mat, Material[] mats)
-	{
-		if (_meshRenderer)
-		{
-			if (_meshRenderer.materials.Length > 1)
-			{
-				_meshRenderer.materials = mats;
-			}
-			else
-			{
-				_meshRenderer.material = mat;
-			}
-		}
-		if (_SkinnedMeshRenderer)
-		{
-			if (_SkinnedMeshRenderer.materials.Length > 0)
-			{
-				_SkinnedMeshRenderer.materials = mats;
-			}
-			else
-			{
-				_SkinnedMeshRenderer.material = mat;
-			}
-		}
-	}
-
 	protected virtual void SetActive()
 	{
 		Init();
 		
-		//highlight obj
 		SetMaterials(activeMat, activeMats);
 			
 		active = true;
@@ -230,17 +203,67 @@ public class Interactive : AudioHandler
 				clickerUI.FadeIn();
 		}
 	}
+
+	protected void SetMaterials(Material material, Material[] materials)
+	{
+		//highlight obj
+		if (_meshRenderer)
+		{
+			if (_meshRenderer.materials.Length > 1)
+			{
+				_meshRenderer.materials = materials;
+			}
+			else
+			{
+				_meshRenderer.material = material;
+			}
+		}
+		if (_SkinnedMeshRenderer)
+		{
+			if (_SkinnedMeshRenderer.materials.Length > 0)
+			{
+				_SkinnedMeshRenderer.materials = materials;
+			}
+			else
+			{
+				_SkinnedMeshRenderer.material = material;
+			}
+		}
+	}
 	
 	protected virtual void Interact()
 	{
 		Debug.Log("interacting with " + gameObject.name);
 	}
 
+	//set any events!
+	protected virtual void TriggerInteractEvent()
+	{
+		if (oneTimeEvent)
+		{
+			if (interactCount == 0)
+			{
+				interactionEvent.Invoke();
+			}
+
+			interactCount++;
+		}
+		else
+		{
+			interactionEvent.Invoke();
+		}
+	}
+
 	protected virtual void SetInactive()
 	{
 		Init();
 
-		//unhighlight obj
+		//already inactive
+		if (!active)
+		{
+			return;
+		}
+
 		SetMaterials(inactiveMat, inactiveMats);
 		
 		active = false;

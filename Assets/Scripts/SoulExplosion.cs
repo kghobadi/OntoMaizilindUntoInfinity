@@ -79,7 +79,7 @@ public class SoulExplosion : MonoBehaviour
             //set spirit to face
             spirit.projectionDisplayCorner = faceTransform;
             //enable spirit
-            spirit.EnableSpirit();
+            spirit.ProjectTrail();
         }
         
         //Spirit trail for player.
@@ -92,7 +92,7 @@ public class SoulExplosion : MonoBehaviour
         //set spirit to face
         soul.projectionDisplayCorner = playerFace;
         //enable spirit
-        soul.EnableSpirit();
+        soul.ProjectTrail();
 
         //begin all sphere explosions 
         foreach (var sphereExplosion in sphereExplosions)

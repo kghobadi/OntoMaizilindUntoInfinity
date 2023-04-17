@@ -54,6 +54,10 @@ public class GroundCamera : MonoBehaviour
         pauseMenu.toggledPause.AddListener(CheckCanControl);
         camSwitcher = FindObjectOfType<CameraSwitcher>();
         _objectViewer = FindObjectOfType<ObjectViewer>();
+        if (currentCamObj == null)
+        {
+            currentCamObj = GetComponentInParent<CamObject>();
+        }
 
         Cursor.lockState = CursorLockMode.Locked;
         canControl = true;

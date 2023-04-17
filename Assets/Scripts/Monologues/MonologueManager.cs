@@ -75,7 +75,7 @@ public class MonologueManager : MonoBehaviour
     [Tooltip("If you set this to anything greater than 0 the character's Subtitle will fade in and out at that dist from player.")]
     [SerializeField]
     private float distanceActive = 0f;
-    private FadeUI[] subtitleFades;
+    private FadeUiRevamped[] subtitleFades;
 
     /// <summary>
     /// Fetch the face height. 
@@ -131,7 +131,7 @@ public class MonologueManager : MonoBehaviour
     }
 
     public float DistActive => distanceActive;
-    public FadeUI[] SubtitleFades => subtitleFades;
+    public FadeUiRevamped[] SubtitleFades => subtitleFades;
 
     Transform rootT;
     //SpriteRenderer mainSR;
@@ -175,7 +175,7 @@ public class MonologueManager : MonoBehaviour
             mySubtitle = subtitleInWorldManager.SetupNewSubtitle(this);
             subRectTransform = mySubtitle.GetComponent<RectTransform>();
             subImageBack = mySubtitle.GetComponent<Image>();
-            subtitleFades = mySubtitle.GetComponentsInChildren<FadeUI>();
+            subtitleFades = mySubtitle.GetComponentsInChildren<FadeUiRevamped>();
         }
         
         //play mono 0 

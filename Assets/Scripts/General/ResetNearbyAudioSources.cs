@@ -17,6 +17,7 @@ public class ResetNearbyAudioSources : MonoBehaviour {
     public List<string> audioTags = new List<string>();
 
 
+    //TODO This should probably be a Coroutine rather than getting called from FPC update
     //this function shifts all audio source priorities dynamically
     public void ResetNearbyAudio()
     {

@@ -9,6 +9,7 @@ public class MoveTowards : MonoBehaviour
 
     public bool moving;
     public Vector3 destination;
+    private Transform destTransform;
     public float necessaryDist = 1f;
 
     public bool increaseSpeedOverTime;
@@ -19,10 +20,16 @@ public class MoveTowards : MonoBehaviour
         origSpeed = moveSpeed;
     }
 
-    void Update () 
+    void FixedUpdate() 
     {
         if (moving)
         {
+            //constantly update dest if we have a transform
+            if (destTransform != null)
+            {
+                destination = destTransform.position;
+            }
+            
             transform.position = Vector3.MoveTowards(transform.position, destination, Time.deltaTime * moveSpeed);
 
             //add to speed over time. 
@@ -30,11 +37,13 @@ public class MoveTowards : MonoBehaviour
             {
                 moveSpeed += speedIncrease * Time.deltaTime;
             }
-            
-            if(Vector3.Distance(transform.position, destination) < necessaryDist)
+
+            float currentDist = Vector3.Distance(transform.position, destination);
+            if(currentDist < necessaryDist)
             {
                 moving = false;
                 moveSpeed = origSpeed;
+                destTransform = null;
             }
         }
 	}
@@ -42,6 +51,14 @@ public class MoveTowards : MonoBehaviour
     public void MoveTo(Vector3 dest, float speed)
     {
         destination = dest;
+        moveSpeed = speed;
+        moving = true;
+    }
+    
+    public void MoveTo(Transform dest, float speed)
+    {
+        destination = dest.position;
+        destTransform = dest;
         moveSpeed = speed;
         moving = true;
     }

@@ -43,7 +43,7 @@ public class camMouseLook : MonoBehaviour
         EnableGainSpeed();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (isActive && pauseMenu.paused == false)
         {
@@ -114,8 +114,11 @@ public class camMouseLook : MonoBehaviour
         force += transform.right * horizontalMovement;
 
         //actual move command 
-        if (astralBody.enabled)
-            astralBody.Move(force * moveSpeed);
+        if (astralBody)
+        {
+            if (astralBody.enabled)
+                astralBody.Move(force * moveSpeed);
+        }
     }
 
     void ClickMovement()

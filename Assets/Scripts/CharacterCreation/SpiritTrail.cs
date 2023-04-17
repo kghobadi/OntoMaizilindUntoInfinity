@@ -7,6 +7,7 @@ using UnityEngine;
 public class SpiritTrail : MonoBehaviour {
 
     Vector3 origPos;
+    Vector3 firstPoint;
     TrailRenderer trail;
     MoveTowards mover;
 
@@ -15,73 +16,67 @@ public class SpiritTrail : MonoBehaviour {
 
     public float spiritSpeed = 25f;
 
-    //bool states
-    public bool activated;
-    bool toProj;
-    bool reset;
+    public TrailRenderer Trail => trail;
 
 	void Awake ()
     {
         trail = GetComponent<TrailRenderer>();
         mover = GetComponent<MoveTowards>();
+        
         origPos = transform.localPosition;
-
         trail.enabled = false;
 	}
 
-    public void EnableSpirit()
+    public void ProjectTrail()
     {
+        //enable trail
         trail.enabled = true;
+        
+        firstPoint = transform.position + new Vector3(0, Random.Range(15f, 25f), Random.Range(5f, 15f));
+        
+        StartCoroutine(SpiritTrailLifetime());
+    } 
 
-        Vector3 firstPoint = transform.position + new Vector3(0, Random.Range(15f, 25f), Random.Range(5f, 15f));
-
+    public void DeathTrail()
+    {
+        //enable trail
+        trail.enabled = true;
+        
+        //get point from bomber
+        projectionDisplayCorner = GameObject.FindGameObjectWithTag("Plane").transform;
+        
+        firstPoint = transform.position + new Vector3(0, Random.Range(500f, 1000f), 0f);
+        
+        StartCoroutine(SpiritTrailLifetime());
+    }
+    
+    IEnumerator SpiritTrailLifetime()
+    {
+        //move to first point
         mover.MoveTo(firstPoint, spiritSpeed);
 
-        activated = true;
-    }
-	
-	void Update ()
-    {
-        if (activated)
-        {
-            //moved up, now to projector 
-            if(mover.moving == false && toProj == false)
-            {
-                mover.MoveTo(projectionDisplayCorner.position, spiritSpeed);
-                toProj = true;
-            }
-
-            //reset
-            else if(mover.moving == false && toProj == true)
-            {
-                ResetTrail();
-            }
-        }
-	}
-
-    //starts reset
-    void ResetTrail()
-    {
-        if(reset == false)
-        {
-            StartCoroutine(Reset());
-
-            reset = true;
-        }
-    }
-
-    IEnumerator Reset()
-    {
+        //wait a frame
+        yield return new WaitForEndOfFrame();
+        
+        //wait until no longer moving
+        yield return new WaitUntil(() => mover.moving == false);
+        //now move to point set by activation call
+        mover.MoveTo(projectionDisplayCorner.position, spiritSpeed);
+        
+        //wait a frame
+        yield return new WaitForEndOfFrame();
+        
+        //wait until no longer moving
+        yield return new WaitUntil(() => mover.moving == false);
+        
+        //wait out the trail
         yield return new WaitForSeconds(trail.time);
 
-        //clear
+        //clear trail
         trail.Clear();
         //reset pos
         transform.localPosition = origPos;
-
-        //reset bools
-        activated = false;
-        toProj = false;
-        reset = false;
+        //disable trail
+        trail.enabled = false;
     }
 }

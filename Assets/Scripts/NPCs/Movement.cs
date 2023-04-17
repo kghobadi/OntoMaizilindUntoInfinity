@@ -24,6 +24,7 @@ namespace NPC
         public LayerMask grounded;
         [HideInInspector]
         public NavMeshAgent myNavMesh;
+        private NavMeshPath path;
         public bool randomSpeed = true;
         [Tooltip("Random value within this range will be added to navmesh speed.")]
         public Vector2 speedRange = new Vector2(-5f, 10f);
@@ -131,7 +132,8 @@ namespace NPC
             {
                 RandomizeSpeed();
             }
-
+            path = new NavMeshPath();
+            
             if (randomizeStartBehavior)
             {
                 RandomizeStartBehavior();
@@ -153,6 +155,7 @@ namespace NPC
             startBehavior = startBehaviors[Random.Range(0, startBehaviors.Length)];
         }
 
+        //Fundamentally most of these behaviors could be called as coroutines. 
         void Update()
         {
             //player ref -- this is giving OutOfRange Exception when player dies? or switches? 
@@ -161,8 +164,6 @@ namespace NPC
                 
             if (AIenabled)
             {
-                //dist from player 
-                //DistanceCheck();
                 //idle state
                 Idle();
                 //moving state
@@ -228,9 +229,9 @@ namespace NPC
                     {
                         if (spiritTrail)
                         {
-                            if(spiritTrail.activated == false)
+                            if(spiritTrail.Trail.enabled == false)
                             {
-                                spiritTrail.EnableSpirit();
+                                spiritTrail.ProjectTrail();
                             }
                         }
                     }
@@ -277,8 +278,9 @@ namespace NPC
                 //waits until player is near then walks to next point 
                 else if (npcType == NPCMovementTypes.PATHFINDER)
                 {
+                
                     //goes to next point if timer reaches 0 or player is near 
-                    //Only does this if there are currently points in my list 
+                    //Only does this if there are currenltly points in my list 
                     if (!waitingToGiveMonologue)
                     {
                         //make sure there is more waypoints!
@@ -411,7 +413,6 @@ namespace NPC
                 }
             }
         }
-        
 
         #endregion
         
@@ -447,6 +448,14 @@ namespace NPC
                 waypointCounter = 0;
 
                 waitingToGiveMonologue = false;
+            }
+
+            //Die i die? 
+            if (newMove.pathName == "Die")
+            {
+                //assign spirit trail a corner of the screen corresponding to sitting point 
+                if(spiritTrail != null)
+                    spiritTrail.DeathTrail();
             }
 
             resetsMovement = false;
@@ -587,8 +596,10 @@ namespace NPC
                     camObj.myBody.transform.localRotation = Quaternion.identity;
                 }
 
+                //get dist
+                float dist = Vector3.Distance(transform.position, targetPosition);
                 //stop running after we are close to position
-                if (Vector3.Distance(transform.position, targetPosition) < myNavMesh.stoppingDistance + 1f)
+                if (dist < myNavMesh.stoppingDistance + 3f)
                 {
                     //can be called by triggers or smth
                     if (resetsMovement)
@@ -696,7 +707,12 @@ namespace NPC
                 targetPosition = hit.point;
             }
 
-            myNavMesh.SetDestination(targetPosition);
+            //Old set dest method 
+            //myNavMesh.SetDestination(targetPosition);
+            
+            //new path calc method 
+            NavMesh.CalculatePath(transform.position, targetPosition, NavMesh.AllAreas, path);
+            myNavMesh.SetPath(path);
 
             myNavMesh.isStopped = false;
 
@@ -711,7 +727,31 @@ namespace NPC
             }
         }
         
+        /// <summary>
+        /// Teleports AI to Ground Pos. 
+        /// </summary>
+        public void SnapToGroundPoint()
+        {
+            RaycastHit hit;
+            Vector3 targetPos = Vector3.zero;
+            // Does the ray intersect any objects excluding the player layer
+            if (Physics.Raycast(transform.position, Vector3.down, out hit, 1500f, grounded))
+            {
+                targetPos = hit.point;
+            }
+            // Try up
+            else if (Physics.Raycast(transform.position, Vector3.up, out hit, 1500f, grounded))
+            {
+                targetPos = hit.point;
+            }
 
+            //teleport game obj
+            if (targetPos != Vector3.zero)
+            {
+                transform.position = targetPos;
+            }
+        }
+        
         #endregion
         
         //Talking state --

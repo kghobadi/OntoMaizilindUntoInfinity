@@ -32,7 +32,18 @@ namespace NPC
         public Animations Animation { get { return npcAnimations; } }
 
         Movement npcMovement;
-        public Movement Movement { get { return npcMovement; } }
+        public Movement Movement 
+        {
+            get 
+            {
+                if (npcMovement == null)
+                {
+                    npcMovement = GetComponent<Movement>();
+                }
+
+                return npcMovement;
+            }
+        }
 
         Sounds npcSounds;
         public Sounds Sounds { get { return npcSounds; } }

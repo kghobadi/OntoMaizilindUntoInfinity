@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class FaceAnimationUI : AnimationHandler 
 {
 	private Image m_Image;
-	private FadeUI faceFade;
+	private FadeUiRevamped faceFade;
 
 	//private values for screen adjustments
 	private float currentWidth;
@@ -18,7 +18,7 @@ public class FaceAnimationUI : AnimationHandler
 	void Awake()
 	{
 		m_Image = GetComponent<Image>();
-		faceFade = GetComponent<FadeUI>();
+		faceFade = GetComponent<FadeUiRevamped>();
 	}
 	
 	void Start ()
@@ -30,7 +30,7 @@ public class FaceAnimationUI : AnimationHandler
 	{
 		if(m_Image)
 			m_Image.enabled = true;
-		
+
 		SetAnimator("talking");
 		
 		active = true;
