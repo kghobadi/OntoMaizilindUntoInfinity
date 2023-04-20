@@ -43,6 +43,8 @@ public class LerpMaterial : MonoBehaviour {
     public float lerpSpeed = 0.5f;
     
     [Header("Color Lerp")]
+    [Tooltip("Check this to lerp color on start")]
+    public bool lerpColorOnStart;
     [Tooltip("True when lerping mat color val")]
     public bool lerpingMatColor;
     [Tooltip("How long when lerping mat color val")]
@@ -107,6 +109,10 @@ public class LerpMaterial : MonoBehaviour {
         if (lerpOnStart)
         {
             Lerp(endValue, lerpSpeed);
+        }
+        if (lerpColorOnStart)
+        {
+            LerpColor();
         }
 	}
 
