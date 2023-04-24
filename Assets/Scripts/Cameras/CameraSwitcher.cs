@@ -24,9 +24,9 @@ public class CameraSwitcher : MonoBehaviour
     public CamObject currentCamObj;
     public GameObject currentPlayer;
     private GameObject origPlayer;
-    public GameObject citizensParent;
     public GameObject bombers;
     public MovementPath toMosque;
+    public GameObject citizensParent;
 
     [Header("Shifting Perspectives")]
     public FadeUI shiftPress;
@@ -65,8 +65,7 @@ public class CameraSwitcher : MonoBehaviour
             CamObject[] cams = FindObjectsOfType<CamObject>();
             for(int i = 0; i < cams.Length; i++)
             {
-                if(cameraObjects.Contains(cams[i]) == false)
-                    cameraObjects.Add(cams[i]);
+               AddCamObject(cams[i]);
             }
         }
         
@@ -108,6 +107,19 @@ public class CameraSwitcher : MonoBehaviour
             canShift = true;
         }
 	}
+
+    /// <summary>
+    /// Adds a given cam object to the list. 
+    /// </summary>
+    /// <param name="cam"></param>
+    public void AddCamObject(CamObject cam)
+    {
+        //Cannot already contain it. 
+        if (!cameraObjects.Contains(cam))
+        {
+            cameraObjects.Add(cam);
+        }
+    }
 	
 	void Update ()
     {
