@@ -31,6 +31,7 @@ public class CitizenGenerator : MonoBehaviour
 
     [Header("Spawn Positioning")] 
     public Transform currentSpawnNexus;
+    public LayerMask grounded;
     public Vector2 xRange = new Vector2(-15f, 15f);
     public Vector2 yRange = new Vector2(-15f, 15f);
     public Vector2 zRange = new Vector2(-15f, 15f);
@@ -81,7 +82,9 @@ public class CitizenGenerator : MonoBehaviour
             }
         }
     }
-
+    
+    
+    
     public void SpawnCitizens()
     {
         GetRandomSpawnPosition();
@@ -163,9 +166,72 @@ public class CitizenGenerator : MonoBehaviour
             Vector2 xz = Random.insideUnitCircle * generationRadius;
 
             Vector3 spawnPos = transform.position + new Vector3(xz.x, 0, xz.y);
+            
+            //make sure we get a spawn pos that can get a grounded point
+            while (!IsGroundPoint(spawnPos))
+            {
+                xz = Random.insideUnitCircle * generationRadius;
+
+                spawnPos = transform.position + new Vector3(xz.x, 0, xz.y);
+            }
 
             SpawnCitizen(spawnPos);
         }
+    }
+
+    public void GenerateRandomOverTime()
+    {
+        StartCoroutine(RandomOverTime());
+    }
+
+    /// <summary>
+    /// Spawns citizens over time. 
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator RandomOverTime()
+    {
+        for (int i = 0; i < generationAmount; i++)
+        {
+            Vector2 xz = Random.insideUnitCircle * generationRadius;
+
+            Vector3 spawnPos = transform.position + new Vector3(xz.x, 0, xz.y);
+            
+            //make sure we get a spawn pos that can get a grounded point
+            while (!IsGroundPoint(spawnPos))
+            {
+                xz = Random.insideUnitCircle * generationRadius;
+
+                spawnPos = transform.position + new Vector3(xz.x, 0, xz.y);
+            }
+
+            SpawnCitizen(spawnPos);
+
+            yield return new WaitForSeconds(spawnTimer);
+        }
+    }
+    
+    /// <summary>
+    /// Teleports AI to Ground Pos. 
+    /// </summary>
+    public bool IsGroundPoint(Vector3 point)
+    {
+        bool isGrounded = false;
+        RaycastHit hit;
+        Vector3 targetPos = Vector3.zero;
+        // Does the ray intersect any objects excluding the player layer
+        if (Physics.Raycast(point, Vector3.down, out hit, 1500f, grounded))
+        {
+            targetPos = hit.point;
+            isGrounded = true;
+        }
+        // Try up
+        else if (Physics.Raycast(transform.position, Vector3.up, out hit, 1500f, grounded))
+        {
+            targetPos = hit.point;
+            isGrounded = true;
+        }
+
+        return isGrounded;
     }
 
     //generate objects in a square grid pattern 
