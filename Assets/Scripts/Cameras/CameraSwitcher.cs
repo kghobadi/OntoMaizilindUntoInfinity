@@ -24,7 +24,6 @@ public class CameraSwitcher : MonoBehaviour
     public CamObject currentCamObj;
     public GameObject currentPlayer;
     private GameObject origPlayer;
-    public GameObject citizensParent;
     public GameObject bombers;
     public MovementPath toMosque;
 
@@ -65,8 +64,7 @@ public class CameraSwitcher : MonoBehaviour
             CamObject[] cams = FindObjectsOfType<CamObject>();
             for(int i = 0; i < cams.Length; i++)
             {
-                if(cameraObjects.Contains(cams[i]) == false)
-                    cameraObjects.Add(cams[i]);
+               AddCamObject(cams[i]);
             }
         }
         
@@ -94,43 +92,62 @@ public class CameraSwitcher : MonoBehaviour
         origPlayer = currentPlayer;
 
         //no debug
-        if (!debug)
-        {
-            //turn off citizens for now
-            citizensParent.SetActive(false);
+        canShift = debug;
+    }
 
-            //cant shift yet
-            canShift = false;
-        }
-        //yes debug
-        else
+    /// <summary>
+    /// Adds a given cam object to the list. 
+    /// </summary>
+    /// <param name="cam"></param>
+    public void AddCamObject(CamObject cam)
+    {
+        //Cannot already contain it. 
+        if (!cameraObjects.Contains(cam))
         {
-            canShift = true;
+            cameraObjects.Add(cam);
         }
-	}
+    }
+
+    /// <summary>
+    /// Clears any destroyed cam elements.
+    /// </summary>
+    public void ClearCamList()
+    {
+        for (int i = 0; i < cameraObjects.Count; i++)
+        {
+            //remove all null cam objects
+            if (cameraObjects[i] == null)
+            {
+                cameraObjects.RemoveAt(i);
+                i--;
+            }
+        }
+    }
 	
 	void Update ()
     {
         //only allow shift controls when bomber view 
-        if(debug)
-            ShiftControls();
-
-        //only reset canShift if citizens are active 
-        if (citizensParent.activeSelf)
+        if (debug)
         {
+            ShiftControls();
+            
             ShiftReset();
         }
-
+        
         //when there is all but one camera left, turn off bombers 
         if(cameraObjects.Count <= transitionAmount)
         {
             //disable the bombers 
-            if(bombers.activeSelf)
+            if (bombers.activeSelf)
+            {
                 bombers.SetActive(false);
+            }
 
             //transition directly too mosque 
-            if((int)mosque.transitionState < 1)
+            if ((int) mosque.transitionState < 1)
+            {
                 mosque.BeginProjection(false);
+            }
         }
 
         //hard lock parents to their positions
