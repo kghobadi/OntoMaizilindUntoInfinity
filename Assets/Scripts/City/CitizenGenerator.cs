@@ -52,6 +52,7 @@ public class CitizenGenerator : MonoBehaviour
     [Header("Scale")]
     public bool useRandomScale;
     public float scaleMin = 0.5f, scaleMax = 2f;
+    private Vector3 origObjScale;
 
     void Awake()
     {
@@ -62,6 +63,12 @@ public class CitizenGenerator : MonoBehaviour
         if (currentSpawnNexus == null)
         {
             currentSpawnNexus = transform;
+        }
+
+        //store orig scale of the pooler prefab
+        if (useRandomScale)
+        {
+            origObjScale = citizenPooler.ObjPrefab.transform.localScale;
         }
     }
 
@@ -82,8 +89,6 @@ public class CitizenGenerator : MonoBehaviour
             }
         }
     }
-    
-    
     
     public void SpawnCitizens()
     {
@@ -154,7 +159,7 @@ public class CitizenGenerator : MonoBehaviour
         if (useRandomScale)
         {
             float randomScale = Random.Range(scaleMin, scaleMax);
-            citizenClone.transform.localScale *= randomScale;   
+            citizenClone.transform.localScale = origObjScale * randomScale;   
         }
     }
 

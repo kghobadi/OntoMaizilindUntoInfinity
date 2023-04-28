@@ -2,25 +2,48 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPooler : MonoBehaviour {
-
+public class ObjectPooler : MonoBehaviour
+{
+    [SerializeField] private bool generateOnStart = true;
+    [SerializeField] private bool generated;
     [SerializeField] GameObject objectPrefab;
     [SerializeField] int startingNumber = 1000;
     GameObject[] objects;
     int index;
 
+    public GameObject ObjPrefab => objectPrefab;
 
-    protected virtual void Awake() {
+    protected virtual void Awake() 
+    {
+        if (generateOnStart)
+        {
+            GenerateObjects();
+        }  
+    }
+    
+    public virtual void GenerateObjects()
+    {
+        //make sure to destroy the pool
+        if (generated)
+        {
+            DestroyPool();
+        }
+        
         // Instantiate all objects.
         objects = new GameObject[startingNumber];
-        for (int i = 0; i < objects.Length; i++) {
+        for (int i = 0; i < objects.Length; i++) 
+        {
             objects[i] = InstantiateNew();
-            DeactivateObject(objects[i]);
+            //deactivate
+            objects[i].SetActive(false);
         }
+
+        //pool is generated
+        generated = true;
     }
 
-
-    protected virtual GameObject InstantiateNew() {
+    protected virtual GameObject InstantiateNew() 
+    {
         GameObject newObject = Instantiate(objectPrefab);
         newObject.transform.parent = transform;
         newObject.AddComponent<PooledObject>();
@@ -28,24 +51,18 @@ public class ObjectPooler : MonoBehaviour {
         return newObject;
     }
 
-
-    protected virtual void ActivateObject(GameObject activatedObject) {
-        activatedObject.SetActive(true);
-    }
-
-
-    protected virtual void DeactivateObject(GameObject deactivatedObject) {
-        deactivatedObject.SetActive(false);
-    }
-
-
-    public virtual GameObject GrabObject() {
+    public virtual GameObject GrabObject() 
+    {
         GameObject grabbedObject = objects[index];
         index++;
-        if (index >= startingNumber) { index = 0; }
+        if (index >= startingNumber)
+        {
+            index = 0;
+        }
         // If there are inactive objects in the list, return the top one. Otherwise, instantiate a new one and return that.
-        //if (inactiveObjects.Count > 0) {
-        //grabbedObject = inactiveObjects[0];
+        //if (inactiveObjects.Count > 0)
+        //{
+            //grabbedObject = inactiveObjects[0];
         //} 
 
         //else {
@@ -54,7 +71,7 @@ public class ObjectPooler : MonoBehaviour {
         //    inactiveObjects.Add(grabbedObject);
         //}
 
-        ActivateObject(grabbedObject);
+        grabbedObject.SetActive(true);
 
         return grabbedObject;
     }
@@ -63,6 +80,20 @@ public class ObjectPooler : MonoBehaviour {
     public virtual void ReturnObject(GameObject returnedObject) 
     {
         returnedObject.transform.parent = transform;
-        DeactivateObject(returnedObject);
+        returnedObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// Destroy the pool.
+    /// </summary>
+    void DestroyPool()
+    {
+        foreach (var obj in objects)
+        {
+            Destroy(obj);
+        }
+
+        objects = null;
+        generated = false;
     }
 }
