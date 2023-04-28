@@ -90,9 +90,10 @@ public class ObjectPooler : MonoBehaviour
     {
         foreach (var obj in objects)
         {
-            Destroy(obj);
+            DestroyImmediate(obj);
         }
 
+        index = 0;
         objects = null;
         generated = false;
     }

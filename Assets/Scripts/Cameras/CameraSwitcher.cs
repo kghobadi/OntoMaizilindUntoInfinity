@@ -26,7 +26,6 @@ public class CameraSwitcher : MonoBehaviour
     private GameObject origPlayer;
     public GameObject bombers;
     public MovementPath toMosque;
-    public GameObject citizensParent;
 
     [Header("Shifting Perspectives")]
     public FadeUI shiftPress;
@@ -93,20 +92,8 @@ public class CameraSwitcher : MonoBehaviour
         origPlayer = currentPlayer;
 
         //no debug
-        if (!debug)
-        {
-            //turn off citizens for now
-            citizensParent.SetActive(false);
-
-            //cant shift yet
-            canShift = false;
-        }
-        //yes debug
-        else
-        {
-            canShift = true;
-        }
-	}
+        canShift = debug;
+    }
 
     /// <summary>
     /// Adds a given cam object to the list. 
@@ -120,29 +107,47 @@ public class CameraSwitcher : MonoBehaviour
             cameraObjects.Add(cam);
         }
     }
+
+    /// <summary>
+    /// Clears any destroyed cam elements.
+    /// </summary>
+    public void ClearCamList()
+    {
+        for (int i = 0; i < cameraObjects.Count; i++)
+        {
+            //remove all null cam objects
+            if (cameraObjects[i] == null)
+            {
+                cameraObjects.RemoveAt(i);
+                i--;
+            }
+        }
+    }
 	
 	void Update ()
     {
         //only allow shift controls when bomber view 
-        if(debug)
-            ShiftControls();
-
-        //only reset canShift if citizens are active 
-        if (citizensParent.activeSelf)
+        if (debug)
         {
+            ShiftControls();
+            
             ShiftReset();
         }
-
+        
         //when there is all but one camera left, turn off bombers 
         if(cameraObjects.Count <= transitionAmount)
         {
             //disable the bombers 
-            if(bombers.activeSelf)
+            if (bombers.activeSelf)
+            {
                 bombers.SetActive(false);
+            }
 
             //transition directly too mosque 
-            if((int)mosque.transitionState < 1)
+            if ((int) mosque.transitionState < 1)
+            {
                 mosque.BeginProjection(false);
+            }
         }
 
         //hard lock parents to their positions

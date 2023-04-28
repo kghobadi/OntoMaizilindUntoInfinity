@@ -12,7 +12,7 @@ public class ObjectPoolerEditor : Editor
         ObjectPooler objectPooler = (ObjectPooler)target;
 
         //button for spawning NPCs to ground 
-        if (GUILayout.Button("Spawn Citizens"))
+        if (GUILayout.Button("Spawn Object Pool"))
         {
             objectPooler.GenerateObjects();
         }

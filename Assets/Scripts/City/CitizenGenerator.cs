@@ -8,6 +8,7 @@ using UnityEngine;
 /// </summary>
 public class CitizenGenerator : MonoBehaviour
 {
+    private bool init;
     private CameraSwitcher camSwitcher;
     Vector3 origPos;
     [SerializeField] ObjectPooler citizenPooler;
@@ -32,6 +33,7 @@ public class CitizenGenerator : MonoBehaviour
     [Header("Spawn Positioning")] 
     public Transform currentSpawnNexus;
     public LayerMask grounded;
+    public int groundLayer;
     public Vector2 xRange = new Vector2(-15f, 15f);
     public Vector2 yRange = new Vector2(-15f, 15f);
     public Vector2 zRange = new Vector2(-15f, 15f);
@@ -56,19 +58,28 @@ public class CitizenGenerator : MonoBehaviour
 
     void Awake()
     {
-        //get cam switcher 
-        camSwitcher = FindObjectOfType<CameraSwitcher>();
-        //randomize spawn timer 
-        spawnTimer = Random.Range(spawnIntervalMin, spawnIntervalMax);
-        if (currentSpawnNexus == null)
-        {
-            currentSpawnNexus = transform;
-        }
+        Init();
+    }
 
-        //store orig scale of the pooler prefab
-        if (useRandomScale)
+    void Init()
+    {
+        if (!init)
         {
-            origObjScale = citizenPooler.ObjPrefab.transform.localScale;
+            //get cam switcher 
+            camSwitcher = FindObjectOfType<CameraSwitcher>();
+            //randomize spawn timer 
+            spawnTimer = Random.Range(spawnIntervalMin, spawnIntervalMax);
+            if (currentSpawnNexus == null)
+            {
+                currentSpawnNexus = transform;
+            }
+
+            //store orig scale of the pooler prefab
+            if (useRandomScale)
+            {
+                origObjScale = citizenPooler.ObjPrefab.transform.localScale;
+            }
+            init = true;
         }
     }
 
@@ -92,6 +103,8 @@ public class CitizenGenerator : MonoBehaviour
     
     public void SpawnCitizens()
     {
+        Init();
+        
         GetRandomSpawnPosition();
             
         //generation patterns 
@@ -131,7 +144,7 @@ public class CitizenGenerator : MonoBehaviour
     {
         //grab obj from pool and set pos
         citizenClone = citizenPooler.GrabObject();
-        citizenClone.transform.SetParent(camSwitcher.citizensParent.transform);
+        citizenClone.transform.SetParent(currentSpawnNexus.transform);
         citizenClone.transform.position = spawnPos;
         citizenClone.transform.rotation = Quaternion.Euler(transform.eulerAngles);
         //get citizen cam obj
@@ -222,18 +235,19 @@ public class CitizenGenerator : MonoBehaviour
     {
         bool isGrounded = false;
         RaycastHit hit;
-        Vector3 targetPos = Vector3.zero;
+        GameObject hitGameObj;
+        
         // Does the ray intersect any objects excluding the player layer
         if (Physics.Raycast(point, Vector3.down, out hit, 1500f, grounded))
         {
-            targetPos = hit.point;
-            isGrounded = true;
+            hitGameObj = hit.collider.gameObject;
+            isGrounded = hitGameObj.layer ==  groundLayer;
         }
         // Try up
         else if (Physics.Raycast(transform.position, Vector3.up, out hit, 1500f, grounded))
         {
-            targetPos = hit.point;
-            isGrounded = true;
+            hitGameObj = hit.collider.gameObject;
+            isGrounded = hitGameObj.layer ==  groundLayer;
         }
 
         return isGrounded;
