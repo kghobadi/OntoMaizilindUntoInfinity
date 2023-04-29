@@ -160,7 +160,10 @@ public class CitizenGenerator : MonoBehaviour
         if (citizenCam)
         {
             camSwitcher.AddCamObject(citizenCam);
-            camSwitcher.DisableCamObj(citizenCam);
+            if (Application.isPlaying)
+            {
+                camSwitcher.DisableCamObj(citizenCam);
+            }
         }
         
         //randomize citizen speed 
