@@ -602,7 +602,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectionDisplayCorner: {fileID: 0}
   spiritSpeed: 25
-  activated: 0
 --- !u!96 &96883291249997398
 TrailRenderer:
   serializedVersion: 2
@@ -3075,11 +3074,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 1
-  m_Speed: 25
-  m_Acceleration: 150
+  m_Speed: 16
+  m_Acceleration: 50
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 10
+  m_StoppingDistance: 5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -3110,16 +3109,17 @@ MonoBehaviour:
   enableOnStart: 0
   head: {fileID: 0}
   useSubtitles: 0
+  subtitleTarget: {fileID: 0}
   mySubtitle: {fileID: 0}
   subSizeMult: 1
   centerOffScreenSub: 0
   subtitleTMP: {fileID: 0}
   subCanvasGroup: {fileID: 0}
-  subChanging: 0
   currentSubTime: 0
   faceSizeMult: 2
   facePointer: {fileID: 0}
   faceRect: {fileID: 0}
+  distanceActive: 0
   arrowImg: {fileID: 0}
   subPointOffsetX: 0
 --- !u!1 &1969197389000800

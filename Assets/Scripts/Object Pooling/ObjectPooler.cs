@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ public class ObjectPooler : MonoBehaviour
     [SerializeField] private bool generated;
     [SerializeField] GameObject objectPrefab;
     [SerializeField] int startingNumber = 1000;
-    GameObject[] objects;
+    [SerializeField] GameObject[] objects;
     int index;
 
     public GameObject ObjPrefab => objectPrefab;
@@ -51,7 +52,19 @@ public class ObjectPooler : MonoBehaviour
         return newObject;
     }
 
-    public virtual GameObject GrabObject() 
+    public virtual GameObject GetObject()
+    {
+        GameObject nextObject = objects[index];
+        index++;
+        if (index >= startingNumber)
+        {
+            index = 0;
+        }
+        
+        return nextObject;
+    }
+
+    public virtual GameObject GrabObject(Action beforeEnable = null) 
     {
         GameObject grabbedObject = objects[index];
         index++;
@@ -59,17 +72,9 @@ public class ObjectPooler : MonoBehaviour
         {
             index = 0;
         }
-        // If there are inactive objects in the list, return the top one. Otherwise, instantiate a new one and return that.
-        //if (inactiveObjects.Count > 0)
-        //{
-            //grabbedObject = inactiveObjects[0];
-        //} 
-
-        //else {
-        //    Debug.Log("Instantiating new " + objectPrefab.name);
-        //    grabbedObject = InstantiateNew();
-        //    inactiveObjects.Add(grabbedObject);
-        //}
+        
+        //invoke before enable 
+        beforeEnable?.Invoke();
 
         grabbedObject.SetActive(true);
 
@@ -86,13 +91,34 @@ public class ObjectPooler : MonoBehaviour
     /// <summary>
     /// Destroy the pool.
     /// </summary>
-    void DestroyPool()
+    public void DestroyPool()
     {
-        foreach (var obj in objects)
+        //destroy any objs in array 
+        if (objects != null)
         {
-            DestroyImmediate(obj);
+            foreach (var obj in objects)
+            {
+                if (obj)
+                {
+                    DestroyImmediate(obj);
+                }
+            }
         }
 
+        //loop through and destroy children
+        if (transform.childCount > 0)
+        {
+            for(int i = 0; i < transform.childCount; i++)
+            {
+                if (transform.GetChild(i))
+                {
+                    DestroyImmediate(transform.GetChild(i).gameObject);
+                    i--;
+                }
+            }
+        }
+
+        //reset index and nullify objects 
         index = 0;
         objects = null;
         generated = false;

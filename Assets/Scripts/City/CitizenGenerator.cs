@@ -37,7 +37,9 @@ public class CitizenGenerator : MonoBehaviour
     public Vector2 xRange = new Vector2(-15f, 15f);
     public Vector2 yRange = new Vector2(-15f, 15f);
     public Vector2 zRange = new Vector2(-15f, 15f);
-
+    private Vector3 currentSpawnPos;
+    public float sphereCastRadius = 1.5f;
+    
     [Header("Spawn Timing")]
     //spawn times
     public bool usesSpawnTiming;
@@ -56,6 +58,7 @@ public class CitizenGenerator : MonoBehaviour
     public float scaleMin = 0.5f, scaleMax = 2f;
     private Vector3 origObjScale;
 
+
     void Awake()
     {
         Init();
@@ -67,11 +70,16 @@ public class CitizenGenerator : MonoBehaviour
         {
             //get cam switcher 
             camSwitcher = FindObjectOfType<CameraSwitcher>();
-            //randomize spawn timer 
-            spawnTimer = Random.Range(spawnIntervalMin, spawnIntervalMax);
+          
             if (currentSpawnNexus == null)
             {
                 currentSpawnNexus = transform;
+            }
+
+            if (usesSpawnTiming)
+            {
+                //randomize spawn timer 
+                spawnTimer = Random.Range(spawnIntervalMin, spawnIntervalMax);
             }
 
             //store orig scale of the pooler prefab
@@ -133,32 +141,25 @@ public class CitizenGenerator : MonoBehaviour
         Vector3 spawnNexus = currentSpawnNexus.position;
         //get random positions 
         float randomX = spawnNexus.x + Random.Range(xRange.x, xRange.y);
-        float randomY = spawnNexus.y + Random.Range(yRange.x, yRange.y);
         float randomZ = spawnNexus.z + Random.Range(zRange.x, zRange.y);
         //randomize spawn center on x axis 
-        transform.position = new Vector3(randomX, randomY, randomZ);
+        transform.position = new Vector3(randomX, transform.position.y, randomZ);
     }
 
     //spawn normal cloud
     void SpawnCitizen(Vector3 spawnPos)
     {
         //grab obj from pool and set pos
-        citizenClone = citizenPooler.GrabObject();
-        citizenClone.transform.SetParent(currentSpawnNexus.transform);
+        citizenClone = citizenPooler.GetObject();
         citizenClone.transform.position = spawnPos;
-        citizenClone.transform.rotation = Quaternion.Euler(transform.eulerAngles);
+        citizenClone.transform.SetParent(transform);
+        citizenClone.SetActive(true);
+
         //get citizen cam obj
         CamObject citizenCam = citizenClone.GetComponent<CamObject>();
         if (citizenCam)
         {
             camSwitcher.AddCamObject(citizenCam);
-        }
-
-        //get npc and ground it 
-        Movement npcMove = citizenClone.GetComponent<Movement>();
-        if (npcMove)
-        {
-            npcMove.SnapToGroundPoint();
         }
         
         //randomize citizen speed 
@@ -193,7 +194,7 @@ public class CitizenGenerator : MonoBehaviour
                 spawnPos = transform.position + new Vector3(xz.x, 0, xz.y);
             }
 
-            SpawnCitizen(spawnPos);
+            SpawnCitizen(currentSpawnPos);
         }
     }
 
@@ -210,6 +211,8 @@ public class CitizenGenerator : MonoBehaviour
     {
         for (int i = 0; i < generationAmount; i++)
         {
+            GetRandomSpawnPosition();
+            
             Vector2 xz = Random.insideUnitCircle * generationRadius;
 
             Vector3 spawnPos = transform.position + new Vector3(xz.x, 0, xz.y);
@@ -222,7 +225,7 @@ public class CitizenGenerator : MonoBehaviour
                 spawnPos = transform.position + new Vector3(xz.x, 0, xz.y);
             }
 
-            SpawnCitizen(spawnPos);
+            SpawnCitizen(currentSpawnPos);
 
             yield return new WaitForSeconds(spawnTimer);
         }
@@ -238,16 +241,24 @@ public class CitizenGenerator : MonoBehaviour
         GameObject hitGameObj;
         
         // Does the ray intersect any objects excluding the player layer
-        if (Physics.Raycast(point, Vector3.down, out hit, 1500f, grounded))
+        if (Physics.SphereCast(point, sphereCastRadius, Vector3.down, out hit, 1500f, grounded))
         {
             hitGameObj = hit.collider.gameObject;
             isGrounded = hitGameObj.layer ==  groundLayer;
+            if (isGrounded)
+            {
+                currentSpawnPos = hit.point;
+            }
         }
         // Try up
-        else if (Physics.Raycast(transform.position, Vector3.up, out hit, 1500f, grounded))
+        else if (Physics.SphereCast(point, sphereCastRadius, Vector3.up, out hit, 1500f, grounded))
         {
             hitGameObj = hit.collider.gameObject;
             isGrounded = hitGameObj.layer ==  groundLayer;
+            if (isGrounded)
+            {
+                currentSpawnPos = hit.point;
+            }
         }
 
         return isGrounded;

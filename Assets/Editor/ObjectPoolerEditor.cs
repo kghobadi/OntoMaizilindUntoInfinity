@@ -16,6 +16,12 @@ public class ObjectPoolerEditor : Editor
         {
             objectPooler.GenerateObjects();
         }
+        
+        //button for spawning NPCs to ground 
+        if (GUILayout.Button("Destroy Object Pool"))
+        {
+            objectPooler.DestroyPool();
+        }
 
         base.OnInspectorGUI();
     }
