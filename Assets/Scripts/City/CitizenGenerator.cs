@@ -153,6 +153,15 @@ public class CitizenGenerator : MonoBehaviour
         citizenClone = citizenPooler.GetObject();
         citizenClone.transform.position = spawnPos;
         citizenClone.transform.SetParent(transform);
+        
+        //get nma and disable it before obj enable
+        Movement npcMove = citizenClone.GetComponent<Movement>();
+        if (npcMove.AIenabled)
+        {
+            npcMove.AIenabled = false;
+        }
+        
+        //enable obj 
         citizenClone.SetActive(true);
 
         //get citizen cam obj
@@ -160,6 +169,7 @@ public class CitizenGenerator : MonoBehaviour
         if (citizenCam)
         {
             camSwitcher.AddCamObject(citizenCam);
+            //only disable cam while in play mode 
             if (Application.isPlaying)
             {
                 camSwitcher.DisableCamObj(citizenCam);
@@ -227,6 +237,8 @@ public class CitizenGenerator : MonoBehaviour
                 xz = Random.insideUnitCircle * generationRadius;
 
                 spawnPos = transform.position + new Vector3(xz.x, 0, xz.y);
+
+                yield return null;
             }
 
             SpawnCitizen(currentSpawnPos);

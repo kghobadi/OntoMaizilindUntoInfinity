@@ -66,10 +66,7 @@ public class Bomb : MonoBehaviour {
         //physx
         bombBody.isKinematic = false;
         bombBody.AddForce(0f, startSpeed, 0f);
-        
-        //TODO try do tween for moving bombs instead of physics
-        //transform.DOMoveY()
-        
+
         //Randomize speed?
         if (randomizeSpeed)
         {
@@ -84,14 +81,11 @@ public class Bomb : MonoBehaviour {
         bombBody.AddForce(0, -moveSpeedOverTime, 0);
         
         //y check 
-        
-        if(transform.position.y < -150f)
+        if(transform.position.y < 0f)
         {
-            ResetBomb();
-            //SpawnExplosion(null);
+            SpawnExplosion(null);
         }
-        
-	}
+    }
     
     void OnTriggerEnter(Collider other)
     {

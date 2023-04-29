@@ -52,26 +52,36 @@ public class ObjectPooler : MonoBehaviour
         return newObject;
     }
 
+    /// <summary>
+    /// Returns the next 'inactive' object in the pool. 
+    /// </summary>
+    /// <returns></returns>
     public virtual GameObject GetObject()
     {
         GameObject nextObject = objects[index];
-        index++;
-        if (index >= startingNumber)
+        IncrementIndex();
+        while (nextObject.activeSelf)
         {
-            index = 0;
+            nextObject = objects[index];
+            IncrementIndex();
         }
         
         return nextObject;
     }
 
-    public virtual GameObject GrabObject(Action beforeEnable = null) 
+    void IncrementIndex()
     {
-        GameObject grabbedObject = objects[index];
         index++;
         if (index >= startingNumber)
         {
             index = 0;
         }
+    }
+
+    public virtual GameObject GrabObject(Action beforeEnable = null) 
+    {
+        GameObject grabbedObject = objects[index];
+        IncrementIndex();
         
         //invoke before enable 
         beforeEnable?.Invoke();
