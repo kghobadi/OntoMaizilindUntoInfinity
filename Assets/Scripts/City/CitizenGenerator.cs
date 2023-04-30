@@ -15,51 +15,29 @@ public class CitizenGenerator : MonoBehaviour
     [SerializeField] ObjectPooler citizenPooler;
     GameObject citizenClone;
     [SerializeField] GameObject[] generatedObjs;
-    public GenerationType generationType;
-    public enum GenerationType
-    {
-        RANDOM, SQUARE, 
-    }
-    //for RANDOM
-    [Header("RANDOM")]
+    
+    [Header("RANDOM Gen Settings")]
     public int generationAmount;
     public float generationRadius;
-
-    //for SQUARE
-    [Header("SQUARE")]
-    public int gridSizeX;
-    public int gridSizeY;
-    public float distBetweenX, distBetweenY;
-
+    
     [Header("Spawn Positioning")] 
     public Transform currentSpawnNexus;
+    private Vector3 spawnNexus;
+    private Vector3 currentSpawnPos;
     public LayerMask grounded;
     public int groundLayer;
-    public Vector2 xRange = new Vector2(-15f, 15f);
-    public Vector2 yRange = new Vector2(-15f, 15f);
-    public Vector2 zRange = new Vector2(-15f, 15f);
-    private Vector3 currentSpawnPos;
     public float sphereCastRadius = 1.5f;
     
     [Header("Spawn Timing")]
-    //spawn times
     public bool usesSpawnTiming;
     public float spawnTimer;
     public float spawnIntervalMin = 3f, spawnIntervalMax = 5f;
-
-    //Citizen settings 
-    [Header("Citizen Settings")] 
-    public bool useRandomSpeed;
-    public float citizenSpeed;
-    public float speedMin, speedMax;
-    public float distanceToDestroy;
 
     [Header("Scale")]
     public bool useRandomScale;
     public float scaleMin = 0.5f, scaleMax = 2f;
     private Vector3 origObjScale;
-
-
+    
     void Awake()
     {
         Init();
@@ -117,23 +95,6 @@ public class CitizenGenerator : MonoBehaviour
         }
     }
     
-    public void SpawnCitizens()
-    {
-        Init();
-        
-        GetRandomSpawnPosition();
-            
-        //generation patterns 
-        if(generationType == GenerationType.RANDOM)
-        {
-            GenerateRandom();
-        }
-        if (generationType == GenerationType.SQUARE)
-        {
-            GenerateSquare();
-        }
-    }
-
     /// <summary>
     /// Overrides current spawn nexus. 
     /// </summary>
@@ -142,76 +103,30 @@ public class CitizenGenerator : MonoBehaviour
     {
         currentSpawnNexus = nexus;
     }
+    
+    public void SpawnCitizens()
+    {
+        Init();
+        
+        GetRandomSpawnPosition();
+            
+        GenerateRandom();
+    }
 
+    /// <summary>
+    /// Returns random spawn nexus within gen radius of the Current Spawn Nexus. 
+    /// </summary>
     void GetRandomSpawnPosition()
     {
-        //get spawn nexus
-        Vector3 spawnNexus = currentSpawnNexus.position;
-        //get random positions 
-        float randomX = spawnNexus.x + Random.Range(xRange.x, xRange.y);
-        float randomZ = spawnNexus.z + Random.Range(zRange.x, zRange.y);
-        //randomize spawn center on x axis 
-        transform.position = new Vector3(randomX, transform.position.y, randomZ);
+        //get random point in generation radius 
+        Vector2 xz = Random.insideUnitCircle * generationRadius;
+        //get spawn nexus by adding xz point to current spawn nexus pos 
+        spawnNexus =  currentSpawnNexus.position + new Vector3(xz.x, 0, xz.y);
     }
-
-    //spawn normal cloud
-    GameObject SpawnCitizen(Vector3 spawnPos)
-    {
-        //use pooler
-        if (citizenPooler)
-        {
-            //grab obj from pool and set pos
-            citizenClone = citizenPooler.GetObject();
-            citizenClone.transform.position = spawnPos;
-        }
-        //fresh instantiate
-        else
-        {
-            citizenClone = Instantiate(citizenPrefab, spawnPos, Quaternion.identity);
-        }
-        
-        citizenClone.transform.SetParent(transform);
-        
-        //get nma and disable it before obj enable
-        Movement npcMove = citizenClone.GetComponent<Movement>();
-        if (npcMove.AIenabled)
-        {
-            npcMove.AIenabled = false;
-        }
-        
-        //enable obj 
-        citizenClone.SetActive(true);
-
-        //get citizen cam obj
-        CamObject citizenCam = citizenClone.GetComponent<CamObject>();
-        if (citizenCam)
-        {
-            camSwitcher.AddCamObject(citizenCam);
-            //only disable cam while in play mode 
-            if (Application.isPlaying)
-            {
-                camSwitcher.DisableCamObj(citizenCam);
-            }
-        }
-        
-        //randomize citizen speed 
-        if (useRandomSpeed)
-        {
-            citizenSpeed = Random.Range(speedMin, speedMax);
-            //apply to nav mesh agent/Movement.cs
-        }
-
-        //randomize citizen scale 
-        if (useRandomScale)
-        {
-            float randomScale = Random.Range(scaleMin, scaleMax);
-            citizenClone.transform.localScale = origObjScale * randomScale;   
-        }
-
-        return citizenClone;
-    }
-
-    //generate objects in a random unit circle 
+    
+    /// <summary>
+    /// Generates designated objects in a random unit circle 
+    /// </summary>
     void GenerateRandom()
     {
         //set to size of the grid we will be making 
@@ -219,16 +134,12 @@ public class CitizenGenerator : MonoBehaviour
         
         for (int i = 0; i < generationAmount; i++)
         {
-            Vector2 xz = Random.insideUnitCircle * generationRadius;
-
-            Vector3 spawnPos = transform.position + new Vector3(xz.x, 0, xz.y);
+            GetRandomSpawnPosition();
             
             //make sure we get a spawn pos that can get a grounded point
-            while (!IsGroundPoint(spawnPos))
+            while (!IsGroundPoint(spawnNexus))
             {
-                xz = Random.insideUnitCircle * generationRadius;
-
-                spawnPos = transform.position + new Vector3(xz.x, 0, xz.y);
+                GetRandomSpawnPosition();
             }
 
             //set array element
@@ -236,6 +147,9 @@ public class CitizenGenerator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Generates citizens over time. 
+    /// </summary>
     public void GenerateRandomOverTime()
     {
         StartCoroutine(RandomOverTime());
@@ -253,17 +167,11 @@ public class CitizenGenerator : MonoBehaviour
         for (int i = 0; i < generationAmount; i++)
         {
             GetRandomSpawnPosition();
-            
-            Vector2 xz = Random.insideUnitCircle * generationRadius;
 
-            Vector3 spawnPos = transform.position + new Vector3(xz.x, 0, xz.y);
-            
             //make sure we get a spawn pos that can get a grounded point
-            while (!IsGroundPoint(spawnPos))
+            while (!IsGroundPoint(spawnNexus))
             {
-                xz = Random.insideUnitCircle * generationRadius;
-
-                spawnPos = transform.position + new Vector3(xz.x, 0, xz.y);
+                GetRandomSpawnPosition();
 
                 yield return null;
             }
@@ -273,6 +181,45 @@ public class CitizenGenerator : MonoBehaviour
 
             yield return new WaitForSeconds(spawnTimer);
         }
+    }
+
+    //spawn normal cloud
+    GameObject SpawnCitizen(Vector3 spawnPos)
+    {
+        //use pooler
+        if (citizenPooler)
+        {
+            //grab obj from pool and set pos
+            citizenClone = citizenPooler.GrabObject();
+            citizenClone.transform.position = spawnPos;
+            citizenClone.transform.SetParent(transform);
+        }
+        //fresh instantiate
+        else
+        {
+            citizenClone = Instantiate(citizenPrefab, spawnPos, Quaternion.identity, transform);
+        }
+
+        //get citizen cam obj
+        CamObject citizenCam = citizenClone.GetComponent<CamObject>();
+        if (citizenCam)
+        {
+            camSwitcher.AddCamObject(citizenCam);
+            //only disable cam while in play mode 
+            if (Application.isPlaying)
+            {
+                camSwitcher.DisableCamObj(citizenCam);
+            }
+        }
+
+        //randomize citizen scale 
+        if (useRandomScale)
+        {
+            float randomScale = Random.Range(scaleMin, scaleMax);
+            citizenClone.transform.localScale = origObjScale * randomScale;   
+        }
+
+        return citizenClone;
     }
     
     /// <summary>
@@ -306,23 +253,6 @@ public class CitizenGenerator : MonoBehaviour
         }
 
         return isGrounded;
-    }
-
-    //generate objects in a square grid pattern 
-    void GenerateSquare()
-    {
-        //set to size of the grid we will be making 
-        generatedObjs = new GameObject[(gridSizeX + 1) * (gridSizeY + 1)];
-
-        for (int i = 0, y = 0; y <= gridSizeY; y++)
-        {
-            for (int x = 0; x <= gridSizeX; x++, i++)
-            {
-                Vector3 spawnPos = new Vector3(x * distBetweenX, transform.position.y, y * distBetweenY) + transform.position;
-
-                SpawnCitizen(spawnPos);
-            }
-        }
     }
 
     public void DestroyAllGeneratedObjs()
