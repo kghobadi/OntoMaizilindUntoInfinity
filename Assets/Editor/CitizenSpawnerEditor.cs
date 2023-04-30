@@ -16,6 +16,12 @@ public class CitizenSpawnerEditor : Editor
         {
             citizenGenerator.SpawnCitizens();
         }
+        
+        //button for spawning NPCs to ground 
+        if (GUILayout.Button("Destroy Citizens"))
+        {
+            citizenGenerator.DestroyAllGeneratedObjs();
+        }
 
         base.OnInspectorGUI();
     }

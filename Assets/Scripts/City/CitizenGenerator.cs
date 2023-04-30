@@ -11,6 +11,7 @@ public class CitizenGenerator : MonoBehaviour
     private bool init;
     private CameraSwitcher camSwitcher;
     Vector3 origPos;
+    [SerializeField] GameObject citizenPrefab;
     [SerializeField] ObjectPooler citizenPooler;
     GameObject citizenClone;
     [SerializeField] GameObject[] generatedObjs;
@@ -85,7 +86,14 @@ public class CitizenGenerator : MonoBehaviour
             //store orig scale of the pooler prefab
             if (useRandomScale)
             {
-                origObjScale = citizenPooler.ObjPrefab.transform.localScale;
+                if (citizenPooler)
+                {
+                    origObjScale = citizenPooler.ObjPrefab.transform.localScale;
+                }
+                else
+                {
+                    origObjScale = citizenPrefab.transform.localScale;
+                }
             }
             init = true;
         }
@@ -147,11 +155,21 @@ public class CitizenGenerator : MonoBehaviour
     }
 
     //spawn normal cloud
-    void SpawnCitizen(Vector3 spawnPos)
+    GameObject SpawnCitizen(Vector3 spawnPos)
     {
-        //grab obj from pool and set pos
-        citizenClone = citizenPooler.GetObject();
-        citizenClone.transform.position = spawnPos;
+        //use pooler
+        if (citizenPooler)
+        {
+            //grab obj from pool and set pos
+            citizenClone = citizenPooler.GetObject();
+            citizenClone.transform.position = spawnPos;
+        }
+        //fresh instantiate
+        else
+        {
+            citizenClone = Instantiate(citizenPrefab, spawnPos, Quaternion.identity);
+        }
+        
         citizenClone.transform.SetParent(transform);
         
         //get nma and disable it before obj enable
@@ -189,11 +207,16 @@ public class CitizenGenerator : MonoBehaviour
             float randomScale = Random.Range(scaleMin, scaleMax);
             citizenClone.transform.localScale = origObjScale * randomScale;   
         }
+
+        return citizenClone;
     }
 
     //generate objects in a random unit circle 
     void GenerateRandom()
     {
+        //set to size of the grid we will be making 
+        generatedObjs = new GameObject[generationAmount];
+        
         for (int i = 0; i < generationAmount; i++)
         {
             Vector2 xz = Random.insideUnitCircle * generationRadius;
@@ -208,7 +231,8 @@ public class CitizenGenerator : MonoBehaviour
                 spawnPos = transform.position + new Vector3(xz.x, 0, xz.y);
             }
 
-            SpawnCitizen(currentSpawnPos);
+            //set array element
+            generatedObjs[i] = SpawnCitizen(currentSpawnPos);
         }
     }
 
@@ -223,6 +247,9 @@ public class CitizenGenerator : MonoBehaviour
     /// <returns></returns>
     IEnumerator RandomOverTime()
     {
+        //set to size of the grid we will be making 
+        generatedObjs = new GameObject[generationAmount];
+        
         for (int i = 0; i < generationAmount; i++)
         {
             GetRandomSpawnPosition();
@@ -241,7 +268,8 @@ public class CitizenGenerator : MonoBehaviour
                 yield return null;
             }
 
-            SpawnCitizen(currentSpawnPos);
+            //set array element
+            generatedObjs[i] = SpawnCitizen(currentSpawnPos);
 
             yield return new WaitForSeconds(spawnTimer);
         }
@@ -295,5 +323,18 @@ public class CitizenGenerator : MonoBehaviour
                 SpawnCitizen(spawnPos);
             }
         }
+    }
+
+    public void DestroyAllGeneratedObjs()
+    {
+        foreach (var obj in generatedObjs)
+        {
+            if (obj)
+            {
+                DestroyImmediate(obj);
+            }   
+        }
+
+        generatedObjs = null;
     }
 }
