@@ -107,6 +107,19 @@ public class CameraSwitcher : MonoBehaviour
             cameraObjects.Add(cam);
         }
     }
+    
+    /// <summary>
+    /// Removes a given cam object to the list. 
+    /// </summary>
+    /// <param name="cam"></param>
+    public void RemoveCamObject(CamObject cam)
+    {
+        //Cannot already contain it. 
+        if (cameraObjects.Contains(cam))
+        {
+            cameraObjects.Remove(cam);
+        }
+    }
 
     /// <summary>
     /// Clears any destroyed cam elements.
@@ -422,8 +435,11 @@ public class CameraSwitcher : MonoBehaviour
         //set look 
         momMove.SetLook(mosque.transform);
         
+        //dad drop player
+        Movement dadMove = dad.GetComponent<Movement>();
+        dadMove.DropPlayer();
         //set dad pos stuff
-        NavMeshAgent dadNMA =dad.GetComponent<NavMeshAgent>();
+        NavMeshAgent dadNMA = dad.GetComponent<NavMeshAgent>();
         dadNMA.isStopped = true;
         dadNMA.speed = 0;
         dad.position = explode.dadDead.position;
@@ -431,17 +447,16 @@ public class CameraSwitcher : MonoBehaviour
         Vector3 lookAt = new Vector3(mosque.transform.position.x, dad.transform.position.y, mosque.transform.position.z);
         dad.transform.LookAt(lookAt);
         //set look 
-        dad.GetComponent<Movement>().SetLook(mosque.transform);
+        dadMove.SetLook(mosque.transform);
         
         //instantiate spirit writing
         GameObject spiritWriting = Instantiate(spiritWritingPrefab, explode.spiritWritingSpot);
         spiritWriting.transform.position = explode.spiritWritingSpot.position;
         spiritWriting.transform.localRotation = Quaternion.identity;
-        //set player pos and controls
-        currentPlayer.transform.position = explode.playerSpot.position;
+       
         //set player look at to spirit writing 
         Vector3 posWithMyY = new Vector3(spiritWriting.transform.position.x, transform.position.y, spiritWriting.transform.position.z);
-        currentPlayer.transform.LookAt(posWithMyY);
+        //currentPlayer.transform.LookAt(posWithMyY);
         
         //set audio
         whiteNoise.Play();

@@ -96,6 +96,7 @@ namespace NPC
         public Transform holdingSpot;
         private HeavyBreathing breathingSounds;
         public FaceAnimation faceAnimation;
+        public float dropOffset = 3f;
 
         [Header("Follower Logic")] 
         public Transform followObject;
@@ -518,19 +519,24 @@ namespace NPC
         /// </summary>
         public void DropPlayer()
         {
-            //get fps
-            FirstPersonController fps = controller.camSwitcher.currentPlayer.GetComponent<FirstPersonController>();
+            if (holdingPlayer)
+            {
+                //get fps
+                FirstPersonController fps = controller.camSwitcher.currentPlayer.GetComponent<FirstPersonController>();
+                //set player pos and controls
+                currentPlayer.transform.position += new Vector3(0f, dropOffset,0f);
 
-            //enable movement
-            fps.EnableMovement();
-            //set parent null
-            controller.camSwitcher.currentPlayer.transform.SetParent(null);
+                //enable movement
+                fps.EnableMovement();
+                //set parent null
+                controller.camSwitcher.currentPlayer.transform.SetParent(null);
           
-            //stop breathing
-            if(breathingSounds) 
-                breathingSounds.StopBreathing();
-            //done
-            holdingPlayer = false;
+                //stop breathing
+                if(breathingSounds) 
+                    breathingSounds.StopBreathing();
+                //done
+                holdingPlayer = false;
+            }
         }
         #endregion
 

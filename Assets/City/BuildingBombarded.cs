@@ -23,7 +23,7 @@ public class BuildingBombarded : MonoBehaviour
 
     void OnTriggerEnter(Collider co)
     {
-        print(co.gameObject.tag);
+        //print(co.gameObject.tag);
 
         if (co.gameObject.CompareTag("Explosion") && !explosion)
         {

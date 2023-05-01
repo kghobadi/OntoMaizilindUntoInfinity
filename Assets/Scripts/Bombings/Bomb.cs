@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 
@@ -21,6 +22,8 @@ public class Bomb : MonoBehaviour {
     public bool randomizeSpeed;
     public Vector2 randomStartSpeedRange = new Vector2(10000f, 15000f);
     public Vector2 randomMoveSpeedRange = new Vector2(2500f, 5000f);
+    [Tooltip("Include tags like Building, Ground, Car, Human, Player")]
+    public string[] bombTags;
     
     //audio vars
     AudioSource bombAudio;
@@ -80,7 +83,7 @@ public class Bomb : MonoBehaviour {
         //fall force 
         bombBody.AddForce(0, -moveSpeedOverTime, 0);
         
-        //y check 
+        //y check - once below 0 just explode. 
         if(transform.position.y < 0f)
         {
             SpawnExplosion(null);
@@ -90,11 +93,17 @@ public class Bomb : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         //collision checks 
-        if (other.gameObject.tag == "Building" || other.gameObject.tag == "Ground" || other.gameObject.tag == "Car" || other.gameObject.tag == "Human" || other.gameObject.tag == "Player") 
+        if (bombTags.Contains(other.gameObject.tag)) 
         {
             print(other.gameObject.tag);
             SpawnExplosion(other.gameObject);
         }
+        //Going after parents/player - await desired tag.
+        else if(playerDest && moveTowards)
+        {
+            Debug.Log("Special bomb awaits its Human Target!");
+        }
+        //Normal bomb hit something it shouldn't - reset. 
         else
         {
             ResetBomb();
@@ -111,14 +120,6 @@ public class Bomb : MonoBehaviour {
         explosion.transform.localEulerAngles = new Vector3(-90, 0, 0);
         explosion.transform.SetParent(explosionParent); 
         
-        //killing player/parents
-        if (playerDest && moveTowards)
-        {
-            //pass the explosion along and FreezeTime
-            Explosion exploded = explosion.GetComponent<Explosion>();
-            camSwitcher.FreezeTime(exploded);
-        }
-
         if(obj != null)
         {
             //parent to building so when it falls, explosion falls with it
@@ -128,7 +129,20 @@ public class Bomb : MonoBehaviour {
             }
         }
         
-        ResetBomb();
+        //killing player/parents
+        if (playerDest && moveTowards)
+        {
+            //pass the explosion along and FreezeTime
+            Explosion exploded = explosion.GetComponent<Explosion>();
+            camSwitcher.FreezeTime(exploded);
+            
+            //destroy this bomb once and for all 
+            Destroy(gameObject);
+        }
+        else
+        {
+            ResetBomb();
+        }
     }
 
     void ResetBomb()

@@ -13,6 +13,7 @@ public class Bomber : MonoBehaviour
 
     public bool captain;
     public GameObject bombPrefab;
+    [SerializeField] GameObject trackerBombPrefab; //special for killing player/parents 
     public bool bombing;
 
     [SerializeField] private int bombsToDrop = 2;
@@ -79,33 +80,8 @@ public class Bomber : MonoBehaviour
         //get player transform 
         Transform playerT = camSwitcher.currentPlayer.transform;
 
-        //find spawn pos and grab obj 
-        Vector3 spawnPos = new Vector3(playerT.position.x, transform.position.y, playerT.position.z)
-            + Random.insideUnitSphere * spawnRadius / 3;
-        GameObject bomb = effectsMan.bombPooler.GrabObject();
-        //set pos 
-        bomb.transform.position = spawnPos;
-        //enable force
-        Bomb bombScript = bomb.GetComponent<Bomb>();
-        bombScript.SetBombFall();
-
-        //set move towards comp
-        MoveTowards moveTo = bomb.GetComponent<MoveTowards>();
-        if (moveTo == null)
-        {
-            //add move towards
-            moveTo = bomb.AddComponent<MoveTowards>();
-            moveTo.MoveTo(playerT, 500f);
-            //set homing missle hehe 
-            bombScript.moveTowards = moveTo;
-            bombScript.playerDest = playerT;
-        }
-        //already has it, just enable/set 
-        else
-        {
-            moveTo.enabled = true;
-            moveTo.MoveTo(playerT, 500f);
-        }
+        //kill player 
+        DropTrackingBomb(playerT);
     }
     
     //spawn bombs directly above parents location
@@ -113,32 +89,30 @@ public class Bomber : MonoBehaviour
     {
         //get dad 
         Transform dad = camSwitcher.dad;
+        //Drop bomb
+        DropTrackingBomb(dad);
+    }
+    
+    /// <summary>
+    /// Drops a tracking bomb. 
+    /// </summary>
+    /// <param name="objToTrack"></param>
+    public void  DropTrackingBomb(Transform objToTrack)
+    {
         //find spawn pos and grab obj 
-        Vector3 spawnPos = new Vector3(dad.position.x, transform.position.y, dad.position.z)
+        Vector3 spawnPos = new Vector3(objToTrack.position.x, transform.position.y, objToTrack.position.z)
                            + Random.insideUnitSphere * spawnRadius / 3;
-        GameObject bomb = effectsMan.bombPooler.GrabObject();
-        //set pos 
-        bomb.transform.position = spawnPos;
+        //instantiate tracking bomb
+        GameObject bomb = Instantiate(trackerBombPrefab, spawnPos, Quaternion.identity);
         //enable force
         Bomb bombScript = bomb.GetComponent<Bomb>();
         bombScript.SetBombFall();
 
         //set move towards comp
         MoveTowards moveTo = bomb.GetComponent<MoveTowards>();
-        if (moveTo == null)
-        {
-            //add move towards
-            moveTo = bomb.AddComponent<MoveTowards>();
-            moveTo.MoveTo(dad, 500f);
-            //set homing missle hehe 
-            bombScript.moveTowards = moveTo;
-            bombScript.playerDest = dad;
-        }
-        //already has it, just enable/set 
-        else
-        {
-            moveTo.enabled = true;
-            moveTo.MoveTo(dad, 500f);
-        }
+        //set homing missile hehe 
+        bombScript.moveTowards = moveTo;
+        bombScript.playerDest = objToTrack;
+        moveTo.MoveTo(objToTrack, 500f);
     }
 }

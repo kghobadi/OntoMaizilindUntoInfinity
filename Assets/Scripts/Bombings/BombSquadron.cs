@@ -19,6 +19,8 @@ public class BombSquadron : MonoBehaviour
     [Tooltip("Range from which we pick a rotation value to apply to parent Y rotation so we vary the approaches of the squad.")]
     public Vector2 squadRotationRange = new Vector2(60f, 90f);
 
+    [SerializeField] private EventTrigger peopleSpawner;
+
     private void Awake()
     {
         camSwitcher = FindObjectOfType<CameraSwitcher>();
@@ -84,6 +86,9 @@ public class BombSquadron : MonoBehaviour
                     {
                         bombShelter.BeginProjection(false);
                     }
+                    
+                    //spawn people under me     
+                    peopleSpawner.SetTrigger();
 
                     //shouldnt count this for runs -- gives player more time 
                     bombingRuns--;

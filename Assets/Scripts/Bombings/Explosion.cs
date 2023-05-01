@@ -174,12 +174,13 @@ public class Explosion : AudioHandler {
     void KillHuman(GameObject humanObj)
     {
         //remove this human from cam objects list
-        camSwitcher.cameraObjects.Remove(humanObj.GetComponent<CamObject>());
+        camSwitcher.RemoveCamObject(humanObj.GetComponent<CamObject>());
 
         //destroy the human
         Movement npc = humanObj.GetComponent<Movement>();
         if (npc)
         {
+            npc.DropPlayer();
             npc.ResetMovement(camSwitcher.death);
         }
     }

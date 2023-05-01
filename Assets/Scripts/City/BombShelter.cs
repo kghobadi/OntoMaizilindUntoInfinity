@@ -48,38 +48,39 @@ public class BombShelter : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Human" || other.gameObject.tag == "Player")
+        if(other.gameObject.CompareTag("Human"))
         {
-            EnterShelter(other.gameObject.GetComponent<CamObject>());
+            HumanEnterShelter(other.gameObject.GetComponent<CamObject>());
+        }
+        else if (other.gameObject.CompareTag("Player"))
+        {
+            PlayerEnterShelter(other.gameObject.GetComponent<CamObject>());
         }
     }
 
-    void EnterShelter(CamObject person)
+    void HumanEnterShelter(CamObject person)
     {
         //its the player -- begin broadcast 
         if(person == camSwitcher.currentCamObj)
         {
-            //when room player makes it to the mosque. 
-            if (person.gameObject.tag == "Player")
-            {
-                //remove room player from list. 
-                camSwitcher.cameraObjects.RemoveAt(1);
-                //switch to airplane cam
-                camSwitcher.SetCam(0);
-            }
-            //you have made it to the mosque as a random citizen 
-            else
-            {
-                BeginProjection(true);
-            }
-            
-            //IF YOU WANT TO CUT THE CHAOS BOMBING SEQUENCE -- simply delete above code and just use BeginProjection(true);
+            BeginProjection(true);
         }
-
         //send ai to pray
         else
         {
             SetAIPosition(person);
+        }
+    }
+    
+    void PlayerEnterShelter(CamObject person)
+    {
+        //its the player -- begin broadcast 
+        if(person == camSwitcher.currentCamObj)
+        {
+            //remove room player from list. 
+            camSwitcher.cameraObjects.RemoveAt(1);
+            //switch to airplane cam
+            camSwitcher.SetCam(0);
         }
     }
 
