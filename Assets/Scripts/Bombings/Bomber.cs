@@ -6,7 +6,8 @@ using InControl;
 /// <summary>
 /// Controls the bomber planes and spawning of bombs. 
 /// </summary>
-public class Bomber : MonoBehaviour {
+public class Bomber : MonoBehaviour 
+{
     EffectsManager effectsMan;
     CameraSwitcher camSwitcher;
 
@@ -110,9 +111,10 @@ public class Bomber : MonoBehaviour {
     //spawn bombs directly above parents location
     public void KillParents()
     {
-        Transform mom = camSwitcher.dad;
+        //get dad 
+        Transform dad = camSwitcher.dad;
         //find spawn pos and grab obj 
-        Vector3 spawnPos = new Vector3(mom.position.x, transform.position.y, mom.position.z)
+        Vector3 spawnPos = new Vector3(dad.position.x, transform.position.y, dad.position.z)
                            + Random.insideUnitSphere * spawnRadius / 3;
         GameObject bomb = effectsMan.bombPooler.GrabObject();
         //set pos 
@@ -127,16 +129,16 @@ public class Bomber : MonoBehaviour {
         {
             //add move towards
             moveTo = bomb.AddComponent<MoveTowards>();
-            moveTo.MoveTo(mom, 500f);
+            moveTo.MoveTo(dad, 500f);
             //set homing missle hehe 
             bombScript.moveTowards = moveTo;
-            bombScript.playerDest = mom;
+            bombScript.playerDest = dad;
         }
         //already has it, just enable/set 
         else
         {
             moveTo.enabled = true;
-            moveTo.MoveTo(mom, 500f);
+            moveTo.MoveTo(dad, 500f);
         }
     }
 }
