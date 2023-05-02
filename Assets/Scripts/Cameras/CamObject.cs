@@ -20,10 +20,11 @@ public class CamObject : MonoBehaviour
     private GroundCamera myGroundCam;
     private CinemachineVirtualCamera myVirtualCam;
     private NavMeshAgent myNMA;
+    private camMouseLook _camMouseLook;
     
     public enum CamType
     {
-        HUMAN, BOMBER,
+        HUMAN, BOMBER, MAINPLAYER,
     }
     
     public Controller GetController()
@@ -76,6 +77,15 @@ public class CamObject : MonoBehaviour
         return myGroundCam;
     }
     
+    public camMouseLook GetCamMouseLook()
+    {
+        if (_camMouseLook == null)
+        {
+            _camMouseLook = camObj.GetComponent<camMouseLook>();
+        }
+
+        return _camMouseLook;
+    }
     
     public NavMeshAgent GetNMA()
     {

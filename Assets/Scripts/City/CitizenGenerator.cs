@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using NPC;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ using UnityEngine;
 /// </summary>
 public class CitizenGenerator : MonoBehaviour
 {
+    private CinemachineBrain cineBrain;
     private bool init;
     private CameraSwitcher camSwitcher;
     Vector3 origPos;
@@ -49,6 +51,7 @@ public class CitizenGenerator : MonoBehaviour
         {
             //get cam switcher 
             camSwitcher = FindObjectOfType<CameraSwitcher>();
+            cineBrain = FindObjectOfType<CinemachineBrain>();
           
             if (currentSpawnNexus == null)
             {
@@ -173,6 +176,12 @@ public class CitizenGenerator : MonoBehaviour
             {
                 GetRandomSpawnPosition();
 
+                yield return null;
+            }
+
+            //wait until end of a blend if there is one. 
+            while (cineBrain.IsBlending)
+            {
                 yield return null;
             }
 

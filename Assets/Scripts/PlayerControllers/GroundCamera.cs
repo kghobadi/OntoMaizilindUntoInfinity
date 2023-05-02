@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 using InControl;
 
 public class GroundCamera : MonoBehaviour
 {
+    private CinemachineVirtualCamera cvc;
     PauseMenu pauseMenu;
     CameraSwitcher camSwitcher; 
     ObjectViewer _objectViewer;
@@ -44,11 +46,26 @@ public class GroundCamera : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        if (cvc == null)
+        {
+            cvc = GetComponent<CinemachineVirtualCamera>();
+        }
+        cvc.enabled = true;
+    }
+
+    private void OnDisable()
+    {
+        cvc.enabled = false; 
+    }
+
     public void GetRefs()
     {
         character = transform.parent.gameObject;
         player = transform.parent;
         fpc = player.GetComponent<FirstPersonController>();
+        cvc = GetComponent<CinemachineVirtualCamera>();
         mainCam = Camera.main.transform;
         pauseMenu = FindObjectOfType<PauseMenu>();
         pauseMenu.toggledPause.AddListener(CheckCanControl);
@@ -83,7 +100,7 @@ public class GroundCamera : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (canControl)
         {

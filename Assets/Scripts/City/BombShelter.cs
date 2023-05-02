@@ -49,13 +49,15 @@ public class BombShelter : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
+        //a human citizen 
         if(other.gameObject.CompareTag("Human"))
         {
             HumanEnterShelter(other.gameObject.GetComponent<CamObject>());
         }
+        //was room player
         else if (other.gameObject.CompareTag("Player"))
         {
-            PlayerEnterShelter(other.gameObject.GetComponent<CamObject>());
+            DisableRoomPlayer();
         }
     }
 
@@ -69,6 +71,9 @@ public class BombShelter : MonoBehaviour {
         //holding the player child 
         else if (person.GetMovement().holdingPlayer)
         {
+            //drop the player
+            person.GetMovement().DropPlayer();
+            //disable them 
             DisableRoomPlayer();
         }
         //send ai to pray
@@ -77,24 +82,16 @@ public class BombShelter : MonoBehaviour {
             SetAIPosition(person);
         }
     }
-    
-    void PlayerEnterShelter(CamObject person)
-    {
-        //its the player -- begin broadcast 
-        if(person == camSwitcher.currentCamObj)
-        {
-            DisableRoomPlayer();
-        }
-    }
 
     void DisableRoomPlayer()
     {
-        //switch to airplane cam
-        camSwitcher.SetCam(0);
-        //remove room player from list. 
-        camSwitcher.cameraObjects.RemoveAt(1);
-        //disable the player
-        disabledPlayer = true;
+        if (!disabledPlayer)
+        {
+            //switch to airplane cam
+            camSwitcher.SetCam(0);
+            //disable the player
+            disabledPlayer = true;
+        }
     }
 
     public void SetAIPosition(CamObject person)

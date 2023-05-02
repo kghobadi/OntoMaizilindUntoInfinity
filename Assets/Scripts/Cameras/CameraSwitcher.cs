@@ -362,6 +362,7 @@ public class CameraSwitcher : MonoBehaviour
         else
         {
             cam.gameObject.SetActive(true);
+            cam.GetCamMouseLook().Activate();
         }
 
         //reset current cam obj
@@ -403,9 +404,18 @@ public class CameraSwitcher : MonoBehaviour
                 cam.GetMovement().SetIdle();
             }
         }
+        //Main player
+        else if (cam.myCamType == CamObject.CamType.MAINPLAYER)
+        {
+            //disable the entire player game obj and remove it from list. 
+            cam.gameObject.SetActive(false);
+            RemoveCamObject(cam);
+        }
+        //bomber
         else
         {
             cam.gameObject.SetActive(false);
+            cam.GetCamMouseLook().Deactivate();
         }
     }
 
@@ -517,7 +527,7 @@ public class CameraSwitcher : MonoBehaviour
         yield return new WaitForSeconds(wait);
 
         //if the original player can still move 
-        if (currentPlayer == origPlayer && currentCamObj.GetFPS().canMove)
+        while (currentPlayer == origPlayer && currentCamObj.GetFPS().canMove && npcNearest.idleType == Movement.IdleType.DEAD)
         {
             //try to send another npc to pick you up
             npcNearest = FindNearestNpcToPlayer();

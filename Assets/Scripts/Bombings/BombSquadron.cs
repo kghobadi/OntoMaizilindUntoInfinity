@@ -71,7 +71,7 @@ public class BombSquadron : MonoBehaviour
                 else if(bombingRuns % killPlayerFreq == 0 && camSwitcher.GetCurrentCamIndex() != 0 && (int)bombShelter.transitionState < 1
                         && peopleSpawned < peopleSpawners.Length - 1)
                 {
-                    bomber.KillPlayer();
+                    //bomber.KillPlayer();
                 }
 
                 //we are the planes -- transition to anything else. 
