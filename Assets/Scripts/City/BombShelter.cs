@@ -15,6 +15,7 @@ public class BombShelter : MonoBehaviour {
     public Transform[] spiritPoints;
     public float sittingRadius = 25f;
     public NPC.MovementPath prayingBehavior;
+    public bool disabledPlayer;
 
     [Header("Projection Transition")] 
     public TransitionStates transitionState;
@@ -65,6 +66,11 @@ public class BombShelter : MonoBehaviour {
         {
             BeginProjection(true);
         }
+        //holding the player child 
+        else if (person.GetMovement().holdingPlayer)
+        {
+            DisableRoomPlayer();
+        }
         //send ai to pray
         else
         {
@@ -77,11 +83,18 @@ public class BombShelter : MonoBehaviour {
         //its the player -- begin broadcast 
         if(person == camSwitcher.currentCamObj)
         {
-            //remove room player from list. 
-            camSwitcher.cameraObjects.RemoveAt(1);
-            //switch to airplane cam
-            camSwitcher.SetCam(0);
+            DisableRoomPlayer();
         }
+    }
+
+    void DisableRoomPlayer()
+    {
+        //switch to airplane cam
+        camSwitcher.SetCam(0);
+        //remove room player from list. 
+        camSwitcher.cameraObjects.RemoveAt(1);
+        //disable the player
+        disabledPlayer = true;
     }
 
     public void SetAIPosition(CamObject person)

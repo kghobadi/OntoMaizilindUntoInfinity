@@ -19,7 +19,8 @@ public class BombSquadron : MonoBehaviour
     [Tooltip("Range from which we pick a rotation value to apply to parent Y rotation so we vary the approaches of the squad.")]
     public Vector2 squadRotationRange = new Vector2(60f, 90f);
 
-    [SerializeField] private EventTrigger peopleSpawner;
+    [SerializeField] private EventTrigger [] peopleSpawners;
+    private int peopleSpawned = 0;
 
     private void Awake()
     {
@@ -66,16 +67,27 @@ public class BombSquadron : MonoBehaviour
                 {
                     bomber.KillParents();
                 }
-
                 //should we kill the player? only if player is NOT the planes  && not entered mosque yet
-                if(bombingRuns % killPlayerFreq == 0 && camSwitcher.GetCurrentCamIndex() != 0 && (int)bombShelter.transitionState < 1 && camSwitcher.killedParents)
+                else if(bombingRuns % killPlayerFreq == 0 && camSwitcher.GetCurrentCamIndex() != 0 && (int)bombShelter.transitionState < 1
+                        && peopleSpawned < peopleSpawners.Length - 1)
                 {
-                    //bomber.KillPlayer();
+                    bomber.KillPlayer();
                 }
 
                 //we are the planes -- transition to anything else. 
                 if (camSwitcher.GetCurrentCamIndex() == 0)
                 {
+                    //spawn people under me somewhere     
+                    if (peopleSpawned < peopleSpawners.Length)
+                    {
+                        peopleSpawners[peopleSpawned].SetTrigger();
+                        peopleSpawned++;
+                    }
+                    else
+                    {
+                        Debug.Log("No more people spawners.");
+                    }
+                    
                     //enough people to transition back to running as random person. 
                     if (camSwitcher.cameraObjects.Count > camSwitcher.transitionAmount)
                     {
@@ -86,12 +98,6 @@ public class BombSquadron : MonoBehaviour
                     {
                         bombShelter.BeginProjection(false);
                     }
-                    
-                    //spawn people under me     
-                    peopleSpawner.SetTrigger();
-
-                    //shouldnt count this for runs -- gives player more time 
-                    bombingRuns--;
                 }
             }
         }

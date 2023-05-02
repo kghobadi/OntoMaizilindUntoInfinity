@@ -453,7 +453,9 @@ public class CameraSwitcher : MonoBehaviour
         GameObject spiritWriting = Instantiate(spiritWritingPrefab, explode.spiritWritingSpot);
         spiritWriting.transform.position = explode.spiritWritingSpot.position;
         spiritWriting.transform.localRotation = Quaternion.identity;
-       
+        
+        //set player to players spot 
+        //currentPlayer.transform.position = explode.playerSpot.position;
         //set player look at to spirit writing 
         Vector3 posWithMyY = new Vector3(spiritWriting.transform.position.x, transform.position.y, spiritWriting.transform.position.z);
         //currentPlayer.transform.LookAt(posWithMyY);
@@ -466,7 +468,7 @@ public class CameraSwitcher : MonoBehaviour
         killedParents = true;
         
         //set wait for new adult to pick you up
-        StartCoroutine(WaitForAdultToFindPlayer(7f));
+        StartCoroutine(WaitForAdultToFindPlayer(5f));
     }
 
     /// <summary>
