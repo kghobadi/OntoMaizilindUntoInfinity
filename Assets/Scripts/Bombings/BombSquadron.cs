@@ -69,9 +69,9 @@ public class BombSquadron : MonoBehaviour
                 }
                 //should we kill the player? only if player is NOT the planes  && not entered mosque yet
                 else if(bombingRuns % killPlayerFreq == 0 && camSwitcher.GetCurrentCamIndex() != 0 && (int)bombShelter.transitionState < 1
-                        && peopleSpawned < peopleSpawners.Length - 1)
+                        && peopleSpawned < peopleSpawners.Length - 1 && camSwitcher.currentPlayer != camSwitcher.OrigPlayer)
                 {
-                    //bomber.KillPlayer();
+                    bomber.KillPlayer();
                 }
 
                 //we are the planes -- transition to anything else. 
@@ -91,7 +91,7 @@ public class BombSquadron : MonoBehaviour
                     //enough people to transition back to running as random person. 
                     if (camSwitcher.cameraObjects.Count > camSwitcher.transitionAmount)
                     {
-                        camSwitcher.WaitSetRandomCam();
+                        camSwitcher.WaitSetRandomCam(3f);
                     }
                     //out of people, transition directly to mosque view & begin projection    
                     else

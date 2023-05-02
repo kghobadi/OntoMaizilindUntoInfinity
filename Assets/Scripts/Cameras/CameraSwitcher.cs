@@ -50,6 +50,8 @@ public class CameraSwitcher : MonoBehaviour
     public Explosion KillerExplosion;
     public bool killedParents;
     public MovementPath findPlayer;
+
+    public GameObject OrigPlayer => origPlayer;
     
     void Awake()
     {
@@ -216,13 +218,15 @@ public class CameraSwitcher : MonoBehaviour
         return cameraObjects.IndexOf(currentCamObj);
     }
 
-    public void WaitSetRandomCam()
+    public void WaitSetRandomCam(float wait)
     {
-        StartCoroutine(WaitToSetRandomCam());
+        StartCoroutine(WaitToSetRandomCam(wait));
     }
 
-    IEnumerator WaitToSetRandomCam()
+    IEnumerator WaitToSetRandomCam(float initWait)
     {
+        yield return new WaitForSeconds(initWait);
+        
         //null cine brain check.
         if (cineBrain == null)
         {
@@ -410,6 +414,9 @@ public class CameraSwitcher : MonoBehaviour
             //disable the entire player game obj and remove it from list. 
             cam.gameObject.SetActive(false);
             RemoveCamObject(cam);
+            
+            //disable halftone for now 
+            DisableHalftone();
         }
         //bomber
         else
@@ -426,15 +433,9 @@ public class CameraSwitcher : MonoBehaviour
             return;
 
         KillerExplosion = explode;
-        //turn on halftone
-        if (halfTone.halfToneMat == null)
-        {
-            halfTone.halfToneMat = halfToneBombs;
-        }
-        halfTone.enabled = true;
-        halfTone.halfToneMat.SetFloat("_effectStrength", 1f);
+      
         //set lerp mat to slowly fade it out
-
+        EnableHalfTone();
         //set mom pos stuff
         Movement momMove = mom.GetComponent<Movement>();
         momMove.ResetMovement(death);
@@ -479,6 +480,22 @@ public class CameraSwitcher : MonoBehaviour
         
         //set wait for new adult to pick you up
         StartCoroutine(WaitForAdultToFindPlayer(5f));
+    }
+
+    public void EnableHalfTone()
+    {
+        //turn on halftone
+        if (halfTone.halfToneMat == null)
+        {
+            halfTone.halfToneMat = halfToneBombs;
+        }
+        halfTone.enabled = true;
+        halfTone.halfToneMat.SetFloat("_effectStrength", 1f);
+    }
+
+    void DisableHalftone()
+    {
+        halfTone.enabled = false;
     }
 
     /// <summary>

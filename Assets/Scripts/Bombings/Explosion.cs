@@ -153,6 +153,7 @@ public class Explosion : AudioHandler {
                 //kill the human you were playing
                 KillHuman(other.gameObject);
                 Debug.Log("it was you who died");
+                camSwitcher.EnableHalfTone();
             }
             //not you 
             else

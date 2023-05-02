@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 using InControl;
+using UnityEngine.SceneManagement;
 
 public class GroundCamera : MonoBehaviour
 {
@@ -48,16 +49,22 @@ public class GroundCamera : MonoBehaviour
 
     private void OnEnable()
     {
-        if (cvc == null)
+        if (SceneManager.GetActiveScene().name == "Bombing of a City")
         {
-            cvc = GetComponent<CinemachineVirtualCamera>();
+            if (cvc == null)
+            {
+                cvc = GetComponent<CinemachineVirtualCamera>();
+            }
+            cvc.enabled = true;
         }
-        cvc.enabled = true;
     }
 
     private void OnDisable()
     {
-        cvc.enabled = false; 
+        if (SceneManager.GetActiveScene().name == "Bombing of a City")
+        {
+            cvc.enabled = false; 
+        }
     }
 
     public void GetRefs()

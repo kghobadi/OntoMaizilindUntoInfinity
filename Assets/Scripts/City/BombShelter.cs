@@ -10,6 +10,7 @@ public class BombShelter : MonoBehaviour {
     CameraSwitcher camSwitcher;
     CameraManager camManager;
     AdvanceScene advance;
+    private CameraFovBombingScene camFOV;
 
     public Transform[] sittingPoints;
     public Transform[] spiritPoints;
@@ -42,6 +43,7 @@ public class BombShelter : MonoBehaviour {
         camSwitcher = worldMan.GetComponent<CameraSwitcher>();
         camManager = FindObjectOfType<CameraManager>();
         advance = FindObjectOfType<AdvanceScene>();
+        camFOV = Camera.main.GetComponent<CameraFovBombingScene>();
 
         //start state is inactive
         transitionState = TransitionStates.INACTIVE;
@@ -67,6 +69,9 @@ public class BombShelter : MonoBehaviour {
         if(person == camSwitcher.currentCamObj)
         {
             BeginProjection(true);
+            
+            //set the AI while player is controlling it 
+            SetAIPosition(person);
         }
         //holding the player child 
         else if (person.GetMovement().holdingPlayer)
@@ -75,6 +80,8 @@ public class BombShelter : MonoBehaviour {
             person.GetMovement().DropPlayer();
             //disable them 
             DisableRoomPlayer();
+            //move person to their spot 
+            SetAIPosition(person);
         }
         //send ai to pray
         else
@@ -164,7 +171,10 @@ public class BombShelter : MonoBehaviour {
         camSwitcher.breathing.StopBreathing();
         camSwitcher.whiteNoise.Stop();
         //reset player step height incase
-        camSwitcher.currentCamObj.GetFPS().ResetStepOffset();
+        if (camSwitcher.currentCamObj.GetFPS())
+        {
+            camSwitcher.currentCamObj.GetFPS().ResetStepOffset();
+        }
     }
 
     IEnumerator WaitToTransition(float time)
@@ -182,13 +192,15 @@ public class BombShelter : MonoBehaviour {
             camSwitcher.DisableCamObj(camSwitcher.currentCamObj);
         }
 
+        //disable fov shit
+        camFOV.enabled = false; 
         //shift from player cam to projection viewer 
         camManager.Set(projectionViewer);
         //set state
         transitionState = TransitionStates.VIEWING;
 
         yield return new WaitForSeconds(timeTilTransition * 2);
-
+        
         //shift from player cam to transition viewer 
         camManager.Set(transitionViewer);
         //set state

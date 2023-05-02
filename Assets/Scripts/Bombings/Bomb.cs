@@ -84,9 +84,9 @@ public class Bomb : MonoBehaviour {
         bombBody.AddForce(0, -moveSpeedOverTime, 0);
         
         //y check - once below 0 just explode. 
-        if(transform.position.y < 0f)
+        if(transform.position.y < -150f)
         {
-            SpawnExplosion(null);
+            ResetBomb();
         }
     }
     

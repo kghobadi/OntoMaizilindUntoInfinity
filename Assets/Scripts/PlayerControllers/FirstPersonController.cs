@@ -220,11 +220,11 @@ public class FirstPersonController : MonoBehaviour
             footStepTimer = footStepTimerTotal;
         }
 
-        sprintTimer += Time.deltaTime;
+        sprintTimer += Time.fixedDeltaTime;
         //while speed is less than sprint, autoAdd
         if (sprintTimer > sprintTimerMax && currentSpeed < sprintSpeed)
         {
-            currentSpeed += Time.deltaTime;
+            currentSpeed += Time.fixedDeltaTime;
         }
     }
 
