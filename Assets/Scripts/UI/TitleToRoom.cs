@@ -12,8 +12,6 @@ public class TitleToRoom : MonoBehaviour
     [Header("Intro Transition")]
     public MusicFader callToPrayer;
     public Material niceSky;
-    public LerpLighting sunLerp;
-    public Vector3 sunStartRotation = new Vector3(43.197f, 72.951f, 4.012f);
     public FadeUI introFade;
     
     //player
@@ -66,11 +64,6 @@ public class TitleToRoom : MonoBehaviour
         callToPrayer.SetSound(callToPrayer.musicTrack);
         callToPrayer.FadeIn(callToPrayer.fadeInAmount, callToPrayer.fadeSpeed);
 
-        //set sun
-        //sunLerp.SetLightLerp(sunLerp.sunNice, sunLerp.sunNice);
-        //set sun rotation
-        //sunLerp.transform.localEulerAngles = sunStartRotation;
-
         //wait to finalize transition 
         StartCoroutine(WaitForTransition(2f));
     }
@@ -84,7 +77,6 @@ public class TitleToRoom : MonoBehaviour
 
         //enable RADIO
         tv.SetActive(true);
-        //tele.SetStartingInterview(); TV now enabled by end of bedroom fade out 
         radio.SetActive(true);
 
         //change skybox

@@ -14,8 +14,7 @@ public class CitySpawn: MonoBehaviour
     public float childNumber;
 	Mesh originalMesh;
 
-
-	/*
+	#if UNITY_EDITOR
 	private void Reset()
 	{
 		print("reset");
@@ -88,5 +87,5 @@ public class CitySpawn: MonoBehaviour
 		}
 		GetComponent<MeshFilter>().mesh = originalMesh;
 	}
-	*/
+	#endif
 }

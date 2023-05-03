@@ -34,7 +34,7 @@ public class SpawnFromMap : MonoBehaviour
     public List<Vector3> interiorPos;
     public bool InstantiateOnStart = false;
     public bool ActivateInteriorsLoop = false;
-    /*
+#if UNITY_EDITOR
     private void Start()
     {
         if (ActivateInteriorsLoop)
@@ -431,7 +431,7 @@ public class SpawnFromMap : MonoBehaviour
         }
         yield break;
     }
-    */
+ #endif
     /*
     void OnDrawGizmos()
     {

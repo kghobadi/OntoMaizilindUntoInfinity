@@ -55,7 +55,6 @@ public class BombSquadron : MonoBehaviour
         if (bomber.bombing == false)
         {
             bomber.DropBombs();
-            //Debug.Log("triggering bombs");
 
             //inc runs 
             if (bomber.captain)
@@ -66,12 +65,6 @@ public class BombSquadron : MonoBehaviour
                 if(bombingRuns % killPlayerFreq == 0 && camSwitcher.killedParents == false)
                 {
                     bomber.KillParents();
-                }
-                //should we kill the player? only if player is NOT the planes  && not entered mosque yet
-                else if(bombingRuns % killPlayerFreq == 0 && camSwitcher.GetCurrentCamIndex() != 0 && (int)bombShelter.transitionState < 1
-                        && peopleSpawned < peopleSpawners.Length - 1 && camSwitcher.currentPlayer != camSwitcher.OrigPlayer)
-                {
-                    bomber.KillPlayer();
                 }
 
                 //we are the planes -- transition to anything else. 
