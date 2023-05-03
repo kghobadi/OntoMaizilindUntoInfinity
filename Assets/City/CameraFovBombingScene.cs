@@ -45,7 +45,7 @@ public class CameraFovBombingScene : MonoBehaviour
 		if (!brain.IsBlending)
 		{
 			//update vcam and last cam obj if they don't match what's set in the brain
-			if (brain.ActiveVirtualCamera.VirtualCameraGameObject != lastCamObj)
+			if( brain.ActiveVirtualCamera != null && brain.ActiveVirtualCamera.VirtualCameraGameObject != lastCamObj)
 			{
 				vCam = brain.ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>();
 				lastCamObj = brain.ActiveVirtualCamera.VirtualCameraGameObject;

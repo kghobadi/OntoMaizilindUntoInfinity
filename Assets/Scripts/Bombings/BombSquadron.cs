@@ -22,6 +22,8 @@ public class BombSquadron : MonoBehaviour
     [SerializeField] private EventTrigger [] peopleSpawners;
     private int peopleSpawned = 0;
 
+    public float planeTransitionWait = 2f;
+
     private void Awake()
     {
         camSwitcher = FindObjectOfType<CameraSwitcher>();
@@ -84,7 +86,7 @@ public class BombSquadron : MonoBehaviour
                     //enough people to transition back to running as random person. 
                     if (camSwitcher.cameraObjects.Count > camSwitcher.transitionAmount)
                     {
-                        camSwitcher.WaitSetRandomCam(3f);
+                        camSwitcher.WaitSetRandomCam(planeTransitionWait);
                     }
                     //out of people, transition directly to mosque view & begin projection    
                     else

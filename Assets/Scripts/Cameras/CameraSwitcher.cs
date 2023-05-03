@@ -53,6 +53,7 @@ public class CameraSwitcher : MonoBehaviour
     public Explosion KillerExplosion;
     public bool killedParents;
     public MovementPath findPlayer;
+    public EventTrigger[] playerOnlyEvents;
 
     public GameObject OrigPlayer => origPlayer;
     
@@ -369,6 +370,12 @@ public class CameraSwitcher : MonoBehaviour
             cam.GetGroundCam().enabled = true;
             //turn on that persons FPC
             cam.GetFPS().enabled = true;
+
+            //set trigger obj to player 
+            foreach (var playerTrigger in playerOnlyEvents)
+            {
+                playerTrigger.specificObj = cam.GetMovement().gameObject;
+            }
         }
         else
         {
@@ -542,23 +549,41 @@ public class CameraSwitcher : MonoBehaviour
         yield return new WaitForSeconds(wait);
 
         Movement npcNearest = FindNearestNpcToPlayer();
-
-        if (npcNearest != null)
+        
+        //set that NPC to find player 
+        if (npcNearest != null && npcNearest.idleType != Movement.IdleType.DEAD)
         {
             npcNearest.ResetMovement(findPlayer);
         }
         
-        yield return new WaitForSeconds(wait);
-
-        //if the original player can still move 
-        while (currentPlayer == origPlayer && currentCamObj.GetFPS().canMove && npcNearest.idleType == Movement.IdleType.DEAD)
+        //While npc nearest is null or dead 
+        while (npcNearest == null || npcNearest.idleType == Movement.IdleType.DEAD)
         {
             //try to send another npc to pick you up
             npcNearest = FindNearestNpcToPlayer();
 
-            if (npcNearest != null)
+            //set that NPC to find player 
+            if (npcNearest != null && npcNearest.idleType != Movement.IdleType.DEAD)
             {
                 npcNearest.ResetMovement(findPlayer);
+                break;
+            }
+        }
+        
+        yield return new WaitForSeconds(wait);
+
+        //While the original player can still move AND nearest npc is null OR dead 
+        while (currentPlayer == origPlayer && currentCamObj.GetFPS().canMove &&
+               (npcNearest == null || npcNearest.idleType == Movement.IdleType.DEAD))
+        {
+            //try to send another npc to pick you up
+            npcNearest = FindNearestNpcToPlayer();
+
+            //set that NPC to find player 
+            if (npcNearest != null && npcNearest.idleType != Movement.IdleType.DEAD)
+            {
+                npcNearest.ResetMovement(findPlayer);
+                break;
             }
         }
     }
