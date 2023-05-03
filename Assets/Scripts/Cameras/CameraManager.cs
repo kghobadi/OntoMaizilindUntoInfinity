@@ -29,8 +29,10 @@ using UnityEngine;
             // Ensure default camera is active and all others are inactive on start
             foreach (GameCamera cam in cameras)
             {
-                if (cam == defaultCamera) Enable(cam);
-                else cam.gameObject.SetActive(false);
+                if (cam == defaultCamera)
+                {
+                    Enable(cam);
+                }
             }
         }
 

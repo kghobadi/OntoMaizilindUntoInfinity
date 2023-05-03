@@ -1,11 +1,13 @@
-﻿using System.Collections;
+﻿    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using InControl;
 using Cameras;
 using Cinemachine;
+using EventSinks;
 using UnityEngine.AI;
 using NPC;
+using UnityEngine.SceneManagement;
 
 public class CameraSwitcher : MonoBehaviour 
 {
@@ -21,6 +23,7 @@ public class CameraSwitcher : MonoBehaviour
 
     [Header("Camera Objects")]
     public List<CamObject> cameraObjects = new List<CamObject>();
+    public int startingValForDisable = 2;
     public CamObject currentCamObj;
     public GameObject currentPlayer;
     private GameObject origPlayer;
@@ -84,7 +87,7 @@ public class CameraSwitcher : MonoBehaviour
     void Start ()
     {
         //loop through the cam objects list and set start settings for objects
-        for (int i = 2; i < cameraObjects.Count; i++)
+        for (int i = startingValForDisable; i < cameraObjects.Count; i++)
         {
             DisableCamObj(cameraObjects[i]);
         }
@@ -148,30 +151,34 @@ public class CameraSwitcher : MonoBehaviour
             
             ShiftReset();
         }
-        
-        //when there is all but one camera left, turn off bombers 
-        if(cameraObjects.Count <= transitionAmount)
+
+        //Only for the bombing scene 
+        if (SceneManager.GetActiveScene().name == "Bombing of a City")
         {
-            //disable the bombers 
-            if (bombers.activeSelf)
+            //when there is all but one camera left, turn off bombers 
+            if(cameraObjects.Count <= transitionAmount)
             {
-                bombers.SetActive(false);
+                //disable the bombers 
+                if (bombers.activeSelf)
+                {
+                    bombers.SetActive(false);
+                }
+
+                //transition directly too mosque 
+                if ((int) mosque.transitionState < 1)
+                {
+                    mosque.BeginProjection(false);
+                }
             }
 
-            //transition directly too mosque 
-            if ((int) mosque.transitionState < 1)
+            //hard lock parents to their positions
+            if (killedParents)
             {
-                mosque.BeginProjection(false);
+                mom.position = new Vector3(KillerExplosion.momDead.position.x, 2.8f, KillerExplosion.momDead.position.z);
+                dad.position = new Vector3(KillerExplosion.dadDead.position.x, dad.position.y, KillerExplosion.dadDead.position.z);
             }
         }
-
-        //hard lock parents to their positions
-        if (killedParents)
-        {
-            mom.position = new Vector3(KillerExplosion.momDead.position.x, 2.8f, KillerExplosion.momDead.position.z);
-            dad.position = new Vector3(KillerExplosion.dadDead.position.x, dad.position.y, KillerExplosion.dadDead.position.z);
-        }
-	}
+    }
 
     //allows user to shift through list of perspectives 
     void ShiftControls()

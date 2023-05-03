@@ -42,6 +42,7 @@ public class FadeUI : MonoBehaviour
     public float fadeInWait, fadeOutWait, fadeInSpeed = 0.75f, fadeOutSpeed = 1f;
 
     public bool shownAtStart;
+    public bool fadedAtStart;
     
     void GetUIType()
     {
@@ -87,7 +88,15 @@ public class FadeUI : MonoBehaviour
     void Start()
     {
         SetAlpha();
-        alphaValue.a = 0;
+        if (fadedAtStart)
+        {
+            alphaValue.a = 1f;
+        }
+        else
+        {
+            alphaValue.a = 0;
+        }
+     
         UpdateAlpha();
 
         //automatically fadeIn at start if object has this script

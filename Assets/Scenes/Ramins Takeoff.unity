@@ -6563,6 +6563,7 @@ MonoBehaviour:
   holdingPlayer: 0
   holdingSpot: {fileID: 0}
   faceAnimation: {fileID: 0}
+  dropOffset: 3
   followObject: {fileID: 0}
 --- !u!114 &140758708
 MonoBehaviour:
@@ -19323,6 +19324,7 @@ MonoBehaviour:
   holdingPlayer: 0
   holdingSpot: {fileID: 0}
   faceAnimation: {fileID: 0}
+  dropOffset: 3
   followObject: {fileID: 0}
 --- !u!114 &616503133
 MonoBehaviour:
@@ -43642,9 +43644,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d663b13fdbea0049a5f882d8331b09f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  generateOnStart: 1
+  generated: 0
   objectPrefab: {fileID: 1835803776135858, guid: 2d4e63209c75a40479a7c06efdf43344,
     type: 3}
   startingNumber: 500
+  objects: []
 --- !u!4 &873377876
 Transform:
   m_ObjectHideFlags: 0
@@ -46667,9 +46672,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d663b13fdbea0049a5f882d8331b09f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  generateOnStart: 1
+  generated: 0
   objectPrefab: {fileID: 1370548819059054, guid: 5ddeead887b1d8a4a84ee15b90c04f71,
     type: 3}
   startingNumber: 100
+  objects: []
 --- !u!4 &1087292261
 Transform:
   m_ObjectHideFlags: 0
@@ -78242,6 +78250,7 @@ MonoBehaviour:
   holdingPlayer: 0
   holdingSpot: {fileID: 0}
   faceAnimation: {fileID: 0}
+  dropOffset: 3
   followObject: {fileID: 0}
 --- !u!114 &1446285558
 MonoBehaviour:
@@ -92430,7 +92439,7 @@ Transform:
   m_GameObject: {fileID: 1685180556}
   m_LocalRotation: {x: -0.00000035390235, y: 0.0000003394054, z: -0.00000041556825,
     w: 1}
-  m_LocalPosition: {x: -0.0000164422, y: -0.00013581134, z: 0.0012439822}
+  m_LocalPosition: {x: -0.000016442287, y: -0.00013581134, z: 0.0012439822}
   m_LocalScale: {x: 1, y: 1.0135, z: 1.0135007}
   m_Children:
   - {fileID: 668675137}
@@ -92869,9 +92878,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d663b13fdbea0049a5f882d8331b09f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  generateOnStart: 1
+  generated: 0
   objectPrefab: {fileID: 1915165252272150, guid: d8a5764c86bf0904e820674d39e90e88,
     type: 3}
   startingNumber: 5
+  objects: []
 --- !u!4 &1695631670
 Transform:
   m_ObjectHideFlags: 0
@@ -106469,7 +106481,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2045468874}
   m_LocalRotation: {x: 0.062144157, y: -0.0000006109476, z: 0.00000025704296, w: -0.99806726}
-  m_LocalPosition: {x: -0.00001644143, y: 76.27002, z: -165.81876}
+  m_LocalPosition: {x: -0.000016441518, y: 76.27002, z: -165.81876}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -106596,10 +106608,20 @@ MonoBehaviour:
   lerpValue: 0
   endValue: 0
   lerpSpeed: 0.35
+  lerpColorOnStart: 0
+  lerpingMatColor: 0
+  colorLerpLength: 1
+  colorToLerp: _Color
+  startColorValue: {r: 0, g: 0, b: 0, a: 0}
+  lerpColorValue: {r: 0, g: 0, b: 0, a: 0}
+  endColorValue: {r: 0, g: 0, b: 0, a: 0}
   lerpBackForth: 0
   lbfMin: 0
   lbfMax: 0
   lbfTime: 1
+  eventOnFinish:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2045468881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107378,12 +107400,12 @@ PrefabInstance:
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 3}
       propertyPath: _savedGUID
-      value: 2030616534
+      value: 419149593
       objectReference: {fileID: 0}
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 3}
       propertyPath: hash.lastHash
-      value: 319460968
+      value: -1304588185
       objectReference: {fileID: 0}
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 3}
@@ -113142,6 +113164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   citizenParent: {fileID: 4140203705472717}
+  screamChance: 25
 --- !u!114 &114372510537769839
 MonoBehaviour:
   m_ObjectHideFlags: 0
