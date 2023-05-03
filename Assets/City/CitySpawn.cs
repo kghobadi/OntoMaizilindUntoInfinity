@@ -15,7 +15,7 @@ public class CitySpawn: MonoBehaviour
 	Mesh originalMesh;
 
 
-
+	/*
 	private void Reset()
 	{
 		print("reset");
@@ -88,4 +88,5 @@ public class CitySpawn: MonoBehaviour
 		}
 		GetComponent<MeshFilter>().mesh = originalMesh;
 	}
+	*/
 }

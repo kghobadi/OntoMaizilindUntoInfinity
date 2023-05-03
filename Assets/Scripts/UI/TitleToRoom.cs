@@ -67,9 +67,9 @@ public class TitleToRoom : MonoBehaviour
         callToPrayer.FadeIn(callToPrayer.fadeInAmount, callToPrayer.fadeSpeed);
 
         //set sun
-        sunLerp.SetLightLerp(sunLerp.sunNice, sunLerp.sunNice);
+        //sunLerp.SetLightLerp(sunLerp.sunNice, sunLerp.sunNice);
         //set sun rotation
-        sunLerp.transform.localEulerAngles = sunStartRotation;
+        //sunLerp.transform.localEulerAngles = sunStartRotation;
 
         //wait to finalize transition 
         StartCoroutine(WaitForTransition(2f));

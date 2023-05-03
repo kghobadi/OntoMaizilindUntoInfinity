@@ -34,7 +34,7 @@ public class SpawnFromMap : MonoBehaviour
     public List<Vector3> interiorPos;
     public bool InstantiateOnStart = false;
     public bool ActivateInteriorsLoop = false;
-
+    /*
     private void Start()
     {
         if (ActivateInteriorsLoop)
@@ -68,7 +68,7 @@ public class SpawnFromMap : MonoBehaviour
             yield return null;
         }
     }
-
+    
     [ContextMenu("Spawn City")]
     void SpawnCity()
     {
@@ -431,7 +431,7 @@ public class SpawnFromMap : MonoBehaviour
         }
         yield break;
     }
-
+    */
     /*
     void OnDrawGizmos()
     {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using DG.Tweening;
 
 public class CameraFovBombingScene : MonoBehaviour
 {
@@ -47,5 +48,11 @@ public class CameraFovBombingScene : MonoBehaviour
 		updateRot = Mathf.Lerp(MinFOV, MaxFOV, remapValue);
 
 		vCam.m_Lens.FieldOfView = updateRot;
+	}
+
+	public void FadeToNormalValues()
+    {
+		DOTween.To(() => MinFOV, x => MinFOV = x, 65, 2.5f);
+		DOTween.To(() => MaxFOV, x => MaxFOV = x, 65, 2.5f);
 	}
 }
