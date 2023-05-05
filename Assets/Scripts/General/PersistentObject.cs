@@ -27,7 +27,7 @@ public class PersistentObject : MonoBehaviour
         {
             _advanceScene.onSceneLoad.AddListener(IncrementSceneCounter);
         }
-        else
+        else if(_loadSceneAsync)
         {
             _loadSceneAsync.onSceneLoad.AddListener(IncrementSceneCounter); 
         }
@@ -40,7 +40,7 @@ public class PersistentObject : MonoBehaviour
         {
             _advanceScene.onSceneLoad.RemoveListener(IncrementSceneCounter);
         }
-        else
+        else if(_loadSceneAsync)
         {
             _loadSceneAsync.onSceneLoad.RemoveListener(IncrementSceneCounter); 
         }
