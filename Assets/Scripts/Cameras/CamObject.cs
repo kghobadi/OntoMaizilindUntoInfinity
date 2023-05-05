@@ -10,22 +10,27 @@ using UnityEngine.AI;
 //will allow me to access various kinds of movement scripts, camera, and body of obj
 public class CamObject : MonoBehaviour 
 {
-    public CamType myCamType;
-    public GameCamera camObj;
-    public GameObject headset, myBody;
-    public FadeUI shiftUI;
-    private Controller myController;
-    private Movement myMover;
-    private FirstPersonController myFPS;
-    private GroundCamera myGroundCam;
-    private CinemachineVirtualCamera myVirtualCam;
-    private NavMeshAgent myNMA;
-    private camMouseLook _camMouseLook;
-    
     public enum CamType
     {
         HUMAN, BOMBER, MAINPLAYER,
     }
+    //All Cam objs
+    public CamType myCamType;
+    public GameCamera camObj;
+    private CinemachineVirtualCamera myVirtualCam;
+    public FadeUI shiftUI;
+    
+    //Human/player
+    public GameObject headset, myBody;
+    private Controller myController;
+    private Movement myMover;
+    private FirstPersonController myFPS;
+    private GroundCamera myGroundCam;
+    private NavMeshAgent myNMA;
+    
+    //bomber only
+    private camMouseLook _camMouseLook;
+    private BombSquadron bombSquadron;
     
     public Controller GetController()
     {
@@ -95,5 +100,32 @@ public class CamObject : MonoBehaviour
         }
 
         return myNMA;
+    }
+    
+    public BombSquadron BombSquadron
+    {
+        get
+        {
+            if (bombSquadron == null)
+            {
+                bombSquadron = GetComponentInParent<BombSquadron>();
+            }
+            return bombSquadron;
+        }
+        set => bombSquadron = value;
+    }
+
+    /// <summary>
+    /// Makes a human pray. 
+    /// </summary>
+    public void Pray()
+    {
+        myController.Animation.SetAnimator("idle");
+        //set to Prayer idle.
+        myController.Animation.Animator.SetFloat("IdleType", 0.666667f);
+        //disable FPS 
+        myFPS.enabled = false;
+        //set cam view -- currently we are seeing weird angles of the npc, want to move it a bit or change fov
+        myVirtualCam.m_Lens.FieldOfView = 80f;
     }
 }

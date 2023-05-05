@@ -14,6 +14,10 @@ public class CameraSwitcher : MonoBehaviour
     CameraManager camManager;
     private Camera mainCam;
     private CinemachineBrain cineBrain;
+    
+    //Only true if in the bombing scene.
+    private bool useBombingSceneBehavior;
+    private string bombingSceneName = "Bombing of a City";
 
     [HideInInspector] public ObjectViewer objViewer;
     //camera objects list, current obj, and int to count them
@@ -87,6 +91,9 @@ public class CameraSwitcher : MonoBehaviour
 
     void Start ()
     {
+        //check if we are in the bombing scene 
+        useBombingSceneBehavior = SceneManager.GetActiveScene().name == bombingSceneName;
+        
         //loop through the cam objects list and set start settings for objects
         for (int i = startingValForDisable; i < cameraObjects.Count; i++)
         {
@@ -154,22 +161,23 @@ public class CameraSwitcher : MonoBehaviour
         }
 
         //Only for the bombing scene 
-        if (SceneManager.GetActiveScene().name == "Bombing of a City")
+        if (useBombingSceneBehavior)
         {
             //when there is all but one camera left, turn off bombers 
             if(cameraObjects.Count <= transitionAmount)
             {
+                //Todo Can do an instant transition here 
                 //disable the bombers 
-                if (bombers.activeSelf)
-                {
-                    bombers.SetActive(false);
-                }
-
-                //transition directly too mosque 
-                if ((int) mosque.transitionState < 1)
-                {
-                    mosque.BeginProjection(false);
-                }
+                // if (bombers.activeSelf)
+                // {
+                //     bombers.SetActive(false);
+                // }
+                //
+                // //transition directly too mosque 
+                // if ((int) mosque.transitionState < 1)
+                // {
+                //     mosque.BeginProjection(false);
+                // }
             }
 
             //hard lock parents to their positions
@@ -349,8 +357,9 @@ public class CameraSwitcher : MonoBehaviour
             return;
         }
         
+        //TODO could refactor this script by having CamObjects be responsible for what they enable rather than this. 
         //turn on new cam obj
-        if (cam.myCamType == CamObject.CamType.HUMAN)
+        if (cam.myCamType == CamObject.CamType.HUMAN || cam.myCamType == CamObject.CamType.MAINPLAYER)
         {
             //if the game obj is disabled -- enable it.
             if(cam.gameObject.activeSelf == false)
@@ -377,10 +386,12 @@ public class CameraSwitcher : MonoBehaviour
                 playerTrigger.specificObj = cam.GetMovement().gameObject;
             }
         }
-        else
+        //When i am bomber 
+        else if(cam.myCamType == CamObject.CamType.BOMBER)
         {
             cam.gameObject.SetActive(true);
             cam.GetCamMouseLook().Activate();
+            cam.BombSquadron.DisableBomberMode();
         }
 
         //reset current cam obj
@@ -437,6 +448,7 @@ public class CameraSwitcher : MonoBehaviour
         {
             cam.gameObject.SetActive(false);
             cam.GetCamMouseLook().Deactivate();
+            cam.BombSquadron.EnableBomberMode();
         }
     }
 

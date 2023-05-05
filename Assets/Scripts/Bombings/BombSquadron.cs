@@ -22,7 +22,11 @@ public class BombSquadron : MonoBehaviour
     [SerializeField] private EventTrigger [] peopleSpawners;
     private int peopleSpawned = 0;
 
+    [Tooltip("Wait time to transition from Bombers to Citizen")]
     public float planeTransitionWait = 2f;
+
+    [Tooltip("This object will be toggled on and off when you are/are not the bombers.")]
+    public GameObject bomberModeView;
 
     private void Awake()
     {
@@ -39,6 +43,31 @@ public class BombSquadron : MonoBehaviour
             
             BombingRun(bomberino);
         }
+    }
+
+    /// <summary>
+    /// Enables bomber mode related stuff
+    /// </summary>
+    public void EnableBomberMode()
+    {
+        if (bomberModeView)
+        {
+            bomberModeView.SetActive(true);
+        }
+        
+        //fog true
+    }
+
+    /// <summary>
+    /// Turns off bomber mode related stuff
+    /// </summary>
+    public void DisableBomberMode()
+    {
+        if (bomberModeView)
+        {
+            bomberModeView.SetActive(false);
+        }
+        //fog false
     }
 
     /// <summary>

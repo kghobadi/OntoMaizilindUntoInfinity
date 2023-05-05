@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Controls the Prayer Wall Interaction. 
+/// </summary>
 public class PrayerWall : Interactive
 {
     CameraSwitcher camSwitcher;
@@ -26,17 +29,11 @@ public class PrayerWall : Interactive
     {
         base.Interact();
 
-        //check FPS enabled
+        //check FPS enabled - only do this if we have not transitioned already
         if (camSwitcher.currentCamObj.GetFPS().enabled && (int)bombShelter.transitionState < 2)
         {
-            //set to idle anim
-            camSwitcher.currentCamObj.GetController().Animation.SetAnimator("idle");
-            //set to Prayer idle.
-            camSwitcher.currentCamObj.GetController().Animation.Animator.SetFloat("IdleType", 0.666667f);
-            //disable FPS 
-            camSwitcher.currentCamObj.GetFPS().enabled = false;
-            //set cam view -- currently we are seeing weird angles of the npc, want to move it a bit or change fov
-            camSwitcher.currentCamObj.GetCinemachineCam().m_Lens.FieldOfView = 80f;
+            //set human to pray
+            camSwitcher.currentCamObj.Pray();
             //lock dist nec
             distNecessary = 0f;
         }

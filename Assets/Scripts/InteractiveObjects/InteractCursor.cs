@@ -110,7 +110,10 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 		Init();
 		
 		imageHolder.enabled = false;
-		interactText.enabled = false;
+		if (interactText)
+		{
+			interactText.enabled = false;
+		}
 		active = false;
 	}
 }
