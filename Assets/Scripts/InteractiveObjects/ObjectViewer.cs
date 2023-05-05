@@ -28,12 +28,14 @@ public class ObjectViewer : AudioHandler
 	
 	public float objectTextOffset = 0.75f;
 	public TMP_Text objectDescription;
+	private float origTextSize;
 	private void Start()
 	{
 		camSwitcher = GetComponentInParent<CameraSwitcher>();
 		camSwitcher.objViewer = this;
 		mainCam = Camera.main;
 		mainCullingMask = mainCam.cullingMask;
+		origTextSize = objectDescription.fontSize;
 	}
 
 	//turn on object viewer with specific obj
@@ -90,6 +92,11 @@ public class ObjectViewer : AudioHandler
 				//enable text canvas and set description
 				objectDescription.enabled = true;
 				objectDescription.text = obj.objDescription.text;
+				//set font size
+				if (obj.fontSize > 0)
+				{
+					objectDescription.fontSize = obj.fontSize;
+				}
 			}
 		}
 		
@@ -174,6 +181,9 @@ public class ObjectViewer : AudioHandler
 		//enable player movement and camera controls
 		camSwitcher.currentPlayer.GetComponent<FirstPersonController>().canMove = couldMove;
 		camSwitcher.currentCamObj.camObj.GetComponent<GroundCamera>().canControl = true;
+		
+		//reset font size
+		objectDescription.fontSize = origTextSize;
 		
 		//disable object viewer setup
 		for (int i = 0; i < viewObjectSetup.Length; i++)

@@ -24,6 +24,7 @@ public class ViewObject : Interactive
 	//how to do a rotation offset?
 	public TextAsset objDescription;
 	public AudioClip viewAudioClip;
+	public float fontSize = 0;
 	
 	private void Awake()
 	{
