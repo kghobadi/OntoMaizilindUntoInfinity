@@ -35,7 +35,10 @@ public class ObjectViewer : AudioHandler
 		camSwitcher.objViewer = this;
 		mainCam = Camera.main;
 		mainCullingMask = mainCam.cullingMask;
-		origTextSize = objectDescription.fontSize;
+		if (objectDescription)
+		{
+			origTextSize = objectDescription.fontSize;
+		}
 	}
 
 	//turn on object viewer with specific obj
