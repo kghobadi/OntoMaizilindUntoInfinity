@@ -8,6 +8,7 @@ using UnityEngine;
 /// </summary>
 public class PersistentObject : MonoBehaviour
 {
+    private LoadSceneAsync _loadSceneAsync;
     private AdvanceScene _advanceScene;
     public int scenesLoaded = 0;
     public int scenesMax;
@@ -15,20 +16,34 @@ public class PersistentObject : MonoBehaviour
     void Awake()
     {
         _advanceScene = FindObjectOfType<AdvanceScene>();
-        
+        _loadSceneAsync = FindObjectOfType<LoadSceneAsync>();
         DontDestroyOnLoad(gameObject);
     }
 
     private void OnEnable()
     {
         //events
-        _advanceScene.onSceneLoad.AddListener(IncrementSceneCounter);
+        if (_advanceScene)
+        {
+            _advanceScene.onSceneLoad.AddListener(IncrementSceneCounter);
+        }
+        else
+        {
+            _loadSceneAsync.onSceneLoad.AddListener(IncrementSceneCounter); 
+        }
     }
 
     private void OnDisable()
     {
         //events
-        _advanceScene.onSceneLoad.RemoveListener(IncrementSceneCounter);
+        if (_advanceScene)
+        {
+            _advanceScene.onSceneLoad.RemoveListener(IncrementSceneCounter);
+        }
+        else
+        {
+            _loadSceneAsync.onSceneLoad.RemoveListener(IncrementSceneCounter); 
+        }
     }
 
     void IncrementSceneCounter()

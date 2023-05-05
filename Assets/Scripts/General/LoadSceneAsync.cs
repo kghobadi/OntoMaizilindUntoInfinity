@@ -1,6 +1,7 @@
 ﻿//This script lets you load a Scene asynchronously.
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class LoadSceneAsync : NonInstantiatingSingleton<LoadSceneAsync>
@@ -18,6 +19,8 @@ public class LoadSceneAsync : NonInstantiatingSingleton<LoadSceneAsync>
 
     MusicFader mFader;
     AsyncOperation asyncOperation = null;
+
+    public UnityEvent onSceneLoad;
 
     void Start()
     {
@@ -66,7 +69,7 @@ public class LoadSceneAsync : NonInstantiatingSingleton<LoadSceneAsync>
                 //Debug.Log("ready to load " + sceneToLoad + "!");
                 if (transition)
                 {
-                    Debug.Log("Allowing Async load now!");
+                    //Debug.Log("Allowing Async load now!");
                     //Activate the Scene
                     asyncOperation.allowSceneActivation = true;
                 }
@@ -84,6 +87,7 @@ public class LoadSceneAsync : NonInstantiatingSingleton<LoadSceneAsync>
             mFader.FadeOutBasic();
 
         transition = true;
+        onSceneLoad.Invoke();
     }
 
     public void TransitionWait(float wait)
