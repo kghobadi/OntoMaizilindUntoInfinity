@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,6 +8,7 @@ using UnityEngine.UI;
 using InControl;
 using NPC;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 public class FirstPersonController : MonoBehaviour
 {
@@ -49,20 +51,40 @@ public class FirstPersonController : MonoBehaviour
     public UnityEvent beingHeld;
     public Animator personAnimator;
     public Animations npcAnimator;
-    void Start()
+    
+    void Awake()
     {
         player = GetComponent<CharacterController>();
         playerAudSource = GetComponent<AudioSource>();
         mouseLook = GetComponentInChildren<GroundCamera>();
         resetAudio = GetComponent<ResetNearbyAudioSources>();
         normalRadius = player.radius;
+    }
 
+    private void Start()
+    {
         if (disableOnStart)
         {
             DisableMovement();
         }
     }
 
+    private void OnEnable()
+    {
+        if (mouseLook)
+        {
+            beingHeld.AddListener(mouseLook.ToggleClamp);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (mouseLook)
+        {
+            beingHeld.RemoveListener(mouseLook.ToggleClamp);
+        }
+    }
+    
     void FixedUpdate()
     {
         //get input device 

@@ -191,6 +191,14 @@ public class GroundCamera : MonoBehaviour
     {
         clamps = clamp;
     }
+
+    /// <summary>
+    /// Toggles the clamp.
+    /// </summary>
+    public void ToggleClamp()
+    {
+        clamps = !clamps;
+    }
     
     void ShiftCheck()
     {
