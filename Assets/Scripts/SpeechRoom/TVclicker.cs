@@ -23,6 +23,11 @@ public class TVclicker : Interactive {
         {
             base.SetActive();
         }
+        //disable cursor during speech stuff 
+        else if (tv.waitingForStatic || tv.speechStarted)
+        {
+            iCursor.Deactivate();
+        }
     }
 
     protected override void Interact()

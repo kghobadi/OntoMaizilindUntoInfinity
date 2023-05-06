@@ -80,6 +80,9 @@ public class LerpMaterial : MonoBehaviour {
     public float lbfTime = 1f;
 
     public UnityEvent eventOnFinish;
+    [Tooltip("Check this if you want the event on Finish to play only once.")]
+    public bool triggersOnce = true;
+    private int triggerCounter = 0;
 
     void Awake()
     {
@@ -275,7 +278,11 @@ public class LerpMaterial : MonoBehaviour {
         }
                 
         //invoke event 
-        eventOnFinish.Invoke();
+        if (triggersOnce && triggerCounter < 1)
+        {
+            eventOnFinish.Invoke();
+            triggerCounter++;
+        }
     }
 
     void CheckLerpBackForth()

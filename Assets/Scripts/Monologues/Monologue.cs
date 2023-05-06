@@ -72,6 +72,9 @@ public class Monologue : ScriptableObject
     public bool useDistFading;
     [Tooltip("Sets the Mono Managers distance Active for subtitle fading.")]
     public float activeFadeDistance = 10f;
+    
+    [Tooltip("Check to make this dialogue end a hallucination if there is one active.")]
+    public bool endsCurrentHallucination;
     //new animation state?
     //new vo?
 }

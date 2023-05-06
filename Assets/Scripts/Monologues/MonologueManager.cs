@@ -484,6 +484,20 @@ public class MonologueManager : MonoBehaviour
             npcController.Movement.ResetMovement(mono.newMovement);
         }
 
+        //Call end to any hallucs 
+        if (mono.endsCurrentHallucination)
+        {
+            Hallucination[] possibleHallucs = FindObjectsOfType<Hallucination>();
+
+            foreach (var halluc in possibleHallucs)
+            {
+                if (halluc.hallucinating)
+                {
+                    halluc.WaitToEnd(halluc.hallucinationEndWait);
+                }
+            }
+        }
+        
         //disable mono and set sub time to 0
         currentSubTime = 0;
         inMonologue = false;

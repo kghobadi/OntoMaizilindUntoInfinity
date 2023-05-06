@@ -7303,6 +7303,11 @@ PrefabInstance:
       objectReference: {fileID: 200456655}
     - target: {fileID: 114953075554909098, guid: d5229616bf5fcb5439379f7158d2c714,
         type: 3}
+      propertyPath: hallucinationEndWait
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114953075554909098, guid: d5229616bf5fcb5439379f7158d2c714,
+        type: 3}
       propertyPath: monoManagers.Array.data[0]
       value: 
       objectReference: {fileID: 114937719001616433}
@@ -25139,6 +25144,11 @@ PrefabInstance:
     - target: {fileID: 114834806459534252, guid: caea05df2fb4eff4fa7ae4ab747d62e4,
         type: 3}
       propertyPath: events.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114834806459534252, guid: caea05df2fb4eff4fa7ae4ab747d62e4,
+        type: 3}
+      propertyPath: hallucinationEndWait
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114834806459534252, guid: caea05df2fb4eff4fa7ae4ab747d62e4,
@@ -86985,6 +86995,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
         type: 3}
+      propertyPath: hallucinationEndWait
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988157671940476, guid: 66e84a1385270244e868f4b5736435d1,
+        type: 3}
       propertyPath: monoManagers.Array.data[0]
       value: 
       objectReference: {fileID: 114937719001616433}
@@ -87777,7 +87792,7 @@ MonoBehaviour:
   deityMan: {fileID: 850713089}
   hallucProfile: {fileID: 11400000, guid: 5a16ab786d0e1fe46803cb7c2a97805f, type: 2}
   normalProfile: {fileID: 11400000, guid: 48d8d893d13f6074fafbfc741e96315d, type: 2}
-  hallucinationLength: 5
+  hallucinationEndWait: 3
   hallucObjects:
   - {fileID: 1236199413}
   hallucinating: 0
@@ -92608,7 +92623,7 @@ Transform:
   m_GameObject: {fileID: 1685180556}
   m_LocalRotation: {x: -0.00000035390235, y: 0.0000003394054, z: -0.00000041556825,
     w: 1}
-  m_LocalPosition: {x: -0.000016444128, y: -0.00013581134, z: 0.0012439822}
+  m_LocalPosition: {x: -0.000016444732, y: -0.00013581134, z: 0.0012439822}
   m_LocalScale: {x: 1, y: 1.0135, z: 1.0135007}
   m_Children:
   - {fileID: 668675137}
@@ -101273,6 +101288,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114011098574534234, guid: 6ea8d3a58212dd3498b60b7329d93234,
         type: 3}
+      propertyPath: hallucinationEndWait
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114011098574534234, guid: 6ea8d3a58212dd3498b60b7329d93234,
+        type: 3}
       propertyPath: monoManagers.Array.data[0]
       value: 
       objectReference: {fileID: 114937719001616433}
@@ -106651,7 +106671,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2045468874}
   m_LocalRotation: {x: 0.062144157, y: -0.0000006109476, z: 0.00000025704296, w: -0.99806726}
-  m_LocalPosition: {x: -0.000016443359, y: 76.27002, z: -165.81876}
+  m_LocalPosition: {x: -0.000016443963, y: 76.27002, z: -165.81876}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -106792,6 +106812,7 @@ MonoBehaviour:
   eventOnFinish:
     m_PersistentCalls:
       m_Calls: []
+  triggersOnce: 1
 --- !u!114 &2045468881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107570,12 +107591,12 @@ PrefabInstance:
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 3}
       propertyPath: _savedGUID
-      value: 711711944
+      value: 3505183870
       objectReference: {fileID: 0}
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 3}
       propertyPath: hash.lastHash
-      value: -670123847
+      value: 958049430
       objectReference: {fileID: 0}
     - target: {fileID: 114285152934883492, guid: 2521388c939ddba41920770a7c42898e,
         type: 3}
@@ -107819,6 +107840,11 @@ PrefabInstance:
         type: 3}
       propertyPath: variableName
       value: $Panic
+      objectReference: {fileID: 0}
+    - target: {fileID: 114914787360804874, guid: 055c1dadd68b9904f8f198b094b5739a,
+        type: 3}
+      propertyPath: hallucinationEndWait
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114914787360804874, guid: 055c1dadd68b9904f8f198b094b5739a,
         type: 3}
@@ -114808,6 +114834,11 @@ PrefabInstance:
     - target: {fileID: 7413758279189334104, guid: 805783ff968a3a543ae83fc27d488bd3,
         type: 3}
       propertyPath: events.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7413758279189334104, guid: 805783ff968a3a543ae83fc27d488bd3,
+        type: 3}
+      propertyPath: hallucinationEndWait
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7413758279189334104, guid: 805783ff968a3a543ae83fc27d488bd3,

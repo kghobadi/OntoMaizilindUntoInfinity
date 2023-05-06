@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// Manages overall behavior of the bomber squadron.
@@ -21,6 +23,11 @@ public class BombSquadron : MonoBehaviour
 
     [SerializeField] private EventTrigger [] peopleSpawners;
     private int peopleSpawned = 0;
+
+    private bool bomberMode;
+    private float becamePlanesTime = 0f;
+    [Tooltip("Minimum time we should be planes before a transition down to people.")]
+    public float timeAsPlanesMinimum = 5f;
 
     [Tooltip("Wait time to transition from Bombers to Citizen")]
     public float planeTransitionWait = 2f;
@@ -54,8 +61,9 @@ public class BombSquadron : MonoBehaviour
         {
             bomberModeView.SetActive(true);
         }
-        
-        //fog true
+
+        becamePlanesTime = Time.fixedTime;
+        bomberMode = true;
     }
 
     /// <summary>
@@ -67,7 +75,7 @@ public class BombSquadron : MonoBehaviour
         {
             bomberModeView.SetActive(false);
         }
-        //fog false
+        bomberMode = false;
     }
 
     /// <summary>
@@ -99,7 +107,7 @@ public class BombSquadron : MonoBehaviour
                 }
 
                 //we are the planes -- transition to anything else. 
-                if (camSwitcher.GetCurrentCamIndex() == 0)
+                if (camSwitcher.GetCurrentCamIndex() == 0 && (Time.fixedTime - becamePlanesTime) >= timeAsPlanesMinimum)
                 {
                     //spawn people under me somewhere     
                     if (peopleSpawned < peopleSpawners.Length)

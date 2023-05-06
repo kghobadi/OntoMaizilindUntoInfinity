@@ -18,7 +18,7 @@ public class Hallucination : MonoBehaviour
 	private PostProcessingBehaviour camBehavior;
 	public PostProcessingProfile hallucProfile;
 	public PostProcessingProfile normalProfile;
-	public float hallucinationLength = 5f;
+	public float hallucinationEndWait = 3f;
 	public GameObject[] hallucObjects;
 	public bool hallucinating;
 
@@ -100,12 +100,6 @@ public class Hallucination : MonoBehaviour
 
 		//start it 
 		StartHallucination();
-
-		//wait for halluc
-		yield return new WaitForSeconds(hallucinationLength);
-		
-		//end it
-		EndHallucination();
 	}
 
 	public void StartHallucination()
