@@ -27,6 +27,16 @@ public class PauseMenu : MonoBehaviour
     [Tooltip("Anything in this array will pause")]
     public VideoPlayer[] pauseVideos;
 
+    [Header("Festival Restart System")]
+    [Tooltip("For festivals, want to check if nobody inputs for a while")]
+    public bool checkForInput;
+
+    [Tooltip("How long should we wait to restart if nobody is inputting?")]
+    public float restartWait = 120f;
+    public float restartTimer;
+    [Tooltip("Will appear after a while to give someone a chance to keep playing")]
+    public GameObject restartWarning;
+
     void Awake ()
     {
         advanceScene = FindObjectOfType<AdvanceScene>();
@@ -43,7 +53,7 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
-    void Update ()
+    void FixedUpdate ()
     {
         //get input device 
         inputDevice = InputManager.ActiveDevice;
@@ -53,7 +63,49 @@ public class PauseMenu : MonoBehaviour
         {
             TogglePause();
         }
+
+        if (checkForInput)
+        {
+            CheckForInput();
+        }
 	}
+
+    #region Festival Restart
+    /// <summary>
+    /// Checks if there is any input and records it. 
+    /// </summary>
+    void CheckForInput()
+    {
+        //Get timer from current tick of the InputMgr minus last detected input time. 
+        restartTimer = InputManager.CurrentTick - inputDevice.LastInputTick;
+        //Enable restart warning if we have long enough waited without input. 
+        if (restartTimer > restartWait)
+        {
+            EnableRestartWarning();
+        }
+        //Close restart warning if we receive any input. 
+        if (restartWarning.activeSelf && (inputDevice.AnyButton.WasPressed || restartTimer < restartWait)) 
+        {
+            DisableRestartWarning();
+        }
+    }
+
+    void EnableRestartWarning()
+    {
+        if (!restartWarning.activeSelf)
+        {
+            restartWarning.SetActive(true);
+        }
+    }
+    
+    void DisableRestartWarning()
+    {
+        if (restartWarning.activeSelf)
+        {
+            restartWarning.SetActive(false);
+        }
+    }
+    #endregion
 
     /// <summary>
     /// UI prefab friendly pause. 
