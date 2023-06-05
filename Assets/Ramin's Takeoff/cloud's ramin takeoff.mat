@@ -7,11 +7,11 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TrippyTerrain
-  m_Shader: {fileID: 4800000, guid: c44293f96c47f2f4f8b83cead3d31dac, type: 3}
-  m_ShaderKeywords: 
+  m_Name: cloud's ramin takeoff
+  m_Shader: {fileID: 4800000, guid: 904e7f22ee0ab5a49b69ea17289e6b44, type: 3}
+  m_ShaderKeywords: _VERTEXOFFSET_ON
   m_LightmapFlags: 0
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -28,9 +28,20 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _ASEOutlineWidth: 0
+    - _OffsetStrength: 10
+    - _Power: 1
+    - _TessMax: 1000
+    - _TessMin: 0
+    - _TessValue: 8
+    - _Tessellation: 1
     - _VertexOffset: 1
-    - _WaveSpeed: 1
-    - _WaveTile: 5
+    - _WaveSpeed: 2.5
+    - _WaveTile: 0.5
     - __dirty: 0
     m_Colors:
-    - _WaveSize: {r: 0.8, g: 5, b: 0, a: 0}
+    - _ASEOutlineColor: {r: 0, g: 0, b: 0, a: 0}
+    - _Albedo: {r: 1, g: 1, b: 1, a: 0}
+    - _Color1: {r: 1, g: 0.09411766, b: 0, a: 0}
+    - _Color2: {r: 0, g: 0.23305082, b: 1, a: 0}
+    - _WaveSize: {r: 0.3, g: 5, b: 0, a: 0}
