@@ -157,7 +157,7 @@ public class PickUpObject : Interactive
 				}
 				
 				//right click or back button to Drop the object. 
-				if (Input.GetMouseButtonDown(1)|| inputDevice.Action2.WasPressed)
+				if (Input.GetMouseButtonDown(1)|| inputDevice.Action2.WasPressed || Input.GetKeyDown(KeyCode.Space))
 				{
 					//no drop!
 					if (noDropping)
