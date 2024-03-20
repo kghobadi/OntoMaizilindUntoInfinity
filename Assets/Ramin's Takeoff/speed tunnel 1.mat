@@ -7,24 +7,25 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: father mat
-  m_Shader: {fileID: 4800000, guid: 851f2d9f112af2f4390a3d702e3e6553, type: 3}
-  m_ShaderKeywords: _MK_ALBEDO_MAP _MK_ARTISTIC_PROJECTION_SCREEN_SPACE _MK_EMISSION
-    _MK_EMISSION_MAP _MK_ENVIRONMENT_REFLECTIONS_AMBIENT _MK_LIGHT_BANDED _MK_RECEIVE_SHADOWS
-    _MK_WRAPPED_DIFFUSE _RECEIVESHADOWS_ON _WRAPPEDLIGHTING_ON
-  m_LightmapFlags: 4
+  m_Name: speed tunnel 1
+  m_Shader: {fileID: 4800000, guid: 425965b3dfb1738419afd06324629822, type: 3}
+  m_ShaderKeywords: _ALPHATEST_ON _EMISSION _INVERTBACKGROUND1_ON _INVERTBACKGROUND_ON
+    _MK_ALBEDO_MAP _MK_ARTISTIC_PROJECTION_SCREEN_SPACE _MK_EMISSION_MAP _MK_LIGHT_BANDED
+    _MK_RECEIVE_SHADOWS _MK_WRAPPED_DIFFUSE _RECEIVESHADOWS_ON _TOGGLESWITCH0_ON
+    _USETRANSPARENCY_ON _WRAPPEDLIGHTING_ON
+  m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 3000
   stringTagMap:
     IGNOREPROJECTOR: False
-    RenderType: Opaque
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - ALWAYS
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _AlbedoMap:
-        m_Texture: {fileID: 2800000, guid: 1e1740607b9e58f42b252ff3ca7fe014, type: 3}
+        m_Texture: {fileID: 2800000, guid: e49c251a37bfe8f4b97a7bcff572613c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -60,9 +61,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: 1e1740607b9e58f42b252ff3ca7fe014, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Texture: {fileID: 2800000, guid: 412d55eac60d9c0409a2216c7659cfcd, type: 3}
+        m_Scale: {x: 2, y: 1}
+        m_Offset: {x: 0, y: 2.11}
     - _GoochRamp:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -80,8 +81,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 1e1740607b9e58f42b252ff3ca7fe014, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: 412d55eac60d9c0409a2216c7659cfcd, type: 3}
+        m_Scale: {x: 2, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
@@ -123,6 +124,18 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Texture0:
+        m_Texture: {fileID: 2800000, guid: ac27f71af49b7684fb60eb16ea254730, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture1:
+        m_Texture: {fileID: 2800000, guid: 74dfd2612fa47f144be70c730bd68471, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2:
+        m_Texture: {fileID: 2800000, guid: ab508093bf2f4ab4c9805a0faafc9676, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ThresholdMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -131,8 +144,13 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _AdvancedTab: 0
+    - _ASEOutlineWidth: 0.05
+    - _AdvancedTab: 1
     - _AlphaClipping: 0
     - _AlphaCutoff: 0.5
     - _Artistic: 0
@@ -140,11 +158,18 @@ Material:
     - _ArtisticProjection: 1
     - _Blend: 0
     - _BlendDst: 0
+    - _BlendOp: 0
     - _BlendSrc: 1
     - _Brightness: 1
     - _BumpScale: 1
+    - _CameraFadingEnabled: 0
+    - _CameraFarFadeDistance: 2
+    - _CameraNearFadeDistance: 1
     - _ColorGrading: 0
-    - _Contrast: 1
+    - _ColorMode: 0
+    - _Contrast: 1.73
+    - _Contrast1: 2
+    - _Cull: 2
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DiffuseSmoothness: 0
@@ -153,11 +178,17 @@ Material:
     - _DissolveAmount: 0.5
     - _DissolveBorderSize: 0.25
     - _DissolveMapScale: 1
+    - _DistortionBlend: 0.5
+    - _DistortionEnabled: 0
+    - _DistortionStrength: 1
+    - _DistortionStrengthScaled: 0
     - _DrawnClampMax: 1
     - _DrawnClampMin: 0
     - _DrawnMapScale: 1
     - _DstBlend: 0
-    - _EnvironmentReflections: 1
+    - _EmissionEnabled: 1
+    - _EnvironmentReflections: 0
+    - _FlipbookMode: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -165,6 +196,8 @@ Material:
     - _HatchingMapScale: 1
     - _Initialized: 1
     - _InputTab: 1
+    - _InvertBackground: 1
+    - _InvertBackground1: 1
     - _Iridescence: 0
     - _IridescenceSize: 1
     - _IridescenceSmoothness: 0.5
@@ -172,11 +205,19 @@ Material:
     - _Light: 2
     - _LightBands: 4
     - _LightBandsScale: 0.5
+    - _LightSteps: 3
+    - _LightStrength: 4
     - _LightThreshold: 0.39
+    - _LightingEnabled: 0
+    - _MaskRange: 0.8
+    - _MaskRange2: 0.1
+    - _MaskRangeMin: 0.5
+    - _MaskSoftness: 0
     - _Metallic: 0
-    - _Mode: 0
+    - _Mode: 1
     - _NormalMapIntensity: 1
     - _OcclusionStrength: 1
+    - _OffsetSpeed: 0.5
     - _OptionsTab: 1
     - _Outline: 0.005
     - _OutlineData: 0
@@ -197,6 +238,9 @@ Material:
     - _SketchMapScale: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
+    - _SoftParticlesEnabled: 0
+    - _SoftParticlesFarFadeDistance: 1
+    - _SoftParticlesNearFadeDistance: 0
     - _Specular: 0
     - _SpecularHighlights: 1
     - _SpecularIntensity: 1
@@ -214,24 +258,55 @@ Material:
     - _StylizeTab: 1
     - _Surface: 0
     - _ThresholdMapScale: 1
+    - _ToggleSwitch0: 1
     - _UVSec: 0
+    - _Use2Textures: 0
+    - _Use2ndTexture: 0
+    - _UseLight: 0
+    - _UseTransparency: 1
     - _VertexAnimation: 0
     - _VertexAnimationIntensity: 0.05
     - _VertexAnimationStutter: 0
     - _WrappedLighting: 1
     - _ZTest: 4
     - _ZWrite: 1
+    - __dirty: 0
+    - _colorStrength: 1
+    - _effectStrength: 0
+    - _frequency: 20
+    - _greyscale: 0
+    - _paper_like: 1
     m_Colors:
+    - _ASEOutlineColor: {r: 0, g: 0, b: 0, a: 0}
+    - _Albedo: {r: 1, g: 0.19359498, b: 0.04705882, a: 0.57254905}
     - _AlbedoColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+    - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
+    - _Color: {r: 0.017641952, g: 0.15292618, b: 0.45641106, a: 1}
+    - _Color0: {r: 0.14117646, g: 0.4266667, b: 0.7058824, a: 0}
+    - _Color1: {r: 1, g: 1, b: 1, a: 0}
+    - _Color2: {r: 1, g: 1, b: 1, a: 0}
+    - _Color3: {r: 1, g: 0.7607844, b: 0, a: 0}
+    - _ColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _DissolveBorderColor: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0.8, g: 0.6786517, b: 0.56179774, a: 1}
+    - _EmissionColor: {r: 0.03137255, g: 0.30588236, b: 0.9098039, a: 0}
+    - _EmissionColor1: {r: 0, g: 0, b: 0, a: 0}
     - _GoochBrightColor: {r: 1, g: 1, b: 1, a: 1}
     - _GoochDarkColor: {r: 0, g: 0, b: 0, a: 1}
+    - _InvertedTone: {r: 0, g: 0.43209887, b: 1, a: 1}
+    - _InvertedTone1: {r: 0.04705883, g: 0.45882356, b: 1, a: 1}
     - _IridescenceColor: {r: 1, g: 1, b: 1, a: 0.5}
+    - _OffsetSpeed: {r: 0, g: 0.25, b: 0, a: 0}
+    - _OffsetSpeed1: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _OffsetSpeed2: {r: 0, g: 0, b: 0, a: 0}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _RimBrightColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimDarkColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Tex1TilingOffset: {r: 1, g: 1, b: 0, a: 0}
+    - _Tex2TilingOffset: {r: 1, g: 1, b: 0.1, a: 0.05}
+    - _Tex3TilingOffset: {r: 0.05, g: 0.05, b: 0, a: 0}
+    - _Vector0: {r: 0.6, g: 0, b: 0.2, a: 0.2}
     - _VertexAnimationFrequency: {r: 2.5, g: 2.5, b: 2.5, a: 1}
