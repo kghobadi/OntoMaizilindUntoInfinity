@@ -70,7 +70,7 @@ public class SitOnObject : Interactive
 			if (_cameraSwitcher.objViewer.viewing == false)
 			{
 				//right click to stand up or back button
-				if (Input.GetMouseButtonDown(1) || inputDevice.Action2.WasPressed)
+				if (Input.GetMouseButtonDown(1) || inputDevice.Action2.WasPressed || Input.GetKeyDown(KeyCode.Space))
 				{
 					ReleasePlayer();
 				}
