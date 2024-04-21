@@ -29,7 +29,7 @@ public class SpawnFromMap2 : MonoBehaviour
     public GameObject terrain;
     public GameObject landScape;
     int oldlayer;
-    public List<GameObject> interiorsObj;
+    public List<GameObject> child;
     public List<Vector3> buildingPos;
     public List<Vector3> interiorPos;
     public bool InstantiateOnStart = false;
@@ -37,36 +37,7 @@ public class SpawnFromMap2 : MonoBehaviour
 #if UNITY_EDITOR
     private void Start()
     {
-        if (ActivateInteriorsLoop)
-        {
-            StartCoroutine(ActivateInteriors());
-        }
 
-        if (InstantiateOnStart)
-        {
-            StartCoroutine(SpawnBuildingsLoop());
-        }
-    }
-
-    IEnumerator ActivateInteriors()
-    {
-        print("start coroutine");
-        Transform cam = Camera.main.transform;
-        int i = 0;
-        while (true)
-        {
-            if (i < interiorsObj.Count)
-            {
-                print("activate game object");
-                interiorsObj[i].SetActive(true);
-                i++;
-            }
-            else
-            {
-                yield break;
-            }
-            yield return null;
-        }
     }
 
     public float Multiplier = 10;
@@ -74,7 +45,7 @@ public class SpawnFromMap2 : MonoBehaviour
     [ContextMenu("Spawn City")]
     void SpawnCity()
     {
-        interiorsObj.Clear();
+        child.Clear();
 
         terrain = GameObject.Find("terrain");
         oldlayer = terrain.layer;
@@ -110,65 +81,6 @@ public class SpawnFromMap2 : MonoBehaviour
         DestroyImmediate(mCollider2);
     }
 
-    [ContextMenu("Find Building Positions")]
-    void FindPositions()
-    {
-        interiorsObj.Clear();
-        buildingPos.Clear();
-        interiorPos.Clear();
-
-        terrain = GameObject.Find("terrain");
-        oldlayer = terrain.layer;
-        terrain.layer = 31;
-        MeshCollider mCollider = terrain.AddComponent<MeshCollider>();
-
-        landScape = GameObject.Find("LandScape");
-        oldlayer = landScape.layer;
-        landScape.layer = 31;
-        MeshCollider mCollider2 = landScape.AddComponent<MeshCollider>();
-
-        size.x = tex.width;
-        size.y = tex.height;
-        range = ((1 / size.x) * 10) / 2;
-
-        Vector3 pos;
-        RaycastHit hit;
-        float hitY;
-        int layerMask = 1 << 31;
-
-        for (int x = 0; x < size.x; x++)
-        {
-            for (int z = 0; z < size.y; z++)
-            {
-                pixel_colour = tex.GetPixel(x, z);
-
-                float localX = ((x / size.x) * Multiplier - 0.5f * Multiplier + range) * size.x / Multiplier;
-                float localY = ((z / size.x) * Multiplier - 0.5f * Multiplier + range) * size.x / Multiplier;
-
-                pos = transform.TransformPoint(new Vector3(localX, 0, localY));
-                worldPos.Add(pos);
-                colors.Add(pixel_colour);
-
-                if (pixel_colour == white)
-                {
-                    SetBuilding(x, z, false);
-                }
-            }
-        }
-
-        terrain.layer = oldlayer;
-        DestroyImmediate(mCollider);
-        DestroyImmediate(mCollider2);
-    }
-
-    [ContextMenu("Deactivate Interiors")]
-    void DeactivateInteriors()
-    {
-        foreach (GameObject obj in interiorsObj)
-        {
-            obj.SetActive(false);
-        }
-    }
 
     void Reset()
     {
@@ -251,6 +163,7 @@ public class SpawnFromMap2 : MonoBehaviour
                 {
                     SetBuilding(x, z, true);
                 }
+                /*
                 else if (pixel_colour == blue)
                 {
                     print("blue");
@@ -261,7 +174,7 @@ public class SpawnFromMap2 : MonoBehaviour
                         transform.localScale.x,
                         transform.localScale.y * (float)System.Math.Round(Random.Range(1f, 1.2f), 1),
                         transform.localScale.z);
-                }
+                }*/
                 else
                 {
                     clone = null;
@@ -282,6 +195,8 @@ public class SpawnFromMap2 : MonoBehaviour
                         mR.material = mat;
                     }
                     clone.transform.SetParent(cityParent);
+                    BombPosition(clone.transform);
+                    child.Add(clone);
                 }
             }
         }
@@ -316,6 +231,7 @@ public class SpawnFromMap2 : MonoBehaviour
             //if all adjacent pixels are buildings, instantiate a "interior" building prefab
             if (instantiate)
             {
+                //clone = Instantiate(interiors[Random.Range(0, interiors.Count)]);
                 clone = PrefabUtility.InstantiatePrefab(interiors[Random.Range(0, interiors.Count)]) as GameObject;
                 clone.transform.rotation = rots[Random.Range(0, rots.Count)];
                 if (Random.value > 0.5f)
@@ -326,7 +242,6 @@ public class SpawnFromMap2 : MonoBehaviour
                     transform.localScale.x,
                     transform.localScale.y * Random.Range(9, 11) / 10,
                     transform.localScale.z);
-                interiorsObj.Add(clone);
             }
             else
             {
@@ -351,6 +266,7 @@ public class SpawnFromMap2 : MonoBehaviour
             if (instantiate)
             {
                 //otherwise, choose from the normal buildings
+                //clone = Instantiate(interiors[Random.Range(0, interiors.Count)]);
                 clone = PrefabUtility.InstantiatePrefab(buildings[Random.Range(0, buildings.Count)]) as GameObject;
                 clone.transform.rotation = rots[Random.Range(0, rots.Count)];
                 clone.transform.localScale = new Vector3(
@@ -378,62 +294,103 @@ public class SpawnFromMap2 : MonoBehaviour
         }
     }
 
-    IEnumerator SpawnBuildingsLoop()
+    float qX;
+    float qY;
+    float qZ;
+    public float howManyHits = 0;
+    float angleRange = 20;
+    void BombPosition(Transform tr)
     {
-        int i = 0;
-        bool go = true;
-        while (go)
-        {
-            if (i < buildingPos.Count)
-            {
-                clone = PrefabUtility.InstantiatePrefab(buildings[Random.Range(0, buildings.Count)]) as GameObject;
-                clone.transform.rotation = rots[Random.Range(0, rots.Count)];
-                clone.transform.localScale = new Vector3(
-                    transform.localScale.x,
-                    transform.localScale.y * Random.Range(8, 13) / 10,
-                    //transform.localScale.y * (float)System.Math.Round(Random.Range(0.8f, 1.2f), 1),
-                    transform.localScale.z);
-                clone.transform.position = new Vector3(buildingPos[i].x, buildingPos[i].y, buildingPos[i].z);
-                clone.transform.SetParent(cityParent);
-                i++;
-            }
-            else
-            {
-                go = false;
-            }
-            yield return null;
-        }
+        howManyHits = Random.Range(1, 3f);
+        Vector3 newRot;
 
-        i = 0;
-        go = true;
 
-        while (go)
+        if (Random.value < 0.07f)
         {
-            if (i < interiorPos.Count)
-            {
-                clone = PrefabUtility.InstantiatePrefab(interiors[Random.Range(0, interiors.Count)]) as GameObject;
-                clone.transform.rotation = rots[Random.Range(0, rots.Count)];
-                if (Random.value > 0.5f)
-                {
-                    clone.transform.GetChild(0).rotation = Quaternion.Euler(90, 0, 0);
-                }
-                clone.transform.localScale = new Vector3(
-                    transform.localScale.x,
-                    transform.localScale.y * Random.Range(8, 13) / 10,
-                    //transform.localScale.y * (float)System.Math.Round(Random.Range(0.8f, 1.2f), 1),
-                    transform.localScale.z);
-                clone.transform.position = new Vector3(interiorPos[i].x, interiorPos[i].y, interiorPos[i].z);
-                clone.transform.SetParent(cityParent);
-                i++;
-            }
-            else
-            {
-                go = false;
-            }
-            yield return null;
+            qX = 0 - Random.Range(-angleRange, angleRange);
+            qY = 0 - Random.Range(-4, 4);
+            qZ = 0 - Random.Range(-angleRange, angleRange);
+
+            newRot = new Vector3(qX, qY, qZ);
+            //newRot = new Vector3(Random.Range(-angleRange, angleRange), Random.Range(-4f, 4f), Random.Range(-angleRange, angleRange));
         }
-        yield break;
+        else
+        {
+            qX = 0 - Random.Range(-angleRange, angleRange);
+            qY = 0 - Random.Range(-5, 5);
+            qZ = 0 - Random.Range(-angleRange, angleRange);
+
+            newRot = new Vector3(qX * howManyHits, qY * howManyHits, qZ * howManyHits);
+
+            tr.localPosition = new Vector3(tr.localPosition.x + Random.Range(-15, 15), tr.localPosition.y - Random.Range(15, 30) * howManyHits, tr.localPosition.z + Random.Range(-15, 15));
+            tr.eulerAngles = newRot;
+        }
     }
+
+
+    GameObject meshCombined;
+    public Transform[] childs;
+    /*
+    [ContextMenu("Combine Meshes")]
+    void CombineMeshes()
+    {
+        DestroyImmediate(meshCombined);
+        
+        meshCombined = new GameObject();
+        meshCombined.name = "Mesh Combined";
+        meshCombined.AddComponent<MeshFilter>();
+        meshCombined.AddComponent<MeshRenderer>();
+        meshCombined.GetComponent<MeshRenderer>().material = mats[0];
+        meshCombined.transform.parent = transform;
+        meshCombined.transform.localPosition = new Vector3(0, 0, 0);
+
+        for (int j = 0; j < child.Count; j++)
+        {
+            child[j].transform.GetChild(0).parent = meshCombined.transform;
+        }
+
+        int childN = meshCombined.transform.childCount;
+        childs = new Transform[childN];
+        for (int j = 0; j < childN; ++j)
+        {
+            childs[j] = meshCombined.transform.GetChild(j);
+        }
+
+        Vector3 scale = transform.localScale;
+        transform.localScale = new Vector3(1, 1, 1);
+
+        GameObject combinedObj = meshCombined;
+        MeshFilter[] meshFilters = combinedObj.GetComponentsInChildren<MeshFilter>();
+        CombineInstance[] combine = new CombineInstance[meshFilters.Length];
+        int i = 0;
+        while (i < meshFilters.Length)
+        {
+            combine[i].mesh = meshFilters[i].sharedMesh;
+            combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
+            //meshFilters[i].gameObject.SetActive(false);
+            i++;
+        }
+
+        for (int j = 0; j < childN; ++j)
+        {
+            childs[j].gameObject.SetActive(false);
+        }
+
+        var meshFilter = combinedObj.transform.GetComponent<MeshFilter>();
+        meshFilter.mesh = new Mesh();
+        meshFilter.mesh.CombineMeshes(combine);
+
+
+        //Mesh m = meshFilter.sharedMesh;
+        //GetComponent<MeshCollider> ().sharedMesh = meshFilter.mesh;
+        combinedObj.SetActive(true);
+        combinedObj.transform.localScale = new Vector3(1, 1, 1);
+        combinedObj.transform.rotation = Quaternion.identity;
+        combinedObj.transform.position = Vector3.zero;
+
+        transform.localScale = scale;
+    }*/
+
 #endif
     /*
     void OnDrawGizmos()
