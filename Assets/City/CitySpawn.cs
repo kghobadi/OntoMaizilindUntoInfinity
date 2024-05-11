@@ -35,7 +35,7 @@ public class CitySpawn: MonoBehaviour
 		mats.Add(Resources.Load("Buildings/building mat 2") as Material);
 		//mats.Add(Resources.Load("Buildings/building mat 3") as Material);
 
-		cityParent = transform.parent.parent.FindChild("CITY");
+		cityParent = transform.parent.parent.Find("CITY");
 		DestroyImmediate(cityParent.gameObject);
 
 		GameObject city = new GameObject("CITY");
