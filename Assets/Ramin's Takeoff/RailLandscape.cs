@@ -10,6 +10,7 @@ public class RailLandscape : MonoBehaviour
     public Transform mountain3;
     public float speedInSeconds;
 
+    //Change phase to change environment from mountains to city 
     public int Phase = 0;
     bool transition = false;
     public GameObject[] transitionTile;
