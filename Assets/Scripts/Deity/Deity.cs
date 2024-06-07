@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// General manager of the Deity behaviors. 
+/// </summary>
 public class Deity : MonoBehaviour {
 
     [HideInInspector] public MoveTowards mover;
@@ -9,6 +12,10 @@ public class Deity : MonoBehaviour {
     DeityHealth _Health;
     DeityAnimations _Animations;
     Rigidbody deityBody;
+
+    //Properties
+    public DeityHealth DeityHealth => _Health;
+    public DeityAnimations DeityAnimations => _Animations;
 
     [Header("Movements")]
     public bool strafe;
@@ -153,9 +160,10 @@ public class Deity : MonoBehaviour {
             }
         }
         
-        DistanceCalcs();
+        //DistanceCalcs();
     }
 
+    //TODO disabling for now, will decide what to do with this now that we have RailLandscape. 
     void DistanceCalcs()
     {
         //calc distance 

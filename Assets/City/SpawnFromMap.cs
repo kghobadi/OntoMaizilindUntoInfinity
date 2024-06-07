@@ -88,7 +88,7 @@ public class SpawnFromMap : MonoBehaviour
         size.y = tex.height;
         range = ((1 / size.x) * 10) / 2;
 
-        cityParent = transform.FindChild("CITY");
+        cityParent = transform.Find("CITY");
         DestroyImmediate(cityParent.gameObject);
         GameObject city = new GameObject("CITY");
         city.transform.position = transform.position;
@@ -204,7 +204,7 @@ public class SpawnFromMap : MonoBehaviour
         size.y = tex.height;
         range = ((1 / size.x) * 10) / 2;
 
-        cityParent = transform.FindChild("CITY");
+        cityParent = transform.Find("CITY");
         DestroyImmediate(cityParent.gameObject);
         GameObject city = new GameObject("CITY");
 		city.transform.position = transform.position;

@@ -2,11 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeityHealth : MonoBehaviour {
+/// <summary>
+/// Handles the health and behavior status of Deities. 
+/// </summary>
+public class DeityHealth : MonoBehaviour 
+{
+    Deity deity;
     DeityManager deityMan;
     DeitySound _Sounds;
     DeityAnimations _Animations;
-    [HideInInspector] public Deity deity;
+
+    public Deity MyDeity => deity;
+  
     MeshRenderer mRender; 
     MeshRenderer[] mRenderers;
 
@@ -103,8 +110,10 @@ public class DeityHealth : MonoBehaviour {
         healthState = HealthStates.FALLING;
         //invoke deity died event. 
         deityMan.deityDied.Invoke();
-        //remove from deity list 
-        deityMan.deities.Remove(this);
+        //remove from deity list TODO may not need this 
+        //deityMan.RemoveDeity(deity);
+        //Reactivate the deity dome
+        deityMan.WaitToActivateDome(3f, true);
         //stop strafing
         deity.SetFall();
         //alien sound 
@@ -130,6 +139,9 @@ public class DeityHealth : MonoBehaviour {
         exploded.Play();
         healthState = HealthStates.CRASHED;
         deity.SetCrash();
+
+        //Spawn the next deity in 3 sec
+        deityMan.WaitToSpawnDeity(3f);
     }
 
     //finds point below deity to move to 

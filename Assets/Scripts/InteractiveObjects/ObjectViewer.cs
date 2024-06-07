@@ -141,7 +141,7 @@ public class ObjectViewer : AudioHandler
 			RotateObject();
 			
 			// right click to stop viewing or circle button
-			if ( Input.GetMouseButtonDown(1) || inputDevice.Action2.WasPressed)
+			if ( Input.GetMouseButtonDown(1) || inputDevice.Action2.WasPressed || Input.GetKeyDown(KeyCode.Space))
 			{
 				StopViewing();
 			}

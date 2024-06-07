@@ -210,6 +210,7 @@ public class Hallucination : MonoBehaviour
 		if (deityMan != null)
 		{
 			deityMan.ResumeDeities();
+			deityMan.SpawnDeity();
 		}
 		
 		//yarn variable to save?
