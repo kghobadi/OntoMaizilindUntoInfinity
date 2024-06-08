@@ -87,7 +87,7 @@ public class Deity : MonoBehaviour {
         strafe = false;
 
         //zero vel
-        lastVelocity = deityBody.velocity;
+        lastVelocity = deityBody.velocity; //TODO find out why this is throwing error 
         deityBody.velocity = Vector3.zero;
     }
 
