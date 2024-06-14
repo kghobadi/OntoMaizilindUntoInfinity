@@ -206,10 +206,10 @@ public class Hallucination : MonoBehaviour
 			airPlayer.Activate();
 		}
 		
-		//deity resume
+		//deity spawn
 		if (deityMan != null)
 		{
-			deityMan.ResumeDeities();
+			//deityMan.ResumeDeities();
 			deityMan.SpawnDeity();
 		}
 		

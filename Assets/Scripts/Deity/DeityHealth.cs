@@ -40,6 +40,10 @@ public class DeityHealth : MonoBehaviour
     {
         deityMan = FindObjectOfType<DeityManager>();
         _Sounds = GetComponent<DeitySound>();
+        if(_Sounds == null)
+        {
+            _Sounds = GetComponentInParent<DeitySound>();
+        }
         _Animations = GetComponentInParent<DeityAnimations>();
         deity = GetComponentInParent<Deity>();
         mRender = GetComponent<MeshRenderer>();
