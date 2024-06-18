@@ -501,6 +501,18 @@ public class ThePilot : AudioHandler {
     {
         _Animations.Animator.SetFloat("Move X", horizontal);
         _Animations.Animator.SetFloat("Move Y", vertical);
+
+        //TODO dont love how i can see plane tilt when im at max/mins... below does not fix it though. 
+        //Only animate X within bounds 
+        //if (transform.position.x > xMin && transform.position.x < xMax)
+        //    _Animations.Animator.SetFloat("Move X", horizontal);
+        //else
+        //    _Animations.Animator.SetFloat("Move X", 0f);
+        ////Only animate Y within bounds 
+        //if (transform.position.y > heightMin && transform.position.y < heigtMax)
+        //    _Animations.Animator.SetFloat("Move Y", vertical);
+        //else
+        //    _Animations.Animator.SetFloat("Move Y", 0f);
     }
 
     public void SetZVelMax(float amount)

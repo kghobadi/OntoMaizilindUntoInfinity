@@ -5,69 +5,89 @@ using DG.Tweening;
 
 public class RailLandscape : MonoBehaviour
 {
+    [SerializeField]
+    private Transform[] rails;
     public Transform mountain1;
     public Transform mountain2;
     public Transform mountain3;
     public float speedInSeconds;
 
+    [SerializeField]
+    private float zInterval = 1000f;
+    private float startZ;
+
     //Change phase to change environment from mountains to city 
-    public int Phase = 0;
+    [SerializeField]
+    private int Phase = 0;
+    private int lastPhase;
     bool transition = false;
     public GameObject[] transitionTile;
 
     [ContextMenu("Start")]
     void Start()
     {
-        Move(mountain1, 0, Phase, 0);
-        Move(mountain2, 1, Phase, 1);
-        Move(mountain3, 2, Phase, 2);
+        MoveAllRails();
+        Move(mountain1, Phase, 0);
+        Move(mountain2, Phase, 1);
+        Move(mountain3, Phase, 2);
     }
 
-    float startZ;
-    void Move(Transform tr, int i, int phase, int Z)
+    public void SetPhase(int phase)
     {
-        if (phase != Phase && i != 0 && Z == 0 && transition)
-        {
-            tr.GetChild(phase).gameObject.SetActive(false);
-            tr.GetChild(Phase).gameObject.SetActive(true);
-            phase = Phase;
-        }
+        lastPhase = Phase;
+        Phase = phase;
+    }
 
-        if (phase != Phase && i == 0 && Z == 0)
+    /// <summary>
+    /// Moves all rails according to phase. 
+    /// </summary>
+    void MoveAllRails()
+    {
+        for(int i = 0; i < rails.Length; i++) 
         {
-            if (!transition)
+            Move(rails[i], Phase, i);
+        }
+    }
+ 
+    void Move(Transform tr, int phase, int railIndex)
+    {
+        //TODO sort out this transition logic so we can easily swap environments in a modular fashion. 
+        if (Phase != lastPhase && railIndex == 0)
+        {
+            if (transition)
+            {
+                tr.GetChild(lastPhase).gameObject.SetActive(false);
+                transitionTile[phase].SetActive(false);
+                tr.GetChild(Phase).gameObject.SetActive(true);
+
+                transition = false;
+            }
+            else
             {
                 transition = true;
                 tr.GetChild(phase).gameObject.SetActive(false);
                 transitionTile[phase].SetActive(true);
             }
-            else
-            {
-                transition = false;
-                transitionTile[phase].SetActive(false);
-                tr.GetChild(Phase).gameObject.SetActive(true);
-                phase = Phase;
-            }
         }
 
-        if (Z == 0)
+        if (railIndex == 0)
         {
             startZ = 3000;
-            Z++;
-        } else if (Z == 1)
+            railIndex++;
+        } else if (railIndex == 1)
         {
             startZ = 2000;
-            Z++;
+            railIndex++;
         }
-        else if (Z == 2)
+        else if (railIndex == 2)
         {
             startZ = 1000;
-            Z = 0;
+            railIndex = 0;
         }
 
         tr.localPosition = new Vector3(tr.localPosition.x, tr.localPosition.y, startZ);
         float ZAmount = startZ - 1000;
         print(ZAmount);
-        tr.DOLocalMoveZ(ZAmount, speedInSeconds).SetEase(Ease.Linear).OnComplete(() => Move(tr,i, phase, Z));
+        tr.DOLocalMoveZ(ZAmount, speedInSeconds).SetEase(Ease.Linear).OnComplete(() => Move(tr, Phase, railIndex));
     }
 }

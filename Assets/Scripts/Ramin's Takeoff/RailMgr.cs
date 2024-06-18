@@ -31,7 +31,7 @@ public class RailMgr : MonoBehaviour
     {
         foreach (var rail in railLandscapes)
         {
-            rail.Phase = phase;
+            rail.SetPhase(phase);
         }
     }
 }
