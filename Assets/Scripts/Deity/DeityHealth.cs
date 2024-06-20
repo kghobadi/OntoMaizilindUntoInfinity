@@ -33,6 +33,7 @@ public class DeityHealth : MonoBehaviour
     Vector3 crashPoint;
     public Material lifeMat, deathMat;
     public float fallSpeed;
+    private float zSpeed = 100f;
 
     public ParticleSystem exploded;
     public Hallucination deathHallucination;
@@ -146,9 +147,9 @@ public class DeityHealth : MonoBehaviour
         deity.SetCrash();
 
         //get final rest pos 
-        Vector3 finalRestPos = new Vector3(crashPoint.x, crashPoint.y, -200f); //TODO this didnt work for the envy squid. Is it crashing properly?
+        Vector3 finalRestPos = new Vector3(transform.position.x, transform.position.y, -500f); //TODO this didnt work for the envy squid. Is it crashing properly?
         //set deity to move with terrain 
-        deity.mover.MoveTo(finalRestPos, fallSpeed);
+        deity.mover.MoveTo(finalRestPos, zSpeed);
     }
 
     //finds point below deity to move to 
