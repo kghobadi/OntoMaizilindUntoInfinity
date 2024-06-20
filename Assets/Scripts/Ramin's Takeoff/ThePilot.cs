@@ -226,13 +226,16 @@ public class ThePilot : AudioHandler {
                         }
                     }
                 }
-                //click click 
+                //click click OUT OF AMMO - Trigger the apocalypse. 
                 else
                 {
                     PlaySoundRandomPitch(outOfAmmoClick, 1f);
 
-                    //this will need to be replaced by transition 
-                    triggerApocalypse.SetTrigger();
+                    if (!triggerApocalypse.hasTriggered)
+                    {
+                        //this will need to be replaced by transition 
+                        triggerApocalypse.SetTrigger();
+                    }
                 }
 
                 weaponsTimerL = firingIntervalL;
