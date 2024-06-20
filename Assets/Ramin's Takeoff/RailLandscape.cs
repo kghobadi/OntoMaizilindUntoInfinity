@@ -5,103 +5,77 @@ using DG.Tweening;
 
 public class RailLandscape : MonoBehaviour
 {
-    [SerializeField]
-    private Transform[] rails;
-    public float speedInSeconds;
-
-    [SerializeField]
-    private float zInterval = 1000f;
-    private float startZ;
+    public Transform mountain1;
+    public Transform mountain2;
+    public Transform mountain3;
+    public float speedInSeconds = 3.5f;
 
     //Change phase to change environment from mountains to city 
-    [SerializeField]
-    private int Phase = 0;
-    private int lastPhase;
+    public int Phase = 0;
+    //O for starting mountains
+    //1 for desert
+    //2 for city 
     bool transition = false;
     public GameObject[] transitionTile;
 
     [ContextMenu("Start")]
     void Start()
     {
-        MoveAllRails();
+        Move(mountain1, 0, Phase, 0);
+        Move(mountain2, 1, Phase, 1);
+        Move(mountain3, 2, Phase, 2);
     }
 
-    /// <summary>
-    /// Sets phase and updates move rails. 
-    /// </summary>
-    /// <param name="phase"></param>
-    public void SetPhase(int phase)
+    public void SetPhaseTransition(int phase)
     {
-        lastPhase = Phase;
         Phase = phase;
-
-        MoveAllRails();
     }
 
-    /// <summary>
-    /// Moves all rails according to phase. 
-    /// </summary>
-    void MoveAllRails()
+    float startZ;
+    void Move(Transform tr, int i, int phase, int Z)
     {
-        for(int i = 0; i < rails.Length; i++) 
+        if (phase != Phase && i != 0 && Z == 0 && transition)
         {
-            Move(rails[i], Phase, i);
+            tr.GetChild(phase).gameObject.SetActive(false);
+            tr.GetChild(Phase).gameObject.SetActive(true);
+            phase = Phase;
         }
-    }
- 
-    void Move(Transform tr, int phase, int railIndex)
-    {
-        //TODO sort out this transition logic so we can easily swap environments in a modular fashion. 
-        if (Phase != lastPhase)
-        {
-            if (railIndex == 0)
-            {
-                //Transitioning
-                if (transition)
-                {
-                    tr.GetChild(lastPhase).gameObject.SetActive(false);
-                    transitionTile[lastPhase].SetActive(false);
-                    tr.GetChild(Phase).gameObject.SetActive(true);
 
-                    transition = false;
-                }
-                //Have not transitioned but need to 
-                else
-                {
-                    transition = true;
-                    tr.GetChild(lastPhase).gameObject.SetActive(false);
-                    transitionTile[lastPhase].SetActive(true);
-                }
+        if (phase != Phase && i == 0 && Z == 0)
+        {
+            if (!transition)
+            {
+                transition = true;
+                tr.GetChild(phase).gameObject.SetActive(false);
+                transitionTile[phase].SetActive(true);
             }
             else
             {
-                if(transition)
-                {
-                    tr.GetChild(lastPhase).gameObject.SetActive(false);
-                    tr.GetChild(Phase).gameObject.SetActive(true);
-                    phase = Phase;
-                }
+                transition = false;
+                transitionTile[phase].SetActive(false);
+                tr.GetChild(Phase).gameObject.SetActive(true);
+                phase = Phase;
             }
         }
 
-        if (railIndex == 0)
+        if (Z == 0)
         {
             startZ = 3000;
-            railIndex++;
-        } else if (railIndex == 1)
+            Z++;
+        } else if (Z == 1)
         {
             startZ = 2000;
-            railIndex++;
+            Z++;
         }
-        else if (railIndex == 2)
+        else if (Z == 2)
         {
             startZ = 1000;
-            railIndex = 0;
+            Z = 0;
         }
 
         tr.localPosition = new Vector3(tr.localPosition.x, tr.localPosition.y, startZ);
         float ZAmount = startZ - 1000;
         print(ZAmount);
-        tr.DOLocalMoveZ(ZAmount, speedInSeconds).SetEase(Ease.Linear).OnComplete(() => Move(tr, Phase, railIndex));
+        tr.DOLocalMoveZ(ZAmount, speedInSeconds).SetEase(Ease.Linear).OnComplete(() => Move(tr,i, phase, Z));
     }
 }

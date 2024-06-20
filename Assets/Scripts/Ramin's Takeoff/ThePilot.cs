@@ -175,7 +175,6 @@ public class ThePilot : AudioHandler {
     {
         cockpit.SetActive(true);
         
-        
         yield return new WaitForSeconds(1.75f);
         
         planeRender.enabled = false;
