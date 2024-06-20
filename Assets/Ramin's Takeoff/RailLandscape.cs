@@ -7,9 +7,6 @@ public class RailLandscape : MonoBehaviour
 {
     [SerializeField]
     private Transform[] rails;
-    public Transform mountain1;
-    public Transform mountain2;
-    public Transform mountain3;
     public float speedInSeconds;
 
     [SerializeField]
@@ -27,15 +24,18 @@ public class RailLandscape : MonoBehaviour
     void Start()
     {
         MoveAllRails();
-        Move(mountain1, Phase, 0);
-        Move(mountain2, Phase, 1);
-        Move(mountain3, Phase, 2);
     }
 
+    /// <summary>
+    /// Sets phase and updates move rails. 
+    /// </summary>
+    /// <param name="phase"></param>
     public void SetPhase(int phase)
     {
         lastPhase = Phase;
         Phase = phase;
+
+        MoveAllRails();
     }
 
     /// <summary>
@@ -52,21 +52,35 @@ public class RailLandscape : MonoBehaviour
     void Move(Transform tr, int phase, int railIndex)
     {
         //TODO sort out this transition logic so we can easily swap environments in a modular fashion. 
-        if (Phase != lastPhase && railIndex == 0)
+        if (Phase != lastPhase)
         {
-            if (transition)
+            if (railIndex == 0)
             {
-                tr.GetChild(lastPhase).gameObject.SetActive(false);
-                transitionTile[phase].SetActive(false);
-                tr.GetChild(Phase).gameObject.SetActive(true);
+                //Transitioning
+                if (transition)
+                {
+                    tr.GetChild(lastPhase).gameObject.SetActive(false);
+                    transitionTile[lastPhase].SetActive(false);
+                    tr.GetChild(Phase).gameObject.SetActive(true);
 
-                transition = false;
+                    transition = false;
+                }
+                //Have not transitioned but need to 
+                else
+                {
+                    transition = true;
+                    tr.GetChild(lastPhase).gameObject.SetActive(false);
+                    transitionTile[lastPhase].SetActive(true);
+                }
             }
             else
             {
-                transition = true;
-                tr.GetChild(phase).gameObject.SetActive(false);
-                transitionTile[phase].SetActive(true);
+                if(transition)
+                {
+                    tr.GetChild(lastPhase).gameObject.SetActive(false);
+                    tr.GetChild(Phase).gameObject.SetActive(true);
+                    phase = Phase;
+                }
             }
         }
 
