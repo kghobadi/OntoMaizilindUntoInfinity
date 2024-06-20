@@ -146,7 +146,7 @@ public class DeityHealth : MonoBehaviour
         deity.SetCrash();
 
         //get final rest pos 
-        Vector3 finalRestPos = new Vector3(crashPoint.x, crashPoint.y, -200f);
+        Vector3 finalRestPos = new Vector3(crashPoint.x, crashPoint.y, -200f); //TODO this didnt work for the envy squid. Is it crashing properly?
         //set deity to move with terrain 
         deity.mover.MoveTo(finalRestPos, fallSpeed);
     }
