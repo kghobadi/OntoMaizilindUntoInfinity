@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class LoadingScreenManager : MonoBehaviour
 {
-
-    [Header("Loading Visuals")]
+    [Header("Loading Visuals")] 
+    [SerializeField]
+    private bool useLoadUi;
     public Image loadingIcon;
     public Image loadingDoneIcon;
     public Text loadingText;
@@ -30,7 +31,7 @@ public class LoadingScreenManager : MonoBehaviour
 
     public static int sceneToLoad = -1;
     // IMPORTANT! This is the build index of your loading scene. You need to change this to match your actual scene index
-    static int loadingSceneIndex = 6;
+    static int loadingSceneIndex = 7;
 
     public static void LoadScene(int levelNum)
     {
@@ -106,19 +107,23 @@ public class LoadingScreenManager : MonoBehaviour
 
     void FadeIn()
     {
-        fadeOverlay.CrossFadeAlpha(0, fadeDuration, true);
+        if(fadeOverlay)
+            fadeOverlay.CrossFadeAlpha(0, fadeDuration, true);
     }
 
     void FadeOut()
-    {
-        fadeOverlay.CrossFadeAlpha(1, fadeDuration, true);
+    {  
+        if(fadeOverlay)
+            fadeOverlay.CrossFadeAlpha(1, fadeDuration, true);
     }
 
     void ShowLoadingVisuals()
     {
+        if (!useLoadUi)
+            return;
+        
         loadingIcon.gameObject.SetActive(true);
         loadingDoneIcon.gameObject.SetActive(false);
-        //transform.Rotate(Vector3.forward, 1);
 
         progressBar.fillAmount = 0f;
         loadingText.text = "LOADING...";
@@ -126,11 +131,13 @@ public class LoadingScreenManager : MonoBehaviour
 
     void ShowCompletionVisuals()
     {
+        if (!useLoadUi)
+            return;
+        
         loadingIcon.gameObject.SetActive(false);
         loadingDoneIcon.gameObject.SetActive(true);
 
         progressBar.fillAmount = 1f;
         loadingText.text = "LOADING DONE";
     }
-
 }

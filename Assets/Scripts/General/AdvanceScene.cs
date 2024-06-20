@@ -65,14 +65,16 @@ public class AdvanceScene : MonoBehaviour
 
     public void LoadPreviousScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-        
-        onSceneLoad.Invoke();
+        LoadSceneMgr(SceneManager.GetActiveScene().buildIndex - 1);
     }
 
     public void LoadNextScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        LoadSceneMgr(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+    public void LoadSceneMgr(int sceneIndex)
+    {
+        LoadingScreenManager.LoadScene(sceneIndex);
         
         onSceneLoad.Invoke();
     }
