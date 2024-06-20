@@ -46,6 +46,12 @@ public class DeityManager : MonoBehaviour
     /// </summary>
     public void SpawnDeity()
     {
+        //Spawn wrath at the outset. We will helplessly watch it destroy the city. 
+        if(currentDeity == 0)
+        {
+            deities[6].gameObject.SetActive(true);
+        }
+
         //set deity active
         deities[currentDeity].gameObject.SetActive(true);
         //set pos to match deityDome

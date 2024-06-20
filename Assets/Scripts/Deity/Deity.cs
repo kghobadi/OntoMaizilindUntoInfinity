@@ -87,8 +87,11 @@ public class Deity : MonoBehaviour {
         strafe = false;
 
         //zero vel
-        lastVelocity = deityBody.velocity;
-        deityBody.velocity = Vector3.zero;
+        if (deityBody != null && gameObject.activeSelf)
+        {
+            lastVelocity = deityBody.velocity; //TODO find out why this is throwing error 
+            deityBody.velocity = Vector3.zero;
+        }
     }
 
     public void ResumeMovement()
@@ -97,7 +100,10 @@ public class Deity : MonoBehaviour {
         strafe = true;
 
         //return to last vel
-        deityBody.velocity = lastVelocity;
+        if(deityBody != null && gameObject.activeSelf)
+        {
+            deityBody.velocity = lastVelocity;
+        }
     }
 
     public void SetForwardSpeed(float speed)

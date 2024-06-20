@@ -8,7 +8,7 @@ public class DeitySound : AudioHandler {
     public AudioClip[] alienWails;
     public AudioClip[] deathSounds;
 
-    private void Start()
+    private void OnEnable()
     {
         PlayRandomSoundRandomPitch(alienWails, myAudioSource.volume);
     }
