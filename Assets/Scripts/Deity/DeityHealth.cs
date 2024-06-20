@@ -145,9 +145,10 @@ public class DeityHealth : MonoBehaviour
         healthState = HealthStates.CRASHED;
         deity.SetCrash();
 
-        //TODO this should be done at the end of halluc
-        //Spawn the next deity in 3 sec
-        //deityMan.WaitToSpawnDeity(3f);
+        //get final rest pos 
+        Vector3 finalRestPos = new Vector3(crashPoint.x, crashPoint.y, -200f);
+        //set deity to move with terrain 
+        deity.mover.MoveTo(finalRestPos, fallSpeed);
     }
 
     //finds point below deity to move to 
