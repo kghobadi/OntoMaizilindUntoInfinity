@@ -8,10 +8,13 @@ public class RailLandscape : MonoBehaviour
     public Transform mountain1;
     public Transform mountain2;
     public Transform mountain3;
-    public float speedInSeconds;
+    public float speedInSeconds = 3.5f;
 
     //Change phase to change environment from mountains to city 
     public int Phase = 0;
+    //O for starting mountains
+    //1 for desert
+    //2 for city 
     bool transition = false;
     public GameObject[] transitionTile;
 
@@ -21,6 +24,11 @@ public class RailLandscape : MonoBehaviour
         Move(mountain1, 0, Phase, 0);
         Move(mountain2, 1, Phase, 1);
         Move(mountain3, 2, Phase, 2);
+    }
+
+    public void SetPhaseTransition(int phase)
+    {
+        Phase = phase;
     }
 
     float startZ;

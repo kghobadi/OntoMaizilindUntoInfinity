@@ -122,6 +122,7 @@ public class Hallucination : MonoBehaviour
 		if (deityMan != null)
 		{
 			deityMan.FreezeDeities();
+			deityMan.ToggleDeityVisions(true);
 		}
 		
 		//enable hallucination objects
@@ -206,10 +207,11 @@ public class Hallucination : MonoBehaviour
 			airPlayer.Activate();
 		}
 		
-		//deity resume
+		//deity spawn
 		if (deityMan != null)
 		{
-			deityMan.ResumeDeities();
+			//deityMan.ResumeDeities();
+			deityMan.ToggleDeityVisions(false);
 			deityMan.SpawnDeity();
 		}
 		

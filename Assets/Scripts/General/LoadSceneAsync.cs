@@ -110,4 +110,16 @@ public class LoadSceneAsync : NonInstantiatingSingleton<LoadSceneAsync>
         else
             asyncOperation.allowSceneActivation = true;
     }
+
+    #region Loading Screen Calls
+    public void LoadNextScene()
+    {
+        LoadSceneMgr(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+    public void LoadSceneMgr(int sceneIndex)
+    {
+        LoadingScreenManager.LoadScene(sceneIndex);
+    }
+
+    #endregion
 }

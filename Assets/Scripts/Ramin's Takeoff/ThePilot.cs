@@ -175,7 +175,6 @@ public class ThePilot : AudioHandler {
     {
         cockpit.SetActive(true);
         
-        
         yield return new WaitForSeconds(1.75f);
         
         planeRender.enabled = false;
@@ -226,13 +225,16 @@ public class ThePilot : AudioHandler {
                         }
                     }
                 }
-                //click click 
+                //click click OUT OF AMMO - Trigger the apocalypse. 
                 else
                 {
                     PlaySoundRandomPitch(outOfAmmoClick, 1f);
 
-                    //this will need to be replaced by transition 
-                    triggerApocalypse.SetTrigger();
+                    if (!triggerApocalypse.hasTriggered)
+                    {
+                        //this will need to be replaced by transition 
+                        triggerApocalypse.SetTrigger();
+                    }
                 }
 
                 weaponsTimerL = firingIntervalL;
@@ -501,6 +503,18 @@ public class ThePilot : AudioHandler {
     {
         _Animations.Animator.SetFloat("Move X", horizontal);
         _Animations.Animator.SetFloat("Move Y", vertical);
+
+        //TODO dont love how i can see plane tilt when im at max/mins... below does not fix it though. 
+        //Only animate X within bounds 
+        //if (transform.position.x > xMin && transform.position.x < xMax)
+        //    _Animations.Animator.SetFloat("Move X", horizontal);
+        //else
+        //    _Animations.Animator.SetFloat("Move X", 0f);
+        ////Only animate Y within bounds 
+        //if (transform.position.y > heightMin && transform.position.y < heigtMax)
+        //    _Animations.Animator.SetFloat("Move Y", vertical);
+        //else
+        //    _Animations.Animator.SetFloat("Move Y", 0f);
     }
 
     public void SetZVelMax(float amount)

@@ -130,7 +130,6 @@ public class Deity : MonoBehaviour {
         //disable death particles 
         deathTendrils.Stop();
         //disable movement
-        mover.enabled = false;
         FreezeMovement();
     }
     

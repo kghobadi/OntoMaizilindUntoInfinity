@@ -14,6 +14,8 @@ public class DeityManager : MonoBehaviour
 {
     [SerializeField]
     private List<Deity> deities = new List<Deity>();
+    [SerializeField][Tooltip("For showing next deities in Hallucs")]
+    private List<GameObject> deityVisions = new List<GameObject>();
     [SerializeField]
     private int currentDeity = 0;
     [SerializeField]
@@ -46,6 +48,12 @@ public class DeityManager : MonoBehaviour
     /// </summary>
     public void SpawnDeity()
     {
+        //Spawn wrath at the outset. We will helplessly watch it destroy the city. 
+        if(currentDeity == 0)
+        {
+            deities[6].gameObject.SetActive(true);
+        }
+
         //set deity active
         deities[currentDeity].gameObject.SetActive(true);
         //set pos to match deityDome
@@ -61,6 +69,18 @@ public class DeityManager : MonoBehaviour
         else
         {
             Debug.Log("That's all the deities!");
+        }
+    }
+
+    /// <summary>
+    /// Toggles on or off deity visions for Hallucs. 
+    /// </summary>
+    /// <param name="state"></param>
+    public void ToggleDeityVisions(bool state)
+    {
+        for(int i = currentDeity; i < 6; i++)
+        {
+            deityVisions[i].SetActive(state);
         }
     }
 

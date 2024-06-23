@@ -269,7 +269,7 @@ public class LerpMaterial : MonoBehaviour {
         {
             if (LoadSceneAsync.Instance != null)
             {
-                LoadSceneAsync.Instance.TransitionImmediate();
+                LoadSceneAsync.Instance.LoadNextScene();
             }
             else
             {

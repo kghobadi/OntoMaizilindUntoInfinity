@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Handles the health and behavior status of Deities. 
@@ -32,6 +33,7 @@ public class DeityHealth : MonoBehaviour
     Vector3 crashPoint;
     public Material lifeMat, deathMat;
     public float fallSpeed;
+    private float zSpeed = 100f;
 
     public ParticleSystem exploded;
     public Hallucination deathHallucination;
@@ -40,6 +42,10 @@ public class DeityHealth : MonoBehaviour
     {
         deityMan = FindObjectOfType<DeityManager>();
         _Sounds = GetComponent<DeitySound>();
+        if(_Sounds == null)
+        {
+            _Sounds = GetComponentInParent<DeitySound>();
+        }
         _Animations = GetComponentInParent<DeityAnimations>();
         deity = GetComponentInParent<Deity>();
         mRender = GetComponent<MeshRenderer>();
@@ -60,7 +66,7 @@ public class DeityHealth : MonoBehaviour
         if(other.tag == "Bullet")
         {
             //take damage
-            TakeDamage(other.gameObject);
+            TakeDamage(other.gameObject, 1);
         }
 
         if(other.tag == "Ground")
@@ -70,7 +76,7 @@ public class DeityHealth : MonoBehaviour
         }
     }
 
-    void TakeDamage(GameObject bull)
+    public void TakeDamage(GameObject bull, int dmgAmt)
     {
         //get bullet
         Bullet bullet = bull.GetComponent<Bullet>();
@@ -84,7 +90,7 @@ public class DeityHealth : MonoBehaviour
         //reset bullet
         bullet.ResetBullet(transform);
         //sub health
-        healthPoints--;
+        healthPoints-= dmgAmt;
         //explosion sound 
         int voiceToCheck = _Sounds.CountUpArray(_Sounds.voiceCounter, _Sounds.voices.Length - 1);
         if(_Sounds.voices[voiceToCheck].isPlaying == false)
@@ -140,9 +146,10 @@ public class DeityHealth : MonoBehaviour
         healthState = HealthStates.CRASHED;
         deity.SetCrash();
 
-        //TODO this should be done at the end of halluc
-        //Spawn the next deity in 3 sec
-        //deityMan.WaitToSpawnDeity(3f);
+        //get final rest pos 
+        Vector3 finalRestPos = new Vector3(transform.position.x, transform.position.y, -500f); //TODO this didnt work for the envy squid. Is it crashing properly?
+        //set deity to move with terrain 
+        deity.mover.MoveTo(finalRestPos, zSpeed);
     }
 
     //finds point below deity to move to 
