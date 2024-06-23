@@ -24,6 +24,7 @@ public class Hallucination : MonoBehaviour
 
 	[Header("Camera Transitions")] 
 	public bool playOnStart;
+	private float hallucWait = 2f;
 	public Camera renderCam;
 	private PostProcessingBehaviour hallucCamBehavior;
 	private GroundCamera camMover;
@@ -91,12 +92,23 @@ public class Hallucination : MonoBehaviour
 
 	public void PlayHallucination()
 	{
-		StartCoroutine(WaitToStartHallucination());
+		StartCoroutine(WaitToStartHallucination(hallucWait));
 	}
 
-	IEnumerator WaitToStartHallucination()
+	IEnumerator WaitToStartHallucination(float wait)
 	{
-		yield return new WaitForSeconds(1f);
+        //pilot stuff
+        if (pilot)
+        {
+            //disable controls 
+            pilot.DisableControls();
+            //set first person
+            pilot.SetFPView();
+            //freeze movements
+            pilot.FreezeMovement();
+        }
+
+        yield return new WaitForSeconds(wait);
 
 		//start it 
 		StartHallucination();
@@ -104,14 +116,6 @@ public class Hallucination : MonoBehaviour
 
 	public void StartHallucination()
 	{
-		//pilot stuff
-		if (pilot)
-		{
-			//disable controls 
-			pilot.DisableControls();
-			//freeze movements
-			pilot.FreezeMovement();
-		}
 		//air player
 		if (airPlayer)
 		{
@@ -198,8 +202,10 @@ public class Hallucination : MonoBehaviour
 		{
 			//enable controls
 			pilot.EnableControls();
-			//resume movements
-			pilot.ResumeMovement();
+            //set third person
+            pilot.SetTPView();
+            //resume movements
+            pilot.ResumeMovement();
 		}
 		//air player
 		if (airPlayer)

@@ -69,7 +69,7 @@ public class DeityHealth : MonoBehaviour
             TakeDamage(other.gameObject, 1);
         }
 
-        if(other.tag == "Ground")
+        if(other.tag == "Ground" && healthState == HealthStates.FALLING)
         {
             //crash
             Crash();

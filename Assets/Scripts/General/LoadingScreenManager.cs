@@ -45,7 +45,8 @@ public class LoadingScreenManager : MonoBehaviour
         if (sceneToLoad < 0)
             return;
 
-        fadeOverlay.gameObject.SetActive(true); // Making sure it's on so that we can crossfade Alpha
+        if (fadeOverlay)
+            fadeOverlay.gameObject.SetActive(true); // Making sure it's on so that we can crossfade Alpha
         currentScene = SceneManager.GetActiveScene();
         StartCoroutine(LoadAsync(sceneToLoad));
     }
@@ -68,7 +69,11 @@ public class LoadingScreenManager : MonoBehaviour
 
             if (Mathf.Approximately(operation.progress, lastProgress) == false)
             {
-                progressBar.fillAmount = operation.progress;
+                if(useLoadUi)
+                {
+                    progressBar.fillAmount = operation.progress;
+                }
+              
                 lastProgress = operation.progress;
             }
         }

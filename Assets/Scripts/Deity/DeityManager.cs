@@ -21,25 +21,18 @@ public class DeityManager : MonoBehaviour
     [SerializeField]
     private GameObject deityDome;
 
-    public DeityHealth[] firstLayerDeities;
-    public DeityHealth[] secondLayerDeities;
-
-    public bool firstLayerDestroyed;
-    public UnityEvent firstLayer;
-    public bool secondLayerDestroyed;
-    public UnityEvent secondLayer;
     public UnityEvent deityDied;
 
     private void OnEnable()
     {
         //add event listeners 
-        deityDied.AddListener(OnDeityDied);
+        //deityDied.AddListener(OnDeityDied);
     }
 
     private void OnDisable()
     {
         //remove event listeners 
-        deityDied.RemoveListener(OnDeityDied);
+        //deityDied.RemoveListener(OnDeityDied);
     }
 
 
@@ -117,32 +110,6 @@ public class DeityManager : MonoBehaviour
         action.Invoke();
     }
 
-    /// <summary>
-    /// Every time a deity dies, detect if a layer was defeated.
-    /// </summary>
-    void OnDeityDied()
-    {
-        //first layer destroyed 
-        if(DetectDeitiesDestroyed(firstLayerDeities))
-        {
-            if(firstLayerDestroyed == false)
-            {
-                firstLayer.Invoke();
-                firstLayerDestroyed = true;
-            }
-        }
-
-        //second layer destroyed
-        if(DetectDeitiesDestroyed(secondLayerDeities))
-        {
-            if (secondLayerDestroyed == false)
-            {
-                secondLayer.Invoke();
-                secondLayerDestroyed = true;
-            }
-        }
-    }
-
     public bool DetectDeitiesDestroyed(DeityHealth[] deityLayer)
     {
         foreach (var deity in deityLayer)
@@ -174,17 +141,6 @@ public class DeityManager : MonoBehaviour
         }
     }
 
-    public void PlayHallucination(Hallucination hallucination)
-    {
-        //play it
-    }
-
-    //for channeling explosion sounds
-    public void PlaySoundFromRandomDeity()
-    {
-        
-    }
-
     /// <summary>
     /// Removes a deity from our list. 
     /// </summary>
@@ -193,5 +149,4 @@ public class DeityManager : MonoBehaviour
     {
         deities.Remove(deity);
     }
-
 }
