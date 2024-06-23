@@ -14,6 +14,7 @@ public class ThePilot : AudioHandler {
     [Header("Movement & Inputs")]
     public float moveSpeed;
     public float strafeSpeed = 125f;
+    public float barrelRollForce = 5000f;
     public float maxVelocityZ = 125f;
     public float maxVelocityZfight = 95f;
     public float maxVelocityZspeedUp = 125f;
@@ -23,6 +24,7 @@ public class ThePilot : AudioHandler {
     public bool controlsActive = true;
     public bool movementFrozen;
     public bool countingBullets;
+    private bool barrelRoll;
     public float keyboardLerp = 5f;
     public float controllerLerp = 5f;
     public float smoothTime = 0.5f;
@@ -189,9 +191,8 @@ public class ThePilot : AudioHandler {
         //get input device 
         var inputDevice = InputManager.ActiveDevice;
 
-        //fire on space 
-        if (Input.GetKey(KeyCode.Space) || inputDevice.Action1
-         || Input.GetMouseButton(0) || inputDevice.LeftTrigger || inputDevice.LeftBumper
+        //fire weapons inputs
+        if (Input.GetMouseButton(0) || inputDevice.LeftTrigger || inputDevice.LeftBumper
          || Input.GetMouseButton(1) || inputDevice.RightTrigger || inputDevice.RightBumper)
         {
             //check can fire 
@@ -371,6 +372,12 @@ public class ThePilot : AudioHandler {
             if (inputDevice.LeftStickX != 0)
             {
                 horizontal = Mathf.Lerp(horizontal, inputDevice.LeftStickX, Time.deltaTime *  controllerLerp);
+
+                //Barrel roll only possible with horizontal inputs
+                if (inputDevice.Action1)
+                {
+                    barrelRoll = true;
+                }
             }
             else
             {
@@ -386,6 +393,7 @@ public class ThePilot : AudioHandler {
             {
                 vertical = Mathf.MoveTowards(vertical, 0, Time.deltaTime * controllerLerp);
             }
+
         }
         //keyboard
         else
@@ -396,6 +404,12 @@ public class ThePilot : AudioHandler {
             {
                 horizontal = Mathf.Lerp(horizontal, Input.GetAxis("Horizontal"), Time.deltaTime *  keyboardLerp) ;
                 //horizontal = Mathf.SmoothDamp(horizontal, Input.GetAxis("Horizontal"), ref keyboardLerp, smoothTime);
+
+                //Barrel roll only possible with horizontal inputs
+                if (Input.GetKey(KeyCode.Space))
+                {
+                    barrelRoll = true;
+                }
             }
             else
             {
@@ -452,6 +466,14 @@ public class ThePilot : AudioHandler {
         else if(horizontal == 0)
         {
             planeBody.velocity = new Vector3(0, planeBody.velocity.y, planeBody.velocity.z);
+        }
+
+        //Exhume barrel roll
+        if (barrelRoll)
+        {
+            planeBody.AddForce(new Vector3(barrelRollForce * horizontal, 0, 0), ForceMode.Impulse);
+            _Animations.Animator.SetTrigger("barrelRoll");
+            barrelRoll = false;
         }
 
         //Vertical
