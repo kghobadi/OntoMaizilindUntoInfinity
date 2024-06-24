@@ -11,7 +11,8 @@ public class Lightning : AudioHandler {
     public AudioClip[] thunderStrikes;
     public float zappingDist = 15f;
 
-    public float lightningTimer, lightningFreq = 15f;
+    public float lightningTimer;
+    public Vector2 lightningFreqRange = new Vector2(5, 15);
     public bool lightningCloud;
     public float lightningChance = 33f;
 
@@ -42,7 +43,7 @@ public class Lightning : AudioHandler {
 
     void Start ()
     {
-        lightningTimer = lightningFreq + Random.Range(-10, 0);
+        lightningTimer = Random.Range(lightningFreqRange.x, lightningFreqRange.y);
     }
 	
 	void Update ()
@@ -66,10 +67,10 @@ public class Lightning : AudioHandler {
         //sound
         PlayRandomSoundRandomPitch(thunderStrikes, 1f);
         //reset timer
-        lightningTimer = lightningFreq + Random.Range(-10, 10);
+        lightningTimer = Random.Range(lightningFreqRange.x, lightningFreqRange.y);
 
         //check dist from player
-        if(pilot)
+        if (pilot)
             distFromPlayer = Vector3.Distance(transform.position, pilot.position);
         
         //disable player controls when close

@@ -71,6 +71,4 @@ public class Cloud : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, hit.point + new Vector3(0, heightFromZero, 0), 5 * Time.deltaTime);
         }
     }
-    
-
 }
