@@ -41,6 +41,7 @@ public class ThePilot : AudioHandler {
     public FadeUI[] weaponsControlFades;
 
     public bool useLockOnTargeting;
+    [SerializeField]
     private Transform threeDTarget;
     private FollowPilot targetFollow;
     public Transform lockOnTarget;
@@ -69,7 +70,6 @@ public class ThePilot : AudioHandler {
         bText.text = bulletCount.ToString();
         SwitchViews(false);
         //set up targeting system
-        threeDTarget = GameObject.FindGameObjectWithTag("Target").transform;
         targetFollow = threeDTarget.GetComponent<FollowPilot>();
     }
     
@@ -468,7 +468,7 @@ public class ThePilot : AudioHandler {
             planeBody.velocity = new Vector3(0, planeBody.velocity.y, planeBody.velocity.z);
         }
 
-        //Exhume barrel roll
+        //Exhume barrel roll -- TODO should block new barrel rolls during barrel roll? 
         if (barrelRoll)
         {
             planeBody.AddForce(new Vector3(barrelRollForce * horizontal, 0, 0), ForceMode.Impulse);
@@ -525,6 +525,8 @@ public class ThePilot : AudioHandler {
     {
         _Animations.Animator.SetFloat("Move X", horizontal);
         _Animations.Animator.SetFloat("Move Y", vertical);
+
+        //TODO should use values between -1 and 1 based on the actual Velocity of the plane, rather than the Input value to animate. 
 
         //TODO dont love how i can see plane tilt when im at max/mins... below does not fix it though. 
         //Only animate X within bounds 

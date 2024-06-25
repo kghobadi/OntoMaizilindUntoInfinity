@@ -75,7 +75,7 @@ public class RailLandscape : MonoBehaviour
 
         tr.localPosition = new Vector3(tr.localPosition.x, tr.localPosition.y, startZ);
         float ZAmount = startZ - 1000;
-        print(ZAmount);
+        //print(ZAmount);
         tr.DOLocalMoveZ(ZAmount, speedInSeconds).SetEase(Ease.Linear).OnComplete(() => Move(tr,i, phase, Z));
     }
 }
