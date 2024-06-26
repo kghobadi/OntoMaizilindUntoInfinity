@@ -21,6 +21,8 @@ public class DeityManager : MonoBehaviour
     [SerializeField]
     private GameObject deityDome;
 
+    public Deity CurrentDeity => deities[currentDeity - 1];
+
     public UnityEvent deityDied;
 
     private void OnEnable()
@@ -47,10 +49,20 @@ public class DeityManager : MonoBehaviour
             deities[6].gameObject.SetActive(true);
         }
 
-        //set deity active
-        deities[currentDeity].gameObject.SetActive(true);
-        //set pos to match deityDome
-        deities[currentDeity].transform.position = deityDome.transform.position;
+        //Move the final deity towards the dome - quickly 
+        if(currentDeity == 6)
+        {
+            deities[currentDeity].mover.MoveTo(deityDome.transform.position, 135f);
+        }
+        //Activate this deity at the dome position 
+        else
+        {
+            //set deity active
+            deities[currentDeity].gameObject.SetActive(true);
+            //set pos to match deityDome
+            deities[currentDeity].transform.position = deityDome.transform.position;
+        }
+      
 
         //Wait to disable the dome
         WaitToActivateDome(5f, false);

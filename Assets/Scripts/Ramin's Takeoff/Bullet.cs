@@ -9,7 +9,8 @@ public class Bullet : MonoBehaviour {
     public float speedOverTime = 10f;
     public float origSpeed;
 
-    public Vector3 shotPos;
+    private Vector3 shotPos;
+    private Vector3 targetPos;
     public float shotDist = 500f;
     public PooledObject pooledObj;
 
@@ -18,7 +19,7 @@ public class Bullet : MonoBehaviour {
 
     void Awake()
     {
-        pilot = GameObject.FindGameObjectWithTag("Player").GetComponent<ThePilot>();
+        pilot = FindObjectOfType<ThePilot>();
         bulletTrail = GetComponent<TrailRenderer>();
     }
 
@@ -30,10 +31,22 @@ public class Bullet : MonoBehaviour {
         origSpeed = bulletSpeed;
     }
 
+    /// <summary>
+    /// Guns fire the bullet at the target.
+    /// </summary>
+    /// <param name="shot"></param>
+    /// <param name="target"></param>
+    public void ShootBulletAtTarget(Vector3 shot, Vector3 target)
+    {
+        shotPos = shot; 
+        targetPos = target + new Vector3(0, 0, shotDist + 100f);
+    }
+
     void Update () 
     {
         //move forward on Z axis 
-        transform.position = Vector3.MoveTowards(transform.position, shotPos + new Vector3(0, 0, shotDist + 100f), bulletSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, targetPos, bulletSpeed * Time.deltaTime);
+        //Increase speed over time 
         bulletSpeed += speedOverTime;
 
         //return to pool once it has traveled too far 
@@ -68,7 +81,7 @@ public class Bullet : MonoBehaviour {
         bulletTrail.Clear();
 
         //lock on check for the Deity transforms 
-        if (Deity != null)
+        if (Deity != null && pilot.useLockOnTargeting)
         {
             pilot.LockOnToTarget(Deity);
         }

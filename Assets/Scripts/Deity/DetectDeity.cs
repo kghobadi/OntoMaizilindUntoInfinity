@@ -8,6 +8,8 @@ using UnityEngine.Events;
 /// </summary>
 public class DetectDeity : MonoBehaviour
 {
+    private ThePilot pilot;
+    private DeityManager m_Manager;
     [SerializeField]
     private LayerMask deityMask;
 
@@ -19,9 +21,18 @@ public class DetectDeity : MonoBehaviour
     [SerializeField]
     private Sprite[] inactive;
 
+    private void Awake()
+    {
+        pilot = FindObjectOfType<ThePilot>();
+        m_Manager = FindObjectOfType<DeityManager>();
+    }
+
     void Update()
     {
         RaycastForward();
+
+        //TODO in order to create mouse input, would need to plug into FollowPilot or override it on XY.
+        //I think creating a modular override would be good. 
     }
 
     /// <summary>
@@ -30,11 +41,30 @@ public class DetectDeity : MonoBehaviour
     void RaycastForward()
     {
         RaycastHit hit;
-        Vector3 fwd = transform.TransformDirection(Vector3.forward);
         //check for deity hit
-        if (Physics.Raycast(transform.position, fwd, out hit, Mathf.Infinity, deityMask))
+        if (Physics.Raycast(transform.position, Vector3.forward, out hit, Mathf.Infinity, deityMask))
         {
-            SetSprites(active);
+            Debug.Log(hit.transform.gameObject.name);
+            //Check for deity health
+            DeityHealth deityHealth = hit.transform.GetComponent<DeityHealth>();
+            //Is it the current deity?
+            if (deityHealth != null && m_Manager.CurrentDeity.DeityHealth == deityHealth)
+            {
+                SetSprites(active);
+            }
+            //Check for deity body part 
+            else if(deityHealth == null)
+            {
+                DeityBodyPart deityBodyPart = hit.transform.GetComponent<DeityBodyPart>();
+                if(deityBodyPart != null && m_Manager.CurrentDeity.DeityHealth ==  deityBodyPart.DeityHealth )
+                {
+                    SetSprites(active);
+                }
+                else
+                {
+                    SetSprites(inactive);
+                }
+            }
         }
         //No hit 
         else

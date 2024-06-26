@@ -71,12 +71,27 @@ public class Lightning : AudioHandler {
 
         //check dist from player
         if (pilot)
-            distFromPlayer = Vector3.Distance(transform.position, pilot.position);
-        
-        //disable player controls when close
-        if(distFromPlayer < zappingDist)
         {
-            the_Pilot.InitiateZap();
+            distFromPlayer = Vector3.Distance(transform.position, pilot.position);
+
+            //ZAP method #1
+            //disable player controls when close
+            if (distFromPlayer < zappingDist)
+            {
+                the_Pilot.InitiateZap();
+            }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (myAudioSource.isPlaying)
+        {
+            //ZAP method #2
+            if (other.gameObject.CompareTag("Player"))
+            {
+                the_Pilot.InitiateZap();
+            }
         }
     }
 }

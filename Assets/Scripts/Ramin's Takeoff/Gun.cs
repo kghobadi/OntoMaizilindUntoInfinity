@@ -9,14 +9,27 @@ public class Gun : AudioHandler {
 
     public Transform floatingTarget;
 	
+    /// <summary>
+    /// L mouse spawns these from ThePilot 
+    /// </summary>
     public void SpawnBullet()
     {
         PlaySoundRandomPitch(fireWeapon, 1f);
 
         GameObject bullet = bulletPooler.GrabObject();
         bullet.transform.position = transform.position;
-        Vector3 shot = new Vector3(transform.position.x, floatingTarget.position.y, transform.position.z);
-        bullet.GetComponent<Bullet>().shotPos = shot;
-        bullet.GetComponent<Bullet>().bulletTrail.Clear();
+        //TODO beginning shot pos this way doesn't allow us to target different spots at all. 
+        //We would need to make shooting about setting a destination from the starting point based on where floating target is 
+        Bullet bulletScript = bullet.GetComponent<Bullet>();
+        bulletScript.ShootBulletAtTarget(transform.position, floatingTarget.position);
+        bulletScript.bulletTrail.Clear();
+    }
+
+    //TODO can create missle system here that uses right click
+    public void SpawnMissle()
+    {
+        // sound
+        //create pooler and effect for it.
+        // should be way faster and bigger than bullet 
     }
 }
