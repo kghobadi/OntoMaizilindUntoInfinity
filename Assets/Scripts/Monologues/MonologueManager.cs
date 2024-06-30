@@ -29,6 +29,9 @@ public class MonologueManager : MonoBehaviour
     [Tooltip("if there is a background for speaking text")]
     public FadeUI textBack;
     AnimateDialogue animateTextback;
+    [Tooltip("if there is a background for speaking text")]
+    [SerializeField]
+    private FadeUiRevamped[] allFades;
     //text component and string array of its lines
     public int currentMonologue;
     [Tooltip("Fill this with all the individual monologues the character will give")]
@@ -269,6 +272,14 @@ public class MonologueManager : MonoBehaviour
             if (animateTextback)
                 animateTextback.active = true;
         }
+        //Use all fades
+        else
+        {
+            foreach(var fade in allFades)
+            {
+                fade.FadeIn();
+            }
+        }
 
         //player ref 
         if (camSwitcher)
@@ -365,6 +376,14 @@ public class MonologueManager : MonoBehaviour
             textBack.FadeOut();
             if(animateTextback)
                 animateTextback.active = false;
+        }
+        //Use all fades 
+        else
+        {
+            foreach (var fade in allFades)
+            {
+                fade.FadeOut();
+            }
         }
 
         //is this an npc?
