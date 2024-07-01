@@ -281,6 +281,12 @@ public class MonologueManager : MonoBehaviour
             }
         }
 
+        //Activate face animation UI if it has it / we dont use subtitles 
+        if(monoReader.faceAnimationUI != null && !useSubtitles)
+        {
+            monoReader.faceAnimationUI.Activate();
+        }
+
         //player ref 
         if (camSwitcher)
         {

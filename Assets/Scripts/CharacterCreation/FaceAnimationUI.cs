@@ -15,8 +15,9 @@ public class FaceAnimationUI : AnimationHandler
 	private float yMin, yMax;
 	public bool active;
 
-	void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
 		m_Image = GetComponent<Image>();
 		faceFade = GetComponent<FadeUiRevamped>();
 	}
