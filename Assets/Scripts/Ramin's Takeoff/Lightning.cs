@@ -21,7 +21,7 @@ public class Lightning : AudioHandler {
         base.Awake();
 
         the_Pilot = FindObjectOfType<ThePilot>();
-        if(the_Pilot)
+        if (the_Pilot)
             pilot = the_Pilot.transform;
 
         LightningCheck();
@@ -41,12 +41,12 @@ public class Lightning : AudioHandler {
         }
     }
 
-    void Start ()
+    void Start()
     {
         lightningTimer = Random.Range(lightningFreqRange.x, lightningFreqRange.y);
     }
-	
-	void Update ()
+
+    void Update()
     {
         //only some clouds are chosen 
         if (lightningCloud)
@@ -57,7 +57,7 @@ public class Lightning : AudioHandler {
                 Thunderstrike();
             }
         }
-	}
+    }
 
     //lightning and thunder all in one 
     void Thunderstrike()
@@ -85,7 +85,7 @@ public class Lightning : AudioHandler {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (myAudioSource.isPlaying)
+        if (myAudioSource.isPlaying || lightningParticles.isPlaying)
         {
             //ZAP method #2
             if (other.gameObject.CompareTag("Player"))

@@ -10,11 +10,15 @@ public class MonologueReader : MonoBehaviour {
     public GameObject hostObj;  // parent NPC obj set by MonologueManager
     [HideInInspector]
     public MonologueManager monoManager; //my mono manager
+    [SerializeField]
+    private bool sharedReader;
+    private List<MonologueManager> monoManagers = new List<MonologueManager>();
 
     private Camera mainCam;
     private RectTransform myRectTransform;
     private RectTransform textBackTransform;
     SpeakerSound speakerAudio;
+    private List<SpeakerSound> speakers = new List<SpeakerSound>(); // for shared readers
     [HideInInspector] public Text theText;
     [HideInInspector] public TMP_Text the_Text;
     [HideInInspector] public bool usesTMP;
@@ -62,10 +66,24 @@ public class MonologueReader : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Adds a shared reader. 
+    /// </summary>
+    /// <param name="mgr"></param>
+    public void AddSharedReader(MonologueManager mgr)
+    {
+        if (!monoManagers.Contains(mgr))
+        {
+            monoManagers.Add(mgr);
+            speakers.Add(mgr.GetComponent<SpeakerSound>());
+        }
+    }
+
     void Start()
     {
         //get speaker audio from host object
-        speakerAudio = hostObj.GetComponent<SpeakerSound>();
+        if(hostObj)
+            speakerAudio = hostObj.GetComponent<SpeakerSound>();
 
         //check if TMP or normal Text
         if (usesTMP)
@@ -180,13 +198,27 @@ public class MonologueReader : MonoBehaviour {
     void EndMono()
     {
         readingMono = false;
-        monoManager.DisableMonologue();
-            
-        //set subtitle disabled
-        if (monoManager.useSubtitles)
+       
+        //shared readers 
+        if (sharedReader)
         {
-            monoManager.DisableSubtitle();
+            foreach(var mgr in monoManagers)
+            {
+                mgr.DisableMonologue();
+            }
         }
+        else
+        {
+            //standard disable
+            monoManager.DisableMonologue();
+
+            //set subtitle disabled
+            if (monoManager.useSubtitles)
+            {
+                monoManager.DisableSubtitle();
+            }
+        }
+            
         //deactivate face anim ui
         if (faceAnimationUI)
         {
@@ -222,18 +254,18 @@ public class MonologueReader : MonoBehaviour {
 
         isTyping = true;
 
-        //set talking anim
-        if (monoManager.npcController)
+        //Set all shared readers 
+        if (sharedReader)
         {
-            if (monoManager.npcController.Animation)
+            foreach (var mgr in monoManagers)
             {
-                //set talking anim if not already talking 
-                if (monoManager.npcController.Animation.HasParameter("talking"))
-                {
-                    if (monoManager.npcController.Animation.characterAnimator.GetBool("talking") == false)
-                        monoManager.npcController.Animation.SetAnimator("talking");
-                }
+                SetAnimations(mgr, "talking");
             }
+        }
+        else
+        {
+            //set talking anim
+            SetAnimations(monoManager, "talking");
         }
 
         while (isTyping && (letter < lineOfText.Length - 1))
@@ -253,22 +285,31 @@ public class MonologueReader : MonoBehaviour {
                 screenText = theText.text;
             }
 
-            //set subtitle 
-            if (monoManager.useSubtitles)
+            if (!sharedReader)
             {
-                monoManager.SetSubtitleText(screenText);
+                //set subtitle 
+                if (monoManager.useSubtitles)
+                {
+                    monoManager.SetSubtitleText(screenText);
+                }
+                //check what audio to play 
+                if (speakerAudio)
+                    speakerAudio.AudioCheck(lineOfText, letter);
             }
-            
+            else
+            {
+                foreach(var speaker in speakers)
+                {
+                    speaker.AudioCheck(lineOfText, letter);
+                }
+            }
+
             //adjust width of ui
             if (useDynamicWidth)
             {
-                RendererExtensions.ChangeWidthOfObject(textBackTransform,the_Text, maxWidth, sideOffset);
+                RendererExtensions.ChangeWidthOfObject(textBackTransform, the_Text, maxWidth, sideOffset);
             }
-            
-            //check what audio to play 
-            if(speakerAudio)
-                speakerAudio.AudioCheck(lineOfText, letter);
-            
+
             //next letter
             letter += 1;
             yield return new WaitForSeconds(timeBetweenLetters);
@@ -281,6 +322,26 @@ public class MonologueReader : MonoBehaviour {
         SetWaitForNextLine();
     }
 
+    /// <summary>
+    /// Tells a monologue manager to animate talking 
+    /// </summary>
+    /// <param name="mgr"></param>
+    void SetAnimations(MonologueManager mgr, string param)
+    {
+        if (mgr.npcController)
+        {
+            if (mgr.npcController.Animation)
+            {
+                //set talking anim if not already talking 
+                if (mgr.npcController.Animation.HasParameter(param))
+                {
+                    if (mgr.npcController.Animation.characterAnimator.GetBool(param) == false)
+                        mgr.npcController.Animation.SetAnimator(param);
+                }
+            }
+        }
+    }
+
     //completes current line of text
     void CompleteTextLine(string lineOfText)
     {
@@ -290,7 +351,7 @@ public class MonologueReader : MonoBehaviour {
             theText.text = lineOfText;
         
         //set subtitle 
-        if (monoManager.useSubtitles)
+        if (monoManager && monoManager.useSubtitles)
         {
             monoManager.SetSubtitleText(lineOfText);
         }

@@ -21,7 +21,11 @@ public class MonologueManager : MonoBehaviour
     CameraManager camManager;
     [HideInInspector]
     public Controller npcController;
-    MonologueReader monoReader;
+    [SerializeField]
+    private MonologueReader monoReader;
+    [SerializeField]
+    [Tooltip("This is for specific characters, like the grandmothers.")]
+    private bool sharesReader;
 
     [Tooltip("Is this the player's monologue manager?")]
     public bool isPlayer;
@@ -153,11 +157,21 @@ public class MonologueManager : MonoBehaviour
 
         wmManager = FindObjectOfType<WorldMonologueManager>();
         camManager = FindObjectOfType<CameraManager>();
-        monoReader = GetComponentInChildren<MonologueReader>();
-        if (monoReader)
+
+        //Most every character will have a Monologue reader as a child.
+        if (!sharesReader)
         {
-            monoReader.hostObj = gameObject;
-            monoReader.monoManager = this;
+            monoReader = GetComponentInChildren<MonologueReader>();
+            if (monoReader)
+            {
+                monoReader.hostObj = gameObject;
+                monoReader.monoManager = this;
+            }
+        }
+        //For shared readers, they are target in editor and we are added to their list. 
+        else
+        {
+            monoReader.AddSharedReader(this);
         }
 
         if (facePointer)
