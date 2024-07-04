@@ -415,6 +415,11 @@ public class ThePilot : AudioHandler {
 
         HorizontalMovement();
         VerticalMovement();
+
+        if(horizontal == 0 && vertical == 0)
+        {
+            SlowdownX();
+        }
         //ForwardMovement();
     }
 
@@ -427,7 +432,7 @@ public class ThePilot : AudioHandler {
             //zero x vel if it is less than 0
             if (planeBody.velocity.x < 0)
             {
-                planeBody.velocity = new Vector3(0, planeBody.velocity.y, planeBody.velocity.z);
+                SlowdownX();
             }
 
             //only add rightward force if we are less than x max pos and max vel
@@ -443,7 +448,7 @@ public class ThePilot : AudioHandler {
             //zero x vel if it is greater than 0
             if (planeBody.velocity.x > 0)
             {
-                planeBody.velocity = new Vector3(0, planeBody.velocity.y, planeBody.velocity.z);
+                SlowdownX();
             }
 
             //only add leftward force if we are greater than x min pos
@@ -452,11 +457,6 @@ public class ThePilot : AudioHandler {
             //when greater kess than x min and still moving left
             else if (transform.position.x < xMin && planeBody.velocity.x < 0)
                 SlowdownX();
-        }
-        //zero input - zero x vel
-        else if (horizontal == 0)
-        {
-            planeBody.velocity = new Vector3(0, planeBody.velocity.y, planeBody.velocity.z);
         }
 
         //Exhume barrel roll -- TODO should block new barrel rolls during barrel roll? 
@@ -469,7 +469,7 @@ public class ThePilot : AudioHandler {
     }
 
     /// <summary>
-    /// move toward 0 x vel 
+    /// move toward 0 vel 
     /// </summary>
     void SlowdownX()
     {
