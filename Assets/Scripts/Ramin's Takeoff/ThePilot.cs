@@ -22,6 +22,8 @@ public class ThePilot : AudioHandler {
     public float heightMin, heigtMax;
     public float xMin, xMax;
     //todo add velocity max for x/y and cap it at 666
+    public float maxVelocityX = 666f;
+    public float maxVelocityY = 666f;
     public bool controlsActive = true;
     public bool movementFrozen;
     public bool countingBullets;
@@ -427,7 +429,7 @@ public class ThePilot : AudioHandler {
             }
 
             //only add rightward force if we are less than x max pos
-            if (transform.position.x < xMax)
+            if (transform.position.x < xMax && planeBody.velocity.x < maxVelocityX)
                 planeBody.AddForce(horizontal * strafeSpeed, 0, 0);
         }
         //left
@@ -440,7 +442,7 @@ public class ThePilot : AudioHandler {
             }
 
             //only add leftward force if we are greater than x min pos
-            if (transform.position.x > xMin)
+            if (transform.position.x > xMin && planeBody.velocity.x < maxVelocityX)
             {
                 planeBody.AddForce(horizontal * strafeSpeed, 0, 0);
             }
@@ -473,7 +475,7 @@ public class ThePilot : AudioHandler {
             }
 
             //only add upward force if we are less than height max pos 
-            if (transform.position.y < heigtMax)
+            if (transform.position.y < heigtMax && planeBody.velocity.y < maxVelocityY)
                 planeBody.AddForce(0, vertical * strafeSpeed, 0);
         }
         //down
@@ -487,7 +489,7 @@ public class ThePilot : AudioHandler {
             }
 
             //only add downward force if we are greater than height min pos 
-            if (transform.position.y > heightMin)
+            if (transform.position.y > heightMin && planeBody.velocity.y < maxVelocityY)
                 planeBody.AddForce(0, vertical * strafeSpeed, 0);
         }
         //zero input - zero y vel
