@@ -24,6 +24,8 @@ public class ThePilot : AudioHandler {
     //todo add velocity max for x/y and cap it at 666
     public float maxVelocityX = 666f;
     public float maxVelocityY = 666f;
+    [SerializeField]
+    private float xDecel = 0.8f;
     public bool controlsActive = true;
     public bool movementFrozen;
     public bool countingBullets;
@@ -428,9 +430,12 @@ public class ThePilot : AudioHandler {
                 planeBody.velocity = new Vector3(0, planeBody.velocity.y, planeBody.velocity.z);
             }
 
-            //only add rightward force if we are less than x max pos
-            if (transform.position.x < xMax && planeBody.velocity.x < maxVelocityX)
+            //only add rightward force if we are less than x max pos and max vel
+            if (transform.position.x < xMax && Mathf.Abs(planeBody.velocity.x) < maxVelocityX)
                 planeBody.AddForce(horizontal * strafeSpeed, 0, 0);
+            //when greater than x max and still moving right
+            else if(transform.position.x > xMax && planeBody.velocity.x > 0)
+                SlowdownX();
         }
         //left
         else if (horizontal < 0)
@@ -442,10 +447,11 @@ public class ThePilot : AudioHandler {
             }
 
             //only add leftward force if we are greater than x min pos
-            if (transform.position.x > xMin && planeBody.velocity.x < maxVelocityX)
-            {
+            if (transform.position.x > xMin && Mathf.Abs(planeBody.velocity.x) < maxVelocityX)
                 planeBody.AddForce(horizontal * strafeSpeed, 0, 0);
-            }
+            //when greater kess than x min and still moving left
+            else if (transform.position.x < xMin && planeBody.velocity.x < 0)
+                SlowdownX();
         }
         //zero input - zero x vel
         else if (horizontal == 0)
@@ -462,6 +468,14 @@ public class ThePilot : AudioHandler {
         }
     }
 
+    /// <summary>
+    /// move toward 0 x vel 
+    /// </summary>
+    void SlowdownX()
+    {
+        planeBody.velocity *= xDecel;
+    }
+
     void VerticalMovement()
     {
         //Vertical
@@ -475,7 +489,7 @@ public class ThePilot : AudioHandler {
             }
 
             //only add upward force if we are less than height max pos 
-            if (transform.position.y < heigtMax && planeBody.velocity.y < maxVelocityY)
+            if (transform.position.y < heigtMax && Mathf.Abs(planeBody.velocity.y) < maxVelocityY)
                 planeBody.AddForce(0, vertical * strafeSpeed, 0);
         }
         //down
@@ -489,7 +503,7 @@ public class ThePilot : AudioHandler {
             }
 
             //only add downward force if we are greater than height min pos 
-            if (transform.position.y > heightMin && planeBody.velocity.y < maxVelocityY)
+            if (transform.position.y > heightMin && Mathf.Abs(planeBody.velocity.y) < maxVelocityY)
                 planeBody.AddForce(0, vertical * strafeSpeed, 0);
         }
         //zero input - zero y vel
@@ -508,7 +522,7 @@ public class ThePilot : AudioHandler {
         else
         {
             Vector3 properVel = new Vector3(planeBody.velocity.x, planeBody.velocity.y, maxVelocityZ);
-            planeBody.velocity = Vector3.MoveTowards(planeBody.velocity, properVel, 50 * Time.deltaTime);
+            planeBody.velocity = Vector3.MoveTowards(planeBody.velocity, properVel, 50 * Time.fixedDeltaTime);
         }
     }
 
