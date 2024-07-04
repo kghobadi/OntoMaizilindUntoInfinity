@@ -21,12 +21,14 @@ public class ThePilot : AudioHandler {
     public float maxVelocityXY = 100f;
     public float heightMin, heigtMax;
     public float xMin, xMax;
+    //todo add velocity max for x/y and cap it at 666
     public bool controlsActive = true;
     public bool movementFrozen;
     public bool countingBullets;
     private bool barrelRoll;
-    public float keyboardLerp = 5f;
-    public float controllerLerp = 5f;
+    [Tooltip("For feeding plane velocity into the 0 - 1 animation value by division.")]
+    [SerializeField]
+    private float velocityAnimatorFactor = 100f;
     public float smoothTime = 0.5f;
     InputDevice inputDevice;
 
@@ -102,6 +104,9 @@ public class ThePilot : AudioHandler {
         if (movementFrozen == false)
         {
             ApplyForces();
+
+            Debug.Log("X velocity is " + planeBody.velocity.x);
+            Debug.Log("Y velocity is " + planeBody.velocity.y);
         }
     }
 
@@ -348,6 +353,7 @@ public class ThePilot : AudioHandler {
         movementFrozen = true;
         lastVelocity = planeBody.velocity;
         planeBody.velocity = Vector3.zero;
+        CheckAnimations();
     }
 
     public void ResumeMovement()
@@ -368,70 +374,47 @@ public class ThePilot : AudioHandler {
         //controller 
         if (inputDevice.DeviceClass == InputDeviceClass.Controller)
         {
-            //apply lerp to horizontal input 
-            if (inputDevice.LeftStickX != 0)
-            {
-                horizontal = Mathf.Lerp(horizontal, inputDevice.LeftStickX, Time.deltaTime *  controllerLerp);
-
-                //Barrel roll only possible with horizontal inputs
-                if (inputDevice.Action1)
-                {
-                    barrelRoll = true;
-                }
-            }
-            else
-            {
-                horizontal = Mathf.MoveTowards(horizontal, 0, Time.deltaTime * controllerLerp);
-            }
-            
-            //apply lerp to vertical input 
-            if (inputDevice.LeftStickY)
-            {
-                vertical = Mathf.Lerp(vertical, inputDevice.LeftStickY, Time.deltaTime *  controllerLerp) ;
-            }
-            else
-            {
-                vertical = Mathf.MoveTowards(vertical, 0, Time.deltaTime * controllerLerp);
-            }
-
+            //grab inputs 
+            horizontal = inputDevice.LeftStickX;
+            vertical = inputDevice.LeftStickY;
         }
         //keyboard
         else
         {
-            //could try smooth damp - https://docs.unity3d.com/ScriptReference/Mathf.SmoothDamp.html
-            //apply lerp when there is input 
-            if (Input.GetAxis("Horizontal") != 0)
-            {
-                horizontal = Mathf.Lerp(horizontal, Input.GetAxis("Horizontal"), Time.deltaTime *  keyboardLerp) ;
-                //horizontal = Mathf.SmoothDamp(horizontal, Input.GetAxis("Horizontal"), ref keyboardLerp, smoothTime);
+            //grab inputs 
+            horizontal = Input.GetAxis("Horizontal");
+            vertical = Input.GetAxis("Vertical");
+        }
 
-                //Barrel roll only possible with horizontal inputs
-                if (Input.GetKey(KeyCode.Space))
-                {
-                    barrelRoll = true;
-                }
-            }
-            else
+        //barrel roll check - must be moving on horizontal axis 
+        if (horizontal != 0)
+        {
+            //Barrel roll only possible with horizontal inputs
+            if (Input.GetKey(KeyCode.Space) || inputDevice.Action1)
             {
-                horizontal = Mathf.MoveTowards(horizontal, 0,  Time.deltaTime * keyboardLerp);
-            }
-            
-            //apply lerp when there is input 
-            if (Input.GetAxis("Vertical") != 0)
-            {
-                vertical = Mathf.Lerp(vertical, Input.GetAxis("Vertical"), Time.deltaTime *  keyboardLerp) ;
-            }
-            else
-            {
-                vertical = Mathf.MoveTowards(vertical, 0, Time.deltaTime * keyboardLerp) ;
+                barrelRoll = true;
             }
         }
+    }
+
+    void SimpleFlight()
+    {
+        //todo https://shakiroslann.medium.com/unity-c-tutorial-simple-flying-control-647798a9f50e 
     }
 
     /// <summary>
     /// Actual application of the calculated input forces to the plane's rigidbody. 
     /// </summary>
     void ApplyForces()
+    {
+        //TODO if we just hold left/right, we eventually reach a critical velocity so high that it keeps pushing us offscreen :(
+
+        HorizontalMovement();
+        VerticalMovement();
+        //ForwardMovement();
+    }
+
+    void HorizontalMovement()
     {
         //Horizontal
         //right
@@ -442,7 +425,7 @@ public class ThePilot : AudioHandler {
             {
                 planeBody.velocity = new Vector3(0, planeBody.velocity.y, planeBody.velocity.z);
             }
-            
+
             //only add rightward force if we are less than x max pos
             if (transform.position.x < xMax)
                 planeBody.AddForce(horizontal * strafeSpeed, 0, 0);
@@ -455,7 +438,7 @@ public class ThePilot : AudioHandler {
             {
                 planeBody.velocity = new Vector3(0, planeBody.velocity.y, planeBody.velocity.z);
             }
-            
+
             //only add leftward force if we are greater than x min pos
             if (transform.position.x > xMin)
             {
@@ -463,7 +446,7 @@ public class ThePilot : AudioHandler {
             }
         }
         //zero input - zero x vel
-        else if(horizontal == 0)
+        else if (horizontal == 0)
         {
             planeBody.velocity = new Vector3(0, planeBody.velocity.y, planeBody.velocity.z);
         }
@@ -475,7 +458,10 @@ public class ThePilot : AudioHandler {
             _Animations.Animator.SetTrigger("barrelRoll");
             barrelRoll = false;
         }
+    }
 
+    void VerticalMovement()
+    {
         //Vertical
         //up
         if (vertical > 0)
@@ -485,7 +471,7 @@ public class ThePilot : AudioHandler {
             {
                 planeBody.velocity = new Vector3(planeBody.velocity.x, 0, planeBody.velocity.z);
             }
-            
+
             //only add upward force if we are less than height max pos 
             if (transform.position.y < heigtMax)
                 planeBody.AddForce(0, vertical * strafeSpeed, 0);
@@ -499,7 +485,7 @@ public class ThePilot : AudioHandler {
             {
                 planeBody.velocity = new Vector3(planeBody.velocity.x, 0, planeBody.velocity.z);
             }
-            
+
             //only add downward force if we are greater than height min pos 
             if (transform.position.y > heightMin)
                 planeBody.AddForce(0, vertical * strafeSpeed, 0);
@@ -509,9 +495,12 @@ public class ThePilot : AudioHandler {
         {
             planeBody.velocity = new Vector3(planeBody.velocity.x, 0, planeBody.velocity.z);
         }
+    }
 
+    void ForwardMovement()
+    {
         //forward
-        if (Mathf.Abs(planeBody.velocity.z)  < maxVelocityZ)
+        if (Mathf.Abs(planeBody.velocity.z) < maxVelocityZ)
             planeBody.AddForce(0, 0, moveSpeed);
         //artificially restrict player's velocity when it exceeds max
         else
@@ -521,24 +510,11 @@ public class ThePilot : AudioHandler {
         }
     }
 
+    //TODO should use values between -1 and 1 based on the actual Velocity of the plane, rather than the Input value to animate. 
     void CheckAnimations()
     {
-        _Animations.Animator.SetFloat("Move X", horizontal);
-        _Animations.Animator.SetFloat("Move Y", vertical);
-
-        //TODO should use values between -1 and 1 based on the actual Velocity of the plane, rather than the Input value to animate. 
-
-        //TODO dont love how i can see plane tilt when im at max/mins... below does not fix it though. 
-        //Only animate X within bounds 
-        //if (transform.position.x > xMin && transform.position.x < xMax)
-        //    _Animations.Animator.SetFloat("Move X", horizontal);
-        //else
-        //    _Animations.Animator.SetFloat("Move X", 0f);
-        ////Only animate Y within bounds 
-        //if (transform.position.y > heightMin && transform.position.y < heigtMax)
-        //    _Animations.Animator.SetFloat("Move Y", vertical);
-        //else
-        //    _Animations.Animator.SetFloat("Move Y", 0f);
+        _Animations.Animator.SetFloat("Move X", planeBody.velocity.x / velocityAnimatorFactor);
+        _Animations.Animator.SetFloat("Move Y", planeBody.velocity.y / velocityAnimatorFactor);
     }
 
     public void SetZVelMax(float amount)
