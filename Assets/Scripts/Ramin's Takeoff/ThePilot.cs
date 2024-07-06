@@ -29,6 +29,7 @@ public class ThePilot : AudioHandler {
     public bool movementFrozen;
     public bool countingBullets;
     private bool barrelRoll;
+   
     [Tooltip("For feeding plane velocity into the 0 - 1 animation value by division.")]
     [SerializeField]
     private float velocityAnimatorFactor = 100f;
@@ -359,10 +360,12 @@ public class ThePilot : AudioHandler {
         CheckAnimations();
     }
 
-    public void ResumeMovement()
+    public void ResumeMovement(bool useLastVel = false)
     {
         movementFrozen = false;
-        planeBody.velocity = lastVelocity;
+        
+        if(useLastVel)
+            planeBody.velocity = lastVelocity;
     }
 
     //wasd input
@@ -392,8 +395,9 @@ public class ThePilot : AudioHandler {
         //barrel roll check - must be moving on horizontal axis 
         if (horizontal != 0)
         {
-            //Barrel roll only possible with horizontal inputs
-            if (Input.GetKeyDown(KeyCode.Space) || inputDevice.Action1.WasPressed)
+            //Barrel roll only possible with horizontal inputs AND NOT ZAPPED!
+            if ((Input.GetKeyDown(KeyCode.Space) || inputDevice.Action1.WasPressed) 
+                && !isZapped)
             {
                 barrelRoll = true;
             }
@@ -467,8 +471,8 @@ public class ThePilot : AudioHandler {
                 SlowdownX();
         }
 
-        //Exhume barrel roll -- TODO should block new barrel rolls during barrel roll? 
-        if (barrelRoll)
+        //Exhume barrel roll 
+        if (barrelRoll && !_Animations.IsInBarrelRoll)
         {
             DoABarrelRoll();
         }
@@ -534,6 +538,7 @@ public class ThePilot : AudioHandler {
     {
         planeBody.AddForce(new Vector3(barrelRollForce * horizontal, 0, 0), ForceMode.Impulse);
         _Animations.Animator.SetTrigger("barrelRoll");
+        _Animations.IsInBarrelRoll = true;
         barrelRoll = false;
     }
 
@@ -596,14 +601,14 @@ public class ThePilot : AudioHandler {
     #region ZapEffect
     //zap effect
     public ParticleSystem zaps;
-    public bool IsZapped => zaps.isPlaying;
+    private bool isZapped;
     IEnumerator zap;
     
     //called by lightning to zap the plane 
     public void InitiateZap()
     {
-        //Early return when already zapped. 
-        if (IsZapped)
+        //Early return when already zapped OR in barrel roll. 
+        if (isZapped || _Animations.IsInBarrelRoll)
         {
             return;
         }
@@ -621,6 +626,7 @@ public class ThePilot : AudioHandler {
     //freeze the movement and play zap effect
     IEnumerator Zap()
     {
+        isZapped = true;
         FreezeMovement();
         
         zaps.Play();
@@ -630,6 +636,7 @@ public class ThePilot : AudioHandler {
 
         zaps.Stop();
         ResumeMovement();
+        isZapped = false;
     }
     #endregion
 }
