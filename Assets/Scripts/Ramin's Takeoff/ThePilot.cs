@@ -15,9 +15,6 @@ public class ThePilot : AudioHandler {
     public float moveSpeed;
     public float strafeSpeed = 125f;
     public float barrelRollForce = 5000f;
-    public float maxVelocityZ = 125f;
-    public float maxVelocityZfight = 95f;
-    public float maxVelocityZspeedUp = 125f;
     public float maxVelocityXY = 100f;
     public float heightMin, heigtMax;
     public float xMin, xMax;
@@ -26,6 +23,8 @@ public class ThePilot : AudioHandler {
     public float maxVelocityY = 666f;
     [SerializeField]
     private float xDecel = 0.8f;
+    [SerializeField]
+    private float yDecel = 0.8f;
     public bool controlsActive = true;
     public bool movementFrozen;
     public bool countingBullets;
@@ -394,7 +393,7 @@ public class ThePilot : AudioHandler {
         if (horizontal != 0)
         {
             //Barrel roll only possible with horizontal inputs
-            if (Input.GetKey(KeyCode.Space) || inputDevice.Action1)
+            if (Input.GetKeyDown(KeyCode.Space) || inputDevice.Action1.WasPressed)
             {
                 barrelRoll = true;
             }
@@ -416,9 +415,18 @@ public class ThePilot : AudioHandler {
         HorizontalMovement();
         VerticalMovement();
 
+        //Apply correct slow downs for zeroed movement input. 
         if(horizontal == 0 && vertical == 0)
         {
+            Slowdown();
+        }
+        else if (horizontal == 0)
+        {
             SlowdownX();
+        }
+        else if (vertical == 0)
+        {
+            SlowdownY();
         }
         //ForwardMovement();
     }
@@ -437,7 +445,7 @@ public class ThePilot : AudioHandler {
 
             //only add rightward force if we are less than x max pos and max vel
             if (transform.position.x < xMax && Mathf.Abs(planeBody.velocity.x) < maxVelocityX)
-                planeBody.AddForce(horizontal * strafeSpeed, 0, 0);
+                HorizontalMove();
             //when greater than x max and still moving right
             else if(transform.position.x > xMax && planeBody.velocity.x > 0)
                 SlowdownX();
@@ -453,8 +461,8 @@ public class ThePilot : AudioHandler {
 
             //only add leftward force if we are greater than x min pos
             if (transform.position.x > xMin && Mathf.Abs(planeBody.velocity.x) < maxVelocityX)
-                planeBody.AddForce(horizontal * strafeSpeed, 0, 0);
-            //when greater kess than x min and still moving left
+                HorizontalMove();
+            //when less than x min and still moving left
             else if (transform.position.x < xMin && planeBody.velocity.x < 0)
                 SlowdownX();
         }
@@ -462,20 +470,9 @@ public class ThePilot : AudioHandler {
         //Exhume barrel roll -- TODO should block new barrel rolls during barrel roll? 
         if (barrelRoll)
         {
-            planeBody.AddForce(new Vector3(barrelRollForce * horizontal, 0, 0), ForceMode.Impulse);
-            _Animations.Animator.SetTrigger("barrelRoll");
-            barrelRoll = false;
+            DoABarrelRoll();
         }
     }
-
-    /// <summary>
-    /// move toward 0 vel 
-    /// </summary>
-    void SlowdownX()
-    {
-        planeBody.velocity *= xDecel;
-    }
-
     void VerticalMovement()
     {
         //Vertical
@@ -485,12 +482,15 @@ public class ThePilot : AudioHandler {
             //zero y vel if it is less than 0
             if (planeBody.velocity.y < 0)
             {
-                planeBody.velocity = new Vector3(planeBody.velocity.x, 0, planeBody.velocity.z);
+                SlowdownY();
             }
 
             //only add upward force if we are less than height max pos 
             if (transform.position.y < heigtMax && Mathf.Abs(planeBody.velocity.y) < maxVelocityY)
-                planeBody.AddForce(0, vertical * strafeSpeed, 0);
+                VerticalMove();
+            //when greater than y max and still moving up
+            else if(transform.position.y > heigtMax && planeBody.velocity.y > 0)
+                SlowdownY();
         }
         //down
         else if (vertical < 0)
@@ -499,31 +499,42 @@ public class ThePilot : AudioHandler {
             if (planeBody.velocity.y > 0
                 || transform.position.y < heightMin)
             {
-                planeBody.velocity = new Vector3(planeBody.velocity.x, 0, planeBody.velocity.z);
+                SlowdownY();
             }
 
             //only add downward force if we are greater than height min pos 
             if (transform.position.y > heightMin && Mathf.Abs(planeBody.velocity.y) < maxVelocityY)
-                planeBody.AddForce(0, vertical * strafeSpeed, 0);
-        }
-        //zero input - zero y vel
-        else if (vertical == 0)
-        {
-            planeBody.velocity = new Vector3(planeBody.velocity.x, 0, planeBody.velocity.z);
+                VerticalMove();
+            //when less than y min and still moving down
+            else if (transform.position.y < heightMin && planeBody.velocity.y < 0)
+                SlowdownY();
         }
     }
 
-    void ForwardMovement()
+    /// <summary>
+    /// Add our horizontal movement force. 
+    /// </summary>
+    void HorizontalMove()
     {
-        //forward
-        if (Mathf.Abs(planeBody.velocity.z) < maxVelocityZ)
-            planeBody.AddForce(0, 0, moveSpeed);
-        //artificially restrict player's velocity when it exceeds max
-        else
-        {
-            Vector3 properVel = new Vector3(planeBody.velocity.x, planeBody.velocity.y, maxVelocityZ);
-            planeBody.velocity = Vector3.MoveTowards(planeBody.velocity, properVel, 50 * Time.fixedDeltaTime);
-        }
+        planeBody.AddForce(horizontal * strafeSpeed, 0, 0);
+    }
+
+    /// <summary>
+    /// Add our vertical movement force. 
+    /// </summary>
+    void VerticalMove()
+    {
+        planeBody.AddForce(0, vertical * strafeSpeed, 0);
+    }
+
+    /// <summary>
+    /// What you think it does. 
+    /// </summary>
+    void DoABarrelRoll()
+    {
+        planeBody.AddForce(new Vector3(barrelRollForce * horizontal, 0, 0), ForceMode.Impulse);
+        _Animations.Animator.SetTrigger("barrelRoll");
+        barrelRoll = false;
     }
 
     //TODO should use values between -1 and 1 based on the actual Velocity of the plane, rather than the Input value to animate. 
@@ -532,10 +543,52 @@ public class ThePilot : AudioHandler {
         _Animations.Animator.SetFloat("Move X", planeBody.velocity.x / velocityAnimatorFactor);
         _Animations.Animator.SetFloat("Move Y", planeBody.velocity.y / velocityAnimatorFactor);
     }
-
-    public void SetZVelMax(float amount)
+    
+    /// <summary>
+    /// move x toward 0 vel 
+    /// </summary>
+    void SlowdownX()
     {
-        maxVelocityZ = amount;
+        planeBody.velocity = new Vector3(planeBody.velocity.x * xDecel, planeBody.velocity.y, planeBody.velocity.z);
+    }
+    
+    /// <summary>
+    /// move y toward 0 vel 
+    /// </summary>
+    void SlowdownY()
+    {
+        planeBody.velocity = new Vector3(planeBody.velocity.x, planeBody.velocity.y * yDecel, planeBody.velocity.z);
+    }
+    
+    /// <summary>
+    /// move toward 0 vel 
+    /// </summary>
+    void Slowdown()
+    {
+        planeBody.velocity *= xDecel;
+    }
+    /// <summary>
+    /// Set x to 0 vel 
+    /// </summary>
+    void ZeroX()
+    {
+        planeBody.velocity = new Vector3(0f, planeBody.velocity.y, planeBody.velocity.z);
+    }
+
+    /// <summary>
+    /// Set y to 0 vel 
+    /// </sumary>
+    void ZeroY()
+    {
+        planeBody.velocity = new Vector3(planeBody.velocity.x, 0f, planeBody.velocity.z);
+    }
+
+    /// <summary>
+    /// Zero the velocity. 
+    /// </summary>
+    void ZeroVelocity()
+    {
+        planeBody.velocity = Vector3.zero;
     }
     
     #endregion
@@ -543,11 +596,18 @@ public class ThePilot : AudioHandler {
     #region ZapEffect
     //zap effect
     public ParticleSystem zaps;
+    public bool IsZapped => zaps.isPlaying;
     IEnumerator zap;
     
     //called by lightning to zap the plane 
     public void InitiateZap()
     {
+        //Early return when already zapped. 
+        if (IsZapped)
+        {
+            return;
+        }
+        
         if (zap != null)
             StopCoroutine(zap);
 
@@ -558,24 +618,18 @@ public class ThePilot : AudioHandler {
         Debug.Log("zapped!");
     }
 
-    //fries the controls and weapons for a period of time 
+    //freeze the movement and play zap effect
     IEnumerator Zap()
     {
-        controlsActive = false;
-
-        //zero the inputs too
-        horizontal = 0;
-        vertical = 0;
-
+        FreezeMovement();
+        
         zaps.Play();
-
         PlaySoundRandomPitch(zapped, 1f);
 
         yield return new WaitForSeconds(2f);
 
-        controlsActive = true;
-
         zaps.Stop();
+        ResumeMovement();
     }
     #endregion
 }

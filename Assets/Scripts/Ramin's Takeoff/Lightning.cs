@@ -9,7 +9,6 @@ public class Lightning : AudioHandler {
 
     ParticleSystem lightningParticles;
     public AudioClip[] thunderStrikes;
-    public float zappingDist = 15f;
 
     public float lightningTimer;
     public Vector2 lightningFreqRange = new Vector2(5, 15);
@@ -51,6 +50,9 @@ public class Lightning : AudioHandler {
         //only some clouds are chosen 
         if (lightningCloud)
         {
+            //look at ground
+            transform.LookAt(new Vector3(transform.position.x, 0f, transform.position.z));
+            //tick thunderstrike time 
             lightningTimer -= Time.deltaTime;
             if (lightningTimer < 0)
             {
@@ -68,23 +70,24 @@ public class Lightning : AudioHandler {
         PlayRandomSoundRandomPitch(thunderStrikes, 1f);
         //reset timer
         lightningTimer = Random.Range(lightningFreqRange.x, lightningFreqRange.y);
+    }
 
-        //check dist from player
-        if (pilot)
+    private void OnTriggerEnter(Collider other)
+    {
+        //Is the lightning active?
+        if (myAudioSource.isPlaying || lightningParticles.isPlaying)
         {
-            distFromPlayer = Vector3.Distance(transform.position, pilot.position);
-
             //ZAP method #1
-            //disable player controls when close
-            if (distFromPlayer < zappingDist)
+            if (other.gameObject.CompareTag("Player"))
             {
                 the_Pilot.InitiateZap();
             }
         }
     }
-
-    private void OnTriggerEnter(Collider other)
+    
+    private void OnTriggerStay(Collider other)
     {
+        //Is the lightning active?
         if (myAudioSource.isPlaying || lightningParticles.isPlaying)
         {
             //ZAP method #2

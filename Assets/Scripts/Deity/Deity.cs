@@ -190,9 +190,10 @@ public class Deity : MonoBehaviour {
     {
         if(engagingPlayer)
             return;
-
-        pilot.SetZVelMax(pilot.maxVelocityZfight);
+        
         engagingPlayer = true;
+        
+        //TODO here we can do unique deity behavior commands?
     }
 
     public void DisengagePlayer()
