@@ -441,6 +441,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3037844940037832043}
   - component: {fileID: 8991642488876951313}
+  - component: {fileID: 7045842111183935300}
   m_Layer: 0
   m_Name: Grandmother_2_Animated
   m_TagString: Untagged
@@ -483,6 +484,25 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7045842111183935300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2405845018479454161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20326f75a0ff1a7439b80f694f51588f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterAnimator: {fileID: 0}
+  animationBools:
+  - idle
+  - moving
+  talkingAnimations: 0
+  setAnimSpeed: 0
+  animSpeed: 1
 --- !u!1 &2497015102167680138
 GameObject:
   m_ObjectHideFlags: 0

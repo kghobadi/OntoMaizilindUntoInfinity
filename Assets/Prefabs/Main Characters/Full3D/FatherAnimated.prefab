@@ -1038,6 +1038,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4331051307592286009}
   - component: {fileID: 7708703386119087427}
+  - component: {fileID: -5225436992719882295}
   m_Layer: 0
   m_Name: FatherAnimated
   m_TagString: Untagged
@@ -1080,6 +1081,25 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-5225436992719882295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3986016190500119939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20326f75a0ff1a7439b80f694f51588f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterAnimator: {fileID: 0}
+  animationBools:
+  - idle
+  - moving
+  talkingAnimations: 0
+  setAnimSpeed: 0
+  animSpeed: 1
 --- !u!1 &4147647244048489108
 GameObject:
   m_ObjectHideFlags: 0
@@ -1717,7 +1737,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ab4d8595b695c894cae9e1073a9b65d2, type: 2}
+  - {fileID: 2100000, guid: 5722e93055f8b4a44adf70f7698462f0, type: 2}
   - {fileID: 2100000, guid: 5722e93055f8b4a44adf70f7698462f0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0

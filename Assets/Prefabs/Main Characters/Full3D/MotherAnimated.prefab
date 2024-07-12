@@ -72,6 +72,7 @@ GameObject:
   m_Component:
   - component: {fileID: 277457130883501768}
   - component: {fileID: 6141103526665262258}
+  - component: {fileID: 9015625172016195435}
   m_Layer: 0
   m_Name: MotherAnimated
   m_TagString: Untagged
@@ -115,6 +116,25 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &9015625172016195435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 617671988999459954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20326f75a0ff1a7439b80f694f51588f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterAnimator: {fileID: 0}
+  animationBools:
+  - idle
+  - moving
+  talkingAnimations: 0
+  setAnimSpeed: 0
+  animSpeed: 1
 --- !u!1 &816840569654638377
 GameObject:
   m_ObjectHideFlags: 0
