@@ -60,7 +60,9 @@ public class CameraSwitcher : MonoBehaviour
     public EventTrigger[] playerOnlyEvents;
 
     public GameObject OrigPlayer => origPlayer;
-    
+    public FirstPersonController CurrentFPS => currentPlayer.GetComponent<FirstPersonController>();
+
+
     void Awake()
     {
         //camera manager ref 

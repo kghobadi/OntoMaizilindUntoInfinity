@@ -56,8 +56,8 @@ public class ObjectViewer : AudioHandler
 			myAudioSource.Play();
 		}
 		//disable player movement and camera controls
-		couldMove = camSwitcher.currentPlayer.GetComponent<FirstPersonController>().canMove;
-		camSwitcher.currentPlayer.GetComponent<FirstPersonController>().canMove = false;
+		couldMove = camSwitcher.CurrentFPS.canMove;
+		camSwitcher.CurrentFPS.canMove = false;
 		camSwitcher.currentCamObj.camObj.GetComponent<GroundCamera>().canControl = false;
 		
 		//disable objects colliders
@@ -81,7 +81,7 @@ public class ObjectViewer : AudioHandler
 		else
 		{
 			//is the text asset empty?
-			if (String.IsNullOrEmpty(obj.objDescription.text))
+			if (string.IsNullOrEmpty(obj.objDescription.text))
 			{
 				//null -- center object in vew
 				obj.transform.position = viewPos.position + obj.positionOffset;
