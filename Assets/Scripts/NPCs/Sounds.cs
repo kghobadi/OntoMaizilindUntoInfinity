@@ -18,6 +18,8 @@ namespace NPC
         FaceAnimation _faceAnim;
         //Accessor for face. 
         public FaceAnimation FaceAnimation => _faceAnim;
+
+        [SerializeField] private FaceAnimationUI faceAnimUi;
         
         SpriteRenderer face; 
         SpriteRenderer back;
@@ -186,6 +188,9 @@ namespace NPC
                 {
                     if (_faceAnim)
                         _faceAnim.SetAnimator("talking");
+                    
+                    if(faceAnimUi)
+                        faceAnimUi.Activate();
                 }
             }
             else
@@ -198,6 +203,9 @@ namespace NPC
                 {
                     if (_faceAnim)
                         _faceAnim.SetAnimator("idle");
+                    
+                    if(faceAnimUi)
+                        faceAnimUi.SetIdle();
                 }
             }
         }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using InControl;
+using UnityEngine.Events;
 
 //this script is responsible for the active reading out of a monologue 
 public class MonologueReader : MonoBehaviour {
@@ -42,6 +43,14 @@ public class MonologueReader : MonoBehaviour {
     public bool conversational;
     public float[] waitTimes;
     bool waiting;
+    [Tooltip("Check this if you've set up another Mono Reader to progress this one.")]
+    public bool waitForDialogue;
+    [Tooltip("Check this if this should progress another Mono Reader.")]
+    public bool progressesOthers;
+    [Tooltip("Allows this mono reader to progress another ")]
+    public UnityEvent onProgressLine;
+    [Tooltip("Allows this mono reader to progress another ")]
+    public UnityEvent progressOthers;
     
     [Header("Width Altering")]
     [Tooltip("Check to dynamically alter width of text box.")]
@@ -178,6 +187,14 @@ public class MonologueReader : MonoBehaviour {
         }
     }
 
+    public void Progress()
+    {
+        if (readingMono)
+        {
+            ProgressLine();
+        }
+    }
+
     void ProgressLine()
     {
         currentLine += 1;
@@ -193,6 +210,8 @@ public class MonologueReader : MonoBehaviour {
         {
             SetTypingLine();
         }
+
+        onProgressLine.Invoke();
     }
 
     void EndMono()
@@ -373,12 +392,19 @@ public class MonologueReader : MonoBehaviour {
         {
             waitForNextLine = WaitToProgressLine(waitTimes[currentLine]);
         }
+        else if (waitForDialogue)
+        {
+            //do nothing
+        }
         else
         {
             waitForNextLine = WaitToProgressLine(timeBetweenLines);
         }
 
-        StartCoroutine(waitForNextLine);
+        if (!waitForDialogue)
+        {
+            StartCoroutine(waitForNextLine);
+        }
     }
 
     //start wait for next line after spacebar skip
@@ -388,8 +414,29 @@ public class MonologueReader : MonoBehaviour {
 
         waiting = true;
 
-        yield return new WaitForSeconds(time);
-
+        if (progressesOthers)
+        {
+            yield return new WaitForSeconds(time / 3);
+    
+            progressOthers.Invoke();
+        
+            yield return new WaitForSeconds((time / 3) * 2);
+        }
+        else
+        {
+            yield return new WaitForSeconds(time);
+        }
+        
         ProgressLine();
     }
+
+    /// <summary>
+    /// So we can toggle this setting. 
+    /// </summary>
+    /// <param name="state"></param>
+    public void SetWaitingFor(bool state)
+    {
+        waitForDialogue = state;
+    }
+    
 }

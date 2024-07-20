@@ -37,6 +37,11 @@ public class FaceAnimationUI : AnimationHandler
 		active = true;
 	}
 
+	public void SetIdle()
+	{
+		SetAnimator("idle");
+	}
+
 	public void Deactivate()
 	{
 		if(m_Image)

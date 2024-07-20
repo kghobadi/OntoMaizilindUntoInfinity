@@ -161,7 +161,8 @@ public class MonologueManager : MonoBehaviour
         //Most every character will have a Monologue reader as a child.
         if (!sharesReader)
         {
-            monoReader = GetComponentInChildren<MonologueReader>();
+            if(monoReader == null)
+                monoReader = GetComponentInChildren<MonologueReader>();
             if (monoReader)
             {
                 monoReader.hostObj = gameObject;
