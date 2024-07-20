@@ -109,8 +109,8 @@ public class ThePilot : AudioHandler {
         {
             ApplyForces();
 
-            Debug.Log("X velocity is " + planeBody.velocity.x);
-            Debug.Log("Y velocity is " + planeBody.velocity.y);
+            //Debug.Log("X velocity is " + planeBody.velocity.x);
+            //Debug.Log("Y velocity is " + planeBody.velocity.y);
         }
     }
 
