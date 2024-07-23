@@ -62,6 +62,10 @@ public class ThePilot : AudioHandler {
     public AudioClip outOfAmmoClick;
     public AudioClip zapped;
 
+    [SerializeField]
+    private MonologueManager raminMonos;
+
+    public MonologueManager PilotMonos => raminMonos;
     [Tooltip("We trigger this when the player runs out of bullets")]
     public EventTrigger triggerApocalypse;
   

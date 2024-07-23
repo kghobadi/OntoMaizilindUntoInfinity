@@ -10,8 +10,10 @@ using UnityEngine.Events;
 /// Use the DomeInterior objects as a sort of lure that exists between Deities. 
 /// Ending should bring the final transformation to Deity of Destruction so ending makes sense. 
 /// </summary>
-public class DeityManager : MonoBehaviour 
+public class DeityManager : MonoBehaviour
 {
+    private ThePilot pilot;
+    [SerializeField] private RailMgr railMgr;
     [SerializeField]
     private List<Deity> deities = new List<Deity>();
     [SerializeField][Tooltip("For showing next deities in Hallucs")]
@@ -29,6 +31,8 @@ public class DeityManager : MonoBehaviour
     {
         //add event listeners 
         //deityDied.AddListener(OnDeityDied);
+
+        pilot = FindObjectOfType<ThePilot>();
     }
 
     private void OnDisable()
@@ -47,6 +51,12 @@ public class DeityManager : MonoBehaviour
         if(currentDeity == 0)
         {
             deities[6].gameObject.SetActive(true);
+            //set ramin dialogue
+            pilot.PilotMonos.WaitToSetNewMonologue(0);
+            //start counting bullets
+            pilot.StartCountingBullets();
+            //rails to city
+            railMgr.SetPhase(2);
         }
 
         //Move the final deity towards the dome - quickly 

@@ -7,6 +7,7 @@ using TMPro;
 using Cameras;
 using Cinemachine;
 using NPC;
+using UnityEngine.Events;
 
 public class MonologueManager : MonoBehaviour
 {
@@ -84,6 +85,9 @@ public class MonologueManager : MonoBehaviour
     private float distanceActive = 0f;
     private FadeUiRevamped[] subtitleFades;
 
+    [SerializeField] private UnityEvent onMonoBegin;
+    [SerializeField] private UnityEvent onMonoEnd;
+    
     /// <summary>
     /// Fetch the face height. 
     /// </summary>
@@ -373,6 +377,8 @@ public class MonologueManager : MonoBehaviour
 
         //begin mono 
         inMonologue = true;
+        
+        onMonoBegin.Invoke();
 
         //start the typing!
         monoReader.SetTypingLine();
@@ -537,6 +543,8 @@ public class MonologueManager : MonoBehaviour
                 }
             }
         }
+        
+        onMonoEnd.Invoke();
         
         //disable mono and set sub time to 0
         currentSubTime = 0;
