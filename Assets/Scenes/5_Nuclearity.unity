@@ -12073,12 +12073,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c0f889cccfaf394e88669e8dd57f5df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1351516607762391923 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6305448633743062274, guid: 05bee6345c4343f499f60a56892dfd2b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1351516607762391915}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df9fac2accfc58747941c585bbfee7d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &1351516607762391924 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 2736397999068812702, guid: 05bee6345c4343f499f60a56892dfd2b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1351516607762391915}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1351516607762391925 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 715633806246552033, guid: 05bee6345c4343f499f60a56892dfd2b,
     type: 3}
   m_PrefabInstance: {fileID: 1351516607762391915}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1351516607762391926 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3796309098559228212, guid: 05bee6345c4343f499f60a56892dfd2b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1351516607762391915}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1889251645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68af3486054a9c745a59c5a674df34f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1959310990976291434 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 716445928082305281, guid: 05bee6345c4343f499f60a56892dfd2b,
@@ -12275,7 +12305,7 @@ MonoBehaviour:
   onRaminSuicide:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1351516607762391923}
         m_MethodName: ResetMovement
         m_Mode: 2
         m_Arguments:
@@ -12287,7 +12317,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 353471676}
         m_MethodName: WaitFireGunAtTarget
         m_Mode: 4
         m_Arguments:
@@ -12301,7 +12331,7 @@ MonoBehaviour:
   onPlayerKillsRamin:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1293852758}
         m_MethodName: DisableMovement
         m_Mode: 1
         m_Arguments:
@@ -12312,7 +12342,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 353471676}
         m_MethodName: SetHoldOverride
         m_Mode: 6
         m_Arguments:
@@ -12323,7 +12353,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1351516607762391923}
         m_MethodName: ResetMovement
         m_Mode: 2
         m_Arguments:
@@ -12335,7 +12365,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1351516607762391916}
         m_MethodName: SetAnimator
         m_Mode: 5
         m_Arguments:
@@ -12346,7 +12376,7 @@ MonoBehaviour:
           m_StringArgument: idle
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1351516607762391926}
         m_MethodName: SetLookAdjust
         m_Mode: 4
         m_Arguments:
@@ -12357,7 +12387,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1351516607762391924}
         m_MethodName: set_enabled
         m_Mode: 6
         m_Arguments:
