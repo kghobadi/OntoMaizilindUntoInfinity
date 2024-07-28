@@ -6101,12 +6101,12 @@ PrefabInstance:
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 3}
       propertyPath: _savedGUID
-      value: 149191229
+      value: 1266876026
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 3}
       propertyPath: hash.lastHash
-      value: 1528564809
+      value: -1640183433
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 3}
@@ -11025,11 +11025,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 20
       objectReference: {fileID: 0}
-    - target: {fileID: 605974489299294659, guid: 05bee6345c4343f499f60a56892dfd2b,
+    - target: {fileID: 562002859481553249, guid: 05bee6345c4343f499f60a56892dfd2b,
         type: 3}
-      propertyPath: npcAnimator
-      value: 
-      objectReference: {fileID: 1351516607762391918}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 606057543693382735, guid: 05bee6345c4343f499f60a56892dfd2b,
         type: 3}
       propertyPath: imageFade
@@ -11040,6 +11040,16 @@ PrefabInstance:
       propertyPath: renderCam
       value: 
       objectReference: {fileID: 688842997}
+    - target: {fileID: 606057543693382735, guid: 05bee6345c4343f499f60a56892dfd2b,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 606057543693382735, guid: 05bee6345c4343f499f60a56892dfd2b,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[3].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 606057543693382735, guid: 05bee6345c4343f499f60a56892dfd2b,
         type: 3}
       propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -11057,8 +11067,28 @@ PrefabInstance:
       objectReference: {fileID: 425266899}
     - target: {fileID: 606057543693382735, guid: 05bee6345c4343f499f60a56892dfd2b,
         type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[3].m_Target
+      value: 
+      objectReference: {fileID: 1838786743}
+    - target: {fileID: 606057543693382735, guid: 05bee6345c4343f499f60a56892dfd2b,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[3].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 606057543693382735, guid: 05bee6345c4343f499f60a56892dfd2b,
+        type: 3}
       propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: HoldItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 606057543693382735, guid: 05bee6345c4343f499f60a56892dfd2b,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
+      value: EnableDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 606057543693382735, guid: 05bee6345c4343f499f60a56892dfd2b,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 665477010009961558, guid: 05bee6345c4343f499f60a56892dfd2b,
         type: 3}
@@ -11154,6 +11184,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1046462804304095405, guid: 05bee6345c4343f499f60a56892dfd2b,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1123861688065235998, guid: 05bee6345c4343f499f60a56892dfd2b,
         type: 3}
@@ -11320,6 +11355,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3099012631184968651, guid: 05bee6345c4343f499f60a56892dfd2b,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3129743781793328464, guid: 05bee6345c4343f499f60a56892dfd2b,
         type: 3}
@@ -11633,18 +11673,6 @@ Animator:
     type: 3}
   m_PrefabInstance: {fileID: 1351516607762391915}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1351516607762391918 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 605327602213939551, guid: 05bee6345c4343f499f60a56892dfd2b,
-    type: 3}
-  m_PrefabInstance: {fileID: 1351516607762391915}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20326f75a0ff1a7439b80f694f51588f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1351516607762391922 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 606057543693382735, guid: 05bee6345c4343f499f60a56892dfd2b,
