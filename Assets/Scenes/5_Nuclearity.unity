@@ -6332,12 +6332,12 @@ PrefabInstance:
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 3}
       propertyPath: _savedGUID
-      value: 3621904330
+      value: 2379070031
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 3}
       propertyPath: hash.lastHash
-      value: 1366139682
+      value: -1498005161
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 3}
@@ -10456,6 +10456,18 @@ Transform:
   m_Father: {fileID: 1904330351}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &1871213101 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6305171948450029676, guid: 05bee6345c4343f499f60a56892dfd2b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1351516607762391915}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc2d4d5d018f3544ba6364c36af9334c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1889251645 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2930572521485274635, guid: 05bee6345c4343f499f60a56892dfd2b,
@@ -11639,6 +11651,11 @@ PrefabInstance:
       objectReference: {fileID: 1293852758}
     - target: {fileID: 2736397999068812688, guid: 05bee6345c4343f499f60a56892dfd2b,
         type: 3}
+      propertyPath: distNecessary
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2736397999068812688, guid: 05bee6345c4343f499f60a56892dfd2b,
+        type: 3}
       propertyPath: fire.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1605485584}
@@ -12397,6 +12414,17 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1871213101}
+        m_MethodName: SetControls
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &5710527340292311969
 MonoBehaviour:

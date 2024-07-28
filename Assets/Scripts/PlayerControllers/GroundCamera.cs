@@ -193,6 +193,15 @@ public class GroundCamera : MonoBehaviour
     }
 
     /// <summary>
+    /// Can we control this?
+    /// </summary>
+    /// <param name="controls"></param>
+    public void SetControls(bool controls)
+    {
+        canControl = controls;
+    }
+
+    /// <summary>
     /// Toggles the clamp.
     /// </summary>
     public void ToggleClamp()
