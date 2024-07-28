@@ -10,7 +10,9 @@ public class MirrorObject : MonoBehaviour
     [Tooltip("obj looking to be mirrored")]
     public Transform mirrorObject;
     [Tooltip("EX: camera looking at mirror obj")]
-    public Transform mirrorCam; 
+    public Transform mirrorCam;
+
+    public bool lockY;
    
     void Start()
     {
@@ -24,6 +26,11 @@ public class MirrorObject : MonoBehaviour
 
     void CalculateOffset()
     {
-        transform.localPosition = mirrorCam.position - mirrorObject.position;
+        Vector3 offsetPos = mirrorCam.position - mirrorObject.position;
+        if (lockY)
+        {
+            offsetPos = new Vector3(offsetPos.x, transform.localPosition.y, offsetPos.z);
+        }
+        transform.localPosition = offsetPos;
     }
 }
