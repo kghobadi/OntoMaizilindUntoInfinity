@@ -4940,7 +4940,7 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     moveRadius: 0
-    idleType: 1
+    idleType: 0
     runType: 0
     followObject: {fileID: 0}
   - pathName: Ramin Point Gun at Self
@@ -6344,12 +6344,12 @@ PrefabInstance:
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 3}
       propertyPath: _savedGUID
-      value: 2379070031
+      value: 3356237037
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 3}
       propertyPath: hash.lastHash
-      value: -1498005161
+      value: -1378881114
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 3}
@@ -11377,12 +11377,17 @@ PrefabInstance:
     - target: {fileID: 606057543693382735, guid: 05bee6345c4343f499f60a56892dfd2b,
         type: 3}
       propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 606057543693382735, guid: 05bee6345c4343f499f60a56892dfd2b,
         type: 3}
       propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[3].m_Mode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 606057543693382735, guid: 05bee6345c4343f499f60a56892dfd2b,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[4].m_Mode
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 606057543693382735, guid: 05bee6345c4343f499f60a56892dfd2b,
         type: 3}
@@ -11406,7 +11411,17 @@ PrefabInstance:
       objectReference: {fileID: 1838786743}
     - target: {fileID: 606057543693382735, guid: 05bee6345c4343f499f60a56892dfd2b,
         type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[4].m_Target
+      value: 
+      objectReference: {fileID: 1351516607762391916}
+    - target: {fileID: 606057543693382735, guid: 05bee6345c4343f499f60a56892dfd2b,
+        type: 3}
       propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[3].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 606057543693382735, guid: 05bee6345c4343f499f60a56892dfd2b,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[4].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 606057543693382735, guid: 05bee6345c4343f499f60a56892dfd2b,
@@ -11421,7 +11436,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 606057543693382735, guid: 05bee6345c4343f499f60a56892dfd2b,
         type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[4].m_MethodName
+      value: SetIdleFloat
+      objectReference: {fileID: 0}
+    - target: {fileID: 606057543693382735, guid: 05bee6345c4343f499f60a56892dfd2b,
+        type: 3}
       propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 606057543693382735, guid: 05bee6345c4343f499f60a56892dfd2b,
+        type: 3}
+      propertyPath: events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 625052028829677441, guid: 05bee6345c4343f499f60a56892dfd2b,
@@ -11667,9 +11692,20 @@ PrefabInstance:
       objectReference: {fileID: 848632084}
     - target: {fileID: 2736397999068812688, guid: 05bee6345c4343f499f60a56892dfd2b,
         type: 3}
+      propertyPath: raminAi
+      value: 
+      objectReference: {fileID: 1351516607762391923}
+    - target: {fileID: 2736397999068812688, guid: 05bee6345c4343f499f60a56892dfd2b,
+        type: 3}
       propertyPath: fpsHolder
       value: 
       objectReference: {fileID: 1293852758}
+    - target: {fileID: 2736397999068812688, guid: 05bee6345c4343f499f60a56892dfd2b,
+        type: 3}
+      propertyPath: killPerson
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b3e018f3b64d0f4f887076eadd35ac8,
+        type: 2}
     - target: {fileID: 2736397999068812688, guid: 05bee6345c4343f499f60a56892dfd2b,
         type: 3}
       propertyPath: distNecessary
@@ -11705,6 +11741,11 @@ PrefabInstance:
       propertyPath: pickUpEvent.m_PersistentCalls.m_Calls.Array.data[5].m_Target
       value: 
       objectReference: {fileID: 1410963351}
+    - target: {fileID: 2736397999068812688, guid: 05bee6345c4343f499f60a56892dfd2b,
+        type: 3}
+      propertyPath: fire.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_FloatArgument
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2738088066476935333, guid: 05bee6345c4343f499f60a56892dfd2b,
         type: 3}
       propertyPath: m_Layer

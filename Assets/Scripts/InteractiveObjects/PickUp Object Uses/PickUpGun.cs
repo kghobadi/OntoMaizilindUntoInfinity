@@ -18,7 +18,11 @@ public class PickUpGun : PickUpObject
     public bool hasFired;
     public Transform target;
 
+    //Bullet Fire ending
     public AudioClip gunShot;
+    public NPC.Movement raminAi;
+    public NPC.MovementPath killPerson;
+    public ParticleSystem bloodSpatter;
     
     public override void HoldItem()
     {
@@ -51,8 +55,13 @@ public class PickUpGun : PickUpObject
                 personAnimator.SetTrigger("FireGun");
                 
                 //fire the gun.
-                bullet.transform.LookAt(target.position);
-                bullet.FireBullet();
+                //bullet.transform.LookAt(target.position);
+                //bullet.FireBullet();
+        
+                //ramin AI behavior
+                raminAi.ResetMovement(killPerson);
+                //blood particles
+                bloodSpatter.Play();
                 
                 //sound
                 PlaySound(gunShot, 1f);
