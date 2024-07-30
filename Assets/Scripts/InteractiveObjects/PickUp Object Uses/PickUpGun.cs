@@ -37,39 +37,33 @@ public class PickUpGun : PickUpObject
     /// </summary>
     public override void UseObject()
     {
-        RaycastHit hit;
-        // Does the ray intersect any objects excluding the player layer
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, shootableMask))
+        //only fire the gun once.
+        if (!hasFired)
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-
-            //only fire the gun if we are aiming at a human. 
-            if (hit.transform.gameObject.CompareTag("Human") && !hasFired)
-            {
-                base.UseObject();
+            base.UseObject();
                 
-                //fire gun effect
-                fireGun.Play();
+            //fire gun effect
+            fireGun.Play();
         
-                //trigger anim in person
-                personAnimator.SetTrigger("FireGun");
+            //trigger anim in person
+            personAnimator.SetTrigger("FireGun");
                 
-                //fire the gun.
-                //bullet.transform.LookAt(target.position);
-                //bullet.FireBullet();
+            //fire the gun.
+            //bullet.transform.LookAt(target.position);
+            //bullet.FireBullet();
         
-                //ramin AI behavior
-                raminAi.ResetMovement(killPerson);
-                //blood particles
+            //ramin AI behavior
+            raminAi.ResetMovement(killPerson);
+            //blood particles
+            if(bloodSpatter)
                 bloodSpatter.Play();
                 
-                //sound
-                PlaySound(gunShot, 1f);
+            //sound
+            PlaySound(gunShot, 1f);
                 
-                //fired
-                fire.Invoke();
-                hasFired = true;
-            }
+            //fired
+            fire.Invoke();
+            hasFired = true;
         }
     }
 
