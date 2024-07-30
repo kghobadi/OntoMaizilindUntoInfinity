@@ -22,6 +22,8 @@ public class PickUpGun : PickUpObject
     public AudioClip gunShot;
     public NPC.Movement raminAi;
     public NPC.MovementPath killPerson;
+    [SerializeField] private NPC.Animations raminAnim;
+    private string deathTrigger = "die";
     public ParticleSystem bloodSpatter;
     
     public override void HoldItem()
@@ -53,7 +55,8 @@ public class PickUpGun : PickUpObject
             //bullet.FireBullet();
         
             //ramin AI behavior
-            raminAi.ResetMovement(killPerson);
+            //raminAi.ResetMovement(killPerson);
+            raminAnim.Animator.SetTrigger(deathTrigger);
             //blood particles
             if(bloodSpatter)
                 bloodSpatter.Play();
