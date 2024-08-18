@@ -7,10 +7,10 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WorldPosSlices
-  m_Shader: {fileID: 4800000, guid: 066c953ee5701474dab4380df698c2bd, type: 3}
+  m_Name: ExplosionGlass
+  m_Shader: {fileID: 4800000, guid: b674fda82b7dcf642a381a24976138ea, type: 3}
   m_ShaderKeywords: _EMISSION
-  m_LightmapFlags: 1
+  m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -20,11 +20,15 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Albedo:
-        m_Texture: {fileID: 2800000, guid: bdbe94d7623ec3940947b62544306f1c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7b2d250cb1ff5984ebe320abfcbe4c1f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Cubemap:
+        m_Texture: {fileID: 8900000, guid: 56a68e301a0ff55469ae441c0112d256, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -47,6 +51,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Metallic:
+        m_Texture: {fileID: 2800000, guid: 2be69b1584d71e048a393fff2ef0a80d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -59,8 +67,24 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TextureSample1:
+        m_Texture: {fileID: 8900000, guid: 56a68e301a0ff55469ae441c0112d256, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample3:
+        m_Texture: {fileID: 8900000, guid: 56a68e301a0ff55469ae441c0112d256, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _char_woodman_diffuse:
-        m_Texture: {fileID: 2800000, guid: 7b2d250cb1ff5984ebe320abfcbe4c1f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1c335bac7dc9aa445bb8c34cf4a296b1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _char_woodman_normals:
+        m_Texture: {fileID: 2800000, guid: 066f29fd0fc3d0341b96857dcf2cede3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _prop_barrel_01_sg:
+        m_Texture: {fileID: 2800000, guid: 2be69b1584d71e048a393fff2ef0a80d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -69,41 +93,38 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
-    - _Cutoff: 0
+    - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _Float2: 0.5
+    - _Float0: 0.438
+    - _Float1: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _MaskClipValue: 0
-    - _Metallic: 0
+    - _M: 0
+    - _Me: 0
+    - _Met: 0
+    - _Meta: 0
+    - _Metal: 0
+    - _Metali: 0
+    - _Metalic: 0
+    - _Metallic: 0.62
     - _Mode: 0
-    - _Multiplier: 2
-    - _NoiseSize: 1
     - _OcclusionStrength: 1
-    - _OffsetStrength: 1
-    - _Opacity: 0.23
-    - _OpacityMask: 0.64
+    - _Op: 1
+    - _Opa: 1
+    - _Opacity: 0.584
     - _Parallax: 0.02
+    - _Smoothness: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _T: 0.27
-    - _Thic: 0.27
-    - _Thickness: 0.5
     - _UVSec: 0
-    - _WaveHeight: 1
-    - _WaveSpeed: 0
-    - _WaveTile: 0.51
-    - _WaveTile1: 1
-    - _ZMultiplier: 0
     - _ZWrite: 1
     - __dirty: 0
     m_Colors:
-    - _Color: {r: 0.9716981, g: 0.9716981, b: 0.9716981, a: 1}
+    - _Color: {r: 1, g: 0.28068668, b: 0, a: 0.222}
+    - _Color0: {r: 0.48870027, g: 0.6490604, b: 0.9632353, a: 0.478}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _NoiseScale: {r: 1, g: 0.25, b: 1, a: 0}
-    - _Vector0: {r: 0.2, g: 0.5, b: 0.2, a: 0}
-    - _WaveSize: {r: 1, g: 1, b: 0, a: 0}
-    - _WaveSize1: {r: 1, g: 1, b: 0, a: 0}
+    - _UVOffset0: {r: 0.1, g: 0.1, b: 0.1, a: 0}
+    - _UVOffset1: {r: -0.1, g: -0.1, b: -0.1, a: 0}
