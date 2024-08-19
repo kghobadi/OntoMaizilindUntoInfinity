@@ -30,8 +30,8 @@ public class DestructibleBuilding : MonoBehaviour {
     public GameObject smokePrefab;
     ParticleSystem smokeParticles;
 
-    public string pilot = "Ramins Takeoff";
-    public string nuclearity = "Nuclearity";
+    public const string pilot = "3_Ramins Takeoff";
+    public const string nuclearity = "5_Nuclearity";
 
     void Awake()
     {
@@ -106,7 +106,7 @@ public class DestructibleBuilding : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         //US bombing 
-        if(other.gameObject.tag == "Bomb")
+        if(other.gameObject.CompareTag("Bomb"))
         {
             //Debug.Log("ouch");
             health--;
@@ -118,7 +118,7 @@ public class DestructibleBuilding : MonoBehaviour {
         }
        
         //immediately explode 
-        if(other.gameObject.tag == "Deity" && health > 0)
+        if(other.gameObject.CompareTag("Deity") && health > 0)
         {
             //play efx
             explosionParticles.Play();
@@ -133,7 +133,7 @@ public class DestructibleBuilding : MonoBehaviour {
         }
 
         //destroyed in nuclearity 
-        if (other.gameObject.tag == "Explosion" && SceneManager.GetActiveScene().name == nuclearity)
+        if (other.gameObject.CompareTag("Explosion") && SceneManager.GetActiveScene().name == nuclearity)
         {
             gameObject.SetActive(false);
         }
