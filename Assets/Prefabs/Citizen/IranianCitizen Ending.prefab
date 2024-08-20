@@ -3963,7 +3963,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    minVertexDistance: 0.2
+    minVertexDistance: 0.3
     textureMode: 0
     ribbonCount: 1
     shadowBias: 0.5
@@ -4760,7 +4760,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_RenderMode: 5
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -6741,6 +6741,7 @@ MonoBehaviour:
   holdingPlayer: 0
   holdingSpot: {fileID: 5325846904091667520}
   faceAnimation: {fileID: 2689679403710343635}
+  dropOffset: 3
   followObject: {fileID: 0}
 --- !u!114 &2689391770108189817
 MonoBehaviour:
@@ -6769,6 +6770,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: af78ef4ac80e9d045826996bab9f9124, type: 3}
   - {fileID: 8300000, guid: ba048c5317a241c4eb3af9a780cbec20, type: 3}
   - {fileID: 8300000, guid: 2af2492e9f02cc1458df4f17682154d9, type: 3}
+  faceAnimUi: {fileID: 0}
   normalFace:
   - {fileID: 21300000, guid: ea82c7b6b1d87e2438ac13135756c698, type: 3}
   - {fileID: 21300000, guid: 8795f06d2cd4e8f4b841aee61356de44, type: 3}
@@ -6832,8 +6834,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wmManager: {fileID: 0}
   npcController: {fileID: 0}
+  monoReader: {fileID: 0}
+  sharesReader: 0
   isPlayer: 0
   textBack: {fileID: 0}
+  allFades: []
   currentMonologue: 0
   allMyMonologues: []
   inMonologue: 0
@@ -6847,11 +6852,17 @@ MonoBehaviour:
   centerOffScreenSub: 0
   subtitleTMP: {fileID: 0}
   subCanvasGroup: {fileID: 0}
-  subChanging: 0
   currentSubTime: 0
   faceSizeMult: 2
   facePointer: {fileID: 0}
   faceRect: {fileID: 0}
+  distanceActive: 0
+  onMonoBegin:
+    m_PersistentCalls:
+      m_Calls: []
+  onMonoEnd:
+    m_PersistentCalls:
+      m_Calls: []
   arrowImg: {fileID: 0}
   subPointOffsetX: 0
 --- !u!65 &-4087742396876950794
