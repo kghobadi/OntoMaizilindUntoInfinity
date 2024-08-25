@@ -12,6 +12,7 @@ public class SpeakerSound : AudioHandler
     public bool randomPitch;
     public bool usesAllLetters, countsUp;
     public int speakFreq = 4;
+	public float volume = 0.6f;
     
     //for random sound reading
     [Header("Speaker Sounds")]
@@ -99,7 +100,7 @@ public class SpeakerSound : AudioHandler
             //punctuation or other stuff?
             else
             {
-                PlayRandomSound(spokenSounds, 1f);
+                PlayRandomSound(spokenSounds, volume);
                 //Debug.Log("gibberish");
             }
         }
@@ -108,11 +109,11 @@ public class SpeakerSound : AudioHandler
         {
             if (randomPitch)
             {
-                PlayRandomSoundRandomPitch(spokenSounds, 1f);
+                PlayRandomSoundRandomPitch(spokenSounds, volume);
             }
             else
             {
-                PlayRandomSound(spokenSounds, 1f);
+                PlayRandomSound(spokenSounds, volume);
             }
             
             //Debug.Log("gibberish");
