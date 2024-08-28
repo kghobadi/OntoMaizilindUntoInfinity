@@ -27,7 +27,7 @@ public class MusicFader : MonoBehaviour {
 
     [Header("Scene Fade Setup")]
     public bool fadeOnSceneChange;
-    public string sceneName;
+    private string sceneNameOnAwake;
 
     [Header("Pause Settings")] 
     public bool pauseClips;
@@ -38,6 +38,7 @@ public class MusicFader : MonoBehaviour {
     void Awake () 
     {
         musicSource = GetComponent<AudioSource>();
+        sceneNameOnAwake = SceneManager.GetActiveScene().name;
     }
 	
 	void Update () 
@@ -74,7 +75,8 @@ public class MusicFader : MonoBehaviour {
 
         if (fadeOnSceneChange)
         {
-            if (SceneManager.GetActiveScene().name == sceneName)
+            //fade as soon as we are in a different scene from Awake()
+            if (SceneManager.GetActiveScene().name != sceneNameOnAwake)
             {
                 FadeOut(0f, 0.035f);
             }
