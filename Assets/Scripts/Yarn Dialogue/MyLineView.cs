@@ -249,7 +249,7 @@ namespace Yarn.Unity
             }
 
             // That keycode needs to have been pressed this frame. OR L MOUSE
-            if (!UnityEngine.Input.GetKeyDown(continueActionKeyCode) || !Input.GetMouseButtonDown(0))  
+            if (!UnityEngine.Input.GetKeyDown(continueActionKeyCode) && !Input.GetMouseButtonDown(0))  
             {
                 return;
             }
