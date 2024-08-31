@@ -276,4 +276,15 @@ public class CitizenGenerator : MonoBehaviour
 
         generatedObjs = null;
     }
+
+    public void WaitToSpawnCitizens(float time)
+    {
+        StartCoroutine(WaitToSpawn(time));
+    }
+
+    IEnumerator WaitToSpawn(float time)
+    {
+        yield return new WaitForSeconds(time);
+        SpawnCitizens();
+    }
 }

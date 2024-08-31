@@ -19,6 +19,7 @@ public class CamObject : MonoBehaviour
     public GameCamera camObj;
     private CinemachineVirtualCamera myVirtualCam;
     public FadeUI shiftUI;
+    public bool excludeFromSwitcher;
     
     //Human/player
     public GameObject headset, myBody;

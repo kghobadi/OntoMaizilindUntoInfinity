@@ -117,7 +117,7 @@ public class CameraSwitcher : MonoBehaviour
     public void AddCamObject(CamObject cam)
     {
         //Cannot already contain it. 
-        if (!cameraObjects.Contains(cam))
+        if (!cameraObjects.Contains(cam) && !cam.excludeFromSwitcher)
         {
             cameraObjects.Add(cam);
         }

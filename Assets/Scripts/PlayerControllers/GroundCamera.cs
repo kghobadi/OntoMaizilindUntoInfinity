@@ -32,6 +32,8 @@ public class GroundCamera : MonoBehaviour
     public float minX, maxX;
     public float minY, maxY;
 
+    private const string bombingScene = "2_Bombing of a City";
+
     void Awake()
     {
         if (transform.parent)
@@ -49,7 +51,7 @@ public class GroundCamera : MonoBehaviour
 
     private void OnEnable()
     {
-        if (SceneManager.GetActiveScene().name == "Bombing of a City")
+        if (SceneManager.GetActiveScene().name == bombingScene)
         {
             if (cvc == null)
             {
@@ -61,7 +63,7 @@ public class GroundCamera : MonoBehaviour
 
     private void OnDisable()
     {
-        if (SceneManager.GetActiveScene().name == "Bombing of a City")
+        if (SceneManager.GetActiveScene().name == bombingScene)
         {
             cvc.enabled = false; 
         }
@@ -84,7 +86,8 @@ public class GroundCamera : MonoBehaviour
         }
 
         Cursor.lockState = CursorLockMode.Locked;
-        canControl = true;
+        if(SceneManager.GetActiveScene().name != bombingScene)
+            canControl = true;
     }
     
     void CheckCanControl()
