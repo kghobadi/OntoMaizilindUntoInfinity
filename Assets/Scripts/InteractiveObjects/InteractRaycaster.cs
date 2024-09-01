@@ -100,14 +100,22 @@ public class InteractRaycaster : NonInstantiatingSingleton<InteractRaycaster>
         // Find our ray's intersection through the selected layer
         if ( Physics.Raycast(ray, out hit, interactDistanceMax, interactableLayer))
         {
-            //set current interact obj
-            currentInteractObject = hit.transform.gameObject;
-            //send hit event
-            onHitInteractObj();
-            //set last interact obj
-            lastInteractObject = currentInteractObject;
+            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Interactable"))
+            {
+                //set current interact obj
+                currentInteractObject = hit.transform.gameObject;
+                //send hit event
+                onHitInteractObj();
+                //set last interact obj
+                lastInteractObject = currentInteractObject;
 
-            //Debug.Log("Hit object: " + currentInteractObject.name);
+                //Debug.Log("Hit object: " + currentInteractObject.name);
+            }
+            else
+            {
+                currentInteractObject = null;
+                onHitNothing();
+            }
         }
         //Didn't hit anything on the Interactive layer in distance.
         else

@@ -29,6 +29,10 @@ public class GroundCamera : MonoBehaviour
             {
                 MouseSense =  PlayerPrefs.GetFloat("MouseSensitivity");
             }
+            else
+            {
+                PlayerPrefs.SetFloat("MouseSensitivity", MouseSense);
+            }
 
             return MouseSense;
         }
@@ -41,6 +45,10 @@ public class GroundCamera : MonoBehaviour
             if (PlayerPrefs.HasKey("ControllerSensitivity"))
             {
                 controllerSense =  PlayerPrefs.GetFloat("ControllerSensitivity");
+            }
+            else
+            {
+                PlayerPrefs.SetFloat("ControllerSensitivity", controllerSense);
             }
 
             return controllerSense;
