@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Lightning : AudioHandler {
     Transform pilot;
@@ -47,8 +49,8 @@ public class Lightning : AudioHandler {
 
     void Update()
     {
-        //only some clouds are chosen 
-        if (lightningCloud)
+        //only some clouds are chosen && MUST BE ACTIVE GAMEOBJ
+        if (lightningCloud && gameObject.activeSelf)
         {
             //look at ground
             transform.LookAt(new Vector3(transform.position.x, 0f, transform.position.z));
@@ -75,7 +77,7 @@ public class Lightning : AudioHandler {
     private void OnTriggerEnter(Collider other)
     {
         //Is the lightning active?
-        if (myAudioSource.isPlaying || lightningParticles.isPlaying)
+        if (gameObject.activeSelf && (myAudioSource.isPlaying || lightningParticles.isPlaying))
         {
             //ZAP method #1
             if (other.gameObject.CompareTag("Player"))
@@ -88,7 +90,7 @@ public class Lightning : AudioHandler {
     private void OnTriggerStay(Collider other)
     {
         //Is the lightning active?
-        if (myAudioSource.isPlaying || lightningParticles.isPlaying)
+        if (gameObject.activeSelf && (myAudioSource.isPlaying || lightningParticles.isPlaying))
         {
             //ZAP method #2
             if (other.gameObject.CompareTag("Player"))
@@ -96,5 +98,11 @@ public class Lightning : AudioHandler {
                 the_Pilot.InitiateZap();
             }
         }
+    }
+
+    private void OnDisable()
+    {
+        myAudioSource.Stop();
+        lightningParticles.Stop();
     }
 }

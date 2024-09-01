@@ -491,7 +491,6 @@ MonoBehaviour:
   trackList: []
   trackCounter: 0
   fadeOnSceneChange: 0
-  sceneName: 
   pauseClips: 0
   pauseTimes: []
 --- !u!82 &31025505
@@ -645,7 +644,6 @@ MonoBehaviour:
   trackList: []
   trackCounter: 0
   fadeOnSceneChange: 0
-  sceneName: 
   pauseClips: 0
   pauseTimes: []
 --- !u!82 &33955858
@@ -820,6 +818,7 @@ GameObject:
   - component: {fileID: 44865815}
   - component: {fileID: 44865814}
   - component: {fileID: 44865813}
+  - component: {fileID: 44865816}
   m_Layer: 9
   m_Name: Deity iv (sloth/regret) (1)
   m_TagString: Untagged
@@ -893,6 +892,26 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &44865816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 44865811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
+  followType: 0
+  followX: 1
+  followY: 0
+  followZ: 0
+  xDistAtStart: 0
+  yDistAtStart: 0
+  zDistAtStart: 0
 --- !u!1001 &53474036
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6635,6 +6654,7 @@ MonoBehaviour:
   usesAllLetters: 0
   countsUp: 0
   speakFreq: 3
+  volume: 0.6
   spokenSounds:
   - {fileID: 8300000, guid: d3650667a0644a046be211bde93e3650, type: 3}
   - {fileID: 8300000, guid: 2b8b5c8e09e3f8a4ca8e328ff7161c84, type: 3}
@@ -18866,12 +18886,12 @@ PrefabInstance:
     - target: {fileID: 114184964779411528, guid: 004947fbf1c5f5f42bdb6e4eef9f4357,
         type: 3}
       propertyPath: events.Array.size
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114184964779411528, guid: 004947fbf1c5f5f42bdb6e4eef9f4357,
         type: 3}
       propertyPath: checkpoints.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114184964779411528, guid: 004947fbf1c5f5f42bdb6e4eef9f4357,
         type: 3}
@@ -19913,7 +19933,6 @@ MonoBehaviour:
   trackList: []
   trackCounter: 0
   fadeOnSceneChange: 0
-  sceneName: 
   pauseClips: 0
   pauseTimes: []
 --- !u!82 &590361878
@@ -25178,6 +25197,7 @@ MonoBehaviour:
   usesAllLetters: 0
   countsUp: 0
   speakFreq: 3
+  volume: 0.6
   spokenSounds:
   - {fileID: 8300000, guid: d3650667a0644a046be211bde93e3650, type: 3}
   - {fileID: 8300000, guid: 2b8b5c8e09e3f8a4ca8e328ff7161c84, type: 3}
@@ -25487,6 +25507,7 @@ GameObject:
   - component: {fileID: 636171531}
   - component: {fileID: 636171530}
   - component: {fileID: 636171529}
+  - component: {fileID: 636171532}
   m_Layer: 9
   m_Name: Deity v (pride) (1)
   m_TagString: Untagged
@@ -25560,6 +25581,26 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &636171532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 636171527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
+  followType: 0
+  followX: 1
+  followY: 0
+  followZ: 0
+  xDistAtStart: 0
+  yDistAtStart: 0
+  zDistAtStart: 0
 --- !u!1 &638570724
 GameObject:
   m_ObjectHideFlags: 0
@@ -33326,6 +33367,7 @@ GameObject:
   - component: {fileID: 720626957}
   - component: {fileID: 720626956}
   - component: {fileID: 720626955}
+  - component: {fileID: 720626958}
   m_Layer: 9
   m_Name: Deity ii (lust) (1)
   m_TagString: Untagged
@@ -33399,6 +33441,26 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &720626958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 720626953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
+  followType: 0
+  followX: 1
+  followY: 0
+  followZ: 0
+  xDistAtStart: 0
+  yDistAtStart: 0
+  zDistAtStart: 0
 --- !u!1 &721996150
 GameObject:
   m_ObjectHideFlags: 0
@@ -54081,6 +54143,7 @@ GameObject:
   - component: {fileID: 871201698}
   - component: {fileID: 871201697}
   - component: {fileID: 871201696}
+  - component: {fileID: 871201699}
   m_Layer: 9
   m_Name: Deity iii (gluttony) (1)
   m_TagString: Untagged
@@ -54154,6 +54217,26 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &871201699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871201694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
+  followType: 0
+  followX: 1
+  followY: 0
+  followZ: 0
+  xDistAtStart: 0
+  yDistAtStart: 0
+  zDistAtStart: 0
 --- !u!1 &873377874
 GameObject:
   m_ObjectHideFlags: 0
@@ -60043,6 +60126,7 @@ GameObject:
   - component: {fileID: 915952781}
   - component: {fileID: 915952780}
   - component: {fileID: 915952779}
+  - component: {fileID: 915952782}
   m_Layer: 9
   m_Name: Deity vi (greed) (1)
   m_TagString: Untagged
@@ -60116,6 +60200,26 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &915952782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915952777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
+  followType: 0
+  followX: 1
+  followY: 0
+  followZ: 0
+  xDistAtStart: 0
+  yDistAtStart: 0
+  zDistAtStart: 0
 --- !u!1 &919135916
 GameObject:
   m_ObjectHideFlags: 0
@@ -65756,7 +65860,6 @@ MonoBehaviour:
   trackList: []
   trackCounter: 0
   fadeOnSceneChange: 0
-  sceneName: 
   pauseClips: 0
   pauseTimes: []
 --- !u!82 &973524321
@@ -67398,7 +67501,6 @@ MonoBehaviour:
   trackList: []
   trackCounter: 0
   fadeOnSceneChange: 0
-  sceneName: 
   pauseClips: 0
   pauseTimes: []
 --- !u!82 &1084861152
@@ -67722,6 +67824,7 @@ GameObject:
   - component: {fileID: 1091851474}
   - component: {fileID: 1091851473}
   - component: {fileID: 1091851472}
+  - component: {fileID: 1091851475}
   m_Layer: 9
   m_Name: Deity i (envy/sorrow) (1)
   m_TagString: Untagged
@@ -67795,6 +67898,26 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1091851475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1091851470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
+  followType: 0
+  followX: 1
+  followY: 0
+  followZ: 0
+  xDistAtStart: 0
+  yDistAtStart: 0
+  zDistAtStart: 0
 --- !u!1 &1095004482
 GameObject:
   m_ObjectHideFlags: 0
@@ -68895,7 +69018,6 @@ MonoBehaviour:
   trackList: []
   trackCounter: 0
   fadeOnSceneChange: 0
-  sceneName: 
   pauseClips: 0
   pauseTimes: []
 --- !u!82 &1136243205
@@ -85282,6 +85404,7 @@ MonoBehaviour:
   usesAllLetters: 0
   countsUp: 0
   speakFreq: 3
+  volume: 0.6
   spokenSounds:
   - {fileID: 8300000, guid: 1c8238b04b2a4dc49b56a2be3f357db5, type: 3}
   - {fileID: 8300000, guid: b405b58155b6f1c4ebcc8db2dbce217f, type: 3}
@@ -86086,6 +86209,7 @@ GameObject:
   - component: {fileID: 1277626347}
   - component: {fileID: 1277626346}
   - component: {fileID: 1277626345}
+  - component: {fileID: 1277626348}
   m_Layer: 9
   m_Name: Deity VII - Wrath / Apocalypse (1)
   m_TagString: Untagged
@@ -86158,6 +86282,26 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1277626348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277626343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 876fff0734ef6a844a408736899b349a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  optionalFollowObject: {fileID: 0}
+  followType: 0
+  followX: 1
+  followY: 0
+  followZ: 0
+  xDistAtStart: 0
+  yDistAtStart: 0
+  zDistAtStart: 0
 --- !u!4 &1280684646
 Transform:
   m_ObjectHideFlags: 0
@@ -97401,6 +97545,7 @@ MonoBehaviour:
   usesAllLetters: 0
   countsUp: 0
   speakFreq: 3
+  volume: 0.6
   spokenSounds:
   - {fileID: 8300000, guid: d3650667a0644a046be211bde93e3650, type: 3}
   - {fileID: 8300000, guid: 2b8b5c8e09e3f8a4ca8e328ff7161c84, type: 3}
@@ -115466,7 +115611,7 @@ Transform:
   m_GameObject: {fileID: 1685180556}
   m_LocalRotation: {x: -0.000000286847, y: 0.0000003641833, z: -0.00000078354356,
     w: 1}
-  m_LocalPosition: {x: 0.0000026595528, y: -0.00006010667, z: 0.0012534463}
+  m_LocalPosition: {x: 0.0000026602722, y: -0.00006010667, z: 0.0012534463}
   m_LocalScale: {x: 1, y: 1.0135, z: 1.0135007}
   m_Children:
   - {fileID: 668675137}
@@ -133865,7 +134010,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2045468874}
   m_LocalRotation: {x: 0.06214409, y: -0.00000061281025, z: 0.0000006258469, w: -0.99806726}
-  m_LocalPosition: {x: 0.0000026602938, y: 76.270096, z: -162.71875}
+  m_LocalPosition: {x: 0.0000026610132, y: 76.270096, z: -162.71875}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -141757,6 +141902,7 @@ MonoBehaviour:
   usesAllLetters: 0
   countsUp: 0
   speakFreq: 3
+  volume: 0.6
   spokenSounds:
   - {fileID: 8300000, guid: 1c8238b04b2a4dc49b56a2be3f357db5, type: 3}
   - {fileID: 8300000, guid: b405b58155b6f1c4ebcc8db2dbce217f, type: 3}
