@@ -53,7 +53,7 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
-    void FixedUpdate ()
+    void Update ()
     {
         //get input device 
         inputDevice = InputManager.ActiveDevice;
@@ -152,7 +152,9 @@ public class PauseMenu : MonoBehaviour
             {
                 pauseVideos[i].Play();
             }
-
+            
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = false;
             paused = false;
         }
         //pause menu not active -- just deactivate all sub menus
@@ -163,22 +165,6 @@ public class PauseMenu : MonoBehaviour
     }
     
     public void Pause()
-    {
-        //check to see we aren't waiting at Title 
-        if(title != null)
-        {
-            if (title.transitioned)
-            {
-                Pauses();
-            }
-        }
-        else
-        {
-            Pauses();
-        }
-    }
-
-    void Pauses()
     {
         //activate pause menu.
         pauseMenu.gameObject.SetActive(true);
@@ -213,7 +199,9 @@ public class PauseMenu : MonoBehaviour
                 pausedAudios.Add(pauseAudio[i]);
             }
         }
-        
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         paused = true;
 
         //video

@@ -1,10 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
-public class Selectors : MonoBehaviour 
+public class Selectors : MonoBehaviour
 {
+    private Button myButton;
     [HideInInspector]
     public MenuSelections menuSelections;
     public bool deactivateMainMenu;
@@ -19,6 +22,11 @@ public class Selectors : MonoBehaviour
     {
         if (menuSelections == null)
             menuSelections = GetComponentInParent<MenuSelections>();
+        myButton = GetComponent<Button>();
+        if (myButton)
+        {
+            myButton.onClick.AddListener(SelectMe);
+        }
     }
 
     private void OnEnable()
@@ -103,6 +111,14 @@ public class Selectors : MonoBehaviour
                 //disable menu selections while submenu is active
                 menuSelections.DeactivateMenu(false);
             }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (myButton)
+        {
+            myButton.onClick.RemoveListener(SelectMe);
         }
     }
 }

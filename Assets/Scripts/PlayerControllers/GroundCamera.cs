@@ -20,10 +20,33 @@ public class GroundCamera : MonoBehaviour
     Vector2 smoothV;
 
     float hRot, vRot;
-    public float sensitivityX = 1f;
-    public float sensitivityY = 1f;
-    public float controllerSensitivityX = 3f;
-    public float controllerSensitivityY = 3f;
+    private float MouseSensitivity
+    {
+        get
+        {
+            float MouseSense = 1f;
+            if (PlayerPrefs.HasKey("MouseSensitivity"))
+            {
+                MouseSense =  PlayerPrefs.GetFloat("MouseSensitivity");
+            }
+
+            return MouseSense;
+        }
+    }
+    private float ControllerSensitivity
+    {
+        get
+        {
+            float controllerSense = 3f;
+            if (PlayerPrefs.HasKey("ControllerSensitivity"))
+            {
+                controllerSense =  PlayerPrefs.GetFloat("ControllerSensitivity");
+            }
+
+            return controllerSense;
+        }
+    }
+    
     public bool invertX, invertY;
     public bool canControl = true;
 
@@ -129,14 +152,14 @@ public class GroundCamera : MonoBehaviour
             //controller 
             if (inputDevice.DeviceClass == InputDeviceClass.Controller)
             {
-                hRot += inputDevice.RightStickX * controllerSensitivityX;
-                vRot += inputDevice.RightStickY * controllerSensitivityY;
+                hRot += inputDevice.RightStickX * ControllerSensitivity;
+                vRot += inputDevice.RightStickY * ControllerSensitivity;
             }
             //mouse
             else
             {
-                hRot += Input.GetAxis("Mouse X") * sensitivityX;
-                vRot += Input.GetAxis("Mouse Y") * sensitivityY;
+                hRot += Input.GetAxis("Mouse X") * MouseSensitivity;
+                vRot += Input.GetAxis("Mouse Y") * MouseSensitivity;
             }
             //only clamp if both values are not set to 0
             if (minY != 0 && maxY != 0)
@@ -162,14 +185,14 @@ public class GroundCamera : MonoBehaviour
             //controller 
             if (inputDevice.DeviceClass == InputDeviceClass.Controller)
             {
-                hRot = controllerSensitivityX * inputDevice.RightStickX;
-                vRot = controllerSensitivityY * inputDevice.RightStickY;
+                hRot = ControllerSensitivity * inputDevice.RightStickX;
+                vRot = ControllerSensitivity * inputDevice.RightStickY;
             }
             //mouse
             else
             {
-                hRot = sensitivityX * Input.GetAxis("Mouse X");
-                vRot = sensitivityY * Input.GetAxis("Mouse Y");
+                hRot = MouseSensitivity * Input.GetAxis("Mouse X");
+                vRot = MouseSensitivity * Input.GetAxis("Mouse Y");
             }
 
             //neg value 
