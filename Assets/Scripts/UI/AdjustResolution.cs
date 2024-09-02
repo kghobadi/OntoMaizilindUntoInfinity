@@ -45,7 +45,7 @@ public class AdjustResolution : MonoBehaviour
         List<string> options = new List<string>();
         for (int i = 0; i < filteredResolutions.Count; i++)
         {
-            string resolutionOption = filteredResolutions[i].width + "x" + filteredResolutions[i].height + " " + filteredResolutions[i].refreshRate.ToString("0.##") + " Hz"; 
+            string resolutionOption = filteredResolutions[i].width + "x" + filteredResolutions[i].height + " " + filteredResolutions[i].refreshRate + " Hz"; 
             options.Add(resolutionOption);
             if (filteredResolutions[i].width == Screen.width && filteredResolutions[i].height == Screen.height)
             {

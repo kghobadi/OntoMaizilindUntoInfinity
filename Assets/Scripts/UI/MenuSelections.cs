@@ -196,13 +196,15 @@ public class MenuSelections : AudioHandler
     /// <param name="index"></param>
     public void SetMenuSelection(int index)
     {
-        if (menuSelections.Count > 1)
+        if (menuSelections.Count > 1 && index != currentSelector)
         {
             //deactivate current stars
             menuSelections[currentSelector].DeactivateSelectors();
 
-            if (currentSelector > 0 && currentSelector < menuSelections.Count - 1)
+            //must be within selections range 
+            if (index >= 0 && index <= menuSelections.Count - 1)
             {
+                //update index
                 currentSelector = index;
                 //activate next stars
                 menuSelections[currentSelector].ActivateSelectors();
