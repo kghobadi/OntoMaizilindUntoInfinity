@@ -13,6 +13,7 @@ public class TrainEntranceTrigger : TriggerBase
     public Transform[] seats;
     public bool[] seatsTaken;
     public bool hasSeats = true;
+    [SerializeField] private EventTrigger raminTrigger;
 
     public MovementPath newMovement;
     private Movement npcMover;
@@ -33,6 +34,7 @@ public class TrainEntranceTrigger : TriggerBase
         if (other.gameObject.CompareTag("Player"))
         {
             soulExplosion.SetPlayerEntered();
+            raminTrigger.ActivateTriggerEffect();
         }
         
         base.OnTriggerEnter(other);
