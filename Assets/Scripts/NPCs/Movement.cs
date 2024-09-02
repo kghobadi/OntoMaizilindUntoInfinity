@@ -101,6 +101,9 @@ namespace NPC
         [Header("Follower Logic")] 
         public Transform followObject;
 
+        [Tooltip("Model will angle with Ground Up - good for hilly or unpredictable terrain height")]
+        [SerializeField] private bool angleWithTerrain;
+
         void Awake()
         {
             GetRefs();
@@ -175,6 +178,10 @@ namespace NPC
                 FindPlayer();
                 //Follower behavior
                 FollowObject();
+                if (angleWithTerrain)
+                {
+                    AngleWithTerrain();
+                }
             }
         }
         
@@ -746,6 +753,15 @@ namespace NPC
         }
         
         #endregion
+
+        void AngleWithTerrain()
+        {
+            Ray ray = new Ray(transform.position + Vector3.up * 10.0f, Vector3.down);
+            if (Physics.Raycast(ray, out var hit,50f, grounded)) 
+            {
+                transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation; 
+            } 
+        }
         
         //Talking state --
         // can move to targetPosition, then ready to deliver monologue until player is near 
