@@ -141,7 +141,7 @@ public class GroundCamera : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (canControl)
         {

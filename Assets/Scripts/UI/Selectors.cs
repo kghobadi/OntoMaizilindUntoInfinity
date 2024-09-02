@@ -27,7 +27,6 @@ public class Selectors : MonoBehaviour,  IPointerEnterHandler
         if (myButton)
         {
             myButton.onClick.AddListener(SelectMe);
-            //myButton.OnPointerEnter();
         }
     }
 
