@@ -54,8 +54,14 @@ public class AdjustResolution : MonoBehaviour
         }
 
         resolutionDropdown.AddOptions(options);
+        //update the UI options texts too 
+        for(int i = 0; i < resolutionDropdown.options.Count; i++)
+        {
+            resolutionDropdown.options[i].text = options[i];
+        }
         resolutionDropdown.value = currentResolutionIndex = 0;
         resolutionDropdown.RefreshShownValue();
+        
         SetResolution(currentResolutionIndex);
     }
 

@@ -52,6 +52,7 @@ public class TrainEntranceTrigger : TriggerBase
             if (soulExplosion.npcMovers.Contains(npcMover) == false)
             {
                 //idle 
+                npcMover.ResetMovement(newMovement);
                 npcMover.SetIdle();
                 
                 //disable npc particles
