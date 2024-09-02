@@ -188,6 +188,28 @@ public class MenuSelections : AudioHandler
         }
     }
 
+    public void SetMenuSelection(Selectors selection) => SetMenuSelection(menuSelections.IndexOf(selection));
+
+    /// <summary>
+    /// Mouse hover calls this 
+    /// </summary>
+    /// <param name="index"></param>
+    public void SetMenuSelection(int index)
+    {
+        if (menuSelections.Count > 1)
+        {
+            //deactivate current stars
+            menuSelections[currentSelector].DeactivateSelectors();
+
+            if (currentSelector > 0 && currentSelector < menuSelections.Count - 1)
+            {
+                currentSelector = index;
+                //activate next stars
+                menuSelections[currentSelector].ActivateSelectors();
+            }
+        }
+    }
+
     //handles reset timer for controller selection
     void ChangeReset()
     {

@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Selectors : MonoBehaviour
+public class Selectors : MonoBehaviour,  IPointerEnterHandler
 {
     private Button myButton;
     [HideInInspector]
@@ -26,6 +27,7 @@ public class Selectors : MonoBehaviour
         if (myButton)
         {
             myButton.onClick.AddListener(SelectMe);
+            //myButton.OnPointerEnter();
         }
     }
 
@@ -120,5 +122,10 @@ public class Selectors : MonoBehaviour
         {
             myButton.onClick.RemoveListener(SelectMe);
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        menuSelections.SetMenuSelection(this);
     }
 }
