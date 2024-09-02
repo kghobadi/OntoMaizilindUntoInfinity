@@ -1261,6 +1261,7 @@ MonoBehaviour:
   myCamType: 0
   camObj: {fileID: 114565660405420402}
   shiftUI: {fileID: 0}
+  excludeFromSwitcher: 0
   headset: {fileID: 0}
   myBody: {fileID: 1669504639077246}
 --- !u!54 &54199758652948458
@@ -1392,6 +1393,7 @@ MonoBehaviour:
   screams:
   - {fileID: 8300000, guid: ad6cc141d84c11b4ab93ddebbbc93290, type: 3}
   - {fileID: 8300000, guid: ad6cc141d84c11b4ab93ddebbbc93290, type: 3}
+  faceAnimUi: {fileID: 0}
   normalFace:
   - {fileID: 21300000, guid: 3e956703e71f8ba489ac77e7e7b998b8, type: 3}
   - {fileID: 21300000, guid: a28fc23d1c2a64744a0640488fecef18, type: 3}
@@ -1431,7 +1433,7 @@ NavMeshAgent:
   m_Height: 5
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 3
 --- !u!114 &114371086120808264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1446,8 +1448,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wmManager: {fileID: 0}
   npcController: {fileID: 0}
+  monoReader: {fileID: 0}
+  sharesReader: 0
   isPlayer: 0
   textBack: {fileID: 0}
+  allFades: []
   currentMonologue: 0
   allMyMonologues: []
   inMonologue: 0
@@ -1466,6 +1471,12 @@ MonoBehaviour:
   facePointer: {fileID: 0}
   faceRect: {fileID: 0}
   distanceActive: 0
+  onMonoBegin:
+    m_PersistentCalls:
+      m_Calls: []
+  onMonoEnd:
+    m_PersistentCalls:
+      m_Calls: []
   arrowImg: {fileID: 0}
   subPointOffsetX: 0
 --- !u!1 &1531453744970926
