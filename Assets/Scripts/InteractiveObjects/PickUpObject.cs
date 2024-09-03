@@ -11,6 +11,7 @@ using UnityEngine.Events;
 public class PickUpObject : Interactive 
 {
 	//is this really necessary? what if it causes some problems :(
+	private bool init;
 	protected Rigidbody _rigidbody;
 	public FirstPersonController fpsHolder;
 	private bool held;
@@ -39,12 +40,21 @@ public class PickUpObject : Interactive
 	protected override void Start()
 	{
 		base.Start();
+		Init();
+	}
+
+	void Init()
+	{
+		if (init)
+			return;
 		_rigidbody = GetComponent<Rigidbody>();
+		colliders = GetComponentsInChildren<Collider>();
 		if (fpsHolder == null)
 		{
 			fpsHolder = _cameraSwitcher.currentPlayer.GetComponent<FirstPersonController>();
 		}
-		colliders = GetComponentsInChildren<Collider>();
+
+		init = true;
 	}
 
 	protected override void SetActive()
@@ -85,6 +95,8 @@ public class PickUpObject : Interactive
 
 	public virtual void HoldItem()
 	{
+		Init();
+		
 		//check for desired holder 
 		if (desiredHolder)
 		{
