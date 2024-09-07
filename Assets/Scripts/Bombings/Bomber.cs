@@ -92,6 +92,14 @@ public class Bomber : MonoBehaviour
         //Drop bomb
         DropTrackingBomb(dad);
     }
+
+    //Special bomb that camera follows
+    public void SpawnTransitionBomb()
+    {
+        //drop tracking bomb on new citizen spawned 
+        
+        //when it blows up, transition to nearest living person.
+    }
     
     /// <summary>
     /// Drops a tracking bomb. 
