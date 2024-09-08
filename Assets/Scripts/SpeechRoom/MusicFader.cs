@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -20,6 +21,8 @@ public class MusicFader : MonoBehaviour {
         SWITCHSOUND,
         PAUSE,
     }
+
+    public bool fadeInOnStart;
     
     [Header("Track List Setup")]
     public AudioClip[] trackList;
@@ -40,8 +43,16 @@ public class MusicFader : MonoBehaviour {
         musicSource = GetComponent<AudioSource>();
         sceneNameOnAwake = SceneManager.GetActiveScene().name;
     }
-	
-	void Update () 
+
+    private void Start()
+    {
+        if (fadeInOnStart)
+        {
+            FadeInBasic();
+        }
+    }
+
+    void Update () 
     {
         if (fadingVolOut)
         {

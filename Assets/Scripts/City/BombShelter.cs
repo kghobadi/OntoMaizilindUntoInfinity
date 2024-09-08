@@ -90,6 +90,9 @@ public class BombShelter : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// When the Player first arrives at the bomb shelter (mosque entrance). 
+    /// </summary>
     void DisableRoomPlayer()
     {
         if (!disabledPlayer)

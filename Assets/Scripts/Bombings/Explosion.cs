@@ -141,12 +141,13 @@ public class Explosion : AudioHandler {
     private void OnTriggerEnter(Collider other)
     {
         //kill a human/
-        if (other.gameObject.tag == "Human" )
+        if (other.gameObject.CompareTag("Human"))
         {
             //Debug.Log("human burnssss");
 
+            FirstPersonController fpc = other.gameObject.GetComponent<FirstPersonController>();
             //if this is the human currently being played
-            if (other.gameObject.GetComponent<FirstPersonController>().enabled)
+            if (fpc && fpc == camSwitcher.CurrentFPC)
             {
                 //switch to next viewer
                 camSwitcher.SetCam(0);
@@ -164,7 +165,7 @@ public class Explosion : AudioHandler {
         }
 
         //player
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.CompareTag("Player"))
         {
             Debug.Log("player is in explosion!");
             //do nothing for now? 
@@ -177,9 +178,9 @@ public class Explosion : AudioHandler {
         //remove this human from cam objects list
         camSwitcher.RemoveCamObject(humanObj.GetComponent<CamObject>());
 
-        //destroy the human
+        //destroy the human if they are not already dead 
         Movement npc = humanObj.GetComponent<Movement>();
-        if (npc)
+        if (npc.idleType != Movement.IdleType.DEAD)
         {
             npc.DropPlayer();
             npc.ResetMovement(camSwitcher.death);

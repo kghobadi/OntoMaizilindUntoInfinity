@@ -56,8 +56,8 @@ public class ObjectViewer : AudioHandler
 			myAudioSource.Play();
 		}
 		//disable player movement and camera controls
-		couldMove = camSwitcher.CurrentFPS.canMove;
-		camSwitcher.CurrentFPS.canMove = false;
+		couldMove = camSwitcher.CurrentFPC.canMove;
+		camSwitcher.CurrentFPC.canMove = false;
 		camSwitcher.currentCamObj.camObj.GetComponent<GroundCamera>().canControl = false;
 		
 		//disable objects colliders
