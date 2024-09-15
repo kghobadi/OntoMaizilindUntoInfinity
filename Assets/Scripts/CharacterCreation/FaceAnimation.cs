@@ -28,8 +28,10 @@ public class FaceAnimation : AnimationHandler
 	//Should add Reactions to the animator.
 	//Will set it up like Idle, except some may not loop. 
 	//Pass in an int for the state in a blendTree. 
-
-	public SkinnedMeshRenderer Face => face;
+	
+	[Tooltip("For bodies with multiple skinned meshes")]
+	[SerializeField] private bool getBodyArray;
+	private SkinnedMeshRenderer[] bodyParts;
 	
 	public bool faceShiftEnding;
 	public float faceShiftTimer = 0.35f;
@@ -44,6 +46,10 @@ public class FaceAnimation : AnimationHandler
 	{
 		base.Awake();
 		face = GetComponent<SkinnedMeshRenderer>();
+		if (getBodyArray)
+		{
+			bodyParts = transform.parent.GetComponentsInChildren<SkinnedMeshRenderer>();
+		}
 	}
 
 	private void Start()
@@ -71,6 +77,15 @@ public class FaceAnimation : AnimationHandler
 		}
 
 		face.materials = mats;
+
+		//Set all body parts to this mat 
+		if (getBodyArray)
+		{
+			foreach (var body in bodyParts)
+			{
+				body.materials = mats;
+			}
+		}
 	}
 
 	/// <summary>
