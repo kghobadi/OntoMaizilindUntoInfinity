@@ -63,10 +63,14 @@ public class FaceAnimation : AnimationHandler
 	/// <param name="newFace"></param>
 	public void SetFace(Material newFace)
 	{
-		for (int i = 0; i < face.materials.Length; i++)
+		Material[] mats = face.materials;
+		
+		for (int i = 0; i < mats.Length; i++)
 		{
-			face.materials[i] = newFace;
+			mats[i] = newFace;
 		}
+
+		face.materials = mats;
 	}
 
 	/// <summary>
