@@ -12,27 +12,14 @@ namespace NPC
         public AudioClip greeting;
         public AudioClip goodbye, react, action;
         public AudioClip[] idleSounds;
-       
         public AudioClip[] screams;
         
+        [Header("Face Animations")]
+        [SerializeField] private FaceAnimationUI faceAnimUi;
         FaceAnimation _faceAnim;
         //Accessor for face. 
         public FaceAnimation FaceAnimation => _faceAnim;
-
-        [SerializeField] private FaceAnimationUI faceAnimUi;
-        
-        SpriteRenderer face; 
-        SpriteRenderer back;
-        [Header("Face Animations")]
-        public List<Sprite> normalFace= new List<Sprite>();
-        public List<Sprite> screaming= new List<Sprite>();
-        public List<Sprite> backs = new List<Sprite>();
-        public bool randomizeFace;
-        public int faceIndex = 0;
-        public bool manualSetSprites;
         public bool animateFaceToSound = true;
-        public bool faceShiftEnding;
-        public float faceShiftTimer = 0.35f;
 
         [Header("Walking Sounds")]
         public bool playWalkingSounds;
@@ -44,12 +31,6 @@ namespace NPC
         private void Start()
         {
             GetFaceReferences();
-
-            //ending face shift
-            if (_faceAnim)
-            {
-                _faceAnim.onBeginFaceShifting.AddListener(BeginFaceShifting);
-            }
         }
 
         void GetFaceReferences()
@@ -60,101 +41,11 @@ namespace NPC
             {
                 _faceAnim = GetComponentInChildren<FaceAnimation>();
             }
-
-            //get face sprite renderer 
-            if (face == null && _faceAnim)
-            {
-                face = _faceAnim.GetComponent<SpriteRenderer>();
-            }
-
-            //get back sprite renderer 
-            if (back == null)
-            {
-                if (_faceAnim)
-                {
-                    if (_faceAnim.back)
-                    {
-                        back = _faceAnim.back.GetComponent<SpriteRenderer>();
-                    }
-                    else if(face)
-                    {
-                        back = face.transform.GetComponentInChildren<SpriteRenderer>();
-                    }
-                }
-                else if(face)
-                {
-                    back = face.transform.GetComponentInChildren<SpriteRenderer>();
-                }
-            }
-
-            //randomize face?
-            if (randomizeFace)
-            {
-                faceIndex = Random.Range(0, normalFace.Count);
-            }
-
-            //set back
-            if (back)
-            {
-                if (backs.Count > faceIndex)
-                {
-                    back.sprite = backs[faceIndex];
-                }
-            }
-        }
-
-        private void OnDisable()
-        {
-            //remove event 
-            if (_faceAnim)
-            {
-                _faceAnim.onBeginFaceShifting.RemoveListener(BeginFaceShifting);
-            }
-            
-            faceShiftEnding = false; 
-        }
-
-        void BeginFaceShifting()
-        {
-            if (faceShiftEnding)
-            {
-                return;
-            }
-            
-            faceShiftEnding = true;
-            //disable the face animator.
-            if (_faceAnim.Animator || !manualSetSprites)
-            {
-                _faceAnim.Animator.enabled= false;
-            }
-            //disable animator.
-            StartCoroutine(FaceShift());
-        }
-
-        IEnumerator FaceShift()
-        {
-            while (faceShiftEnding)
-            {
-                //randomize face index
-                faceIndex = Random.Range(0, normalFace.Count);
-                //face & back change 
-                if (normalFace[faceIndex])
-                {
-                    face.sprite = normalFace[faceIndex];
-                }
-                if (backs.Count > faceIndex)
-                {
-                    back.sprite = backs[faceIndex];
-                }
-                
-                yield return new WaitForSeconds(faceShiftTimer);
-            }
         }
 
         public void SetFaceAnim(FaceAnimation faceAnim)
         {
             _faceAnim = faceAnim;
-            face = _faceAnim.GetComponent<SpriteRenderer>();
         }
 
         private void Update()
@@ -164,7 +55,7 @@ namespace NPC
                 CheckForMovement();
             }
 
-            if (faceShiftEnding)
+            if (_faceAnim.faceShiftEnding)
             {
                 return;
             }
@@ -175,14 +66,16 @@ namespace NPC
             }
         }
 
-        //swaps face sprite for screaming
+        /// <summary>
+        /// swaps face for screaming/talking if producing sounds 
+        /// </summary>
         void FaceSwap()
         {
             if (myAudioSource.isPlaying)
             {
-                if(manualSetSprites)
+                if(_faceAnim.manualSetFace)
                 {
-                    face.sprite = screaming[faceIndex];
+                    _faceAnim.SetScreamingFace();
                 }
                 else
                 {
@@ -195,9 +88,9 @@ namespace NPC
             }
             else
             {
-                if (manualSetSprites)
+                if(_faceAnim.manualSetFace)
                 {
-                    face.sprite = normalFace[faceIndex];
+                    _faceAnim.SetNormalFace();
                 }
                 else
                 {
@@ -225,21 +118,6 @@ namespace NPC
             }
 
             lastPosition = transform.position;
-        }
-        
-        public void AddNormalFace(Sprite face)
-        {
-            normalFace.Add(face);
-        }
-
-        public void AddScreamingFace(Sprite face)
-        {
-            screaming.Add(face);
-        }
-
-        public void AddBackFace(Sprite face)
-        {
-            backs.Add(face);
         }
     }
 }

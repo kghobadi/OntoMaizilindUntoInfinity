@@ -350,9 +350,6 @@ namespace NPC
                     if (faceAnimation)
                     {
                         faceAnimation.SetAnimator("dead");
-                        //if it has a back face
-                        if(faceAnimation.back)
-                            faceAnimation.back.SetActive(false);
                     }
                         
                     //drop player
