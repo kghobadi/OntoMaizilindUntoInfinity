@@ -393,7 +393,7 @@ public class CameraSwitcher : MonoBehaviour
         {
             cam.gameObject.SetActive(true);
             cam.GetCamMouseLook().Activate();
-            cam.BombSquadron.DisableBomberMode();
+            cam.BombSquadron.EnableBomberMode();
         }
 
         //reset current cam obj
@@ -450,7 +450,7 @@ public class CameraSwitcher : MonoBehaviour
         {
             cam.gameObject.SetActive(false);
             cam.GetCamMouseLook().Deactivate();
-            cam.BombSquadron.EnableBomberMode();
+            cam.BombSquadron.DisableBomberMode();
         }
     }
 
