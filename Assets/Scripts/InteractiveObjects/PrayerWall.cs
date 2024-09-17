@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Controls the Prayer Wall Interaction. 
+/// Controls the Prayer Wall Interaction.
+/// This interaction could be triggered another way. 
 /// </summary>
 public class PrayerWall : Interactive
 {

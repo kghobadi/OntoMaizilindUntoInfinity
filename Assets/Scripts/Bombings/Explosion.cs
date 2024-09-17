@@ -31,7 +31,7 @@ public class Explosion : AudioHandler {
     ParticleSystem.MainModule eMain;
     
     [Header("Parents Death")]
-    public Transform spiritWritingSpot;
+    //public Transform spiritWritingSpot;
     public Transform momDead;
     public Transform dadDead;
     public Transform playerSpot;

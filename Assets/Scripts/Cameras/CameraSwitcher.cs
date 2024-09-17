@@ -51,13 +51,18 @@ public class CameraSwitcher : MonoBehaviour
     public MovementPath death;
     public HalftoneEffect halfTone;
     public Material halfToneBombs;
-    public GameObject spiritWritingPrefab;
     public AudioSource whiteNoise;
     public HeavyBreathing breathing;
     public Explosion KillerExplosion;
     public bool killedParents;
     public MovementPath findPlayer;
     public EventTrigger[] playerOnlyEvents;
+    
+    //Spirit text view
+    [SerializeField] private GameObject hallucCamera;
+    [SerializeField] private Vector3 textOffset = new Vector3(0, 0, 7f);
+    [SerializeField] private FadeUiRevamped hallucTextFader;
+    public GameObject spiritWritingPrefab;
 
     public GameObject OrigPlayer => origPlayer;
     public FirstPersonController CurrentFPC => currentPlayer.GetComponent<FirstPersonController>();
@@ -373,8 +378,6 @@ public class CameraSwitcher : MonoBehaviour
                 //turn off that persons AI movement 
                 cam.GetMovement().AIenabled = false;
             }
-            //set the body's parent to its camera
-            cam.myBody.transform.SetParent(cam.camObj.transform);
             //set new cam
             camManager.Set(cam.camObj);
             //enable ground cam script
@@ -419,8 +422,6 @@ public class CameraSwitcher : MonoBehaviour
         //deal with current cam object
         if (cam.myCamType == CamObject.CamType.HUMAN)
         {
-            //set the body's parent to the host game obj
-            cam.myBody.transform.SetParent(cam.transform);
             //disable ground cam script
             cam.GetGroundCam().enabled = false;
             //turn off that persons FPC
@@ -489,15 +490,10 @@ public class CameraSwitcher : MonoBehaviour
         dadMove.SetLook(mosque.transform);
         
         //instantiate spirit writing
-        GameObject spiritWriting = Instantiate(spiritWritingPrefab, explode.spiritWritingSpot);
-        spiritWriting.transform.position = explode.spiritWritingSpot.position;
+        GameObject spiritWriting = Instantiate(spiritWritingPrefab, hallucCamera.transform);
+        spiritWriting.transform.localPosition = textOffset;
         spiritWriting.transform.localRotation = Quaternion.identity;
-        
-        //set player to players spot 
-        //currentPlayer.transform.position = explode.playerSpot.position;
-        //set player look at to spirit writing 
-        Vector3 posWithMyY = new Vector3(spiritWriting.transform.position.x, transform.position.y, spiritWriting.transform.position.z);
-        //currentPlayer.transform.LookAt(posWithMyY);
+        hallucTextFader.FadeIn();
         
         //set audio
         whiteNoise.Play();
@@ -523,6 +519,7 @@ public class CameraSwitcher : MonoBehaviour
 
     void DisableHalftone()
     {
+        hallucTextFader.FadeOut();
         halfTone.enabled = false;
     }
 
@@ -597,6 +594,7 @@ public class CameraSwitcher : MonoBehaviour
             if (npcNearest != null && npcNearest.idleType != Movement.IdleType.DEAD)
             {
                 npcNearest.ResetMovement(findPlayer);
+                hallucTextFader.FadeOut();
                 break;
             }
         }
