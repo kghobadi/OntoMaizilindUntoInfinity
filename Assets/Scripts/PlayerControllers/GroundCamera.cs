@@ -86,7 +86,7 @@ public class GroundCamera : MonoBehaviour
         {
             if (cvc == null)
             {
-                cvc = GetComponent<CinemachineVirtualCamera>();
+                cvc = currentCamObj.GetCinemachineCam();
             }
             cvc.enabled = true;
         }
@@ -102,8 +102,8 @@ public class GroundCamera : MonoBehaviour
 
     public void GetRefs()
     {
-        character = transform.parent.gameObject;
-        player = transform.parent;
+        character = currentCamObj.gameObject;
+        player = currentCamObj.transform;
         fpc = player.GetComponent<FirstPersonController>();
         cvc = GetComponent<CinemachineVirtualCamera>();
         mainCam = Camera.main.transform;
@@ -183,7 +183,10 @@ public class GroundCamera : MonoBehaviour
             }
             
             //horizontal parent axis  - Y
-            transform.parent.rotation = Quaternion.Euler(0f, hRot, 0f);
+            if(currentCamObj)
+                player.rotation = Quaternion.Euler(0f, hRot, 0f);
+            else 
+                transform.parent.rotation = Quaternion.Euler(0f, hRot, 0f);
             //vertical camera axis - X
             transform.localRotation = Quaternion.Euler(-vRot, 0f, 0f);
         }
@@ -211,7 +214,11 @@ public class GroundCamera : MonoBehaviour
                 vRot *= -1f;
 
             //Rotates Player on "X" Axis Acording to Mouse Input
-            transform.parent.Rotate(0, hRot, 0);
+            if(currentCamObj)
+                player.Rotate(0, hRot, 0);
+            else 
+                transform.parent.rotation = Quaternion.Euler(0, hRot, 0);
+           
             //Rotates Player on "Y" Axis Acording to Mouse Input
             transform.Rotate(vRot, 0, 0);
         }
