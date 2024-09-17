@@ -61,7 +61,7 @@ public class CameraSwitcher : MonoBehaviour
     //Spirit text view
     [SerializeField] private GameObject hallucCamera;
     [SerializeField] private Vector3 textOffset = new Vector3(0, 0, 7f);
-    [SerializeField] private FadeUiRevamped hallucTextFader;
+    [SerializeField] private FadeUiRevamped[] hallucTextFader;
     public GameObject spiritWritingPrefab;
 
     public GameObject OrigPlayer => origPlayer;
@@ -493,7 +493,10 @@ public class CameraSwitcher : MonoBehaviour
         GameObject spiritWriting = Instantiate(spiritWritingPrefab, hallucCamera.transform);
         spiritWriting.transform.localPosition = textOffset;
         spiritWriting.transform.localRotation = Quaternion.identity;
-        hallucTextFader.FadeIn();
+        foreach (var hallucFader in hallucTextFader)
+        {
+            hallucFader.FadeIn();
+        }
         
         //set audio
         whiteNoise.Play();
@@ -519,7 +522,11 @@ public class CameraSwitcher : MonoBehaviour
 
     void DisableHalftone()
     {
-        hallucTextFader.FadeOut();
+        foreach (var hallucFader in hallucTextFader)
+        {
+            if(hallucFader.IsShowing)
+                hallucFader.FadeOut();
+        }
         halfTone.enabled = false;
     }
 
@@ -577,6 +584,12 @@ public class CameraSwitcher : MonoBehaviour
             if (npcNearest != null && npcNearest.idleType != Movement.IdleType.DEAD)
             {
                 npcNearest.ResetMovement(findPlayer);
+                
+                foreach (var hallucFader in hallucTextFader)
+                {
+                    if(hallucFader.IsShowing)
+                        hallucFader.FadeOut();
+                }
                 break;
             }
         }
@@ -594,7 +607,6 @@ public class CameraSwitcher : MonoBehaviour
             if (npcNearest != null && npcNearest.idleType != Movement.IdleType.DEAD)
             {
                 npcNearest.ResetMovement(findPlayer);
-                hallucTextFader.FadeOut();
                 break;
             }
         }
