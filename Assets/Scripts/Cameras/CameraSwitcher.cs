@@ -63,6 +63,7 @@ public class CameraSwitcher : MonoBehaviour
     [SerializeField] private Vector3 textOffset = new Vector3(0, 0, 7f);
     [SerializeField] private FadeUiRevamped[] hallucTextFader;
     public GameObject spiritWritingPrefab;
+    private GameObject spiritWritingInstance;
 
     public GameObject OrigPlayer => origPlayer;
     public FirstPersonController CurrentFPC => currentPlayer.GetComponent<FirstPersonController>();
@@ -490,9 +491,9 @@ public class CameraSwitcher : MonoBehaviour
         dadMove.SetLook(mosque.transform);
         
         //instantiate spirit writing
-        GameObject spiritWriting = Instantiate(spiritWritingPrefab, hallucCamera.transform);
-        spiritWriting.transform.localPosition = textOffset;
-        spiritWriting.transform.localRotation = Quaternion.identity;
+        spiritWritingInstance = Instantiate(spiritWritingPrefab, hallucCamera.transform);
+        spiritWritingInstance.transform.localPosition = textOffset;
+        spiritWritingInstance.transform.localRotation = Quaternion.identity;
         foreach (var hallucFader in hallucTextFader)
         {
             hallucFader.FadeIn();
@@ -528,6 +529,11 @@ public class CameraSwitcher : MonoBehaviour
                 hallucFader.FadeOut();
         }
         halfTone.enabled = false;
+    }
+
+    public void DisableSpiritWriting()
+    {
+        spiritWritingInstance.SetActive(false);
     }
 
     /// <summary>

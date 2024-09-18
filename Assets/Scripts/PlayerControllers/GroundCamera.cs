@@ -102,8 +102,16 @@ public class GroundCamera : MonoBehaviour
 
     public void GetRefs()
     {
-        character = currentCamObj.gameObject;
-        player = currentCamObj.transform;
+        if (currentCamObj)
+        {
+            character = currentCamObj.gameObject;
+            player = currentCamObj.transform;
+        }
+        else
+        {
+            character = transform.parent.gameObject;
+            player = transform.parent;
+        }
         fpc = player.GetComponent<FirstPersonController>();
         cvc = GetComponent<CinemachineVirtualCamera>();
         mainCam = Camera.main.transform;

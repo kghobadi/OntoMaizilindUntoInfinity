@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Events;
 
 /// <summary>
 /// This script handles fades of any and all UI + sprites. 
@@ -67,6 +68,8 @@ public class FadeUiRevamped : MonoBehaviour
 
     private IEnumerator waitToFadeOut;
     private IEnumerator fadeOut;
+
+    public UnityEvent FadedOut;
 
     #region Properties
 
@@ -240,6 +243,7 @@ public class FadeUiRevamped : MonoBehaviour
 
         //set fade state.
         fadeState = FadeStates.IDLE_HIDDEN;
+        FadedOut.Invoke();
 
         //disable object?
         if (!keepActive)
