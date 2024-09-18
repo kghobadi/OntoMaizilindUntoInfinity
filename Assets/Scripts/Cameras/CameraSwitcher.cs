@@ -574,6 +574,13 @@ public class CameraSwitcher : MonoBehaviour
             npcNearest.ResetMovement(findPlayer);
         }
         
+        //Fade out halluc text 
+        foreach (var hallucFader in hallucTextFader)
+        {
+            if(hallucFader.IsShowing)
+                hallucFader.FadeOut();
+        }
+        
         //While npc nearest is null or dead 
         while (npcNearest == null || npcNearest.idleType == Movement.IdleType.DEAD)
         {
@@ -584,12 +591,6 @@ public class CameraSwitcher : MonoBehaviour
             if (npcNearest != null && npcNearest.idleType != Movement.IdleType.DEAD)
             {
                 npcNearest.ResetMovement(findPlayer);
-                
-                foreach (var hallucFader in hallucTextFader)
-                {
-                    if(hallucFader.IsShowing)
-                        hallucFader.FadeOut();
-                }
                 break;
             }
         }

@@ -112,8 +112,11 @@ public class BombSquadron : MonoBehaviour
                     //spawn people under me somewhere     
                     if (peopleSpawned < peopleSpawners.Length)
                     {
-                        peopleSpawners[peopleSpawned].SetTrigger();
-                        peopleSpawned++;
+                        if (!peopleSpawners[peopleSpawned].hasTriggered)
+                        {
+                            peopleSpawners[peopleSpawned].SetTrigger();
+                            peopleSpawned++;
+                        }
                     }
                     else
                     {

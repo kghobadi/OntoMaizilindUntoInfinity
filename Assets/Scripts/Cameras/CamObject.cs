@@ -121,11 +121,10 @@ public class CamObject : MonoBehaviour
     /// </summary>
     public void Pray()
     {
+        //set animator to idle state 
         myController.Animation.SetAnimator("idle");
         //set to Prayer idle.
         myController.Animation.Animator.SetFloat("IdleType", 0.666667f);
-        //disable FPS 
-        myFPS.enabled = false;
         //set cam view -- currently we are seeing weird angles of the npc, want to move it a bit or change fov
         myVirtualCam.m_Lens.FieldOfView = 80f;
     }

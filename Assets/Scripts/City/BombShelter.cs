@@ -157,9 +157,14 @@ public class BombShelter : MonoBehaviour {
 
         //world man should disable explosions outside
         worldMan.DisableAllExplosions();
+        //disable bombers
+        worldMan.Bombers.SetActive(false);
 
         //fade out music
         music.FadeOut(0, 0.05f);
+        
+        //set human to pray
+        camSwitcher.currentCamObj.Pray();
 
         //set bool
         body = hasBody;

@@ -1,10 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class WorldManager : MonoBehaviour {
-
+    private BombSquadron bomberSquad;
     public List<GameObject> explosionsToDelete = new List<GameObject>();
+
+    public GameObject Bombers => bomberSquad.gameObject;
+    private void Awake()
+    {
+        bomberSquad = FindObjectOfType<BombSquadron>();
+    }
 
     void Start()
     {
