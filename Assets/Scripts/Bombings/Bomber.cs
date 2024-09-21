@@ -12,8 +12,10 @@ public class Bomber : MonoBehaviour
     CameraSwitcher camSwitcher;
 
     public bool captain;
+    public bool transitionBomb;
     public GameObject bombPrefab;
     [SerializeField] GameObject trackerBombPrefab; //special for killing player/parents 
+    [SerializeField] GameObject transitionBombPrefab;
     public bool bombing;
 
     [SerializeField] private int bombsToDrop = 2;
@@ -27,13 +29,18 @@ public class Bomber : MonoBehaviour
         camSwitcher = FindObjectOfType<CameraSwitcher>();
 	}
 
-    //public bomb call 
+    /// <summary>
+    /// Public bomb call 
+    /// </summary>
     public void DropBombs()
     {
         StartCoroutine(SpawnBombs());
     }
 
-    //spawn a random count of bombs to drop
+    /// <summary>
+    /// Spawn a random count of bombs to drop
+    /// </summary>
+    /// <returns></returns>
     IEnumerator SpawnBombs()
     {
         bombing = true;
@@ -49,7 +56,15 @@ public class Bomber : MonoBehaviour
             {
                 for (int b = 0; b < bombsToDrop; b++)
                 {
-                    DropBomb();
+                    //Final bomb of captain should be transition bomb!
+                    if (b == bombsToDrop - 1 && captain && transitionBomb)
+                    {
+                        DropTransitionBomb();
+                    }
+                    else
+                    {
+                        DropBomb();
+                    }
                     bombsLeft--;
                 }
             }
@@ -92,14 +107,6 @@ public class Bomber : MonoBehaviour
         //Drop bomb
         DropTrackingBomb(dad);
     }
-
-    //Special bomb that camera follows
-    public void SpawnTransitionBomb()
-    {
-        //drop tracking bomb on new citizen spawned 
-        
-        //when it blows up, transition to nearest living person.
-    }
     
     /// <summary>
     /// Drops a tracking bomb. 
@@ -118,9 +125,30 @@ public class Bomber : MonoBehaviour
 
         //set move towards comp
         MoveTowards moveTo = bomb.GetComponent<MoveTowards>();
-        //set homing missile hehe 
+        //set homing missile 
         bombScript.moveTowards = moveTo;
         bombScript.playerDest = objToTrack;
         moveTo.MoveTo(objToTrack, 500f);
+    }
+    
+    /// <summary>
+    /// Drops a tracking bomb. 
+    /// </summary>
+    public void  DropTransitionBomb()
+    {
+        //find spawn pos and grab obj 
+        Vector3 randomInsideSphere = (Random.insideUnitSphere * spawnRadius);
+        Vector3 spawnPos = transform.position - new Vector3(0, 7, 0) + randomInsideSphere;
+        //instantiate tracking bomb
+        GameObject bomb = Instantiate(transitionBombPrefab, spawnPos, Quaternion.identity);
+        //enable force
+        Bomb bombScript = bomb.GetComponent<Bomb>();
+        bombScript.SetBombFall();
+        
+        //add cam to list and enable it as The One
+        camSwitcher.AddCamObject(bombScript.CamObj);
+        camSwitcher.SetCam(bombScript.CamObj);
+        //disable trans
+        transitionBomb = false;
     }
 }

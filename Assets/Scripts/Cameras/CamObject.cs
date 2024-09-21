@@ -12,7 +12,7 @@ public class CamObject : MonoBehaviour
 {
     public enum CamType
     {
-        HUMAN, BOMBER, MAINPLAYER,
+        HUMAN, BOMBER, MAINPLAYER, BOMB,
     }
     //All Cam objs
     public CamType myCamType;
@@ -32,7 +32,8 @@ public class CamObject : MonoBehaviour
     //bomber only
     private camMouseLook _camMouseLook;
     private BombSquadron bombSquadron;
-    
+
+    #region Properties
     public Controller GetController()
     {
         if (myController == null)
@@ -114,6 +115,57 @@ public class CamObject : MonoBehaviour
             return bombSquadron;
         }
         set => bombSquadron = value;
+    }
+    #endregion
+    
+    public void HumanPlayerEnable()
+    {
+        //if the game obj is disabled -- enable it.
+        if(gameObject.activeSelf == false)
+            gameObject.SetActive(true);
+        //turn off that persons NavMeshAgent
+        if (GetNMA())
+        {
+            GetNMA().enabled = false;
+            //turn off that persons AI movement 
+            GetMovement().AIenabled = false;
+        }
+       
+        //enable ground cam script
+        GetGroundCam().enabled = true;
+        //turn on that persons FPC
+        GetFPS().enabled = true;
+    }
+
+    public void HumanDisable()
+    {
+        //disable ground cam script
+        GetGroundCam().enabled = false;
+        //turn off that persons FPC
+        GetFPS().enabled = false;
+        //turn on that persons NavMeshAgent  if it exists
+        if (GetNMA() != null)
+        {
+            GetNMA().enabled = true;
+            //turn on AI movement and reset movement 
+            GetMovement().AIenabled = true;
+            GetMovement().ResetMovement(GetMovement().startBehavior);
+            GetMovement().SetIdle();
+        }
+    }
+
+    public void BomberEnable()
+    {
+        gameObject.SetActive(true);
+        GetCamMouseLook().Activate();
+        BombSquadron.EnableBomberMode();
+    }
+
+    public void BomberDisable()
+    {
+        gameObject.SetActive(false);
+        GetCamMouseLook().Deactivate();
+        BombSquadron.DisableBomberMode();
     }
 
     /// <summary>

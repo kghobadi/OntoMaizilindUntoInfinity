@@ -44,7 +44,7 @@ public class BombSquadron : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Plane")
+        if(other.gameObject.CompareTag("Plane"))
         {
             Bomber bomberino = other.gameObject.GetComponent<Bomber>();
             
@@ -126,7 +126,9 @@ public class BombSquadron : MonoBehaviour
                     //enough people to transition back to running as random person. 
                     if (camSwitcher.cameraObjects.Count > camSwitcher.transitionAmount)
                     {
-                        camSwitcher.WaitSetRandomCam(planeTransitionWait); //TODO this will be irrelevant after transition bomb setup.
+                        //Drop a transition bomb as this final round's bomb 
+                        bomber.transitionBomb = true;
+                        //camSwitcher.WaitSetRandomCam(planeTransitionWait); //TODO this will be irrelevant after transition bomb setup.
                     }
                     //out of people, transition directly to mosque view & begin projection    
                     else

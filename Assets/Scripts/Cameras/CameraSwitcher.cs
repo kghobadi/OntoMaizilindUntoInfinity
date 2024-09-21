@@ -1,6 +1,7 @@
 ﻿    using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+    using System.Linq;
+    using UnityEngine;
 using InControl;
 using Cameras;
 using Cinemachine;
@@ -191,7 +192,7 @@ public class CameraSwitcher : MonoBehaviour
             //hard lock parents to their positions
             if (killedParents)
             {
-                mom.position = new Vector3(KillerExplosion.momDead.position.x, 2.8f, KillerExplosion.momDead.position.z);
+                mom.position = new Vector3(KillerExplosion.momDead.position.x, mom.position.y, KillerExplosion.momDead.position.z);
                 dad.position = new Vector3(KillerExplosion.dadDead.position.x, dad.position.y, KillerExplosion.dadDead.position.z);
             }
         }
@@ -272,6 +273,34 @@ public class CameraSwitcher : MonoBehaviour
         int index = Random.Range(1, cameraObjects.Count);
         SetCam(index);
     }
+
+    /// <summary>
+    /// Set cam to closest cam obj (person!) to the current cam obj (transition bomb)
+    /// </summary>
+    /// <param name="pos"></param>
+    public void GetClosestCamObject(Vector3 pos)
+    {
+        CamObject closestCam = null;
+        float closest = 50000f;
+        for (int i = 1; i < cameraObjects.Count; i++)
+        {
+            float dist = Vector3.Distance(pos, cameraObjects[i].transform.position);
+            if (dist < closest)
+            {
+                closest = dist;
+                closestCam = cameraObjects[i];
+            }
+        }
+        
+        //Set our camera to the closest available cam obj!
+        SetCam(closestCam);
+    }
+
+    /// <summary>
+    /// Pass through for the direct obj ref.
+    /// </summary>
+    /// <param name="cam"></param>
+    public void SetCam(CamObject cam) => SetCam(cameraObjects.IndexOf(cam));
 
     /// <summary>
     /// Set player to a specific cam object index.
@@ -365,27 +394,12 @@ public class CameraSwitcher : MonoBehaviour
             return;
         }
         
-        //TODO could refactor this script by having CamObjects be responsible for what they enable rather than this. 
         //turn on new cam obj
         if (cam.myCamType == CamObject.CamType.HUMAN || cam.myCamType == CamObject.CamType.MAINPLAYER)
         {
-            //if the game obj is disabled -- enable it.
-            if(cam.gameObject.activeSelf == false)
-                cam.gameObject.SetActive(true);
-            //turn off that persons NavMeshAgent
-            if (cam.GetNMA())
-            {
-                cam.GetNMA().enabled = false;
-                //turn off that persons AI movement 
-                cam.GetMovement().AIenabled = false;
-            }
+            cam.HumanPlayerEnable();
             //set new cam
             camManager.Set(cam.camObj);
-            //enable ground cam script
-            cam.GetGroundCam().enabled = true;
-            //turn on that persons FPC
-            cam.GetFPS().enabled = true;
-
             //set trigger obj to player 
             foreach (var playerTrigger in playerOnlyEvents)
             {
@@ -395,9 +409,7 @@ public class CameraSwitcher : MonoBehaviour
         //When i am bomber 
         else if(cam.myCamType == CamObject.CamType.BOMBER)
         {
-            cam.gameObject.SetActive(true);
-            cam.GetCamMouseLook().Activate();
-            cam.BombSquadron.EnableBomberMode();
+            cam.BomberEnable();
         }
 
         //reset current cam obj
@@ -423,19 +435,7 @@ public class CameraSwitcher : MonoBehaviour
         //deal with current cam object
         if (cam.myCamType == CamObject.CamType.HUMAN)
         {
-            //disable ground cam script
-            cam.GetGroundCam().enabled = false;
-            //turn off that persons FPC
-            cam.GetFPS().enabled = false;
-            //turn on that persons NavMeshAgent  if it exists
-            if (cam.GetNMA() != null)
-            {
-                cam.GetNMA().enabled = true;
-                //turn on AI movement and reset movement 
-                cam.GetMovement().AIenabled = true;
-                cam.GetMovement().ResetMovement(cam.GetMovement().startBehavior);
-                cam.GetMovement().SetIdle();
-            }
+            cam.HumanDisable();
         }
         //Main player
         else if (cam.myCamType == CamObject.CamType.MAINPLAYER)
@@ -450,9 +450,7 @@ public class CameraSwitcher : MonoBehaviour
         //bomber
         else
         {
-            cam.gameObject.SetActive(false);
-            cam.GetCamMouseLook().Deactivate();
-            cam.BombSquadron.DisableBomberMode();
+            cam.BomberDisable();
         }
     }
 

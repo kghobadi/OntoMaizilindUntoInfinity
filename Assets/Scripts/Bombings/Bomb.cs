@@ -33,6 +33,10 @@ public class Bomb : MonoBehaviour {
     public GameObject explosionPrefab;
     public Transform explosionParent;
 
+    [SerializeField] private bool transitionBomb;
+    private CamObject camObj;
+    public CamObject CamObj => camObj;
+
     //only for kill player bomb
     [HideInInspector] public MoveTowards moveTowards;
     [HideInInspector] public Transform playerDest;
@@ -43,6 +47,10 @@ public class Bomb : MonoBehaviour {
         worldMan = FindObjectOfType<WorldManager>();
         effectsMan = FindObjectOfType<EffectsManager>();
         camSwitcher = worldMan.GetComponent<CameraSwitcher>();
+        if (transitionBomb)
+        {
+            camObj = GetComponent<CamObject>();
+        }
 
         //get comp refs
         bombCol = GetComponent<SphereCollider>();
@@ -123,7 +131,7 @@ public class Bomb : MonoBehaviour {
         if(obj != null)
         {
             //parent to building so when it falls, explosion falls with it
-            if (obj.tag == "Building")
+            if (obj.CompareTag("Building"))
             {
                 explosion.transform.SetParent(obj.transform);
             }
@@ -139,6 +147,19 @@ public class Bomb : MonoBehaviour {
             //destroy this bomb once and for all 
             Destroy(gameObject);
         }
+        //a transition bomb with a camera 
+        else if (transitionBomb)
+        {
+            //remove this bomb camera from the cam switcher list
+            camSwitcher.RemoveCamObject(camObj);
+            
+            //transition to nearest cam obj
+            camSwitcher.GetClosestCamObject(transform.position);
+            
+            //destroy this bomb once and for all 
+            Destroy(gameObject);
+        }
+        //normal bomb reset 
         else
         {
             ResetBomb();
@@ -147,7 +168,7 @@ public class Bomb : MonoBehaviour {
 
     void ResetBomb()
     {
-        //check for moveTowarsd
+        //check for moveTowards
         if (moveTowards)
         {
             moveTowards.enabled = false;
