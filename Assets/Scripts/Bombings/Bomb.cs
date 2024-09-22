@@ -35,7 +35,19 @@ public class Bomb : MonoBehaviour {
 
     [SerializeField] private bool transitionBomb;
     private CamObject camObj;
-    public CamObject CamObj => camObj;
+    public CamObject CamObj 
+    {
+        get
+        {
+            if (camObj == null)
+            {
+                camObj = GetComponent<CamObject>();
+            }
+
+            return camObj;
+        }
+    }
+    
 
     //only for kill player bomb
     [HideInInspector] public MoveTowards moveTowards;
@@ -47,10 +59,6 @@ public class Bomb : MonoBehaviour {
         worldMan = FindObjectOfType<WorldManager>();
         effectsMan = FindObjectOfType<EffectsManager>();
         camSwitcher = worldMan.GetComponent<CameraSwitcher>();
-        if (transitionBomb)
-        {
-            camObj = GetComponent<CamObject>();
-        }
 
         //get comp refs
         bombCol = GetComponent<SphereCollider>();
@@ -61,7 +69,8 @@ public class Bomb : MonoBehaviour {
         explosionParent = GameObject.FindGameObjectWithTag("ExpParent").transform;
     }
 
-    void Start () {
+    void Start () 
+    {
         //pooled 
         _pooledObj = GetComponent<PooledObject>();
     }
@@ -151,7 +160,7 @@ public class Bomb : MonoBehaviour {
         else if (transitionBomb)
         {
             //remove this bomb camera from the cam switcher list
-            camSwitcher.RemoveCamObject(camObj);
+            camSwitcher.RemoveCamObject(CamObj);
             
             //transition to nearest cam obj
             camSwitcher.GetClosestCamObject(transform.position);

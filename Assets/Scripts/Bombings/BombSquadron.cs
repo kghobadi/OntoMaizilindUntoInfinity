@@ -128,7 +128,6 @@ public class BombSquadron : MonoBehaviour
                     {
                         //Drop a transition bomb as this final round's bomb 
                         bomber.transitionBomb = true;
-                        //camSwitcher.WaitSetRandomCam(planeTransitionWait); //TODO this will be irrelevant after transition bomb setup.
                     }
                     //out of people, transition directly to mosque view & begin projection    
                     else
