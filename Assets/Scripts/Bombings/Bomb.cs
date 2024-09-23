@@ -47,7 +47,6 @@ public class Bomb : MonoBehaviour {
             return camObj;
         }
     }
-    
 
     //only for kill player bomb
     [HideInInspector] public MoveTowards moveTowards;
@@ -103,7 +102,14 @@ public class Bomb : MonoBehaviour {
         //y check - once below 0 just explode. 
         if(transform.position.y < -150f)
         {
-            ResetBomb();
+            if (transitionBomb)
+            {
+                SpawnExplosion(null);
+            }
+            else
+            {
+                ResetBomb();
+            }
         }
     }
     
@@ -121,7 +127,7 @@ public class Bomb : MonoBehaviour {
             Debug.Log("Special bomb awaits its Human Target!");
         }
         //Normal bomb hit something it shouldn't - reset. 
-        else
+        else if(!transitionBomb) 
         {
             ResetBomb();
         }

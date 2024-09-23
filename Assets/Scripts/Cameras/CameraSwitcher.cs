@@ -448,7 +448,7 @@ public class CameraSwitcher : MonoBehaviour
             DisableHalftone();
         }
         //bomber
-        else
+        else if(cam.myCamType == CamObject.CamType.BOMBER)
         {
             cam.BomberDisable();
         }
@@ -467,7 +467,10 @@ public class CameraSwitcher : MonoBehaviour
         //set mom pos stuff
         Movement momMove = mom.GetComponent<Movement>();
         momMove.ResetMovement(death);
-        mom.position = explode.momDead.position ;
+        //set mom pos stuff
+        momMove.myNavMesh.isStopped = true;
+        momMove.myNavMesh.speed = 0;
+        mom.position = explode.momDead.position;
         //dad looks at mosque 
         Vector3 lookAtMom = new Vector3(mosque.transform.position.x, mom.transform.position.y, mosque.transform.position.z);
         mom.transform.LookAt(lookAtMom);
@@ -478,9 +481,8 @@ public class CameraSwitcher : MonoBehaviour
         Movement dadMove = dad.GetComponent<Movement>();
         dadMove.DropPlayer();
         //set dad pos stuff
-        NavMeshAgent dadNMA = dad.GetComponent<NavMeshAgent>();
-        dadNMA.isStopped = true;
-        dadNMA.speed = 0;
+        dadMove.myNavMesh.isStopped = true;
+        dadMove.myNavMesh.speed = 0;
         dad.position = explode.dadDead.position;
         //dad looks at mosque 
         Vector3 lookAt = new Vector3(mosque.transform.position.x, dad.transform.position.y, mosque.transform.position.z);

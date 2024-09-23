@@ -178,6 +178,6 @@ public class CamObject : MonoBehaviour
         //set to Prayer idle.
         GetController().Animation.Animator.SetFloat("IdleType", 0.666667f);
         //set cam view -- currently we are seeing weird angles of the npc, want to move it a bit or change fov
-        myVirtualCam.m_Lens.FieldOfView = 80f;
+        GetCinemachineCam().m_Lens.FieldOfView = 80f;
     }
 }

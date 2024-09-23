@@ -51,7 +51,22 @@ public class LockPosition : MonoBehaviour
             newLocalPos.z = origLocalPosition.z;
         }   
         
-        transform.position = newCurrentPos;
-        transform.localPosition = newLocalPos;
+        //Update position if there are locks 
+        if(lockX || lockY || lockZ)
+            transform.position = newCurrentPos;
+        if(lockXLocal || lockYLocal || lockZLocal)
+            transform.localPosition = newLocalPos;
+    }
+
+    public void SetLockY(float y)
+    {
+        origPosition.y = y;
+        lockY = true;
+    }
+    
+    public void SetLocalLockY(float y)
+    {
+        origLocalPosition.y = y;
+        lockYLocal = true;
     }
 }

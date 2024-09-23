@@ -139,12 +139,6 @@ public class BombShelter : MonoBehaviour {
         //projector obj
         projector.SetActive(true);
 
-        //begin raycasts 
-        if (InteractRaycaster.Instance)
-        {
-            InteractRaycaster.Instance.ActivateRaycasts();
-        }
-
         //set state
         transitionState = TransitionStates.PROJECTING;
 

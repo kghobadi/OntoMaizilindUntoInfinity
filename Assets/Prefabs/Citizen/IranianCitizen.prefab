@@ -677,6 +677,8 @@ MonoBehaviour:
   idleType: 0
   runType: 0
   spiritTrail: {fileID: 0}
+  deathLock: {fileID: 6969275559497809681}
+  deathY: -3
   waypoints: []
   waypointCounter: 0
   movementRadius: 0
@@ -728,7 +730,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1967895064645420}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 2
+  m_Radius: 1.5
   m_Speed: 16
   m_Acceleration: 50
   avoidancePriority: 50
@@ -816,6 +818,24 @@ Transform:
   m_Father: {fileID: 2515046935618763257}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6969275559497809681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7348959510289155031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fed68b3a5887304180492394c7d56a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lockX: 0
+  lockY: 0
+  lockZ: 0
+  lockXLocal: 0
+  lockYLocal: 0
+  lockZLocal: 0
 --- !u!1001 &5759320032383751166
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1006,7 +1026,7 @@ PrefabInstance:
     - target: {fileID: 2403330238289644179, guid: 871887d50c018e249962b96b1cb1c542,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2403330238289644179, guid: 871887d50c018e249962b96b1cb1c542,
         type: 3}

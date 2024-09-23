@@ -93,8 +93,6 @@ public class BombSquadron : MonoBehaviour
     {
         if (bomber.bombing == false)
         {
-            bomber.DropBombs();
-
             //inc runs 
             if (bomber.captain)
             {
@@ -136,6 +134,9 @@ public class BombSquadron : MonoBehaviour
                     }
                 }
             }
+            
+            //Now bombs away!
+            bomber.DropBombs();
         }
     }
 

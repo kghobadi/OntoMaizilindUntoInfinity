@@ -82,6 +82,8 @@ namespace NPC
 
         //allows mosque to access this 
         [HideInInspector] public SpiritTrail spiritTrail;
+        [SerializeField] private LockPosition deathLock;
+        [SerializeField] private float deathY;
 
         [Header("Wanderer Settings")]
         public Transform[] waypoints;
@@ -448,6 +450,12 @@ namespace NPC
                 //assign spirit trail a corner of the screen corresponding to sitting point 
                 if(spiritTrail != null)
                     spiritTrail.DeathTrail();
+
+                //set death lock y offset 
+                if (deathLock)
+                {
+                    deathLock.SetLocalLockY(deathY);
+                }
             }
 
             resetsMovement = false;
