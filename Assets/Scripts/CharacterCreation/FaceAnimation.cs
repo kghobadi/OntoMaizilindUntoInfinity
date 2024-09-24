@@ -42,6 +42,9 @@ public class FaceAnimation : AnimationHandler
 	public int faceIndex = 0;
 	public bool manualSetFace;
 
+	[Tooltip("Used for the ending, attached to head bone.")]
+	public FaceShiftTrigger faceShiftTrigger;
+
 	protected override void Awake()
 	{
 		base.Awake();
@@ -126,16 +129,8 @@ public class FaceAnimation : AnimationHandler
 
 
 	#region Face Shifting Effect
-
-	private void OnTriggerEnter(Collider other)
-	{
-		if (other.gameObject.CompareTag("Spirit"))
-		{
-			BeginFaceShifting();
-		}
-	}
 	
-	void BeginFaceShifting()
+	public void BeginFaceShifting()
 	{
 		if (faceShiftEnding)
 		{
@@ -143,11 +138,6 @@ public class FaceAnimation : AnimationHandler
 		}
             
 		faceShiftEnding = true;
-		//disable the face animator.
-		if (Animator || !manualSetFace)
-		{
-			Animator.enabled= false;
-		}
 		//disable animator.
 		StartCoroutine(FaceShift());
 	}

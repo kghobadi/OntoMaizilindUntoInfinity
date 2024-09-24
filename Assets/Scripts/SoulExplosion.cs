@@ -75,7 +75,7 @@ public class SoulExplosion : MonoBehaviour
             //get spirit trail script 
             SpiritTrail spirit = soulTrail.GetComponent<SpiritTrail>();
             //get npc face transform.
-            Transform faceTransform = npc.GetComponent<Sounds>().FaceAnimation.transform;
+            Transform faceTransform = npc.GetComponent<Sounds>().FaceAnimation.faceShiftTrigger.transform;
             //set spirit to face
             spirit.projectionDisplayCorner = faceTransform;
             //enable spirit
