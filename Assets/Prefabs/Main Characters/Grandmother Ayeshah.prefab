@@ -383,14 +383,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1445074774080694}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 8, z: 0}
+  m_LocalRotation: {x: 0.007539954, y: -0.006608995, z: -0.00091871526, w: 0.9999494}
+  m_LocalPosition: {x: -0.09000004, y: 0.5300019, z: 1.1899996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4078602992577978}
-  - {fileID: 1024357149519967226}
-  m_Father: {fileID: 4098675534486910}
-  m_RootOrder: 0
+  m_Father: {fileID: 6366873338232562041}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114985785243607134
 MonoBehaviour:
@@ -425,15 +424,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1445074774080694}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc2d4d5d018f3544ba6364c36af9334c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensitivityX: 1
-  sensitivityY: 1
-  controllerSensitivityX: 3
-  controllerSensitivityY: 3
   invertX: 0
   invertY: 0
   canControl: 1
@@ -883,6 +878,14 @@ MonoBehaviour:
   timeBetweenLines: 0
   conversational: 0
   waitTimes: []
+  waitForDialogue: 0
+  progressesOthers: 0
+  onProgressLine:
+    m_PersistentCalls:
+      m_Calls: []
+  progressOthers:
+    m_PersistentCalls:
+      m_Calls: []
   useDynamicWidth: 0
   maxWidth: 1000
   sideOffset: 25
@@ -1292,7 +1295,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4582136542589666}
+  - {fileID: 1024357149519967226}
   - {fileID: 224515758607669124}
   - {fileID: 4826951286415912}
   m_Father: {fileID: 0}
@@ -1465,6 +1468,7 @@ MonoBehaviour:
   myCamType: 0
   camObj: {fileID: 114603601741476116}
   shiftUI: {fileID: 114132838861409482}
+  excludeFromSwitcher: 0
   headset: {fileID: 0}
   myBody: {fileID: 395454522173204800}
 --- !u!54 &54226637658645856
@@ -1562,6 +1566,8 @@ MonoBehaviour:
   idleType: 0
   runType: 0
   spiritTrail: {fileID: 0}
+  deathLock: {fileID: 0}
+  deathY: 0
   waypoints: []
   waypointCounter: 0
   movementRadius: 0
@@ -1571,6 +1577,7 @@ MonoBehaviour:
   faceAnimation: {fileID: 701864568089354122}
   dropOffset: 3
   followObject: {fileID: 0}
+  angleWithTerrain: 0
 --- !u!114 &114328958064863576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1596,21 +1603,8 @@ MonoBehaviour:
   screams:
   - {fileID: 8300000, guid: ad6cc141d84c11b4ab93ddebbbc93290, type: 3}
   - {fileID: 8300000, guid: ad6cc141d84c11b4ab93ddebbbc93290, type: 3}
-  normalFace:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  screaming:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  backs: []
-  randomizeFace: 0
-  faceIndex: 0
-  manualSetSprites: 0
+  faceAnimUi: {fileID: 0}
   animateFaceToSound: 1
-  faceShiftEnding: 0
-  faceShiftTimer: 0.35
   playWalkingSounds: 0
   walkingSounds: []
   walkStepTime: 0.35
@@ -1676,6 +1670,12 @@ MonoBehaviour:
   facePointer: {fileID: 0}
   faceRect: {fileID: 0}
   distanceActive: 0
+  onMonoBegin:
+    m_PersistentCalls:
+      m_Calls: []
+  onMonoEnd:
+    m_PersistentCalls:
+      m_Calls: []
   arrowImg: {fileID: 0}
   subPointOffsetX: 0
 --- !u!65 &65408709592906018
@@ -1717,6 +1717,7 @@ MonoBehaviour:
   usesAllLetters: 0
   countsUp: 0
   speakFreq: 3
+  volume: 0.6
   spokenSounds:
   - {fileID: 8300000, guid: d3650667a0644a046be211bde93e3650, type: 3}
   - {fileID: 8300000, guid: 2b8b5c8e09e3f8a4ca8e328ff7161c84, type: 3}
@@ -1772,12 +1773,12 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 4582136542589666}
+    m_TransformParent: {fileID: 4098675534486910}
     m_Modifications:
     - target: {fileID: 2793444578855063276, guid: 914de2ec813498e4eb5e530389590e79,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2793444578855063276, guid: 914de2ec813498e4eb5e530389590e79,
         type: 3}
@@ -1787,7 +1788,7 @@ PrefabInstance:
     - target: {fileID: 2793444578855063276, guid: 914de2ec813498e4eb5e530389590e79,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2793444578855063276, guid: 914de2ec813498e4eb5e530389590e79,
         type: 3}
@@ -1802,17 +1803,17 @@ PrefabInstance:
     - target: {fileID: 2793444578855063276, guid: 914de2ec813498e4eb5e530389590e79,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2793444578855063276, guid: 914de2ec813498e4eb5e530389590e79,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2793444578855063276, guid: 914de2ec813498e4eb5e530389590e79,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2793444578855063276, guid: 914de2ec813498e4eb5e530389590e79,
         type: 3}
@@ -1836,9 +1837,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 914de2ec813498e4eb5e530389590e79, type: 3}
+--- !u!4 &6366873338232562041 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8117982404303428719, guid: 914de2ec813498e4eb5e530389590e79,
+    type: 3}
+  m_PrefabInstance: {fileID: 2950825795286826262}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1024357149519967226 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2793444578855063276, guid: 914de2ec813498e4eb5e530389590e79,
+    type: 3}
+  m_PrefabInstance: {fileID: 2950825795286826262}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &395454522173204800 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3283018196555519062, guid: 914de2ec813498e4eb5e530389590e79,
     type: 3}
   m_PrefabInstance: {fileID: 2950825795286826262}
   m_PrefabAsset: {fileID: 0}
@@ -1857,12 +1870,6 @@ MonoBehaviour:
 --- !u!4 &8143320355362760087 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6481122807718320257, guid: 914de2ec813498e4eb5e530389590e79,
-    type: 3}
-  m_PrefabInstance: {fileID: 2950825795286826262}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &395454522173204800 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3283018196555519062, guid: 914de2ec813498e4eb5e530389590e79,
     type: 3}
   m_PrefabInstance: {fileID: 2950825795286826262}
   m_PrefabAsset: {fileID: 0}

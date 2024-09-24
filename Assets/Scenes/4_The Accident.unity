@@ -4889,7 +4889,7 @@ PrefabInstance:
     - target: {fileID: 933858503720570087, guid: 9b9d2db0b858f19459302fb6a1311d16,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 933858503720570087, guid: 9b9d2db0b858f19459302fb6a1311d16,
         type: 3}
@@ -5862,7 +5862,7 @@ PrefabInstance:
     - target: {fileID: 2590273048524269138, guid: 0e095e01401d9a64daeef683800128f0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.9999992
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2628069048713294169, guid: 0e095e01401d9a64daeef683800128f0,
         type: 3}
@@ -11766,15 +11766,7 @@ MonoBehaviour:
   idleSounds: []
   screams: []
   faceAnimUi: {fileID: 0}
-  normalFace: []
-  screaming: []
-  backs: []
-  randomizeFace: 0
-  faceIndex: 0
-  manualSetSprites: 0
   animateFaceToSound: 1
-  faceShiftEnding: 0
-  faceShiftTimer: 0.35
   playWalkingSounds: 0
   walkingSounds: []
   walkStepTime: 0.35
@@ -12091,10 +12083,14 @@ MonoBehaviour:
   animationBools:
   - idle
   - talking
-  back: {fileID: 0}
-  onBeginFaceShifting:
-    m_PersistentCalls:
-      m_Calls: []
+  getBodyArray: 0
+  faceShiftEnding: 0
+  faceShiftTimer: 0.35
+  normalFace: []
+  screaming: []
+  randomizeFace: 0
+  faceIndex: 0
+  manualSetFace: 0
 --- !u!114 &114834275008535612
 MonoBehaviour:
   m_ObjectHideFlags: 0

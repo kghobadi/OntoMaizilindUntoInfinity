@@ -55,7 +55,7 @@ namespace NPC
                 CheckForMovement();
             }
 
-            if (_faceAnim.faceShiftEnding)
+            if (_faceAnim == null || _faceAnim.faceShiftEnding)
             {
                 return;
             }

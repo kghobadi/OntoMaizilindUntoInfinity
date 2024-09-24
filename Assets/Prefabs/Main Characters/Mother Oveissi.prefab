@@ -367,6 +367,14 @@ MonoBehaviour:
   timeBetweenLines: 0
   conversational: 0
   waitTimes: []
+  waitForDialogue: 0
+  progressesOthers: 0
+  onProgressLine:
+    m_PersistentCalls:
+      m_Calls: []
+  progressOthers:
+    m_PersistentCalls:
+      m_Calls: []
   useDynamicWidth: 0
   maxWidth: 1000
   sideOffset: 25
@@ -397,14 +405,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1423773046984738}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 7, z: 0}
+  m_LocalRotation: {x: 0.007539957, y: -0.0066089923, z: -0.00091870397, w: 0.9999494}
+  m_LocalPosition: {x: -0.089999944, y: 0.57999986, z: 1.2500006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4546023229290558}
-  - {fileID: 2590273048524269138}
-  m_Father: {fileID: 4785892453077946}
-  m_RootOrder: 0
+  m_Father: {fileID: 8475472589144962257}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114484019399376886
 MonoBehaviour:
@@ -444,10 +451,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc2d4d5d018f3544ba6364c36af9334c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensitivityX: 1
-  sensitivityY: 1
-  controllerSensitivityX: 3
-  controllerSensitivityY: 3
   invertX: 0
   invertY: 0
   canControl: 1
@@ -512,7 +515,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4143361521910030}
+  - {fileID: 2590273048524269138}
   - {fileID: 224127907428806592}
   - {fileID: 4167058666803808}
   m_Father: {fileID: 0}
@@ -685,6 +688,7 @@ MonoBehaviour:
   myCamType: 0
   camObj: {fileID: 114979749787588070}
   shiftUI: {fileID: 114980250152942048}
+  excludeFromSwitcher: 0
   headset: {fileID: 0}
   myBody: {fileID: 2934569260321537256}
 --- !u!54 &54262628719576932
@@ -782,6 +786,8 @@ MonoBehaviour:
   idleType: 0
   runType: 0
   spiritTrail: {fileID: 0}
+  deathLock: {fileID: 0}
+  deathY: 0
   waypoints: []
   waypointCounter: 0
   movementRadius: 0
@@ -791,6 +797,7 @@ MonoBehaviour:
   faceAnimation: {fileID: 2628069048713294168}
   dropOffset: 3
   followObject: {fileID: 0}
+  angleWithTerrain: 0
 --- !u!114 &114944813279193722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -816,21 +823,8 @@ MonoBehaviour:
   screams:
   - {fileID: 8300000, guid: ad6cc141d84c11b4ab93ddebbbc93290, type: 3}
   - {fileID: 8300000, guid: ad6cc141d84c11b4ab93ddebbbc93290, type: 3}
-  normalFace:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  screaming:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  backs: []
-  randomizeFace: 0
-  faceIndex: 0
-  manualSetSprites: 0
+  faceAnimUi: {fileID: 0}
   animateFaceToSound: 1
-  faceShiftEnding: 0
-  faceShiftTimer: 0.35
   playWalkingSounds: 0
   walkingSounds: []
   walkStepTime: 0.35
@@ -898,6 +892,12 @@ MonoBehaviour:
   facePointer: {fileID: 0}
   faceRect: {fileID: 0}
   distanceActive: 0
+  onMonoBegin:
+    m_PersistentCalls:
+      m_Calls: []
+  onMonoEnd:
+    m_PersistentCalls:
+      m_Calls: []
   arrowImg: {fileID: 0}
   subPointOffsetX: 0
 --- !u!65 &65469905872920690
@@ -939,6 +939,7 @@ MonoBehaviour:
   usesAllLetters: 0
   countsUp: 0
   speakFreq: 3
+  volume: 0.6
   spokenSounds:
   - {fileID: 8300000, guid: d3650667a0644a046be211bde93e3650, type: 3}
   - {fileID: 8300000, guid: 2b8b5c8e09e3f8a4ca8e328ff7161c84, type: 3}
@@ -1774,12 +1775,12 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 4143361521910030}
+    m_TransformParent: {fileID: 4785892453077946}
     m_Modifications:
     - target: {fileID: 277457130883501768, guid: 2dfbf6952528c3b4d85e8752794c5ac0,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 277457130883501768, guid: 2dfbf6952528c3b4d85e8752794c5ac0,
         type: 3}
@@ -1789,7 +1790,7 @@ PrefabInstance:
     - target: {fileID: 277457130883501768, guid: 2dfbf6952528c3b4d85e8752794c5ac0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 277457130883501768, guid: 2dfbf6952528c3b4d85e8752794c5ac0,
         type: 3}
@@ -1838,9 +1839,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2dfbf6952528c3b4d85e8752794c5ac0, type: 3}
+--- !u!114 &2628069048713294168 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 311593586606627266, guid: 2dfbf6952528c3b4d85e8752794c5ac0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2318164512294529178}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c4a1c1a01699247b8fe716eeef951b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &6685490621392662591 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9001679826551822501, guid: 2dfbf6952528c3b4d85e8752794c5ac0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2318164512294529178}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8475472589144962257 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6175890006304939083, guid: 2dfbf6952528c3b4d85e8752794c5ac0,
     type: 3}
   m_PrefabInstance: {fileID: 2318164512294529178}
   m_PrefabAsset: {fileID: 0}
@@ -1856,15 +1875,3 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2318164512294529178}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2628069048713294168 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 311593586606627266, guid: 2dfbf6952528c3b4d85e8752794c5ac0,
-    type: 3}
-  m_PrefabInstance: {fileID: 2318164512294529178}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3c4a1c1a01699247b8fe716eeef951b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
