@@ -6,8 +6,9 @@ using UnityEngine.Events;
 using UnityEngine.Video;
 using InControl;
 
-public class PauseMenu : MonoBehaviour
+public class PauseMenu : NonInstantiatingSingleton<PauseMenu>
 {
+    protected override PauseMenu GetInstance () { return this; }
     private AdvanceScene advanceScene;
     private DebugTime debugTime;
     private TitleToRoom title;
@@ -26,6 +27,8 @@ public class PauseMenu : MonoBehaviour
 
     [Tooltip("Anything in this array will pause")]
     public VideoPlayer[] pauseVideos;
+
+    [SerializeField] private CursorLockMode unpausedLockMode = CursorLockMode.Confined;
 
     [Header("Festival Restart System")]
     [Tooltip("For festivals, want to check if nobody inputs for a while")]
@@ -153,7 +156,7 @@ public class PauseMenu : MonoBehaviour
                 pauseVideos[i].Play();
             }
             
-            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.lockState = unpausedLockMode;
             Cursor.visible = false;
             paused = false;
         }

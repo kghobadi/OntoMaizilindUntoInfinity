@@ -63,7 +63,7 @@ public class ViewObject : Interactive
 
 	protected override void Interact()
 	{
-		if (_objectViewer.viewing == false)
+		if (_objectViewer.viewing == false && Time.timeScale >= 1)
 		{
 			_objectViewer.SetViewObject(this);
 			SetInactive();

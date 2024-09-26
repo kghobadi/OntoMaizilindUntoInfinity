@@ -97,7 +97,8 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 		{
 			interactText.enabled = false;
 		}
-			
+
+		Cursor.visible = true;
 		imageHolder.enabled = true;
 		active = true;
 		
@@ -108,7 +109,8 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 	public void Deactivate()
 	{
 		Init();
-		
+
+		Cursor.visible = false;
 		imageHolder.enabled = false;
 		if (interactText)
 		{

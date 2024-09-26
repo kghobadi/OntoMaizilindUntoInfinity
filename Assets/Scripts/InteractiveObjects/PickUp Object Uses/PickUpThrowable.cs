@@ -8,8 +8,14 @@ public class PickUpThrowable : PickUpObject
 	public float throwSpeed = 5f;
 	public float angularVelX = 7f;
 	public float angularVelRand = 2f;
-	
-    public override void UseObject()
+
+	protected override void SetActive()
+	{
+		if(_rigidbody.velocity.magnitude < 1f)
+			base.SetActive();
+	}
+
+	public override void UseObject()
     {
         base.UseObject();
         

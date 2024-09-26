@@ -30,6 +30,8 @@ public class PickUpObject : Interactive
 	public bool noDropping; // for things lie the gun in the ending.
 	public UnityEvent pickUpEvent;
 	public FirstPersonController desiredHolder;
+
+	[SerializeField] private string useItemMessage = "Use";
 	
 	//TODO add picked up object UI 
 	//Should just be a single group of fade UIs 
@@ -129,6 +131,8 @@ public class PickUpObject : Interactive
 		//reset holding counter
 		holdingCounter = 0;
 		
+		//Show interact cursor for Use item message 
+		InteractCursor.Instance.ActivateCursor(null, useItemMessage);
 		//do we have a desired holder?
 		if (desiredHolder != null)
 		{
@@ -189,10 +193,12 @@ public class PickUpObject : Interactive
 	public virtual void UseObject()
 	{
 		//this is different depending on the object :)
+		InteractCursor.Instance.Deactivate();
 	}
 	
 	protected virtual void DropObject()
 	{
+		InteractCursor.Instance.Deactivate();
 		//reparent
 		transform.SetParent(originalParent);
 		//fps drop

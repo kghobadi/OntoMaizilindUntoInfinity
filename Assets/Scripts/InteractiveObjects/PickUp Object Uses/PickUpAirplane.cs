@@ -36,6 +36,15 @@ public class PickUpAirplane : PickUpObject
         SetIdle();
     }
 
+    protected override void SetActive()
+    {
+        if (airplaneState != AirplaneStates.FLYING)
+        {
+            base.SetActive();
+        }
+       
+    }
+
     public override void HoldItem()
     {
         //ensure idle while holding 
