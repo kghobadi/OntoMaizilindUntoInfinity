@@ -74,6 +74,9 @@ public class MenuSelections : AudioHandler
         if (menuSelections.Count > 0)
             menuSelections[currentSelector].ActivateSelectors();
         canChange = true;
+
+        //No lock state in menus
+        Cursor.lockState = CursorLockMode.None;
     }
     
     public void DeactivateMenu(bool disableObject)

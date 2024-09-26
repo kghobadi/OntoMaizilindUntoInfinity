@@ -14,6 +14,7 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 	private bool init;
 	//private refs to the UI components.
 	private Camera mainCam;
+	private PauseMenu pauseMenu;
 	private Canvas parentCanvas;
 	private RectTransform canvasRect;
 	private CanvasScaler canvasScaler;
@@ -39,6 +40,7 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 		
 		//get Ui components
 		mainCam = Camera.main;
+		pauseMenu = FindObjectOfType<PauseMenu>();
 		parentCanvas = GetComponentInParent<Canvas>();
 		canvasRect = parentCanvas.GetComponent<RectTransform>();
 		canvasScaler = parentCanvas.GetComponent<CanvasScaler>();
@@ -110,7 +112,11 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 	{
 		Init();
 
-		Cursor.visible = false;
+		if (!pauseMenu.paused)
+		{
+			Cursor.visible = false;
+		}
+	
 		imageHolder.enabled = false;
 		if (interactText)
 		{
