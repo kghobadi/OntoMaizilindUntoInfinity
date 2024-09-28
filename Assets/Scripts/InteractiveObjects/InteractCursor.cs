@@ -127,7 +127,12 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 	/// </summary>
 	void OnHitNothing()
 	{
-		if (!camSwitcher.CurrentFPC.holding) //TODO can add other conditions if necessary. 
+		if (camSwitcher) //TODO can add other conditions if necessary. 
+		{
+			if(!camSwitcher.CurrentFPC.holding)
+				Deactivate();
+		}
+		else
 		{
 			Deactivate();
 		}
