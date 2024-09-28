@@ -193,7 +193,6 @@ public class PickUpObject : Interactive
 	public virtual void UseObject()
 	{
 		//this is different depending on the object :)
-		InteractCursor.Instance.Deactivate();
 	}
 	
 	protected virtual void DropObject()

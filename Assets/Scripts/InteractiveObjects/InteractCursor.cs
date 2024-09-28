@@ -14,6 +14,7 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 	private bool init;
 	//private refs to the UI components.
 	private Camera mainCam;
+	private CameraSwitcher camSwitcher;
 	private PauseMenu pauseMenu;
 	private Canvas parentCanvas;
 	private RectTransform canvasRect;
@@ -23,6 +24,18 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 	private TMP_Text interactText;
 	private ObjectViewer objectViewer;
 	public bool active;
+	
+	public bool CanInteract
+	{
+		get
+		{
+			bool canInteract = !(camSwitcher.CurrentFPC.holding || (objectViewer && objectViewer.viewing));
+
+			return canInteract;
+		}
+	}
+
+	public float CurrentPlayerSpeed => camSwitcher.CurrentFPC.currentSpeed;
 
 	protected override void OnAwake()
 	{
@@ -40,6 +53,7 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 		
 		//get Ui components
 		mainCam = Camera.main;
+		camSwitcher = FindObjectOfType<CameraSwitcher>();
 		pauseMenu = FindObjectOfType<PauseMenu>();
 		parentCanvas = GetComponentInParent<Canvas>();
 		canvasRect = parentCanvas.GetComponent<RectTransform>();
@@ -60,13 +74,13 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 	private void OnEnable()
 	{
 		//events
-		InteractRaycaster.onHitNothing += Deactivate;
+		InteractRaycaster.onHitNothing += OnHitNothing;
 	}
 
 	private void OnDisable()
 	{
 		//events
-		InteractRaycaster.onHitNothing -= Deactivate;
+		InteractRaycaster.onHitNothing -= OnHitNothing;
 	}
 
 	public void ActivateCursor(Sprite newSprite, string message)
@@ -81,7 +95,7 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 				return;
 			}
 		}
-		
+
 		//do we have a unique interact sprite?
 		if (newSprite != null)
 		{
@@ -106,6 +120,17 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 		
 		//can pass in world pos for assign pos from the Interactive obj
 		//RenderExtensions.AdjustScreenPosition(worldPosition);
+	}
+
+	/// <summary>
+	/// Only call deactivate when player is not holding anything. 
+	/// </summary>
+	void OnHitNothing()
+	{
+		if (!camSwitcher.CurrentFPC.holding) //TODO can add other conditions if necessary. 
+		{
+			Deactivate();
+		}
 	}
 	
 	public void Deactivate()

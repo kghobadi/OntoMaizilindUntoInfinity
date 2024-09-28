@@ -23,7 +23,7 @@ public class PickUpThrowable : PickUpObject
         DropObject();
         
         //burst of force
-        _rigidbody.AddRelativeForce(0, throwLift, throwSpeed, ForceMode.VelocityChange);
+        _rigidbody.AddRelativeForce(0, throwLift, throwSpeed + (InteractCursor.Instance.CurrentPlayerSpeed / 2f), ForceMode.VelocityChange);
         _rigidbody.AddRelativeTorque( new Vector3(angularVelX,0f,0f) + (Random.onUnitSphere*angularVelRand) , ForceMode.VelocityChange);
         
         TriggerInteractEvent();

@@ -141,12 +141,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.3123085, y: 1.9837227, z: 1.0681586}
   m_Center: {x: -0.000011235475, y: 0.000007688999, z: 0.00002577901}
---- !u!4 &14847511 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1623970908, guid: 71bb1b17f58206b438a1204e1145f869,
-    type: 3}
-  m_PrefabInstance: {fileID: 6757358385853828148}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &16751180 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3205379276545364834, guid: 6e215ca3a46e45a42a92bf4340247fc6,
@@ -12223,8 +12217,8 @@ MonoBehaviour:
   interactionEvent:
     m_PersistentCalls:
       m_Calls: []
-  spotToSit: {fileID: 2126125688}
-  standSpot: {fileID: 14847511}
+  spotToSit: {fileID: 1073949457}
+  standSpot: {fileID: 131745515}
   sitting: 0
 --- !u!4 &1350764712 stripped
 Transform:
@@ -18407,12 +18401,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2112634447}
   m_CullTransparentMesh: 0
---- !u!4 &2126125688 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 560170802, guid: 71bb1b17f58206b438a1204e1145f869,
-    type: 3}
-  m_PrefabInstance: {fileID: 6757358385853828148}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2128215351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19902,6 +19890,16 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 3667618623458618176, guid: 71bb1b17f58206b438a1204e1145f869,
+        type: 3}
+      propertyPath: clickerUI
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3667618623458618176, guid: 71bb1b17f58206b438a1204e1145f869,
+        type: 3}
+      propertyPath: interactMessage
+      value: Change Channel
+      objectReference: {fileID: 0}
     - target: {fileID: 3706580915165343670, guid: 71bb1b17f58206b438a1204e1145f869,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -20041,6 +20039,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 4257906311105945214, guid: 71bb1b17f58206b438a1204e1145f869,
+        type: 3}
+      propertyPath: interactMessage
+      value: Sit
       objectReference: {fileID: 0}
     - target: {fileID: 4261295656803945946, guid: 71bb1b17f58206b438a1204e1145f869,
         type: 3}
@@ -20466,6 +20469,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 6663194915088232296, guid: 71bb1b17f58206b438a1204e1145f869,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6664159320948939827, guid: 71bb1b17f58206b438a1204e1145f869,
         type: 3}

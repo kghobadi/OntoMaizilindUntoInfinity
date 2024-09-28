@@ -188,19 +188,23 @@ public class Interactive : AudioHandler
 	protected virtual void SetActive()
 	{
 		Init();
-		
-		SetMaterials(activeMat, activeMats);
-			
-		active = true;
-		
-		//cursor
-		iCursor.ActivateCursor(iCursorSprite, interactMessage);
 
-		//in case this object has clicker UI instructions
-		if (!hasClicked)
+		//Make sure we can interact before showing the UI 
+		if (InteractCursor.Instance.CanInteract)
 		{
-			if(clickerUI)
-				clickerUI.FadeIn();
+			SetMaterials(activeMat, activeMats);
+			
+			active = true;
+		
+			//cursor
+			iCursor.ActivateCursor(iCursorSprite, interactMessage);
+
+			//in case this object has clicker UI instructions
+			if (!hasClicked)
+			{
+				if(clickerUI)
+					clickerUI.FadeIn();
+			}
 		}
 	}
 
