@@ -10,8 +10,6 @@ using UnityEngine.Events;
 /// </summary>
 public class PickUpObject : Interactive 
 {
-	//is this really necessary? what if it causes some problems :(
-	private bool init;
 	protected Rigidbody _rigidbody;
 	public FirstPersonController fpsHolder;
 	private bool held;
@@ -45,10 +43,12 @@ public class PickUpObject : Interactive
 		Init();
 	}
 
-	void Init()
+	protected override  void Init()
 	{
 		if (init)
 			return;
+		
+		base.Init();
 		_rigidbody = GetComponent<Rigidbody>();
 		colliders = GetComponentsInChildren<Collider>();
 		if (fpsHolder == null)

@@ -33,6 +33,7 @@ public class SubtitleInWorldManager : MonoBehaviour
     float subScreenBorder;
     float bgImgBorder;
     float prevPixelWidth;
+    [SerializeField] private float screenYMinMult = 3;
     
     void Awake()
     {
@@ -354,7 +355,7 @@ public class SubtitleInWorldManager : MonoBehaviour
                 float xMin = halfSizeX + subScreenBorder;
                 float xMax = (mainCam.pixelWidth - halfSizeX) - subScreenBorder;
                 //Get y min and max 
-                float yMin = halfSizeY + subScreenBorder;
+                float yMin = halfSizeY + subScreenBorder * screenYMinMult;
                 float yMax = (mainCam.pixelHeight - halfSizeY) - subScreenBorder;
 
                 //Clamp so they're always on screen

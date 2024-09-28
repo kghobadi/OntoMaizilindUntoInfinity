@@ -639,7 +639,7 @@ public class MonologueManager : MonoBehaviour
     /// <param name="pos"></param>
     public void SetFacePointerPos()
     {
-        float heightOffset = faceRect.sizeDelta.y / 1.5f;
+        float heightOffset = faceRect.sizeDelta.y / faceSizeMult;
         faceRect.localPosition = Vector3.zero - new Vector3(0f, heightOffset,0f);
     }
 

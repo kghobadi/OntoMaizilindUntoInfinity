@@ -11,6 +11,8 @@ public class PickUpThrowable : PickUpObject
 
 	protected override void SetActive()
 	{
+		Init();
+		
 		if(_rigidbody.velocity.magnitude < 1f)
 			base.SetActive();
 	}

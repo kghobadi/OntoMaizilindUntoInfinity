@@ -84,8 +84,8 @@ public class FirstPersonController : MonoBehaviour
             beingHeld.RemoveListener(mouseLook.ToggleClamp);
         }
     }
-    
-    void FixedUpdate()
+
+    private void Update()
     {
         //get input device 
         var inputDevice = InputManager.ActiveDevice;
@@ -102,7 +102,13 @@ public class FirstPersonController : MonoBehaviour
             {
                 MouseKeyboardMovement();
             }
+        }
+    }
 
+    void FixedUpdate()
+    {
+        if (canMove)
+        {
             //actual movement
             if (moving)
             {
