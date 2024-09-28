@@ -25,6 +25,7 @@ public class SpeakerSound : AudioHandler
     
     //Face anim stuff 
     public bool animateFaceToSound;
+    [SerializeField] private FaceAnimationUI faceAnimUi;
     FaceAnimation _faceAnim;
     //Accessor for face. 
     public FaceAnimation FaceAnimation => _faceAnim;
@@ -136,11 +137,17 @@ public class SpeakerSound : AudioHandler
         {
             if (_faceAnim)
                 _faceAnim.SetAnimator("talking");
+            
+            if(faceAnimUi)
+                faceAnimUi.Activate();
         }
         else
         {
             if (_faceAnim)
                 _faceAnim.SetAnimator("idle");
+            
+            if(faceAnimUi)
+                faceAnimUi.SetIdle();
         }
     }
 
