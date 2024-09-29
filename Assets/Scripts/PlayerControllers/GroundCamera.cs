@@ -220,27 +220,16 @@ public class GroundCamera : MonoBehaviour
             //neg value 
             if (invertY)
                 vRot *= -1f;
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if (canControl)
-        {
-            Rotations();
-        }
-    }
-
-    void Rotations()
-    {
-        //Rotates Player on "X" Axis Acording to Mouse Input
-        if(currentCamObj)
-            player.Rotate(0, hRot, 0);
-        else 
-            transform.parent.rotation = Quaternion.Euler(0, hRot, 0);
+            
+            //Rotates Player on "X" Axis Acording to Mouse Input
+            if(currentCamObj)
+                player.Rotate(0, hRot, 0);
+            else 
+                transform.parent.rotation = Quaternion.Euler(0, hRot, 0);
            
-        //Rotates Player on "Y" Axis Acording to Mouse Input
-        transform.Rotate(vRot, 0, 0);
+            //Rotates Player on "Y" Axis Acording to Mouse Input
+            transform.Rotate(vRot, 0, 0);
+        }
     }
 
     /// <summary>

@@ -28,6 +28,9 @@ namespace NPC
         public bool randomSpeed = true;
         [Tooltip("Random value within this range will be added to navmesh speed.")]
         public Vector2 speedRange = new Vector2(-5f, 10f);
+        public bool randomPriority = false;
+        [Tooltip("Random value within this range will be added to navmesh speed.")]
+        public Vector2Int priorityRange = new Vector2Int(-15, 35);
         Vector3 origPosition;
         public MovementPath startBehavior;
         public bool randomizeStartBehavior;
@@ -138,6 +141,11 @@ namespace NPC
             {
                 RandomizeSpeed();
             }
+
+            if (randomPriority)
+            {
+                RandomizePriority();
+            }
             path = new NavMeshPath();
             
             if (randomizeStartBehavior)
@@ -153,6 +161,14 @@ namespace NPC
             if (myNavMesh)
             {
                 myNavMesh.speed += Random.Range(speedRange.x, speedRange.y);
+            }
+        }
+        
+        void RandomizePriority()
+        {
+            if (myNavMesh)
+            {
+                myNavMesh.avoidancePriority = Random.Range(priorityRange.x, priorityRange.y);
             }
         }
 

@@ -444,7 +444,8 @@ public class MonologueManager : MonoBehaviour
         if (camSwitcher)
         {
             CamObject cam = camSwitcher.currentCamObj;
-            currentPlayer = cam.gameObject;
+            if(cam)
+                currentPlayer = cam.gameObject;
         }
        
 

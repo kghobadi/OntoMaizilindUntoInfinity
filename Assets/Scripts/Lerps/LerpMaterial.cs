@@ -78,7 +78,7 @@ public class LerpMaterial : MonoBehaviour {
     private float lbfTimer;
     [Tooltip("Amount of time between lerp back and forth behavior")]
     public float lbfTime = 1f;
-
+    public UnityEvent eventOnStart;
     public UnityEvent eventOnFinish;
     [Tooltip("Check this if you want the event on Finish to play only once.")]
     public bool triggersOnce = true;
@@ -159,6 +159,7 @@ public class LerpMaterial : MonoBehaviour {
         lerpValue = startValue;
         endValue = desiredValue;
 
+        eventOnStart.Invoke();
         lerpingMat = true;
         wasCalled = true;
     }

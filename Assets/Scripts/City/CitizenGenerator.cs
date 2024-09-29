@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using NPC;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// Handles the generation of Citizens at different locations on the City map during the bombing sequence. 
@@ -245,7 +246,8 @@ public class CitizenGenerator : MonoBehaviour
         {
             hitGameObj = hit.collider.gameObject;
             isGrounded = hitGameObj.layer ==  groundLayer;
-            if (isGrounded)
+            bool isNavmesh = NavMesh.SamplePosition(hit.point, out NavMeshHit navHit, 1.0f, NavMesh.AllAreas);
+            if (isGrounded && isNavmesh)
             {
                 currentSpawnPos = hit.point;
             }
@@ -255,7 +257,8 @@ public class CitizenGenerator : MonoBehaviour
         {
             hitGameObj = hit.collider.gameObject;
             isGrounded = hitGameObj.layer ==  groundLayer;
-            if (isGrounded)
+            bool isNavmesh = NavMesh.SamplePosition(hit.point, out NavMeshHit navHit, 1.0f, NavMesh.AllAreas);
+            if (isGrounded && isNavmesh)
             {
                 currentSpawnPos = hit.point;
             }

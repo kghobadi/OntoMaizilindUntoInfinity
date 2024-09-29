@@ -17,7 +17,7 @@ public class CitizenVision : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Bomb" || other.gameObject.tag == "Explosion")
+        if(other.gameObject.CompareTag("Bomb") || other.gameObject.CompareTag("Explosion"))
         {
             Scream();
         }

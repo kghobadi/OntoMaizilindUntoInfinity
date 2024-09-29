@@ -17,6 +17,8 @@ namespace NPC
         [Header("Face Animations")]
         [SerializeField] private FaceAnimationUI faceAnimUi;
         FaceAnimation _faceAnim;
+
+        [SerializeField] private bool deactivateFace;
         //Accessor for face. 
         public FaceAnimation FaceAnimation => _faceAnim;
         public bool animateFaceToSound = true;
@@ -81,9 +83,19 @@ namespace NPC
                 {
                     if (_faceAnim)
                         _faceAnim.SetAnimator("talking");
-                    
-                    if(faceAnimUi)
-                        faceAnimUi.Activate();
+
+                    if (faceAnimUi)
+                    {
+                        if (deactivateFace)
+                        {
+                            faceAnimUi.SetAnimator("talking");
+                        }
+                        else
+                        {
+                            faceAnimUi.Activate();
+                        }
+                    }
+                        
                 }
             }
             else
@@ -96,8 +108,8 @@ namespace NPC
                 {
                     if (_faceAnim)
                         _faceAnim.SetAnimator("idle");
-                    
-                    if(faceAnimUi)
+
+                    if (faceAnimUi)
                         faceAnimUi.SetIdle();
                 }
             }

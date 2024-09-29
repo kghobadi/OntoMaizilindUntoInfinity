@@ -66,6 +66,27 @@ public class NPCMovementManager : NonInstantiatingSingleton<NPCMovementManager>
         }
     }
 
+    /// <summary>
+    /// Used at the end of the bombing scene. 
+    /// </summary>
+    public void DisableAllNPCs()
+    {
+        FindAllNPCs();
+        foreach (Controller npc in npcControllers)
+        {
+            npc.gameObject.SetActive(false);
+        }
+    }
+    
+    public void DestroyAllNPCs()
+    {
+        FindAllNPCs();
+        foreach (Controller npc in npcControllers)
+        {
+            Destroy(npc.gameObject);
+        }
+    }
+
     #region Add Face Commands - May deprecate
     /// <summary>
     /// Adds a normal face to all NPCs. 

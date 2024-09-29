@@ -36,7 +36,8 @@ public class BombShelter : MonoBehaviour {
     public float timeTilTransition = 15f;
     public MusicFader music;
     public LerpMaterial lerpMat;
- 
+    public LerpMaterial lerpMatEndLevel;
+    public SetMatValues setMatEnd;
     private void Awake()
     {
         worldMan = FindObjectOfType<WorldManager>();
@@ -71,7 +72,7 @@ public class BombShelter : MonoBehaviour {
             BeginProjection(true);
             
             //set the AI while player is controlling it 
-            SetAIPosition(person);
+            //SetAIPosition(person);
         }
         //holding the player child 
         else if (person.GetMovement().holdingPlayer)
@@ -213,25 +214,13 @@ public class BombShelter : MonoBehaviour {
         camManager.Set(transitionViewer);
         //set state
         transitionState = TransitionStates.AWAITING;
+        yield return new WaitForSeconds(2f);
+        //disable all NPCs to soften the load 
+        NPCMovementManager.Instance.DisableAllNPCs();
+        yield return new WaitForSeconds(6f);
+        setMatEnd.SetValues();
+        lerpMatEndLevel.LerpBasic(0f);
         
-        //begin async load. 
-        if (LoadSceneAsync.Instance != null)
-        {
-            LoadSceneAsync.Instance.Load();
-        }
-
-        yield return new WaitForSeconds(10f);
-
-        //finish async load 
-        if (LoadSceneAsync.Instance != null)
-        {
-            LoadSceneAsync.Instance.TransitionImmediate();
-        }
-        //load now
-        else
-        {
-            advance.LoadNextScene();
-        }
-            
+        //LoadSceneAsync.Instance.LoadNextScene();
     }
 }
