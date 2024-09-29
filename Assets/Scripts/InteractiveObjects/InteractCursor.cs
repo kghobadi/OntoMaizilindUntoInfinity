@@ -29,7 +29,8 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 	{
 		get
 		{
-			bool canInteract = !(camSwitcher.CurrentFPC.holding || (objectViewer && objectViewer.viewing));
+			
+			bool canInteract = !((camSwitcher && camSwitcher.CurrentFPC.holding) || (objectViewer && objectViewer.viewing));
 
 			return canInteract;
 		}

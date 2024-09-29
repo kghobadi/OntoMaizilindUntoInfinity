@@ -30,7 +30,7 @@ public class DoorTrigger : AudioHandler {
     {
         if (!locked)
         {
-            if (other.gameObject.tag == "Human" || other.gameObject.tag == "Player")
+            if (other.gameObject.CompareTag("Human") || other.gameObject.CompareTag("Player"))
             {
                 OpenDoor();
             }
@@ -51,7 +51,7 @@ public class DoorTrigger : AudioHandler {
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Human" || other.gameObject.tag == "Player")
+        if (other.gameObject.CompareTag("Human") || other.gameObject.CompareTag("Player"))
         {
             CloseDoor();
         }
