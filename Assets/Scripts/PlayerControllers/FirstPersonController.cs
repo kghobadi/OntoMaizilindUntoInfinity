@@ -102,13 +102,7 @@ public class FirstPersonController : MonoBehaviour
             {
                 MouseKeyboardMovement();
             }
-        }
-    }
-
-    void FixedUpdate()
-    {
-        if (canMove)
-        {
+            
             //actual movement
             if (moving)
             {
@@ -119,7 +113,7 @@ public class FirstPersonController : MonoBehaviour
                 player.Move(movement * Time.deltaTime);
                 
                 //if(resetAudio)
-                    //resetAudio.ResetNearbyAudio();
+                //resetAudio.ResetNearbyAudio();
 
                 if (npcAnimator)
                 {
@@ -138,7 +132,7 @@ public class FirstPersonController : MonoBehaviour
             player.Move(new Vector3(0, -0.5f, 0));
         }
     }
-
+    
     void ControllerMovement()
     {  
         //get input device 
