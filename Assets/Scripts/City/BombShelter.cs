@@ -217,10 +217,10 @@ public class BombShelter : MonoBehaviour {
         yield return new WaitForSeconds(2f);
         //disable all NPCs to soften the load 
         NPCMovementManager.Instance.DisableAllNPCs();
-        yield return new WaitForSeconds(6f);
-        setMatEnd.SetValues();
-        lerpMatEndLevel.LerpBasic(0f);
+        yield return new WaitForSeconds(8f);
+        //setMatEnd.SetValues();
+        //lerpMatEndLevel.LerpBasic(0f);
         
-        //LoadSceneAsync.Instance.LoadNextScene();
+        LoadSceneAsync.Instance.LoadNextScene();
     }
 }
