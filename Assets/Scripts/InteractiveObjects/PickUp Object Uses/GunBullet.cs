@@ -43,7 +43,7 @@ public class GunBullet : MonoBehaviour
             {
                 //velocity limit
                 Vector3 properVel = new Vector3(bulletBody.velocity.x, bulletBody.velocity.y, maxVelocityZ);
-                bulletBody.velocity = Vector3.MoveTowards(bulletBody.velocity, properVel, 50 * Time.deltaTime);
+                bulletBody.velocity = Vector3.MoveTowards(bulletBody.velocity, properVel, 50 * Time.fixedDeltaTime);
             }
         }
     }

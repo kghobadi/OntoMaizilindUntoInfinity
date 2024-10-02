@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using InControl;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -241,6 +242,9 @@ namespace Yarn.Unity
             // interrupt/continue a line? We need to pass a number of
             // checks.
             
+            //get input device 
+            var inputDevice = InputManager.ActiveDevice;
+            
             // We need to be configured to use a keycode to interrupt/continue
             // lines.
             if (continueActionType != ContinueActionType.KeyCode)
@@ -249,7 +253,8 @@ namespace Yarn.Unity
             }
 
             // That keycode needs to have been pressed this frame. OR L MOUSE
-            if (!UnityEngine.Input.GetKeyDown(continueActionKeyCode) && !Input.GetMouseButtonDown(0))  
+            if (!UnityEngine.Input.GetKeyDown(continueActionKeyCode) && !Input.GetMouseButtonDown(0)
+                && !inputDevice.Action1.WasPressed)  
             {
                 return;
             }

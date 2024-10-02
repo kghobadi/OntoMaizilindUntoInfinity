@@ -52,7 +52,7 @@ public class PickUpGun : PickUpObject
                 
             //fire the gun.
             //bullet.transform.LookAt(target.position);
-            //bullet.FireBullet();
+            bullet.FireBullet();
         
             //ramin AI behavior
             //raminAi.ResetMovement(killPerson);
@@ -63,6 +63,8 @@ public class PickUpGun : PickUpObject
                 
             //sound
             PlaySound(gunShot, 1f);
+            
+            //Debug.LogError("fired gun");
                 
             //fired
             fire.Invoke();

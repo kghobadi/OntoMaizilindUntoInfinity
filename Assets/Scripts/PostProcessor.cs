@@ -91,6 +91,8 @@ public class PostProcessor : MonoBehaviour
 
             if(bombTimer < 0)
             {
+                //TODO we are not seeing this in the build. 
+                //Debug.LogError("nuclear level = " + (spectrum.MeanLevels[bombLevelRef] * 100));
                 canSpawnBombs = true;
             }
         }
@@ -107,6 +109,7 @@ public class PostProcessor : MonoBehaviour
     {
         if (nuclearBomb == null)
         {
+            //Debug.LogError("Null bomb prefab???");
             return;
         }
 
@@ -117,7 +120,7 @@ public class PostProcessor : MonoBehaviour
         canSpawnBombs = false;
         bombTimer = bombTimerTotal;
         player.transform.LookAt(nuke.transform.position + new Vector3(0,50f,0));
-        Debug.Log("spawned abomb");
+        Debug.LogError("Spawned a bomb at nuclear level = " + (spectrum.MeanLevels[bombLevelRef] * 100));
     }
 
     //tie parts of colorGrader to audioSpectrum values
