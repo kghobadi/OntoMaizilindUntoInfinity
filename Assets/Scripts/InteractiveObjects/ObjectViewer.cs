@@ -155,14 +155,16 @@ public class ObjectViewer : AudioHandler
 		float inputX;
 		float inputY;
 
+		Vector3 inputs = Vector3.zero;
+
 		//controller
 		if (inputDevice.DeviceClass == InputDeviceClass.Controller)
 		{
 			inputX = inputDevice.RightStickX;
 			inputY = inputDevice.RightStickY;
-			
-			//rotate
-			currentViewObj.transform.Rotate(-inputY * mouseRotSpeedX * Time.deltaTime, inputX * mouseRotSpeedY * Time.deltaTime, 0);
+
+			inputs = new Vector3(-inputY * mouseRotSpeedX * Time.deltaTime, -inputX * mouseRotSpeedY * Time.deltaTime, 0);
+		
 		}
 		//mouse
 		else
@@ -171,8 +173,12 @@ public class ObjectViewer : AudioHandler
 			inputY = Input.GetAxis("Mouse Y");
 			
 			//rotate
-			currentViewObj.transform.Rotate(-inputY * controllerRotSpeedX * Time.deltaTime, inputX * controllerRotSpeedY * Time.deltaTime, 0);
+			inputs = new Vector3(-inputY * controllerRotSpeedX * Time.deltaTime,
+				-inputX * controllerRotSpeedY * Time.deltaTime, 0);
 		}
+		
+		//rotate
+		currentViewObj.transform.Rotate(inputs);
 	}
 
 	//turn off object viewer and return obj to its original place. 

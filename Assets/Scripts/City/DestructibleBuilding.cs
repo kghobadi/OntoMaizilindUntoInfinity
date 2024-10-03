@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,6 +8,7 @@ using UnityEngine.SceneManagement;
 //This will probably only be used for the Pilot scene. 
 public class DestructibleBuilding : MonoBehaviour {
     ThePilot the_pilot;
+    private Vector3 origPos;
     
     public int health;
     public int healthMultiplier;
@@ -32,6 +34,7 @@ public class DestructibleBuilding : MonoBehaviour {
 
     public const string pilot = "3_Ramins Takeoff";
     public const string nuclearity = "5_Nuclearity";
+    private Transform expParent;
 
     void Awake()
     {
@@ -39,7 +42,7 @@ public class DestructibleBuilding : MonoBehaviour {
         buildingMesh = GetComponentInChildren<MeshRenderer>();
         effectsMan = FindObjectOfType<EffectsManager>();
         //_deityManager = FindObjectOfType<DeityManager>();
-
+        origPos = transform.localPosition;
         //set smoke effect
         if (smokePrefab == null)
         {
@@ -50,6 +53,20 @@ public class DestructibleBuilding : MonoBehaviour {
         if (explosionPrefab == null)
         {
             explosionPrefab = effectsMan.deityExplosionPrefab;
+        }
+
+        if (expParent == null)
+        {
+            expParent = GameObject.FindGameObjectWithTag("ExpParent").transform;
+        }
+    }
+
+    private void OnEnable()
+    {
+        //only generate these effects in the pilot scene. 
+        if (SceneManager.GetActiveScene().name == pilot)
+        {
+            Reset();
         }
     }
 
@@ -64,18 +81,22 @@ public class DestructibleBuilding : MonoBehaviour {
     void GenerateEffects()
     {
         //only generate these effects in the pilot scene. 
-        if (SceneManager.GetActiveScene().name != pilot)
+        if (SceneManager.GetActiveScene().name == pilot)
         {
-            return;
-        }
-        
-        //instantiate and parent smoke to me, get particle
-        GameObject smoke = Instantiate(smokePrefab, transform);
-        smokeParticles = smoke.GetComponent<ParticleSystem>();
+            //instantiate and parent smoke to me, get particle
+            GameObject smoke = Instantiate(smokePrefab, transform);
+            smokeParticles = smoke.GetComponent<ParticleSystem>();
 
-        //instantiate and parent explosion to me, get particle
-        GameObject explosion = Instantiate(explosionPrefab, transform);
-        explosionParticles = explosion.GetComponent<ParticleSystem>();
+            //instantiate and parent explosion to me, get particle
+            GameObject explosion = Instantiate(explosionPrefab, transform);
+            explosionParticles = explosion.GetComponent<ParticleSystem>();
+        }
+        else if (SceneManager.GetActiveScene().name == nuclearity)
+        {
+            //instantiate and parent explosion to me, get particle
+            GameObject explosion = Instantiate(explosionPrefab, transform);
+            explosionParticles = explosion.GetComponent<ParticleSystem>();
+        }
     }
 	
 	void Update ()
@@ -88,16 +109,6 @@ public class DestructibleBuilding : MonoBehaviour {
             if(Vector3.Distance(transform.position, nextPos) < 0.25f)
             {
                 falling = false;
-            }
-        }
-
-        //pilot is in the scene 
-        if(the_pilot != null)
-        {
-            //disable when i am behind the pilot 
-            if(transform.position.z < (the_pilot.transform.position.z - 25f))
-            {
-                gameObject.SetActive(false);
             }
         }
 	}
@@ -128,13 +139,14 @@ public class DestructibleBuilding : MonoBehaviour {
             dSound.PlaySoundMultipleAudioSources(dSound.explosionSounds);
             
             //fall and set 0 hp
-            FallBelow();
             health = 0;
         }
 
         //destroyed in nuclearity 
         if (other.gameObject.CompareTag("Explosion") && SceneManager.GetActiveScene().name == nuclearity)
         {
+            explosionParticles.transform.SetParent(expParent);
+            explosionParticles.Play();
             gameObject.SetActive(false);
         }
     }
@@ -152,5 +164,13 @@ public class DestructibleBuilding : MonoBehaviour {
         nextPos = transform.position - new Vector3(0, totalHeight * 3, 0);
         falling = true;
         //Debug.Log("falling");
+    }
+
+    private void Reset()
+    {
+        transform.localPosition = new Vector3(transform.localPosition.x, origPos.y, transform.localPosition.z);
+        explosionParticles.Stop();
+        smokeParticles.Stop();
+        falling = false;
     }
 }
