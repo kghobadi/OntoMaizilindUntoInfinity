@@ -8,6 +8,7 @@ using Cameras;
 using Cinemachine;
 using NPC;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class MonologueManager : MonoBehaviour
 {
@@ -56,9 +57,20 @@ public class MonologueManager : MonoBehaviour
     Vector3 origHeadRot;
 
     private IEnumerator newMonologue;
+    
+    [Header("Events")]
+    [SerializeField] private UnityEvent onMonoBegin;
+    [SerializeField] private UnityEvent onMonoEnd;
 
-    [Header("Subtitle System")] 
-    public bool useSubtitles;
+    [Header("Subtitle Settings")] 
+    [SerializeField]
+    private GameObject customSubtitlePrefab;
+    [SerializeField] private string characterName;
+    
+    #region SubtitleInWorld - Deprecate
+    [Header("Subtitle In World System - Deprecated")] 
+    [FormerlySerializedAs("useSubtitles")] 
+    public bool useSubtitlesInWorld;
     [Tooltip("Position for the Subtitle system to target.")]
     public Transform subtitleTarget;
     [HideInInspector] public GameObject mySubtitle;
@@ -84,9 +96,6 @@ public class MonologueManager : MonoBehaviour
     [SerializeField]
     private float distanceActive = 0f;
     private FadeUiRevamped[] subtitleFades;
-
-    [SerializeField] private UnityEvent onMonoBegin;
-    [SerializeField] private UnityEvent onMonoEnd;
     
     /// <summary>
     /// Fetch the face height. 
@@ -149,6 +158,7 @@ public class MonologueManager : MonoBehaviour
 
     [HideInInspector] public Image arrowImg;
     [HideInInspector] public float subPointOffsetX;
+    #endregion
     
     void Awake()
     {
@@ -192,7 +202,7 @@ public class MonologueManager : MonoBehaviour
             SetMonologueSystem(0);
 
         //set up my subtitle.
-        if (useSubtitles)
+        if (useSubtitlesInWorld)
         {
             mySubtitle = subtitleInWorldManager.SetupNewSubtitle(this);
             subRectTransform = mySubtitle.GetComponent<RectTransform>();
@@ -301,7 +311,7 @@ public class MonologueManager : MonoBehaviour
         }
 
         //Activate face animation UI if it has it / we dont use subtitles 
-        if(monoReader.faceAnimationUI != null && !useSubtitles)
+        if(monoReader.faceAnimationUI != null && !useSubtitlesInWorld)
         {
             monoReader.faceAnimationUI.Activate();
         }
@@ -552,7 +562,27 @@ public class MonologueManager : MonoBehaviour
         inMonologue = false;
     }
 
-    #region Subtitle Management
+    #region Subtitle Controller
+
+    /// <summary>
+    /// Creates a new type of subtitle. 
+    /// </summary>
+    public void CreateSubtitle()
+    {
+        SubtitleController newSubtitle = SubtitleMgr.Instance.GenerateSubtitle(this, customSubtitlePrefab);
+        //set character name
+        newSubtitle.SetCharacterTitle(characterName);
+        
+        //TODO Supply it with text from MonologueReader?
+        //newSubtitle.SetText();
+        //should tell it to fade in
+        newSubtitle.FadeControls.FadeIn();
+        //give it fade out time (expiration)
+    }
+
+    #endregion
+
+    #region Subtitle In World Management - Deprecated
 
     /// <summary>
     /// Enables the subtitle obj.

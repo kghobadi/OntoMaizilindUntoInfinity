@@ -122,7 +122,7 @@ public class MonologueReader : MonoBehaviour {
         if (isVisible)
         {
             //set subtitle 
-            if (monoManager.useSubtitles)
+            if (monoManager.useSubtitlesInWorld)
             {
                 monoManager.DisableSubtitle();
             }
@@ -130,7 +130,7 @@ public class MonologueReader : MonoBehaviour {
         else
         {
             //set subtitle 
-            if (monoManager.useSubtitles)
+            if (monoManager.useSubtitlesInWorld)
             {
                 monoManager.EnableSubtitle();
 
@@ -232,7 +232,7 @@ public class MonologueReader : MonoBehaviour {
             monoManager.DisableMonologue();
 
             //set subtitle disabled
-            if (monoManager.useSubtitles)
+            if (monoManager.useSubtitlesInWorld)
             {
                 monoManager.DisableSubtitle();
             }
@@ -261,6 +261,9 @@ public class MonologueReader : MonoBehaviour {
         StartCoroutine(currentTypingLine);
     }
 
+    //TODO Create Scroll by Line method as an option for Mono Reader
+    //Make back and forth between this and MonoMgr for new subtitle system. 
+    
     //Coroutine that types out each letter individually
     private IEnumerator TextScroll(string lineOfText)
     {
@@ -307,7 +310,7 @@ public class MonologueReader : MonoBehaviour {
             if (!sharedReader)
             {
                 //set subtitle 
-                if (monoManager.useSubtitles)
+                if (monoManager.useSubtitlesInWorld)
                 {
                     monoManager.SetSubtitleText(screenText);
                 }
@@ -370,7 +373,7 @@ public class MonologueReader : MonoBehaviour {
             theText.text = lineOfText;
         
         //set subtitle 
-        if (monoManager && monoManager.useSubtitles)
+        if (monoManager && monoManager.useSubtitlesInWorld)
         {
             monoManager.SetSubtitleText(lineOfText);
         }

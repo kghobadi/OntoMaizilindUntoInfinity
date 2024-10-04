@@ -14,7 +14,7 @@ public class FadeUiRevamped : MonoBehaviour
     //This is automatically determined by the script at start.
     public enum UIType
     {
-        IMAGE, RAWIMAGE, TEXT, TMPTEXT, SPRITE,
+        IMAGE, RAWIMAGE, TEXT, TMPTEXT, SPRITE, CANVASGROUP
     }
     
     [SerializeField]
@@ -33,6 +33,7 @@ public class FadeUiRevamped : MonoBehaviour
     private FadeStates fadeState;
 
     //store image/text + color
+    private CanvasGroup _canvasGroup;
     Image thisImage;
     RawImage rawImage;
     Text thisText;
@@ -88,46 +89,54 @@ public class FadeUiRevamped : MonoBehaviour
     void GetUiType()
     {
         //checks privately whether this object has image or text component
-        thisImage = GetComponent<Image>();
-        if (thisImage == null)
+        _canvasGroup = GetComponent<CanvasGroup>();
+        if (_canvasGroup == null)
         {
-            rawImage = GetComponent<RawImage>();
-
-            if (rawImage == null)
+            thisImage = GetComponent<Image>();
+            if (thisImage == null)
             {
-                thisText = GetComponent<Text>();
+                rawImage = GetComponent<RawImage>();
 
-                //it's a TMP TEXT
-                if (thisText == null)
+                if (rawImage == null)
                 {
-                    tmpText = GetComponent<TMP_Text>();
-                    //last check --> sprite
-                    if (tmpText == null)
+                    thisText = GetComponent<Text>();
+
+                    //it's a TMP TEXT
+                    if (thisText == null)
                     {
-                        spritRenderer = GetComponent<SpriteRenderer>();
-                        uiType = UIType.SPRITE;
+                        tmpText = GetComponent<TMP_Text>();
+                        //last check --> sprite
+                        if (tmpText == null)
+                        {
+                            spritRenderer = GetComponent<SpriteRenderer>();
+                            uiType = UIType.SPRITE;
+                        }
+                        //it's a TMP text
+                        else
+                        {
+                            uiType = UIType.TMPTEXT;
+                        }
                     }
-                    //it's a TMP text
+                    //its a Text
                     else
                     {
-                        uiType = UIType.TMPTEXT;
+                        uiType = UIType.TEXT;
                     }
                 }
-                //its a Text
                 else
                 {
-                    uiType = UIType.TEXT;
+                    uiType = UIType.RAWIMAGE;
                 }
             }
+            //its an image
             else
             {
-                uiType = UIType.RAWIMAGE;
+                uiType = UIType.IMAGE;
             }
         }
-        //its an image
         else
         {
-            uiType = UIType.IMAGE;
+            uiType = UIType.CANVASGROUP;
         }
         
         SetAlpha();
@@ -193,12 +202,20 @@ public class FadeUiRevamped : MonoBehaviour
         //get start values 
         float currentTime = 0;
         float startAlpha = alphaValue.a;
+        if (uiType == UIType.CANVASGROUP)
+        {
+            startAlpha = _canvasGroup.alpha;
+        }
 
         //actual value transformation over time
         while (currentTime <= fadeInDuration)
         {
             var lerpValue = currentTime / fadeInDuration;
             alphaValue.a = Mathf.Lerp(startAlpha, fadeInAmount, lerpValue);
+            if (uiType == UIType.CANVASGROUP)
+            {
+                _canvasGroup.alpha = Mathf.Lerp(startAlpha, fadeInAmount, lerpValue);
+            }
             currentTime += Time.deltaTime;
             UpdateAlpha();
             yield return null;
@@ -207,6 +224,11 @@ public class FadeUiRevamped : MonoBehaviour
         //final set value
         alphaValue.a = fadeInAmount;
         UpdateAlpha();
+        
+        if (uiType == UIType.CANVASGROUP)
+        {
+            _canvasGroup.alpha = fadeInAmount;
+        }
 
         //set fade state.
         fadeState = FadeStates.IDLE_SHOWN;
@@ -226,12 +248,20 @@ public class FadeUiRevamped : MonoBehaviour
         //get start values 
         float currentTime = 0;
         float startAlpha = alphaValue.a;
+        if (uiType == UIType.CANVASGROUP)
+        {
+            startAlpha = _canvasGroup.alpha;
+        }
 
         //actual value transformation over time
         while (currentTime <= fadeOutDuration)
         {
             var lerpValue = currentTime / fadeOutDuration;
             alphaValue.a = Mathf.Lerp(startAlpha, fadeOutAmount, lerpValue);
+            if (uiType == UIType.CANVASGROUP)
+            {
+                _canvasGroup.alpha = Mathf.Lerp(startAlpha, fadeOutAmount, lerpValue);
+            }
             currentTime += Time.deltaTime;
             UpdateAlpha();
             yield return null;
@@ -240,6 +270,10 @@ public class FadeUiRevamped : MonoBehaviour
         //final set value
         alphaValue.a = fadeOutAmount;
         UpdateAlpha();
+        if (uiType == UIType.CANVASGROUP)
+        {
+            _canvasGroup.alpha = fadeOutAmount;
+        }
 
         //set fade state.
         fadeState = FadeStates.IDLE_HIDDEN;
