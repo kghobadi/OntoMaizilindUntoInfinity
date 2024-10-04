@@ -32,7 +32,7 @@ public class PostProcessor : MonoBehaviour
     [Header("Nuclear Bombs")]
     public Transform explosionParent;
     public GameObject nuclearBomb;
-    public int bombLevelRef;
+    public int[] bombLevelRefs;
     public float bombMin;
     public int bombCounter = 0;
     public bool canSpawnBombs = true;
@@ -78,13 +78,17 @@ public class PostProcessor : MonoBehaviour
         
         myPost.colorGrading.settings = colorGrader;
         
-        //check if music was loud enough to spawn bomb 
+        //check if music was loud enough across frequency levels to spawn bomb 
         //Debug.LogError("nuclear level = " + (spectrum.MeanLevels[bombLevelRef] * 100));
-        if(spectrum.MeanLevels[bombLevelRef] * 100 > bombMin && canSpawnBombs)
+        for (int i = 0; i < bombLevelRefs.Length; i++)
         {
-            SpawnBomb();
+            if(spectrum.MeanLevels[bombLevelRefs[i]] * 100 > bombMin && canSpawnBombs)
+            {
+                SpawnBomb(bombLevelRefs[i]);
+            }
         }
 
+        //bomb reset
         if (!canSpawnBombs)
         {
             bombTimer -= Time.deltaTime;
@@ -105,7 +109,7 @@ public class PostProcessor : MonoBehaviour
         }
     }
 
-    void SpawnBomb()
+    void SpawnBomb(int lvlRef)
     {
         if (nuclearBomb == null)
         {
@@ -120,7 +124,7 @@ public class PostProcessor : MonoBehaviour
         canSpawnBombs = false;
         bombTimer = bombTimerTotal;
         player.transform.LookAt(nuke.transform.position + new Vector3(0,50f,0));
-        Debug.LogError("Spawned a bomb at nuclear level = " + (spectrum.MeanLevels[bombLevelRef] * 100));
+        Debug.LogError("Spawned a bomb at nuclear Index: " + lvlRef  + "level = " + (spectrum.MeanLevels[lvlRef] * 100));
     }
 
     //tie parts of colorGrader to audioSpectrum values
