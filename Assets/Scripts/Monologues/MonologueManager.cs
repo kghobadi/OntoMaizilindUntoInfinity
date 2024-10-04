@@ -577,6 +577,9 @@ public class MonologueManager : MonoBehaviour
         //newSubtitle.SetText();
         //should tell it to fade in
         newSubtitle.FadeControls.FadeIn();
+        
+        //Override face animator
+        //newSubtitle.OverloadAnimator();
         //give it fade out time (expiration)
     }
 
