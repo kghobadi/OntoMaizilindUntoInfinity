@@ -34,4 +34,6 @@ public class SubtitleMgr : NonInstantiatingSingleton<SubtitleMgr>
 
         return controller;
     }
+    
+    //TODO if nobody talks for a while there's no need to show scroll view - could fade in and out as needed. 
 }
