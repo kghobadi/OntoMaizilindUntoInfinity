@@ -126,10 +126,9 @@ public class SubtitleController : MonoBehaviour
             if(dynamicHeight)
                 RendererExtensions.ChangeHeightOfRect(textBox.rectTransform, subtitleText, minHeight,  maxHeight, topOffset);
 
-            //get random #
-            int letter = Random.Range(0, 26);
+            //speak sound
             if (speakerSound)
-                speakerSound.AudioCheck(lineOfText, letter);
+                speakerSound.SpeakWord(lineOfText);
 
             //next word
             word += 1;

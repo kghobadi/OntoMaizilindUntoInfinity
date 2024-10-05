@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SpeakerSound : AudioHandler
 {
@@ -71,6 +72,19 @@ public class SpeakerSound : AudioHandler
                     PlaySoundUp(spokenSounds, 1f);
                 }
             }
+        }
+    }
+
+    /// <summary>
+    /// Speaks random letter from the line of text. 
+    /// </summary>
+    /// <param name="lineOfText"></param>
+    public void SpeakWord(string lineOfText)
+    {
+        if (hasVoiceAudio)
+        {  
+            int randomLetter = Random.Range(0,lineOfText.Length);
+            Speak(lineOfText[randomLetter]);
         }
     }
 
