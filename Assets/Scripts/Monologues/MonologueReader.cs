@@ -61,6 +61,8 @@ public class MonologueReader : MonoBehaviour {
     [Header("Subtitle Reader")] 
     public FaceAnimationUI faceAnimationUI;
 
+    [SerializeField] private bool useFaceSubs;
+
     void Awake()
     {
         myRectTransform = GetComponent<RectTransform>();
@@ -252,13 +254,36 @@ public class MonologueReader : MonoBehaviour {
         if (readingMono == false)
             readingMono = true;
         
-        if (currentTypingLine != null)
+        //Set all shared readers 
+        if (sharedReader)
         {
-            StopCoroutine(currentTypingLine);
+            foreach (var mgr in monoManagers)
+            {
+                SetAnimations(mgr, "talking");
+            }
         }
-        currentTypingLine = TextScroll(textLines[currentLine]);
+        else
+        {
+            //set talking anim
+            SetAnimations(monoManager, "talking");
+        }
 
-        StartCoroutine(currentTypingLine);
+        //Create a face sub for this line of text 
+        if (useFaceSubs)
+        {
+            monoManager.CreateSubtitle(textLines[currentLine]);
+        }
+        //Individual letters type out
+        else
+        {
+            if (currentTypingLine != null)
+            {
+                StopCoroutine(currentTypingLine);
+            }
+            currentTypingLine = TextScroll(textLines[currentLine]);
+
+            StartCoroutine(currentTypingLine);
+        }
     }
 
     //TODO Create Scroll by Line method as an option for Mono Reader
@@ -275,20 +300,6 @@ public class MonologueReader : MonoBehaviour {
             theText.text = "";
 
         isTyping = true;
-
-        //Set all shared readers 
-        if (sharedReader)
-        {
-            foreach (var mgr in monoManagers)
-            {
-                SetAnimations(mgr, "talking");
-            }
-        }
-        else
-        {
-            //set talking anim
-            SetAnimations(monoManager, "talking");
-        }
 
         while (isTyping && (letter < lineOfText.Length - 1))
         {
@@ -381,6 +392,14 @@ public class MonologueReader : MonoBehaviour {
         isTyping = false;
     }
 
+    /// <summary>
+    /// Allows subtitle to tell us when it has finished. 
+    /// </summary>
+    public void OnLineFinished()
+    {
+        SetWaitForNextLine();
+    }
+
     //calls wait for next line coroutine 
     void SetWaitForNextLine()
     {
@@ -441,5 +460,4 @@ public class MonologueReader : MonoBehaviour {
     {
         waitForDialogue = state;
     }
-    
 }

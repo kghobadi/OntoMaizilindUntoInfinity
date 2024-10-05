@@ -1514,9 +1514,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114169807818614042, guid: 0e095e01401d9a64daeef683800128f0,
         type: 3}
+      propertyPath: useFaceSubs
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114169807818614042, guid: 0e095e01401d9a64daeef683800128f0,
+        type: 3}
       propertyPath: faceAnimationUI
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 16751180}
     - target: {fileID: 114169807818614042, guid: 0e095e01401d9a64daeef683800128f0,
         type: 3}
       propertyPath: usesScreenReader
@@ -1554,9 +1559,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114570975138301208, guid: 0e095e01401d9a64daeef683800128f0,
         type: 3}
+      propertyPath: characterName
+      value: Maman
+      objectReference: {fileID: 0}
+    - target: {fileID: 114570975138301208, guid: 0e095e01401d9a64daeef683800128f0,
+        type: 3}
       propertyPath: manualSubHeight
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 114570975138301208, guid: 0e095e01401d9a64daeef683800128f0,
+        type: 3}
+      propertyPath: useSubtitlesInWorld
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114570975138301208, guid: 0e095e01401d9a64daeef683800128f0,
+        type: 3}
+      propertyPath: customSubtitlePrefab
+      value: 
+      objectReference: {fileID: 3122280120501330123, guid: c878ccdae9ced0a46b3ca8af877318fa,
+        type: 3}
     - target: {fileID: 114570975138301208, guid: 0e095e01401d9a64daeef683800128f0,
         type: 3}
       propertyPath: subtitleHeightSetter
@@ -2264,6 +2285,7 @@ MonoBehaviour:
   maxWidth: 750
   sideOffset: 25
   faceAnimationUI: {fileID: 0}
+  useFaceSubs: 0
 --- !u!1 &338368837
 GameObject:
   m_ObjectHideFlags: 0
@@ -2449,11 +2471,37 @@ PrefabInstance:
       propertyPath: useSubtitles
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114228138933689118, guid: 9b9d2db0b858f19459302fb6a1311d16,
+        type: 3}
+      propertyPath: characterName
+      value: Baba
+      objectReference: {fileID: 0}
+    - target: {fileID: 114228138933689118, guid: 9b9d2db0b858f19459302fb6a1311d16,
+        type: 3}
+      propertyPath: useSubtitlesInWorld
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114228138933689118, guid: 9b9d2db0b858f19459302fb6a1311d16,
+        type: 3}
+      propertyPath: customSubtitlePrefab
+      value: 
+      objectReference: {fileID: 3122280120501330123, guid: 9ee63af1cabe26e4e8cd50cb3a138676,
+        type: 3}
     - target: {fileID: 114262508995686554, guid: 9b9d2db0b858f19459302fb6a1311d16,
         type: 3}
       propertyPath: maxWidth
       value: 750
       objectReference: {fileID: 0}
+    - target: {fileID: 114262508995686554, guid: 9b9d2db0b858f19459302fb6a1311d16,
+        type: 3}
+      propertyPath: useFaceSubs
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114262508995686554, guid: 9b9d2db0b858f19459302fb6a1311d16,
+        type: 3}
+      propertyPath: faceAnimationUI
+      value: 
+      objectReference: {fileID: 16751180}
     - target: {fileID: 114318976868803136, guid: 9b9d2db0b858f19459302fb6a1311d16,
         type: 3}
       propertyPath: faceAnimUi
@@ -3024,6 +3072,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1825624274}
+  - {fileID: 442534523}
   m_Father: {fileID: 1662655480}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3050,7 +3099,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 35
+  m_Spacing: 50
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -3227,7 +3276,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 434601826}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -3269,6 +3318,151 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ba9f7d4506dc8641bd401918b507302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &442534522
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 414665951}
+    m_Modifications:
+    - target: {fileID: 3122280120080332310, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120080332311, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_text
+      value: Saideh
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120080332311, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -242
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330123, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_Name
+      value: FaceSubtitle - Controller (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330123, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 82b23a90f5c27d043a257a8f417197e2, type: 3}
+--- !u!224 &442534523 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
+    type: 3}
+  m_PrefabInstance: {fileID: 442534522}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &448649350 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6757358386283467954, guid: 71bb1b17f58206b438a1204e1145f869,
@@ -4164,6 +4358,7 @@ MonoBehaviour:
   wmManager: {fileID: 0}
   npcController: {fileID: 0}
   monoReader: {fileID: 0}
+  speakerSound: {fileID: 0}
   sharesReader: 0
   isPlayer: 0
   textBack: {fileID: 590775803}
@@ -4175,7 +4370,19 @@ MonoBehaviour:
   mTrigger: {fileID: 0}
   enableOnStart: 0
   head: {fileID: 0}
-  useSubtitles: 0
+  onMonoBegin:
+    m_PersistentCalls:
+      m_Calls: []
+  onMonoEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  customSubtitlePrefab: {fileID: 0}
+  characterName: 
+  subtitleLifetime: 6
+  faceSizeMult: 2
+  facePointer: {fileID: 0}
+  faceRect: {fileID: 0}
+  useSubtitlesInWorld: 0
   subtitleTarget: {fileID: 0}
   mySubtitle: {fileID: 0}
   subSizeMult: 1
@@ -4183,16 +4390,7 @@ MonoBehaviour:
   subtitleTMP: {fileID: 0}
   subCanvasGroup: {fileID: 0}
   currentSubTime: 0
-  faceSizeMult: 2
-  facePointer: {fileID: 0}
-  faceRect: {fileID: 0}
   distanceActive: 0
-  onMonoBegin:
-    m_PersistentCalls:
-      m_Calls: []
-  onMonoEnd:
-    m_PersistentCalls:
-      m_Calls: []
   arrowImg: {fileID: 0}
   subPointOffsetX: 0
 --- !u!1 &594845203
@@ -5390,6 +5588,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7704c0d504ce2df4d80c15f27cc65021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subtitlePrefab: {fileID: 3122280120501330123, guid: 82b23a90f5c27d043a257a8f417197e2,
+    type: 3}
+  scrollViewContent: {fileID: 414665951}
+  generatedSubtitles: []
 --- !u!1 &838588208
 GameObject:
   m_ObjectHideFlags: 0
@@ -6148,9 +6350,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114626451528088598, guid: 8f40cf4489493464db7b6c012a47c04c,
         type: 3}
+      propertyPath: characterName
+      value: Shalah
+      objectReference: {fileID: 0}
+    - target: {fileID: 114626451528088598, guid: 8f40cf4489493464db7b6c012a47c04c,
+        type: 3}
       propertyPath: manualSubHeight
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 114626451528088598, guid: 8f40cf4489493464db7b6c012a47c04c,
+        type: 3}
+      propertyPath: useSubtitlesInWorld
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114626451528088598, guid: 8f40cf4489493464db7b6c012a47c04c,
+        type: 3}
+      propertyPath: customSubtitlePrefab
+      value: 
+      objectReference: {fileID: 3122280120501330123, guid: 9e61ab3bbceb4e146925b21b821d5f3b,
+        type: 3}
     - target: {fileID: 114626451528088598, guid: 8f40cf4489493464db7b6c012a47c04c,
         type: 3}
       propertyPath: subtitleHeightSetter
@@ -6158,9 +6376,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114766262902413100, guid: 8f40cf4489493464db7b6c012a47c04c,
         type: 3}
+      propertyPath: useFaceSubs
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114766262902413100, guid: 8f40cf4489493464db7b6c012a47c04c,
+        type: 3}
       propertyPath: faceAnimationUI
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 16751180}
     - target: {fileID: 114766262902413100, guid: 8f40cf4489493464db7b6c012a47c04c,
         type: 3}
       propertyPath: usesScreenReader
@@ -9075,9 +9298,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6431869715014766499, guid: 4923de8396391f34f91e444ab3c6c1ad,
         type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 9f220f71c3225df469c3cb471fa7c713,
+        type: 2}
+    - target: {fileID: 6431869715014766499, guid: 4923de8396391f34f91e444ab3c6c1ad,
+        type: 3}
       propertyPath: m_fontSizeBase
       value: 72
       objectReference: {fileID: 0}
+    - target: {fileID: 6431869715014766499, guid: 4923de8396391f34f91e444ab3c6c1ad,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 21773491159118098, guid: 9f220f71c3225df469c3cb471fa7c713,
+        type: 2}
     - target: {fileID: 6431919466443008869, guid: 4923de8396391f34f91e444ab3c6c1ad,
         type: 3}
       propertyPath: m_fontSize
@@ -9085,9 +9320,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6431919466443008869, guid: 4923de8396391f34f91e444ab3c6c1ad,
         type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 9f220f71c3225df469c3cb471fa7c713,
+        type: 2}
+    - target: {fileID: 6431919466443008869, guid: 4923de8396391f34f91e444ab3c6c1ad,
+        type: 3}
       propertyPath: m_fontSizeBase
       value: 72
       objectReference: {fileID: 0}
+    - target: {fileID: 6431919466443008869, guid: 4923de8396391f34f91e444ab3c6c1ad,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 21773491159118098, guid: 9f220f71c3225df469c3cb471fa7c713,
+        type: 2}
     - target: {fileID: 6498032741855732092, guid: 4923de8396391f34f91e444ab3c6c1ad,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -12887,6 +13134,22 @@ PrefabInstance:
       propertyPath: useSubtitles
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114434026784312544, guid: 0520d190841ed434bba87e98d542fb5a,
+        type: 3}
+      propertyPath: characterName
+      value: Ramin
+      objectReference: {fileID: 0}
+    - target: {fileID: 114434026784312544, guid: 0520d190841ed434bba87e98d542fb5a,
+        type: 3}
+      propertyPath: useSubtitlesInWorld
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114434026784312544, guid: 0520d190841ed434bba87e98d542fb5a,
+        type: 3}
+      propertyPath: customSubtitlePrefab
+      value: 
+      objectReference: {fileID: 3122280120501330123, guid: f3f8056dc17283d4994067ff87bdf975,
+        type: 3}
     - target: {fileID: 114470176373975892, guid: 0520d190841ed434bba87e98d542fb5a,
         type: 3}
       propertyPath: m_Enabled
@@ -12907,6 +13170,16 @@ PrefabInstance:
       propertyPath: maxWidth
       value: 750
       objectReference: {fileID: 0}
+    - target: {fileID: 114600696722706220, guid: 0520d190841ed434bba87e98d542fb5a,
+        type: 3}
+      propertyPath: useFaceSubs
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114600696722706220, guid: 0520d190841ed434bba87e98d542fb5a,
+        type: 3}
+      propertyPath: faceAnimationUI
+      value: 
+      objectReference: {fileID: 16751180}
     - target: {fileID: 114722001311884578, guid: 0520d190841ed434bba87e98d542fb5a,
         type: 3}
       propertyPath: m_VertexBufferAutoSizeReduction
@@ -14310,9 +14583,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114825008040662934, guid: 9a20b15ab81808c4eab3ec23fb2e7591,
         type: 3}
+      propertyPath: useFaceSubs
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114825008040662934, guid: 9a20b15ab81808c4eab3ec23fb2e7591,
+        type: 3}
       propertyPath: faceAnimationUI
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 16751180}
     - target: {fileID: 114825008040662934, guid: 9a20b15ab81808c4eab3ec23fb2e7591,
         type: 3}
       propertyPath: usesScreenReader
@@ -14340,9 +14618,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114957793987432516, guid: 9a20b15ab81808c4eab3ec23fb2e7591,
         type: 3}
+      propertyPath: characterName
+      value: Saideh
+      objectReference: {fileID: 0}
+    - target: {fileID: 114957793987432516, guid: 9a20b15ab81808c4eab3ec23fb2e7591,
+        type: 3}
       propertyPath: manualSubHeight
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 114957793987432516, guid: 9a20b15ab81808c4eab3ec23fb2e7591,
+        type: 3}
+      propertyPath: useSubtitlesInWorld
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114957793987432516, guid: 9a20b15ab81808c4eab3ec23fb2e7591,
+        type: 3}
+      propertyPath: customSubtitlePrefab
+      value: 
+      objectReference: {fileID: 3122280120501330123, guid: c5e2fce6488541a40a4d0b53561f311a,
+        type: 3}
     - target: {fileID: 114957793987432516, guid: 9a20b15ab81808c4eab3ec23fb2e7591,
         type: 3}
       propertyPath: subtitleHeightSetter
@@ -17107,9 +17401,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114210383974583460, guid: f950e09aa25992c449bb7ee1806d7f17,
         type: 3}
+      propertyPath: characterName
+      value: Ayeshah
+      objectReference: {fileID: 0}
+    - target: {fileID: 114210383974583460, guid: f950e09aa25992c449bb7ee1806d7f17,
+        type: 3}
       propertyPath: manualSubHeight
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 114210383974583460, guid: f950e09aa25992c449bb7ee1806d7f17,
+        type: 3}
+      propertyPath: useSubtitlesInWorld
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114210383974583460, guid: f950e09aa25992c449bb7ee1806d7f17,
+        type: 3}
+      propertyPath: customSubtitlePrefab
+      value: 
+      objectReference: {fileID: 3122280120501330123, guid: 314b1cb71d4c3b34f90f29be3ee8eda5,
+        type: 3}
     - target: {fileID: 114210383974583460, guid: f950e09aa25992c449bb7ee1806d7f17,
         type: 3}
       propertyPath: subtitleHeightSetter
@@ -17187,9 +17497,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114765339531730368, guid: f950e09aa25992c449bb7ee1806d7f17,
         type: 3}
+      propertyPath: useFaceSubs
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114765339531730368, guid: f950e09aa25992c449bb7ee1806d7f17,
+        type: 3}
       propertyPath: faceAnimationUI
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 16751180}
     - target: {fileID: 114765339531730368, guid: f950e09aa25992c449bb7ee1806d7f17,
         type: 3}
       propertyPath: usesScreenReader
@@ -19312,6 +19627,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 414665951}
     m_Modifications:
+    - target: {fileID: 3122280120080332311, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_text
+      value: Baba
+      objectReference: {fileID: 0}
     - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
         type: 3}
       propertyPath: m_Pivot.x
@@ -19335,7 +19655,7 @@ PrefabInstance:
     - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
         type: 3}
@@ -19345,7 +19665,7 @@ PrefabInstance:
     - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
         type: 3}
@@ -19400,7 +19720,7 @@ PrefabInstance:
     - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -64
       objectReference: {fileID: 0}
     - target: {fileID: 3122280120501330120, guid: 82b23a90f5c27d043a257a8f417197e2,
         type: 3}
@@ -19421,6 +19741,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FaceSubtitle - Controller
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122280120501330123, guid: 82b23a90f5c27d043a257a8f417197e2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82b23a90f5c27d043a257a8f417197e2, type: 3}

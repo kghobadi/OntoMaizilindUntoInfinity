@@ -14,6 +14,7 @@ public class FaceAnimationUI : AnimationHandler
 	private float xMin, xMax;
 	private float yMin, yMax;
 	public bool active;
+	public bool activateOnStart;
 
 	protected override void Awake()
 	{
@@ -24,7 +25,8 @@ public class FaceAnimationUI : AnimationHandler
 	
 	void Start ()
 	{
-		Deactivate();
+		if(!activateOnStart)
+			Deactivate();
 	}
 
 	public void Activate()

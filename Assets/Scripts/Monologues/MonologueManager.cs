@@ -25,6 +25,8 @@ public class MonologueManager : MonoBehaviour
     public Controller npcController;
     [SerializeField]
     private MonologueReader monoReader;
+    [SerializeField] 
+    private SpeakerSound speakerSound;
     [SerializeField]
     [Tooltip("This is for specific characters, like the grandmothers.")]
     private bool sharesReader;
@@ -66,7 +68,11 @@ public class MonologueManager : MonoBehaviour
     [SerializeField]
     private GameObject customSubtitlePrefab;
     [SerializeField] private string characterName;
-    
+    [SerializeField] private float subtitleLifetime = 6;
+    //Face settings
+    public float faceSizeMult = 2f;
+    public FaceAnimationUI facePointer;
+    [HideInInspector] public RectTransform faceRect;
     #region SubtitleInWorld - Deprecate
     [Header("Subtitle In World System - Deprecated")] 
     [FormerlySerializedAs("useSubtitles")] 
@@ -87,15 +93,15 @@ public class MonologueManager : MonoBehaviour
     public bool SubChanging => subtitleTMP.text != prevSubText;
     private string prevSubText;
     [HideInInspector] public float currentSubTime;
-    public float faceSizeMult = 2f;
-    public FaceAnimationUI facePointer;
-    [HideInInspector] public RectTransform faceRect;
+
     private float distToRealP;
     
     [Tooltip("If you set this to anything greater than 0 the character's Subtitle will fade in and out at that dist from player.")]
     [SerializeField]
     private float distanceActive = 0f;
     private FadeUiRevamped[] subtitleFades;
+
+    public MonologueReader MonologueReader => monoReader;
     
     /// <summary>
     /// Fetch the face height. 
@@ -171,7 +177,7 @@ public class MonologueManager : MonoBehaviour
 
         wmManager = FindObjectOfType<WorldMonologueManager>();
         camManager = FindObjectOfType<CameraManager>();
-
+        speakerSound = GetComponent<SpeakerSound>();
         //Most every character will have a Monologue reader as a child.
         if (!sharesReader)
         {
@@ -567,22 +573,23 @@ public class MonologueManager : MonoBehaviour
     /// <summary>
     /// Creates a new type of subtitle. 
     /// </summary>
-    public void CreateSubtitle()
+    public void CreateSubtitle(string lineOfText)
     {
+        //Instantiate it
         SubtitleController newSubtitle = SubtitleMgr.Instance.GenerateSubtitle(this, customSubtitlePrefab);
         //set character name
         newSubtitle.SetCharacterTitle(characterName);
-        
-        //TODO Supply it with text from MonologueReader?
-        //newSubtitle.SetText();
+        //mono reader calls and supplies this param
+        newSubtitle.SetText(lineOfText);
         //should tell it to fade in
         newSubtitle.FadeControls.FadeIn();
         
-        //Override face animator
-        //newSubtitle.OverloadAnimator();
+        //Activate face animator
+        newSubtitle.FaceAnimationUI.Activate();
         //give it fade out time (expiration)
+        newSubtitle.FadeControls.SetWaitToFadeOut(subtitleLifetime);
+        newSubtitle.SetSpeakerSound(speakerSound);
     }
-
     #endregion
 
     #region Subtitle In World Management - Deprecated

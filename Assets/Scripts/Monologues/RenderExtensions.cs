@@ -140,4 +140,40 @@ public static class RendererExtensions
                 text.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxWidth);
         }
     }
+    
+    /// <summary>
+    /// Adjusts the height of an object, with additional ability to alter TMP text as well.  
+    /// </summary>
+    /// <param name="objTransform"></param>
+    /// <param name="text"></param>
+    /// <param name="maxHeight"></param>
+    /// <param name="topOffset"></param>
+    public static void ChangeHeightOfRect(RectTransform objTransform, TMP_Text text, float maxHeight, float topOffset)
+    {
+        float height;
+        //set width
+        if (text)
+        {
+            height = text.preferredHeight;
+        }
+        else
+        {
+            height = objTransform.sizeDelta.y;
+        }
+       
+        //set to width if it is less than max
+        if (height < maxHeight)
+        {
+            objTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height + topOffset);
+            if(text)
+                text.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+        }
+        //set to max width 
+        else
+        {
+            objTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, maxHeight + topOffset);
+            if(text)
+                text.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, maxHeight);
+        }
+    }
 }

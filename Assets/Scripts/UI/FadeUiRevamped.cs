@@ -338,6 +338,12 @@ public class FadeUiRevamped : MonoBehaviour
 
         StartCoroutine(FadeInOverTime());
     }
+
+    public void SetWaitToFadeOut(float wait)
+    {
+        fadeOutWait = wait;
+        FadeOut();
+    }
     IEnumerator WaitToFadeOut()
     {
         yield return new WaitForSeconds(fadeOutWait);
