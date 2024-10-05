@@ -35,5 +35,5 @@ public class SubtitleMgr : NonInstantiatingSingleton<SubtitleMgr>
         return controller;
     }
     
-    //TODO if nobody talks for a while there's no need to show scroll view - could fade in and out as needed. 
+    //TODO do I need a destroy method to remove a subtitle from the list?
 }

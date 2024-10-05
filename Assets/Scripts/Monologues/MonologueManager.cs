@@ -69,6 +69,9 @@ public class MonologueManager : MonoBehaviour
     private GameObject customSubtitlePrefab;
     [SerializeField] private string characterName;
     [SerializeField] private float subtitleLifetime = 6;
+
+    [SerializeField] private FaceVisibility _faceVisibility;
+    public FaceVisibility FaceVisible => _faceVisibility;
     //Face settings
     public float faceSizeMult = 2f;
     public FaceAnimationUI facePointer;
@@ -584,8 +587,6 @@ public class MonologueManager : MonoBehaviour
         //should tell it to fade in
         newSubtitle.FadeControls.FadeIn();
         
-        //Activate face animator
-        newSubtitle.FaceAnimationUI.Activate();
         //give it fade out time (expiration)
         newSubtitle.FadeControls.SetWaitToFadeOut(subtitleLifetime);
         newSubtitle.SetSpeakerSound(speakerSound);

@@ -51,14 +51,24 @@ public class SubtitleController : MonoBehaviour
         get => monoMgr;
         set => monoMgr = value;
     }
-    public FaceAnimationUI FaceAnimationUI => faceAnimation;
     public FadeUiRevamped FadeControls => fader;
     
     //Todo should fade out / in face
-    // private void Update()
-    // {
-    //     //check if face is overlapping the character's head. 
-    // }
+    private void Update()
+    {
+        //Is the character's face visible?
+        if (monoMgr.FaceVisible.FaceIsVisible)
+        {
+            if(faceAnimation.active) 
+                faceAnimation.Deactivate();
+        }
+        //It's not visible -> show our face 
+        else
+        {
+            if(!faceAnimation.active) 
+                faceAnimation.Activate();
+        }
+    }
 
     /// <summary>
     /// Plugs in a speaker sound. 
