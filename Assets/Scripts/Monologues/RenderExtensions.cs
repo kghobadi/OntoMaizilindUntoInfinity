@@ -146,9 +146,10 @@ public static class RendererExtensions
     /// </summary>
     /// <param name="objTransform"></param>
     /// <param name="text"></param>
+    /// <param name="minHeight"></param>
     /// <param name="maxHeight"></param>
     /// <param name="topOffset"></param>
-    public static void ChangeHeightOfRect(RectTransform objTransform, TMP_Text text, float maxHeight, float topOffset)
+    public static void ChangeHeightOfRect(RectTransform objTransform, TMP_Text text, float minHeight, float maxHeight, float topOffset)
     {
         float height;
         //set width
@@ -160,20 +161,12 @@ public static class RendererExtensions
         {
             height = objTransform.sizeDelta.y;
         }
-       
-        //set to width if it is less than max
-        if (height < maxHeight)
-        {
-            objTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height + topOffset);
-            if(text)
-                text.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
-        }
-        //set to max width 
-        else
-        {
-            objTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, maxHeight + topOffset);
-            if(text)
-                text.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, maxHeight);
-        }
+
+        //clamp height
+        height = Mathf.Clamp(height, minHeight, maxHeight);
+        //set height 
+        objTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height + topOffset);
+        if(text)
+            text.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
     }
 }

@@ -23,7 +23,7 @@ public class SubtitleController : MonoBehaviour
     [SerializeField]
     private Image textBox;
     [SerializeField]
-    private TMP_Text characterTitleText;
+    private TMP_Text[] characterTitleTexts;
     [SerializeField]
     private TMP_Text subtitleText;
     [SerializeField]
@@ -39,6 +39,7 @@ public class SubtitleController : MonoBehaviour
         LetterByLetter,
     }
 
+    private float minHeight = 75f; //starts at size of subtitle box
     [SerializeField] private float maxHeight = 500f;
     [SerializeField] private float topOffset = 15f;
     [SerializeField] private float timeBetweenLetters = 0.035f;
@@ -52,11 +53,6 @@ public class SubtitleController : MonoBehaviour
     }
     public FaceAnimationUI FaceAnimationUI => faceAnimation;
     public FadeUiRevamped FadeControls => fader;
-
-    public Image TextBox => textBox;
-    public TMP_Text CharacterTitleText => characterTitleText;
-    public TMP_Text SubtitleText => subtitleText;
-    public Image ArrowImg => arrowImg;
     
     //Todo should fade out / in face
     // private void Update()
@@ -79,7 +75,10 @@ public class SubtitleController : MonoBehaviour
     /// <param name="title"></param>
     public void SetCharacterTitle(string title)
     {
-        characterTitleText.text = title;
+        foreach (var characterTitleText in characterTitleTexts)
+        {
+            characterTitleText.text = title;
+        }
     }
 
     /// <summary>
@@ -125,7 +124,7 @@ public class SubtitleController : MonoBehaviour
             
             //Try changing height as needed
             if(dynamicHeight)
-                RendererExtensions.ChangeHeightOfRect(textBox.rectTransform, subtitleText, maxHeight, topOffset);
+                RendererExtensions.ChangeHeightOfRect(textBox.rectTransform, subtitleText, minHeight,  maxHeight, topOffset);
 
             //get random #
             int letter = Random.Range(0, 26);
@@ -179,7 +178,7 @@ public class SubtitleController : MonoBehaviour
              
         //Try changing height as needed
         if(dynamicHeight)
-            RendererExtensions.ChangeHeightOfRect(textBox.rectTransform, subtitleText, maxHeight, topOffset);
+            RendererExtensions.ChangeHeightOfRect(textBox.rectTransform, subtitleText, minHeight, maxHeight, topOffset);
         
         MonoMgr.MonologueReader.OnLineFinished();
         isTyping = false;

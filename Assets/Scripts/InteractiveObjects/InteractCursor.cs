@@ -21,7 +21,7 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 	private CanvasScaler canvasScaler;
 	private RectTransform m_rectTransform;
 	private Image imageHolder;
-	private TMP_Text interactText;
+	private TMP_Text[] interactTexts;
 	private ObjectViewer objectViewer;
 	public bool active;
 	
@@ -61,7 +61,7 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 		canvasScaler = parentCanvas.GetComponent<CanvasScaler>();
 		m_rectTransform = GetComponent<RectTransform>();
 		imageHolder = GetComponent<Image>();
-		interactText = GetComponentInChildren<TMP_Text>();
+		interactTexts = GetComponentsInChildren<TMP_Text>();
 		objectViewer = FindObjectOfType<ObjectViewer>();
 
 		init = true;
@@ -103,17 +103,7 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 			imageHolder.sprite = newSprite;
 		}
 
-		//do we have a message?
-		if (string.IsNullOrEmpty(message) == false)
-		{
-			interactText.text = message;
-			interactText.enabled = true;
-		}
-		//no message, text disabled
-		else
-		{
-			interactText.enabled = false;
-		}
+		SetInteractTexts(message);
 
 		Cursor.visible = true;
 		imageHolder.enabled = true;
@@ -121,6 +111,24 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 		
 		//can pass in world pos for assign pos from the Interactive obj
 		//RenderExtensions.AdjustScreenPosition(worldPosition);
+	}
+
+	void SetInteractTexts(string message)
+	{
+		//do we have a message?
+		if (string.IsNullOrEmpty(message) == false)
+		{
+			foreach (var interactText in interactTexts)
+			{
+				interactText.text = message;
+				interactText.enabled = true;
+			}
+		}
+		//no message, text disabled
+		else
+		{
+			DisableInteractTexts();
+		}
 	}
 
 	/// <summary>
@@ -149,10 +157,15 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 		}
 	
 		imageHolder.enabled = false;
-		if (interactText)
+		DisableInteractTexts();
+		active = false;
+	}
+
+	void DisableInteractTexts()
+	{
+		foreach (var interactText in interactTexts)
 		{
 			interactText.enabled = false;
 		}
-		active = false;
 	}
 }
