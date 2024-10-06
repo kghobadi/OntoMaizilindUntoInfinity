@@ -33,7 +33,7 @@ public class MonologueManager : MonoBehaviour
 
     [Tooltip("Is this the player's monologue manager?")]
     public bool isPlayer;
-
+    private float distToRealP;
     [Tooltip("if there is a background for speaking text")]
     public FadeUI textBack;
     AnimateDialogue animateTextback;
@@ -71,11 +71,11 @@ public class MonologueManager : MonoBehaviour
     private GameObject leftSideSubtitlePrefab;
     [SerializeField] private string characterName;
     [SerializeField] private float subtitleLifetime = 6;
-
+    [SerializeField] private bool useLineSkipping;
     [SerializeField] private FaceVisibility _faceVisibility;
     public FaceVisibility FaceVisible => _faceVisibility;
-    private float distToRealP;
 
+    public bool UseLineSkipping => useLineSkipping;
     public MonologueReader MonologueReader => monoReader;
 
     /// <summary>
@@ -158,19 +158,23 @@ public class MonologueManager : MonoBehaviour
     {
         //set current monologue
         currentMonologue = index;
+        SetMonologueSystem(allMyMonologues[currentMonologue]);
+    }
 
+    public void SetMonologueSystem(Monologue mono)
+    {
         //set mono reader text lines 
-        monoReader.textLines = (allMyMonologues[currentMonologue].monologue.text.Split('\n'));
+        monoReader.textLines = (mono.monologue.text.Split('\n'));
 
         //set current to 0 and end to length 
         monoReader.currentLine = 0;
         monoReader.endAtLine = monoReader.textLines.Length;
 
         //set mono reader text speeds 
-        monoReader.timeBetweenLetters = allMyMonologues[currentMonologue].timeBetweenLetters;
-        monoReader.timeBetweenLines = allMyMonologues[currentMonologue].timeBetweenLines;
-        monoReader.conversational = allMyMonologues[currentMonologue].conversational;
-        monoReader.waitTimes = allMyMonologues[currentMonologue].waitTimes;
+        monoReader.timeBetweenLetters = mono.timeBetweenLetters;
+        monoReader.timeBetweenLines = mono.timeBetweenLines;
+        monoReader.conversational = mono.conversational;
+        monoReader.waitTimes = mono.waitTimes;
     }
 
     //overwrites any previous wait to set New mono call
@@ -267,42 +271,42 @@ public class MonologueManager : MonoBehaviour
         {
             
         }
-
-        //assign new idle look at 
-        if (mono.newIdleLook >= 0)
-        {
-            //grab original look
-            origIdleLook = npcController.Movement.lookAtTransform;
-            npcController.Movement.SetLookAt(mono.newIdleLook);
-        }
-
-        //body looks at?
-        if (mono.bodyLooks)
-        {
-            origBodyRot = transform.localEulerAngles;
-
-            Vector3 point = npcController.moveManager.lookAtObjects[mono.bodyLookAt].position;
-
-            Vector3 bodyLook = new Vector3(point.x, transform.position.y, point.z);
-
-            transform.LookAt(bodyLook);
-        }
-
-        //head looks at? 
-        if (mono.headLooks)
-        {
-            origHeadRot = head.transform.localEulerAngles;
-
-            Vector3 point = npcController.moveManager.lookAtObjects[mono.headLookAt].position;
-
-            Vector3 headLook = new Vector3(point.x, head.position.y, point.z);
-
-            head.transform.LookAt(headLook);
-        }
-
+        
         //is this an npc?
         if (npcController)
         {
+            //assign new idle look at 
+            if (mono.newIdleLook >= 0)
+            {
+                //grab original look
+                origIdleLook = npcController.Movement.lookAtTransform;
+                npcController.Movement.SetLookAt(mono.newIdleLook);
+            }
+
+            //body looks at?
+            if (mono.bodyLooks)
+            {
+                origBodyRot = transform.localEulerAngles;
+
+                Vector3 point = npcController.moveManager.lookAtObjects[mono.bodyLookAt].position;
+
+                Vector3 bodyLook = new Vector3(point.x, transform.position.y, point.z);
+
+                transform.LookAt(bodyLook);
+            }
+
+            //head looks at? 
+            if (mono.headLooks)
+            {
+                origHeadRot = head.transform.localEulerAngles;
+
+                Vector3 point = npcController.moveManager.lookAtObjects[mono.headLookAt].position;
+
+                Vector3 headLook = new Vector3(point.x, head.position.y, point.z);
+
+                head.transform.LookAt(headLook);
+            }
+            
             //set talking anim
             if (npcController.Animation)
             {
@@ -373,6 +377,12 @@ public class MonologueManager : MonoBehaviour
             {
                 npcController.Movement.waitingToGiveMonologue = false;
             }
+            
+            //new npc movement?
+            if (mono.newMovement)
+            {
+                npcController.Movement.ResetMovement(mono.newMovement);
+            }
         }
 
         //player ref 
@@ -394,7 +404,7 @@ public class MonologueManager : MonoBehaviour
         if (mono.returnToOriginalRotation)
         {
             //reset lookat point 
-            if(mono.newIdleLook >= 0)
+            if(npcController && mono.newIdleLook >= 0)
                 npcController.Movement.SetLook(origIdleLook);
 
             //body looks at?
@@ -411,12 +421,12 @@ public class MonologueManager : MonoBehaviour
         }
         
         //check for cinematic to enable 
-        if (mono.playsCinematic)
+        if (mono.playsCinematic && npcController)
         {
             npcController.cineManager.allCinematics[mono.cinematic.cIndex].cPlaybackManager.StartTimeline();
         }
         //cinematic triggers to enable
-        if (mono.enablesCinematicTriggers)
+        if (mono.enablesCinematicTriggers && npcController)
         {
             for (int i = 0; i < mono.cTriggers.Length; i++)
             {
@@ -460,12 +470,6 @@ public class MonologueManager : MonoBehaviour
             }
         }
 
-        //new npc movement?
-        if (mono.newMovement)
-        {
-            npcController.Movement.ResetMovement(mono.newMovement);
-        }
-
         //Call end to any hallucs 
         if (mono.endsCurrentHallucination)
         {
@@ -488,6 +492,7 @@ public class MonologueManager : MonoBehaviour
 
     #region Subtitle Controller
 
+    public SubtitleController currentSub;
     /// <summary>
     /// Creates a new type of subtitle. 
     /// </summary>
@@ -508,18 +513,18 @@ public class MonologueManager : MonoBehaviour
         }
        
         //Instantiate it
-        SubtitleController newSubtitle = SubtitleMgr.Instance.GenerateSubtitle(this,side,  subtitlePrefab);
+        currentSub = SubtitleMgr.Instance.GenerateSubtitle(this,side,  subtitlePrefab);
         //set character name
-        newSubtitle.SetCharacterTitle(characterName);
+        currentSub.SetCharacterTitle(characterName);
         //mono reader calls and supplies this param
-        newSubtitle.SetText(lineOfText);
+        currentSub.SetText(lineOfText);
         
         //should tell it to fade in
-        newSubtitle.FadeControls.FadeIn();
+        currentSub.FadeControls.FadeIn();
         
         //give it fade out time (expiration)
-        newSubtitle.FadeControls.SetWaitToFadeOut(subtitleLifetime);
-        newSubtitle.SetSpeakerSound(speakerSound);
+        currentSub.FadeControls.SetWaitToFadeOut(subtitleLifetime);
+        currentSub.SetSpeakerSound(speakerSound);
     }
     #endregion
 }

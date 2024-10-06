@@ -25,6 +25,8 @@ public class ObjectViewer : AudioHandler
 	public float mouseRotSpeedY = 30f;
 	public float controllerRotSpeedX = 50f;
 	public float controllerRotSpeedY = 50f;
+
+	[SerializeField] private MonologueManager playerMonoManager;
 	
 	public float objectTextOffset = 0.75f;
 	public TMP_Text objectDescription;
@@ -76,6 +78,18 @@ public class ObjectViewer : AudioHandler
 			//null -- center object in vew
 			obj.transform.position = viewPos.position;
 			objectDescription.enabled = false;
+
+			//Set player thoughts monologue 
+			if (obj.ObjectMonologue )
+			{
+				//Don't proceed if this should not repeat. 
+				if (!obj.RepeatsThought && obj.viewCounter > 0)
+				{
+					return;
+				}
+				playerMonoManager.SetMonologueSystem(obj.ObjectMonologue);
+				playerMonoManager.EnableMonologue();
+			}
 		}
 		//there is a text asset 
 		else
@@ -126,7 +140,8 @@ public class ObjectViewer : AudioHandler
 		
 		//disable Interact cursor
 		InteractCursor.Instance.Deactivate();
-		
+
+		obj.viewCounter++;
 		viewing = true;
 	}
 

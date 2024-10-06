@@ -22,6 +22,11 @@ public class ViewObject : Interactive
 	public Vector3 positionOffset = Vector3.zero;
 	public Vector3 rotationOffset = Vector3.zero;
 	//how to do a rotation offset?
+	[SerializeField] private Monologue objMonologue;
+	[SerializeField] private bool repeatThought = true;
+	public Monologue ObjectMonologue => objMonologue;
+	public bool RepeatsThought => repeatThought;
+	public int viewCounter = 0;
 	public TextAsset objDescription;
 	public AudioClip viewAudioClip;
 	public float fontSize = 0;

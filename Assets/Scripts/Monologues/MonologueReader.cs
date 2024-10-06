@@ -29,6 +29,7 @@ public class MonologueReader : MonoBehaviour {
     //current and last lines
     public int currentLine;
     public int endAtLine;
+
     public bool canSkip = true;
     public bool readingMono;
     //typing vars
@@ -106,10 +107,13 @@ public class MonologueReader : MonoBehaviour {
     
     void Update ()
     {
-        //LineSkipping();
+        if(monoManager.UseLineSkipping)
+            LineSkipping();
     }
     
-    //TODO could make this usable for the Player thought monologues / faux dialogues 
+    /// <summary>
+    /// Used for player thought monologues. 
+    /// </summary>
     void LineSkipping()
     {
         //get input device 
@@ -119,7 +123,7 @@ public class MonologueReader : MonoBehaviour {
         if (isTyping)
         {
             //player skips to the end of the line
-            if ((Input.GetKeyDown(KeyCode.Space) || inputDevice.Action3.WasPressed) && canSkip)
+            if ((Input.GetMouseButtonDown(0)|| inputDevice.Action3.WasPressed) && canSkip)
             {
                 if (currentTypingLine != null)
                 {
@@ -128,7 +132,14 @@ public class MonologueReader : MonoBehaviour {
 
                 //set to full line
                 if (isTyping)
-                    CompleteTextLine(textLines[currentLine]);
+                {
+                    if (useFaceSubs)
+                    {
+                        monoManager.currentSub.SetFullLine(textLines[currentLine]);
+                    }
+                    else
+                        CompleteTextLine(textLines[currentLine]);
+                }
 
                 SetWaitForNextLine();
             }
@@ -138,7 +149,7 @@ public class MonologueReader : MonoBehaviour {
         if (waiting)
         {
             //player skips to next line
-            if ((Input.GetKeyDown(KeyCode.Space) || inputDevice.Action3.WasPressed) && canSkip)
+            if ((Input.GetMouseButtonDown(0) || inputDevice.Action3.WasPressed) && canSkip)
             {
                 if (waitForNextLine != null)
                 {
@@ -230,6 +241,7 @@ public class MonologueReader : MonoBehaviour {
             if (monoManager.DistToRealP <= monoManager.CurrentMonologue.activeFadeDistance)
             {
                 monoManager.CreateSubtitle(textLines[currentLine]);
+                isTyping = true;
             }
             else
             {
@@ -373,6 +385,7 @@ public class MonologueReader : MonoBehaviour {
     /// </summary>
     public void OnLineFinished()
     {
+        isTyping = false;
         SetWaitForNextLine();
     }
 

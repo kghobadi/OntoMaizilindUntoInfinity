@@ -77,17 +77,20 @@ public class SubtitleController : MonoBehaviour
 
     private void Update()
     {
-        //Is the character's face visible?
-        if (monoMgr.FaceVisible.FaceIsVisible && monoMgr.FaceVisible.GetDistanceFromCenter() < maxDistFromCenter)
+        if (monoMgr.FaceVisible)
         {
-            if(faceAnimation.active) 
-                faceAnimation.Deactivate();
-        }
-        //It's not visible -> show our face 
-        else
-        {
-            if(!faceAnimation.active) 
-                faceAnimation.Activate();
+            //Is the character's face visible?
+            if (monoMgr.FaceVisible.FaceIsVisible && monoMgr.FaceVisible.GetDistanceFromCenter() < maxDistFromCenter)
+            {
+                if(faceAnimation.active) 
+                    faceAnimation.Deactivate();
+            }
+            //It's not visible -> show our face 
+            else
+            {
+                if(!faceAnimation.active) 
+                    faceAnimation.Activate();
+            }
         }
     }
 
@@ -201,8 +204,11 @@ public class SubtitleController : MonoBehaviour
             SetFullLine(lineOfText);
     }
     
-    //completes current line of text
-    void SetFullLine(string lineOfText)
+    /// <summary>
+    /// Completes current line of text
+    /// </summary>
+    /// <param name="lineOfText"></param>
+    public void SetFullLine(string lineOfText)
     {
         subtitleText.text = lineOfText;
              

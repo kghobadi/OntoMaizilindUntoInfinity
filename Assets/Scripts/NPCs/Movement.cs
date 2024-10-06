@@ -472,6 +472,8 @@ namespace NPC
                 {
                     deathLock.SetLocalLockY(deathY);
                 }
+                //disable my nav mesh 
+                myNavMesh.enabled = false;
             }
 
             resetsMovement = false;
