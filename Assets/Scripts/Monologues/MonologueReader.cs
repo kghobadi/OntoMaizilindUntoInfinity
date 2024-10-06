@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -106,49 +107,9 @@ public class MonologueReader : MonoBehaviour {
     void Update ()
     {
         //LineSkipping();
-
-        if (readingMono)
-        {
-            //CheckVisible();
-        }
-    }
-
-    /// <summary>
-    /// Checks whether the world space monologue reader is visible or not.
-    /// </summary>
-    void CheckVisible()
-    {
-        //seems we cannot just check renderer.isVisible since they are ui elements. 
-        bool isVisible = myRectTransform.IsVisibleFrom(mainCam);
-
-        if (isVisible)
-        {
-            //set subtitle 
-            if (monoManager.useSubtitlesInWorld)
-            {
-                monoManager.DisableSubtitle();
-            }
-        }
-        else
-        {
-            //set subtitle 
-            if (monoManager.useSubtitlesInWorld)
-            {
-                monoManager.EnableSubtitle();
-
-                //set text 
-                if (usesTMP)
-                {
-                    monoManager.SetSubtitleText(the_Text.text);
-                }
-                else
-                {
-                    monoManager.SetSubtitleText(theText.text);
-                }
-            }
-        }
     }
     
+    //TODO could make this usable for the Player thought monologues / faux dialogues 
     void LineSkipping()
     {
         //get input device 
@@ -232,12 +193,6 @@ public class MonologueReader : MonoBehaviour {
         {
             //standard disable
             monoManager.DisableMonologue();
-
-            //set subtitle disabled
-            if (monoManager.useSubtitlesInWorld)
-            {
-                monoManager.DisableSubtitle();
-            }
         }
             
         //deactivate face anim ui
@@ -271,7 +226,16 @@ public class MonologueReader : MonoBehaviour {
         //Create a face sub for this line of text 
         if (useFaceSubs)
         {
-            monoManager.CreateSubtitle(textLines[currentLine]);
+            //If we do distance check here to decide whether the subtitle even spawns, we can wait with SetWaitForLine and +3 sec or something 
+            if (monoManager.DistToRealP <= monoManager.CurrentMonologue.activeFadeDistance)
+            {
+                monoManager.CreateSubtitle(textLines[currentLine]);
+            }
+            else
+            {
+                //Character says an Audio Only line - no subtitle. 
+                StartCoroutine(AudioOnlyLine(textLines[currentLine]));
+            }
         }
         //Individual letters type out
         else
@@ -303,28 +267,18 @@ public class MonologueReader : MonoBehaviour {
 
         while (isTyping && (letter < lineOfText.Length - 1))
         {
-            //for screen reader 
-            string screenText;
-            
             //add this letter to our text
             if (usesTMP)
             {
                 the_Text.text += lineOfText[letter];
-                screenText = the_Text.text;
             }
             else
             {
                 theText.text += lineOfText[letter];
-                screenText = theText.text;
             }
 
             if (!sharedReader)
             {
-                //set subtitle 
-                if (monoManager.useSubtitlesInWorld)
-                {
-                    monoManager.SetSubtitleText(screenText);
-                }
                 //check what audio to play 
                 if (speakerAudio)
                     speakerAudio.AudioCheck(lineOfText, letter);
@@ -352,6 +306,34 @@ public class MonologueReader : MonoBehaviour {
         if (isTyping)
             CompleteTextLine(lineOfText);
 
+        SetWaitForNextLine();
+    }
+    
+    /// <summary>
+    /// Coroutine that makes AI speak without any subtitle (you weren't close enough to see it. 
+    /// </summary>
+    /// <param name="lineOfText"></param>
+    /// <returns></returns>
+    private IEnumerator AudioOnlyLine(string lineOfText)
+    {
+        // set first letter
+        int letter = 0;
+
+        isTyping = true;
+
+        while (isTyping && (letter < lineOfText.Length - 1))
+        {
+            //Speak this letter 
+            if (speakerAudio)
+                speakerAudio.AudioCheck(lineOfText, letter);
+
+            //next letter
+            letter += 1;
+            yield return new WaitForSeconds(timeBetweenLetters);
+        }
+        
+        isTyping = false;
+        //player waited to read full line
         SetWaitForNextLine();
     }
 
@@ -382,12 +364,6 @@ public class MonologueReader : MonoBehaviour {
             the_Text.text = lineOfText;
         else
             theText.text = lineOfText;
-        
-        //set subtitle 
-        if (monoManager && monoManager.useSubtitlesInWorld)
-        {
-            monoManager.SetSubtitleText(lineOfText);
-        }
         
         isTyping = false;
     }
@@ -450,6 +426,19 @@ public class MonologueReader : MonoBehaviour {
         }
         
         ProgressLine();
+    }
+
+    /// <summary>
+    /// Lets you wait for an action. 
+    /// </summary>
+    /// <param name="wait"></param>
+    /// <param name="onWaitFinished"></param>
+    /// <returns></returns>
+    IEnumerator WaitForAction(float wait, Action onWaitFinished)
+    {
+        yield return new WaitForSeconds(wait);
+        
+        onWaitFinished.Invoke();
     }
 
     /// <summary>

@@ -67,66 +67,16 @@ public class MonologueManager : MonoBehaviour
     [Header("Subtitle Settings")] 
     [SerializeField]
     private GameObject customSubtitlePrefab;
+    [SerializeField]
+    private GameObject leftSideSubtitlePrefab;
     [SerializeField] private string characterName;
     [SerializeField] private float subtitleLifetime = 6;
 
     [SerializeField] private FaceVisibility _faceVisibility;
     public FaceVisibility FaceVisible => _faceVisibility;
-    //Face settings
-    public float faceSizeMult = 2f;
-    public FaceAnimationUI facePointer;
-    [HideInInspector] public RectTransform faceRect;
-    #region SubtitleInWorld - Deprecate
-    [Header("Subtitle In World System - Deprecated")] 
-    [FormerlySerializedAs("useSubtitles")] 
-    public bool useSubtitlesInWorld;
-    [Tooltip("Position for the Subtitle system to target.")]
-    public Transform subtitleTarget;
-    [HideInInspector] public GameObject mySubtitle;
-    public float subSizeMult = 1f;
-    public bool centerOffScreenSub;
-    SubtitleInWorldManager subtitleInWorldManager;
-    private RectTransform subRectTransform;
-    private Image subImageBack;
-    [HideInInspector] public TextMeshProUGUI subtitleTMP;
-    [HideInInspector] public CanvasGroup subCanvasGroup;
-    /// <summary>
-    /// True whenever our subtitle's text does not match previously recorded set text. 
-    /// </summary>
-    public bool SubChanging => subtitleTMP.text != prevSubText;
-    private string prevSubText;
-    [HideInInspector] public float currentSubTime;
-
     private float distToRealP;
-    
-    [Tooltip("If you set this to anything greater than 0 the character's Subtitle will fade in and out at that dist from player.")]
-    [SerializeField]
-    private float distanceActive = 0f;
-    private FadeUiRevamped[] subtitleFades;
 
     public MonologueReader MonologueReader => monoReader;
-    
-    /// <summary>
-    /// Fetch the face height. 
-    /// </summary>
-    public float FaceHeightOffset
-    {
-        get
-        {
-            float height = faceRect.sizeDelta.y;
-
-            if (facePointer.active)
-            {
-                height *= 2;
-            }
-            else
-            {
-                height = 0;
-            }
-
-            return height;
-        }
-    }
 
     /// <summary>
     /// Gets player pos in different scenes. 
@@ -159,21 +109,12 @@ public class MonologueManager : MonoBehaviour
         }
     }
 
-    public float DistActive => distanceActive;
-    public FadeUiRevamped[] SubtitleFades => subtitleFades;
-
-    Transform rootT;
-    //SpriteRenderer mainSR;
-
-    [HideInInspector] public Image arrowImg;
-    [HideInInspector] public float subPointOffsetX;
-    #endregion
+    public Monologue CurrentMonologue => allMyMonologues[currentMonologue];
     
     void Awake()
     {
         mainCam = Camera.main;
         camSwitcher = FindObjectOfType<CameraSwitcher>();
-        subtitleInWorldManager = FindObjectOfType<SubtitleInWorldManager>();
 
         if (textBack)
             animateTextback = textBack.GetComponent<AnimateDialogue>();
@@ -197,11 +138,6 @@ public class MonologueManager : MonoBehaviour
         {
             monoReader.AddSharedReader(this);
         }
-
-        if (facePointer)
-        {
-            faceRect = facePointer.GetComponent<RectTransform>();
-        }
     }
 
     void Start()
@@ -209,15 +145,6 @@ public class MonologueManager : MonoBehaviour
         //set text to first string in my list of monologues 
         if(allMyMonologues.Count > 0)
             SetMonologueSystem(0);
-
-        //set up my subtitle.
-        if (useSubtitlesInWorld)
-        {
-            mySubtitle = subtitleInWorldManager.SetupNewSubtitle(this);
-            subRectTransform = mySubtitle.GetComponent<RectTransform>();
-            subImageBack = mySubtitle.GetComponent<Image>();
-            subtitleFades = mySubtitle.GetComponentsInChildren<FadeUiRevamped>();
-        }
         
         //play mono 0 
         if (enableOnStart)
@@ -320,7 +247,7 @@ public class MonologueManager : MonoBehaviour
         }
 
         //Activate face animation UI if it has it / we dont use subtitles 
-        if(monoReader.faceAnimationUI != null && !useSubtitlesInWorld)
+        if(monoReader.faceAnimationUI != null)
         {
             monoReader.faceAnimationUI.Activate();
         }
@@ -381,17 +308,6 @@ public class MonologueManager : MonoBehaviour
             {
                 npcController.Animation.SetAnimator("talking");
             }
-        }
-
-        //use new dist fading value provided by the mono.
-        if (mono.useDistFading)
-        {
-            distanceActive = mono.activeFadeDistance;
-        }
-        //return to 0 for distance active so we have no fading.
-        else
-        {
-            distanceActive = 0f;
         }
 
         //begin mono 
@@ -566,8 +482,7 @@ public class MonologueManager : MonoBehaviour
         
         onMonoEnd.Invoke();
         
-        //disable mono and set sub time to 0
-        currentSubTime = 0;
+        //disable mono 
         inMonologue = false;
     }
 
@@ -578,12 +493,27 @@ public class MonologueManager : MonoBehaviour
     /// </summary>
     public void CreateSubtitle(string lineOfText)
     {
+        //Get subtitle prefab based on side of screen. 
+        GameObject subtitlePrefab = customSubtitlePrefab;
+
+        //Default to right side
+        ScreenSide side = ScreenSide.RightSide;
+        if (_faceVisibility != null)
+        {
+            side =  _faceVisibility.GetScreenSide();
+            if (side == ScreenSide.LeftSide && leftSideSubtitlePrefab)
+            {
+                subtitlePrefab = leftSideSubtitlePrefab;
+            }
+        }
+       
         //Instantiate it
-        SubtitleController newSubtitle = SubtitleMgr.Instance.GenerateSubtitle(this, customSubtitlePrefab);
+        SubtitleController newSubtitle = SubtitleMgr.Instance.GenerateSubtitle(this,side,  subtitlePrefab);
         //set character name
         newSubtitle.SetCharacterTitle(characterName);
         //mono reader calls and supplies this param
         newSubtitle.SetText(lineOfText);
+        
         //should tell it to fade in
         newSubtitle.FadeControls.FadeIn();
         
@@ -591,100 +521,6 @@ public class MonologueManager : MonoBehaviour
         newSubtitle.FadeControls.SetWaitToFadeOut(subtitleLifetime);
         newSubtitle.SetSpeakerSound(speakerSound);
     }
-    #endregion
-
-    #region Subtitle In World Management - Deprecated
-
-    /// <summary>
-    /// Enables the subtitle obj.
-    /// </summary>
-    public void EnableSubtitle()
-    {
-        mySubtitle.SetActive(true);
-        facePointer.Activate();
-    }
-
-    /// <summary>
-    /// Disables the subtitle obj.
-    /// </summary>
-    public void DisableSubtitle()
-    {
-        mySubtitle.SetActive(false);
-        facePointer.Deactivate();
-    }
-    
-    /// <summary>
-    /// Actually sets the subtitle text. 
-    /// </summary>
-    /// <param name="text"></param>
-    public void SetSubtitleText(string text)
-    {
-        subtitleTMP.text = text;
-        RendererExtensions.ChangeWidthOfObject(subRectTransform,subtitleTMP, monoReader.maxWidth, monoReader.sideOffset);
-
-        //set sub time - is this correct?
-        currentSubTime += Time.deltaTime;
-        
-        prevSubText = subtitleTMP.text;
-    }
-
-    /// <summary>
-    /// Fades in the subtitle.
-    /// </summary>
-    public void FadeInSubtitle()
-    {
-        foreach (var subtitleFade in subtitleFades)
-        {
-            subtitleFade.FadeIn();
-        }
-
-        if (facePointer)
-        {
-            facePointer.FadeInFaces();
-        }
-    }
-    
-    /// <summary>
-    /// Fades out the subtitle.
-    /// </summary>
-    public void FadeOutSubtitle()
-    {
-        foreach (var subtitleFade in subtitleFades)
-        {
-            subtitleFade.FadeOut();
-        }
-
-        if (facePointer)
-        {
-            facePointer.FadeOutFaces();
-        }
-    }
-
-    /// <summary>
-    /// Determines the height y position of the subtitle's transform. 
-    /// </summary>
-    public void ManageSubHeightPos()
-    {
-        if (isPlayer)
-        {
-            mySubtitle.transform.position = mainCam.transform.position + mainCam.transform.forward;
-        }
-        else
-        {
-            mySubtitle.transform.position = new Vector3(mySubtitle.transform.position.x, textBack.transform.transform.position.y, mySubtitle.transform.position.z);
-        }
-    }
-
-    /// <summary>
-    /// Arrow pos passed in from subtitle manager. 
-    /// </summary>
-    /// <param name="pos"></param>
-    public void SetFacePointerPos()
-    {
-        float heightOffset = faceRect.sizeDelta.y / faceSizeMult;
-        faceRect.localPosition = Vector3.zero - new Vector3(0f, heightOffset,0f);
-    }
-
     #endregion
 }
 

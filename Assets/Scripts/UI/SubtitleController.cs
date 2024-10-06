@@ -6,6 +6,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
+public enum ScreenSide
+{
+    LeftSide,
+    RightSide,
+}
+
 /// <summary>
 /// Controller for Subtitles spoken in the Apartment scene. 
 /// </summary>
@@ -14,6 +20,7 @@ public class SubtitleController : MonoBehaviour
     //Provided connection when spawned in Subtitle Mgr. 
     [SerializeField] private MonologueManager monoMgr;
     private SpeakerSound speakerSound;
+    private CanvasGroup canvasGroup;
     
     //Private local references
     [SerializeField] private FaceAnimationUI faceAnimation;
@@ -28,6 +35,8 @@ public class SubtitleController : MonoBehaviour
     private TMP_Text subtitleText;
     [SerializeField]
     private Image arrowImg;
+
+    [SerializeField] private ScreenSide screenSide;
 
     [SerializeField] private bool isTyping;
 
@@ -45,19 +54,31 @@ public class SubtitleController : MonoBehaviour
     [SerializeField] private float timeBetweenLetters = 0.035f;
     [SerializeField] private bool dynamicHeight = true;
     
+    [SerializeField] private float maxDistFromCenter = 500f;
     //Public properties
+    public CanvasGroup CanvasGroup
+    {
+        get
+        {
+            if (canvasGroup == null)
+            {
+                canvasGroup = GetComponent<CanvasGroup>();
+            }
+
+            return canvasGroup;
+        }
+    }
     public MonologueManager MonoMgr
     {
         get => monoMgr;
         set => monoMgr = value;
     }
     public FadeUiRevamped FadeControls => fader;
-    
-    //Todo should fade out / in face
+
     private void Update()
     {
         //Is the character's face visible?
-        if (monoMgr.FaceVisible.FaceIsVisible)
+        if (monoMgr.FaceVisible.FaceIsVisible && monoMgr.FaceVisible.GetDistanceFromCenter() < maxDistFromCenter)
         {
             if(faceAnimation.active) 
                 faceAnimation.Deactivate();
