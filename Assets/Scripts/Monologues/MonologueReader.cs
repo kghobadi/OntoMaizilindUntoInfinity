@@ -107,7 +107,7 @@ public class MonologueReader : MonoBehaviour {
     
     void Update ()
     {
-        if(monoManager.UseLineSkipping)
+        if(monoManager && monoManager.UseLineSkipping)
             LineSkipping();
     }
     

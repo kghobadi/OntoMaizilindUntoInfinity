@@ -134,6 +134,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: NewMosque
       objectReference: {fileID: 0}
+    - target: {fileID: 3624137635899942852, guid: 5126e84e1d616b3478a4651fe3c5d97b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 3624137635899942852, guid: 5126e84e1d616b3478a4651fe3c5d97b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3624137635899942852, guid: 5126e84e1d616b3478a4651fe3c5d97b,
+        type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
     - target: {fileID: 4107376692014677374, guid: 5126e84e1d616b3478a4651fe3c5d97b,
         type: 3}
       propertyPath: m_RootOrder
@@ -142,12 +157,12 @@ PrefabInstance:
     - target: {fileID: 4107376692014677374, guid: 5126e84e1d616b3478a4651fe3c5d97b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -654
+      value: -495
       objectReference: {fileID: 0}
     - target: {fileID: 4107376692014677374, guid: 5126e84e1d616b3478a4651fe3c5d97b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -48
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4107376692014677374, guid: 5126e84e1d616b3478a4651fe3c5d97b,
         type: 3}
@@ -7345,12 +7360,12 @@ PrefabInstance:
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 3}
       propertyPath: _savedGUID
-      value: 3805604023
+      value: 28520487
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 3}
       propertyPath: hash.lastHash
-      value: 1552594434
+      value: -350713435
       objectReference: {fileID: 0}
     - target: {fileID: 114708034261605862, guid: c694c61b4e2cf3b47baea88a35f8e345,
         type: 3}
@@ -7909,6 +7924,45 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1207786814 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3624137635899942852, guid: 5126e84e1d616b3478a4651fe3c5d97b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1551506}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1207786815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207786814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd7c1175fd97f2046b18f03958fec492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  healthMultiplier: 0
+  segments: 0
+  totalHeight: 0
+  falling: 1
+  fallSpeed: 0
+  explosionPrefab: {fileID: 0}
+  smokePrefab: {fileID: 0}
+--- !u!65 &1207786816
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207786814}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1209193308
 GameObject:
   m_ObjectHideFlags: 0
@@ -70230,6 +70284,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dialogue of Ramins
       objectReference: {fileID: 0}
+    - target: {fileID: 3330657015540254538, guid: 00fd2771c8eb2ed4ab2e7f93c9165ccd,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5328184725519174177, guid: 00fd2771c8eb2ed4ab2e7f93c9165ccd,
         type: 3}
       propertyPath: m_Color.a
@@ -70295,6 +70354,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6664691965265911621, guid: 00fd2771c8eb2ed4ab2e7f93c9165ccd,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2915795927393602697, guid: a703bf17efd7f474d9fb34b0cd613ec2,
+        type: 2}
     - target: {fileID: 6664691965265911626, guid: 00fd2771c8eb2ed4ab2e7f93c9165ccd,
         type: 3}
       propertyPath: m_AnchorMax.y

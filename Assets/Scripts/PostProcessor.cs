@@ -124,7 +124,7 @@ public class PostProcessor : MonoBehaviour
         canSpawnBombs = false;
         bombTimer = bombTimerTotal;
         player.transform.LookAt(nuke.transform.position + new Vector3(0,50f,0));
-        Debug.LogError("Spawned a bomb at nuclear Index: " + lvlRef  + "level = " + (spectrum.MeanLevels[lvlRef] * 100));
+        //Debug.LogError("Spawned a bomb at nuclear Index: " + lvlRef  + "level = " + (spectrum.MeanLevels[lvlRef] * 100));
     }
 
     //tie parts of colorGrader to audioSpectrum values
