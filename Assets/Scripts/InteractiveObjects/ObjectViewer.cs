@@ -16,6 +16,7 @@ public class ObjectViewer : AudioHandler
 	[Header("Object Viewing")]
 	public ViewObject currentViewObj;
 	public Transform viewPos;
+	private Quaternion origViewPosRot;
 	public bool viewing;
 	private Camera mainCam;
 	private int mainCullingMask;
@@ -41,6 +42,8 @@ public class ObjectViewer : AudioHandler
 		{
 			origTextSize = objectDescription.fontSize;
 		}
+
+		origViewPosRot = viewPos.localRotation;
 	}
 
 	//turn on object viewer with specific obj
@@ -67,6 +70,9 @@ public class ObjectViewer : AudioHandler
 		{
 			obj.colliders[i].enabled = false;
 		}
+
+		//reset view pos rotation 
+		viewPos.localRotation = origViewPosRot;
 		
 		//set parent
 		obj.transform.SetParent(viewPos);
@@ -198,7 +204,7 @@ public class ObjectViewer : AudioHandler
 		}
 		
 		//rotate
-		currentViewObj.transform.Rotate(inputs);
+		viewPos.transform.Rotate(inputs);
 	}
 
 	//turn off object viewer and return obj to its original place. 
