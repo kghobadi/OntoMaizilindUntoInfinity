@@ -31,8 +31,9 @@ public class ViewObject : Interactive
 	public AudioClip viewAudioClip;
 	public float fontSize = 0;
 	
-	private void Awake()
+	public override void Awake()
 	{
+		base.Awake();
 		_objectViewer = FindObjectOfType<ObjectViewer>();
 		originPos = transform.localPosition;
 		originRot = transform.rotation; //this may need to be a localized thing, just like with position

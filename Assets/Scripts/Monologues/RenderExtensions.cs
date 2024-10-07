@@ -168,5 +168,8 @@ public static class RendererExtensions
         objTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height + topOffset);
         if(text)
             text.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+        
+        //Force rebuild layout 
+        LayoutRebuilder.ForceRebuildLayoutImmediate(objTransform);
     }
 }
