@@ -13,7 +13,7 @@ public class SpiritTrail : MonoBehaviour {
 
     //the projection corner assigned when I enter the mosque 
     public Transform projectionDisplayCorner;
-
+    private BombSquadron bombSquadron;
     public float spiritSpeed = 25f;
 
     public TrailRenderer Trail => trail;
@@ -22,6 +22,7 @@ public class SpiritTrail : MonoBehaviour {
     {
         trail = GetComponent<TrailRenderer>();
         mover = GetComponent<MoveTowards>();
+        bombSquadron = FindObjectOfType<BombSquadron>();
         
         origPos = transform.localPosition;
         trail.enabled = false;
@@ -34,7 +35,8 @@ public class SpiritTrail : MonoBehaviour {
         
         firstPoint = transform.position + new Vector3(0, Random.Range(15f, 25f), Random.Range(5f, 15f));
         
-        StartCoroutine(SpiritTrailLifetime());
+        StopAllCoroutines();
+        StartCoroutine(SpiritTrailLifetime(projectionDisplayCorner));
     } 
 
     public void DeathTrail()
@@ -42,15 +44,13 @@ public class SpiritTrail : MonoBehaviour {
         //enable trail
         trail.enabled = true;
         
-        //get point from bomber
-        projectionDisplayCorner = GameObject.FindGameObjectWithTag("Plane").transform;
-        
         firstPoint = transform.position + new Vector3(0, Random.Range(500f, 1000f), 0f);
         
-        StartCoroutine(SpiritTrailLifetime());
+        StopAllCoroutines();
+        StartCoroutine(SpiritTrailLifetime(bombSquadron.GetRandomBomber));
     }
     
-    IEnumerator SpiritTrailLifetime()
+    IEnumerator SpiritTrailLifetime(Transform dest)
     {
         //move to first point
         mover.MoveTo(firstPoint, spiritSpeed);
@@ -61,7 +61,7 @@ public class SpiritTrail : MonoBehaviour {
         //wait until no longer moving
         yield return new WaitUntil(() => mover.moving == false);
         //now move to point set by activation call
-        mover.MoveTo(projectionDisplayCorner.position, spiritSpeed);
+        mover.MoveTo(dest.position, spiritSpeed);
         
         //wait a frame
         yield return new WaitForEndOfFrame();

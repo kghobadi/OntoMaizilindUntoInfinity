@@ -98,6 +98,15 @@ public class CitizenGenerator : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// Updates spawn amt
+    /// </summary>
+    /// <param name="newAmt"></param>
+    public void SetSpawnAmount(int newAmt)
+    {
+        generationAmount = newAmt;
+    }
     
     /// <summary>
     /// Overrides current spawn nexus. 

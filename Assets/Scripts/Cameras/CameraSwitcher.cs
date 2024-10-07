@@ -63,6 +63,8 @@ public class CameraSwitcher : MonoBehaviour
     [SerializeField] private GameObject hallucCamera;
     [SerializeField] private Vector3 textOffset = new Vector3(0, 0, 7f);
     [SerializeField] private FadeUiRevamped[] hallucTextFader;
+    [SerializeField] private GameObject[] hallucCams;
+    
     public GameObject spiritWritingPrefab;
     private GameObject spiritWritingInstance;
 
@@ -534,6 +536,10 @@ public class CameraSwitcher : MonoBehaviour
     public void DisableSpiritWriting()
     {
         spiritWritingInstance.SetActive(false);
+        foreach (var hallucCam in hallucCams)
+        {
+            hallucCam.SetActive(false);
+        }
     }
 
     /// <summary>

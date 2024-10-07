@@ -112,7 +112,7 @@ public class Explosion : AudioHandler {
         explosionAudio.outputAudioMixerGroup = fireGroup;
         explosionAudio.loop = true;
 
-        InvokeRepeating("AudioCheck", Random.value, 1);
+        //InvokeRepeating("AudioCheck", Random.value, 1);
     }
 
     //checks whether to play looping audio based on distance from current player 

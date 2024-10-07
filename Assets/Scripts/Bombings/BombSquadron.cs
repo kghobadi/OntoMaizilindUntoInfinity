@@ -35,6 +35,21 @@ public class BombSquadron : MonoBehaviour
     [Tooltip("This object will be toggled on and off when you are/are not the bombers.")]
     public GameObject bomberModeView;
 
+    /// <summary>
+    /// Returns a random bomber transform. 
+    /// </summary>
+    public Transform GetRandomBomber
+    {
+        get
+        {
+            Transform bomberTrans = allBombers[0].transform;
+            int random = Random.Range(0, allBombers.Length);
+            
+            bomberTrans = allBombers[random].transform;
+            return bomberTrans;
+        }
+    }
+
     private void Awake()
     {
         camSwitcher = FindObjectOfType<CameraSwitcher>();
@@ -105,7 +120,7 @@ public class BombSquadron : MonoBehaviour
                 }
 
                 //we are the planes -- transition to anything else. 
-                if (camSwitcher.GetCurrentCamIndex() == 0 && (Time.fixedTime - becamePlanesTime) >= timeAsPlanesMinimum)
+                if (camSwitcher.GetCurrentCamIndex() == 0 && (Time.fixedTime - becamePlanesTime >= timeAsPlanesMinimum))
                 {
                     //spawn people under me somewhere     
                     if (peopleSpawned < peopleSpawners.Length)

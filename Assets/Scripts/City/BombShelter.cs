@@ -38,6 +38,7 @@ public class BombShelter : MonoBehaviour {
     public LerpMaterial lerpMat;
     public LerpMaterial lerpMatEndLevel;
     public SetMatValues setMatEnd;
+    [SerializeField] private GameObject[] cityObjs;
     private void Awake()
     {
         worldMan = FindObjectOfType<WorldManager>();
@@ -108,11 +109,11 @@ public class BombShelter : MonoBehaviour {
     public void SetAIPosition(CamObject person)
     {
         //set navigation to random spot 
+        NPC.Movement mover = person.GetComponent<NPC.Movement>();
         int spotIndex = Random.Range(0, sittingPoints.Length);
         Transform randomSpot = sittingPoints[spotIndex];
         Vector2 radius = Random.insideUnitCircle * sittingRadius;
-        Vector3 sittingPoint = new Vector3(randomSpot.position.x + radius.x, randomSpot.position.y, randomSpot.position.z + radius.y);
-        NPC.Movement mover = person.GetComponent<NPC.Movement>();
+        Vector3 sittingPoint = new Vector3(randomSpot.position.x + radius.x, mover.transform.position.y, randomSpot.position.z + radius.y);
         mover.NavigateToPoint(sittingPoint, false);
 
         //assign spirit trail a corner of the screen corresponding to sitting point 
@@ -214,6 +215,11 @@ public class BombShelter : MonoBehaviour {
         camManager.Set(transitionViewer);
         //set state
         transitionState = TransitionStates.AWAITING;
+        //disable city!
+        foreach (var cityObj in cityObjs)
+        {
+            cityObj.SetActive(false);
+        }
         yield return new WaitForSeconds(2f);
         //disable all NPCs to soften the load 
         NPCMovementManager.Instance.DisableAllNPCs();
