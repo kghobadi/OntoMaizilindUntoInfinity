@@ -86,7 +86,23 @@ public class FaceVisibility : MonoBehaviour
         Vector2 center = new Vector2(mainCam.pixelWidth / 2, mainCam.pixelHeight / 2);
         float distFromCenter = Vector2.Distance(currentScreenPos, center);
         
-        Debug.LogFormat( "{0} has a dist from center of {1}", gameObject.name , distFromCenter);
+        //Debug.LogFormat( "{0} has a dist from center of {1}", gameObject.name , distFromCenter);
+        return distFromCenter;
+    }
+    
+    
+    /// <summary>
+    /// Gets distance from the screen pos of face to a rect transform.
+    /// </summary>
+    /// <returns></returns>
+    public float GetDistanceFromRectTrans(RectTransform rectTransform)
+    {
+        GetScreenPosition();
+        //Get anchored pos screen
+        Vector2 screenPoint = rectTransform.anchoredPosition;
+        float distFromCenter = Vector2.Distance(currentScreenPos, screenPoint);
+        
+        //Debug.LogFormat( "{0} has a dist from center of {1}", gameObject.name , distFromCenter);
         return distFromCenter;
     }
     //TODO WHILE Visible - convert position of face from World to Screen Point and check distance from player cursor/subtitle?

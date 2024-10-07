@@ -80,15 +80,20 @@ public class ObjectViewer : AudioHandler
 			objectDescription.enabled = false;
 
 			//Set player thoughts monologue 
-			if (obj.ObjectMonologue )
+			if (obj.ObjectMonologue)
 			{
 				//Don't proceed if this should not repeat. 
 				if (!obj.RepeatsThought && obj.viewCounter > 0)
 				{
 					return;
 				}
-				playerMonoManager.SetMonologueSystem(obj.ObjectMonologue);
-				playerMonoManager.EnableMonologue();
+
+				//Can only think thoughts when not already in a player monologue
+				if (!playerMonoManager.inMonologue)
+				{
+					playerMonoManager.SetMonologueSystem(obj.ObjectMonologue);
+					playerMonoManager.EnableMonologue();
+				}
 			}
 		}
 		//there is a text asset 
