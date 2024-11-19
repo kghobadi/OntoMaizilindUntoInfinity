@@ -79,6 +79,12 @@ public class IntroMgr : MonoBehaviour
 
                 ClickReset();
             }
+
+            //Quick load to PILOT scene for Bug REMOVE THIS EVENTUALLY
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                LoadingScreenManager.LoadScene(3);
+            }
         }
 
         //click reset
