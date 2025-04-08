@@ -63,10 +63,14 @@ namespace NPC
         }
 
         [Tooltip("Various Animation Types!")]
-        public IdleType idleType;
-        public enum IdleType
+        public IdleType idleType; //these correspond to what appears in the Idle Blend Tree of iranian men animator 
+        public enum IdleType 
         {
-            STANDING, SITTING, PRAYING, DEAD,
+            STANDING, 
+            SITTING, 
+            PRAYING, 
+            DEAD,
+            CARRY,
         }
 
         private Action onIdleAction;
@@ -341,22 +345,26 @@ namespace NPC
             }
         }
 
+        /// <summary>
+        /// Override method for changing idle type directly
+        /// </summary>
+        /// <param name="newIdle"></param>
+        public void SetIdleType(IdleType newIdle)
+        {
+            idleType = newIdle;
+            CheckIdleType();
+        }
+
         //switch idle type in animator!
         void CheckIdleType()
         {
             switch (idleType)
             {
-                case IdleType.STANDING:
-                    npcAnimations.Animator.SetFloat("IdleType", 0f);
-                    break;
-                case IdleType.SITTING:
-                    npcAnimations.Animator.SetFloat("IdleType", 0.3333333f);
-                    break;
-                case IdleType.PRAYING:
-                    npcAnimations.Animator.SetFloat("IdleType", 0.6666667f);
+                default:
+                    npcAnimations.Animator.SetFloat("IdleType",  (float)idleType);
                     break;
                 case IdleType.DEAD:
-                    npcAnimations.Animator.SetFloat("IdleType", 1f);
+                    npcAnimations.Animator.SetFloat("IdleType", (float)idleType);
                     
                     //disable sounds component
                     if (controller.Sounds)
