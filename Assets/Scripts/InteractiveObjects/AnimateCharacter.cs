@@ -28,6 +28,12 @@ public class AnimateCharacter : Interactive
     private Vector3 playerPosition;
     private FirstPersonController fps;
     private InputDevice inputDevice;
+
+    [Header("Dialogue on Pickup?")] 
+    [SerializeField]
+    private bool triggersDialogue;
+    [SerializeField] private MonologueManager monoMgr;
+    [SerializeField] private int monoIndex;
     
     protected override void Start()
     {
@@ -72,6 +78,12 @@ public class AnimateCharacter : Interactive
 	        {
 		        GoToCharacter();
 	        }
+        }
+
+        //trigger dialogue on pick up 
+        if (triggersDialogue && monoMgr)
+        {
+	        monoMgr.WaitToSetNewMonologue(monoIndex);
         }
     }
 
