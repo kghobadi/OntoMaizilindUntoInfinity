@@ -201,7 +201,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 43954548}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 2}
+  m_LocalPosition: {x: 0, y: -1, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1521497946}
@@ -1753,6 +1753,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3122280120501330123, guid: 5ff6a7a79872a044aa100901ed5f3a68,
         type: 3}
+    - target: {fileID: 114570975138301208, guid: 0e095e01401d9a64daeef683800128f0,
+        type: 3}
+      propertyPath: allMyMonologues.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114570975138301208, guid: 0e095e01401d9a64daeef683800128f0,
+        type: 3}
+      propertyPath: allMyMonologues.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: bfac1ff4ce5bc814a83f2f246efe4c88,
+        type: 2}
     - target: {fileID: 114618183228346280, guid: 0e095e01401d9a64daeef683800128f0,
         type: 3}
       propertyPath: idleTime
@@ -1981,6 +1992,9 @@ MonoBehaviour:
   spotToHold: {fileID: 505029945}
   standSpot: {fileID: 270744476}
   holding: 0
+  triggersDialogue: 1
+  monoMgr: {fileID: 248959503}
+  monoIndex: 5
 --- !u!4 &248959510 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7767254181538870613, guid: 0e095e01401d9a64daeef683800128f0,
@@ -2729,7 +2743,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 334529439}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 2}
+  m_LocalPosition: {x: -0, y: -1, z: 2.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1898712206}
@@ -2952,6 +2966,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3122280120501330123, guid: 302646a0bb0aad643bd2354bcd531ced,
         type: 3}
+    - target: {fileID: 114228138933689118, guid: 9b9d2db0b858f19459302fb6a1311d16,
+        type: 3}
+      propertyPath: allMyMonologues.Array.size
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 114228138933689118, guid: 9b9d2db0b858f19459302fb6a1311d16,
+        type: 3}
+      propertyPath: allMyMonologues.Array.data[10]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4c325e75475ff9a48947ccd2950e9bb9,
+        type: 2}
     - target: {fileID: 114262508995686554, guid: 9b9d2db0b858f19459302fb6a1311d16,
         type: 3}
       propertyPath: maxWidth
@@ -3050,7 +3075,7 @@ PrefabInstance:
     - target: {fileID: 2991058490851686363, guid: 9b9d2db0b858f19459302fb6a1311d16,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.75
+      value: 1.75
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b9d2db0b858f19459302fb6a1311d16, type: 3}
@@ -3120,7 +3145,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 365451911}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalPosition: {x: 0, y: -1, z: 2.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 978420447}
@@ -3485,6 +3510,9 @@ MonoBehaviour:
   spotToHold: {fileID: 609254371}
   standSpot: {fileID: 1658798448}
   holding: 0
+  triggersDialogue: 0
+  monoMgr: {fileID: 0}
+  monoIndex: 0
 --- !u!114 &389472695 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114801743937296034, guid: 0520d190841ed434bba87e98d542fb5a,
@@ -3574,6 +3602,9 @@ MonoBehaviour:
   spotToHold: {fileID: 365451912}
   standSpot: {fileID: 1862687141}
   holding: 0
+  triggersDialogue: 1
+  monoMgr: {fileID: 978420445}
+  monoIndex: 3
 --- !u!1 &412116095
 GameObject:
   m_ObjectHideFlags: 0
@@ -6086,6 +6117,9 @@ MonoBehaviour:
   spotToHold: {fileID: 952445217}
   standSpot: {fileID: 43954549}
   holding: 0
+  triggersDialogue: 1
+  monoMgr: {fileID: 1521497944}
+  monoIndex: 3
 --- !u!4 &796736070 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6757358385566201458, guid: 71bb1b17f58206b438a1204e1145f869,
@@ -6562,6 +6596,9 @@ MonoBehaviour:
   spotToHold: {fileID: 334529440}
   standSpot: {fileID: 1565478813}
   holding: 0
+  triggersDialogue: 1
+  monoMgr: {fileID: 1898712204}
+  monoIndex: 3
 --- !u!4 &896430120 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6757358385667865628, guid: 71bb1b17f58206b438a1204e1145f869,
@@ -6831,7 +6868,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 952445216}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalPosition: {x: 0, y: -1, z: 2.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1521497946}
@@ -7258,6 +7295,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3122280120501330123, guid: 5d4af3e2bc863824595712cbefad30cb,
         type: 3}
+    - target: {fileID: 114626451528088598, guid: 8f40cf4489493464db7b6c012a47c04c,
+        type: 3}
+      propertyPath: allMyMonologues.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114626451528088598, guid: 8f40cf4489493464db7b6c012a47c04c,
+        type: 3}
+      propertyPath: allMyMonologues.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: dba84701e9f0441439dc4461ef48e381,
+        type: 2}
     - target: {fileID: 114766262902413100, guid: 8f40cf4489493464db7b6c012a47c04c,
         type: 3}
       propertyPath: useFaceSubs
@@ -15478,6 +15526,9 @@ MonoBehaviour:
   spotToHold: {fileID: 346690341}
   standSpot: {fileID: 1958274195}
   holding: 0
+  triggersDialogue: 1
+  monoMgr: {fileID: 599653854}
+  monoIndex: 10
 --- !u!1 &1469904934
 GameObject:
   m_ObjectHideFlags: 0
@@ -16289,6 +16340,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3122280120501330123, guid: 6b88a5a433ad3914ba8d3edc6c61b147,
         type: 3}
+    - target: {fileID: 114957793987432516, guid: 9a20b15ab81808c4eab3ec23fb2e7591,
+        type: 3}
+      propertyPath: allMyMonologues.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114957793987432516, guid: 9a20b15ab81808c4eab3ec23fb2e7591,
+        type: 3}
+      propertyPath: allMyMonologues.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: c3434ecc356b8e54e91f35f0e5c10e25,
+        type: 2}
     - target: {fileID: 114982460855234432, guid: 9a20b15ab81808c4eab3ec23fb2e7591,
         type: 3}
       propertyPath: faceAnimUi
@@ -17191,7 +17253,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1565478812}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -1, z: 2}
+  m_LocalPosition: {x: -0, y: -1, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1898712206}
@@ -18825,7 +18887,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1862687140}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 2}
+  m_LocalPosition: {x: 0, y: -1, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 978420447}
@@ -19166,6 +19228,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3122280120501330123, guid: 2ccf217951aea9e499061200de514937,
         type: 3}
+    - target: {fileID: 114210383974583460, guid: f950e09aa25992c449bb7ee1806d7f17,
+        type: 3}
+      propertyPath: allMyMonologues.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114210383974583460, guid: f950e09aa25992c449bb7ee1806d7f17,
+        type: 3}
+      propertyPath: allMyMonologues.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5d54fdaf3534b254dac23294f6c80a16,
+        type: 2}
     - target: {fileID: 114267781226298352, guid: f950e09aa25992c449bb7ee1806d7f17,
         type: 3}
       propertyPath: m_Enabled

@@ -215,10 +215,14 @@ public class Interactive : AudioHandler
 		{
 			if (_meshRenderer.materials.Length > 1)
 			{
+				if (materials[0] == null)
+					return;
 				_meshRenderer.materials = materials;
 			}
 			else
 			{
+				if (material == null)
+					return;
 				_meshRenderer.material = material;
 			}
 		}
@@ -226,10 +230,14 @@ public class Interactive : AudioHandler
 		{
 			if (_SkinnedMeshRenderer.materials.Length > 0)
 			{
+				if (materials[0] == null)
+					return;
 				_SkinnedMeshRenderer.materials = materials;
 			}
 			else
 			{
+				if (material == null)
+					return;
 				_SkinnedMeshRenderer.material = material;
 			}
 		}
