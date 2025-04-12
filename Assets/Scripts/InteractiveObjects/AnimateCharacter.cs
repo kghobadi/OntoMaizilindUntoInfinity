@@ -12,6 +12,9 @@ public class AnimateCharacter : Interactive
 {
     private ObjectAnimator _objectAnimator;
     [SerializeField] private string animParamTrigger;
+    
+    //TODO plug into Facial animation system to trigger reactions? 
+    //Maybe reactions should be triggered elsewhere. 
 
     [Tooltip("Check this to set an NPC idle type")]
     [SerializeField] private bool setIdleType;
@@ -34,6 +37,8 @@ public class AnimateCharacter : Interactive
     private bool triggersDialogue;
     [SerializeField] private MonologueManager monoMgr;
     [SerializeField] private int monoIndex;
+    
+    //TODO add different dialogue AFTER the speech begins 
     
     protected override void Start()
     {
@@ -140,6 +145,10 @@ public class AnimateCharacter : Interactive
 					ReleasePlayer();
 				}
 			}
+			
+			//TODO Left mouse button / main input should be able to trigger Interaction for special cases
+			//For Ramin - he will throw us up in the air. 
+			//What about for others? 
 		}
 	}
 
