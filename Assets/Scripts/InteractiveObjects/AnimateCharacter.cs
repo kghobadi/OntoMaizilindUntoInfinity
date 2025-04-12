@@ -111,13 +111,14 @@ public class AnimateCharacter : Interactive
 		fps.canMove = false;
 		//set pos
 		_cameraSwitcher.currentPlayer.transform.position = spotToHold.position;
-		//so its not highlighted anymore 
-		SetInactive();
 
 		//add event listener for disable sitting 
 		fps.beingHeld.AddListener(DisableHolding);
 		//set bool
 		holding = true;
+        
+		//so its not highlighted anymore 
+		SetInactive();
 	}
 
 	private void Update()
