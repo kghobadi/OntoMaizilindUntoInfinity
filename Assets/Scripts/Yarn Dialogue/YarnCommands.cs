@@ -12,6 +12,9 @@ public struct WaitReason
     public bool reason;
 }
 
+/// <summary>
+/// Variety of Yarn events used and triggered across the game. 
+/// </summary>
 public class YarnCommands : MonoBehaviour
 {
     private DialogueRunner dialogueRunner;
@@ -20,6 +23,8 @@ public class YarnCommands : MonoBehaviour
 
     public UnityEvent onRaminSuicide;
     public UnityEvent onPlayerKillsRamin;
+
+    public UnityEvent[] onInteractEvents;
 
     private void Awake()
     {
@@ -34,6 +39,7 @@ public class YarnCommands : MonoBehaviour
         dialogueRunner.AddCommandHandler<string>("playerkillsramin", OnPlayerKillRamin);
         dialogueRunner.AddCommandHandler<string>("waitforreason", StartWaitForReason);
         dialogueRunner.AddCommandHandler<string>("waitfortime", StartWaitForTime);
+        dialogueRunner.AddCommandHandler<int>("triggerevent", OnTriggerEvent);
     }
 
     private void Active(string targetName, bool active)
@@ -49,6 +55,11 @@ public class YarnCommands : MonoBehaviour
     void OnPlayerKillRamin(string killer)
     {
         onPlayerKillsRamin?.Invoke();
+    }
+    
+    void OnTriggerEvent(int eventIndex)
+    {
+        onInteractEvents[eventIndex]?.Invoke();
     }
 
     #region Waits

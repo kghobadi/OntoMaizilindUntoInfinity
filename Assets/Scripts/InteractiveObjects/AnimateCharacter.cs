@@ -4,6 +4,7 @@ using InControl;
 using NPC;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Yarn.Unity;
 
 /// <summary>
 /// An interactive trigger for making a character animate a certain way & for holding/picking up the player. 
@@ -11,6 +12,7 @@ using UnityEngine.Serialization;
 public class AnimateCharacter : Interactive
 {
     private ObjectAnimator _objectAnimator;
+    private DialogueRunner _dialogueRunner;
     [SerializeField] private string animParamTrigger;
     
     //TODO plug into Facial animation system to trigger reactions? 
@@ -31,12 +33,19 @@ public class AnimateCharacter : Interactive
     private Vector3 playerPosition;
     private FirstPersonController fps;
     private InputDevice inputDevice;
-
+    
     [Header("Dialogue on Pickup?")] 
     [SerializeField]
     private bool triggersDialogue;
+    [SerializeField] private string dialogueNode;
+
+    [Header("Monologue on Pickup?")] 
+    [SerializeField]
+    private bool triggersMonologue;
     [SerializeField] private MonologueManager monoMgr;
     [SerializeField] private int monoIndex;
+    
+    
     
     //TODO add different dialogue AFTER the speech begins 
     
@@ -44,6 +53,7 @@ public class AnimateCharacter : Interactive
     {
         base.Start();
 
+        _dialogueRunner = FindObjectOfType<DialogueRunner>();
         //fetch object animator 
         _objectAnimator = GetComponent<ObjectAnimator>();
         if (_objectAnimator == null)
@@ -85,10 +95,16 @@ public class AnimateCharacter : Interactive
 	        }
         }
 
-        //trigger dialogue on pick up 
-        if (triggersDialogue && monoMgr)
+        //trigger monologue on pick up 
+        if (triggersMonologue && monoMgr)
         {
 	        monoMgr.WaitToSetNewMonologue(monoIndex);
+        }
+
+        //trigger dialogue on pickup 
+        if (triggersDialogue && !string.IsNullOrEmpty(dialogueNode))
+        {
+	        _dialogueRunner.StartDialogue(dialogueNode);
         }
     }
 
