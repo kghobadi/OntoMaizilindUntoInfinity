@@ -17,9 +17,6 @@ public class SubtitleMgr : NonInstantiatingSingleton<SubtitleMgr>
     [Tooltip("The currently active generated subtitles in the scene.")]
     public List<SubtitleController> generatedSubtitles = new List<SubtitleController>();
     
-    //TODO may want the option to do left or right view 
-    //Would need to know from position while on screen - maybe commune with FaceVisibility to learn this info? 
-
     /// <summary>
     /// Pass a monologue manager to the system, get a Subtitle Controller in return. 
     /// </summary>
