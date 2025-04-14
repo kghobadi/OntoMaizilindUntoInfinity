@@ -15,6 +15,9 @@ tags:
 <<elseif $Maman > 0>>  
     <<jump MamanDialogue_Return>>
 <<endif>>
+
+//Increment maman counter 
+<<set $Maman to $Maman + 1>>
 ===
 title: MamanDialogue_Start
 tags:
