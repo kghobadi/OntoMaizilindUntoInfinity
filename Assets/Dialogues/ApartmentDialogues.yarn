@@ -1,4 +1,22 @@
-﻿title: MamanDialogues
+﻿
+﻿title: Generic_declare_variables
+tags:
+position: -628,-600
+---
+//*************** EXAMPLE Code Variables *****************************/
+<<declare $Maman to 0>> //initial maman count
+===
+title: MamanDialogues
+tags:
+---
+//Checks for convos with maman. Can trigger any maman node with this kind of check. 
+<<if $Maman is 0>>
+    <<jump MamanDialogue_Start>>
+<<elseif $Maman > 0>>  
+    <<jump MamanDialogue_Return>>
+<<endif>>
+===
+title: MamanDialogue_Start
 tags:
 ---
 Maman: Sara azizam, did you sleep well?
@@ -10,12 +28,10 @@ Maman: Chai mikhai? It's always ready for you.
     Maman: Here you go my dear. 
     <<triggerevent 0>>
 -> No, I'm okay for now. Thanks. 
-//Checks for hallucs from pilot scene. 
-//<<if $Aref is "Seen" >>
-//<<if $Panic is "Seen" >>
-//<<if $Gluttony is "Seen" >>
-//<<if $Email is "Seen" >>
-//<<if $Kas is "Seen" >>
-//<<if $Kathy is "Seen" >>
-
+===
+title: MamanDialogue_Return
+tags:
+---
+Maman: Sara azizam, I need to talk with your Aunt Flora.
+Maman: Go play with someone else while you wait, ok? 
 ===
