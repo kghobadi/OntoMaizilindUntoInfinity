@@ -5,19 +5,24 @@ position: -628,-600
 ---
 //*************** EXAMPLE Code Variables *****************************/
 <<declare $Maman to 0>> //initial maman count
+<<declare $Ramin to 0>> //initial count
+<<declare $Baba to 0>> //initial count
+<<declare $Ayeshah to 0>> //initial count
+<<declare $Saideh to 0>> //initial count
+<<declare $Shalah to 0>> //initial count
+<<declare $SpeechStarted to false>> //want to know when the speech begins 
 ===
 title: MamanDialogues
 tags:
 ---
 //Checks for convos with maman. Can trigger any maman node with this kind of check. 
-<<if $Maman is 0>>
-    <<jump MamanDialogue_Start>>
-<<elseif $Maman > 0>>  
-    <<jump MamanDialogue_Return>>
-<<endif>>
-
 //Increment maman counter 
 <<set $Maman to $Maman + 1>>
+<<if $Maman is 1>>
+    <<jump MamanDialogue_Start>>
+<<elseif $Maman > 1>>  
+    <<jump MamanDialogue_Return>>
+<<endif>>
 ===
 title: MamanDialogue_Start
 tags:
@@ -37,4 +42,192 @@ tags:
 ---
 Maman: Sara azizam, I need to talk with your Aunt Flora.
 Maman: Go play with someone else while you wait, ok? 
+===
+title: RaminDialogues
+tags:
+---
+//Checks for convos with Ramin. Can trigger any Ramin node with this kind of check. 
+//Increment counter 
+<<set $Ramin to $Ramin + 1>>
+<<if $Ramin is 1>>
+    <<jump RaminDialogue_Start>>
+<<elseif $Ramin > 1>>  
+    <<jump RaminDialogue_Return>>
+<<endif>>
+===
+title: RaminDialogue_Start
+tags:
+---
+Ramin: Sara, my little sister, you are getting so big! 
+Ramin: You won't get it until you're older, but time flies. 
+-> I get it! Time moves fast when you are busy. 
+    Ramin: Don't hold back, I know you're mad I missed your birthday. 
+-> That doesn't make me feel any better. 
+Ramin: Look, Sara, I'm going to make it up to you. 
+Ramin: Maman and Baba said I can bring you to the airbase to visit Reza and see the plane. 
+Player: Are you serious? Can I fly it???   
+Ramin: We'll see about that... but if you want I can toss you. 
+-> Yeah!!! I want to fly! 
+-> No, I don't feel like it. 
+===
+title: RaminDialogue_Return
+tags:
+---
+Ramin: Sara, my little sister, you are getting so big! 
+Ramin: Want me to toss you? 
+-> Yeah!!! I want to fly! 
+-> No, I don't feel like it. 
+===
+title: BabaDialogues
+tags:
+---
+//Checks for convos with baba. Can trigger any baba node with this kind of check. 
+//Increment counter 
+<<set $Baba to $Baba + 1>>
+<<if $Baba is 1>>
+    <<jump BabaDialogue_Start>>
+<<elseif $Baba > 1>>  
+    <<jump BabaDialogue_Return>>
+<<endif>>
+===
+title: BabaDialogue_Start
+tags:
+---
+Baba: Sara, ach jooni-joonam! How are you feeling?
+-> I'm okay Baba.
+    Baba: Just okay, my dear? 
+    Baba: Can I do anything for you? 
+-> Better than I was before my nap.  
+Baba: Chai mikhai? I will get it for you. 
+-> Yes, I'll have some chai now. 
+    Baba: Here you go azizam. 
+    <<triggerevent 0>>
+-> No, I'm okay for now. Thanks. 
+===
+title: BabaDialogue_Return
+tags:
+---
+Baba: Sara joonam, I am listening to the news. 
+Baba: If you need something, ask your Maman. 
+===
+title: AyeshahDialogues
+tags:
+---
+//Checks for convos with Ayeshah. Can trigger any Ayeshah node with this kind of check. 
+//Increment counter 
+<<set $Ayeshah to $Ayeshah + 1>>
+<<if $Ayeshah is 1>>
+    <<jump AyeshahDialogue_Start>>
+<<elseif $Ayeshah is 2>>  
+    <<jump AyeshahDialogue_Marriage>>
+<<elseif $Ayeshah > 2>>  
+    <<jump AyeshahDialogue_Return>>
+<<endif>>
+===
+title: AyeshahDialogue_Start
+tags:
+---
+Ayeshah: Sara, bichin, sit with me, little one!
+Ayeshah: How are you feeling today?
+-> I'm okay Ayeshah. Chitori?
+    Ayeshah: Bad nist, Sara-joon. I've seen better days. 
+    Ayeshah: But you know that every moment with you is perfect to me. 
+-> I'm a little sad today and I don't know why.
+    Ayeshah: Sad, sad did you say? And what on Earth does a child have to be sad for? 
+Ayeshah: Are you sure you don't want to tell me more? 
+-> Well, I miss my friends from Shirgah and Zirab. 
+    Ayeshah: Azizam, it is normal to miss people when we are gone from them. 
+    Ayeshah: I won't lie, it isn't easy living apart from our loved ones. 
+    Ayeshah: You still have their phone numbers and can call them, joonie. 
+-> I, well, it's nothing grandma. 
+    Ayeshah: I'm sure it's something big if my strong and growing Sara is worried. 
+===
+title: AyeshahDialogue_Marriage
+tags:
+---
+Player: Khaleh Ayeshah, did you ever get married? 
+Ayeshah: Good question, my dear. I once fell in love. 
+Ayeshah: Haven't I told you the story before? 
+-> No, tell me more!
+-> Yes, tell it again anyway! 
+Ayeshah: Bashe, okay. It all started when I was a student in University. 
+Ayeshah: I was enrolled as a nurse, but ended up studying natural science. 
+Ayeshah: Ali was such a handsome man, I had a crush on him the moment I met him.
+Ayeshah: The only problem was that he was my professor! 
+Ayeshah: Such things were improper then and improper now. 
+Ayeshah: It wasn't about our age, but that I was his student. 
+Ayeshah: I learned that sometimes love is not very predictable. 
+Ayeshah: I did a semester of very difficult exams and was his research assistant. 
+Ayeshah: He treated me with utmost respect, and I think I did a good job hiding my crush. 
+-> So why didn't you get married? 
+    Ayeshah: The reality was that he was not a man of Islam. 
+    Ayeshah: He did not believe in God, and believed only in science. 
+    Ayeshah: This was something my mother at the time could not accept. 
+-> What happened if he found out? 
+    Ayeshah: I probably would have been forced back into the nursing school.
+Ayeshah: In the end, I chose to return home to the North and reunite with my sisters. 
+Ayeshah: We all chose each other, rather than men. And it's been a wonderful life.
+===
+title: AyeshahDialogue_Return
+tags:
+---
+Ayeshah: If you need something, just ask. 
+===
+title: SaidehDialogues
+tags:
+---
+//Checks for convos with Saideh. Can trigger any Saideh node with this kind of check. 
+//Increment counter 
+<<set $Saideh to $Saideh + 1>>
+<<if $Saideh is 1>>
+    <<jump SaidehDialogue_Start>>
+<<elseif $Saideh > 1>>  
+    <<jump SaidehDialogue_Return>>
+<<endif>>
+===
+title: SaidehDialogue_Start
+tags:
+---
+Saideh: Sara, ach jooni-joonam! How are you feeling?
+-> I'm okay Saideh. How are you? 
+    Saideh: Just okay, my dear? 
+-> Better than I was before my nap.  
+Saideh: Chai mikhai? I will get it for you. 
+-> Yes, I'll have some chai now. 
+-> No, I'm okay for now. Thanks. 
+===
+title: SaidehDialogue_Return
+tags:
+---
+Saideh: Sara joonam, I am listening to the news. 
+Saideh: If you need something, ask your Maman. 
+===
+title: ShalahDialogues
+tags:
+---
+//Checks for convos with Shalah. Can trigger any Shalah node with this kind of check. 
+//Increment counter 
+<<set $Shalah to $Shalah + 1>>
+<<if $Shalah is 1>>
+    <<jump ShalahDialogue_Start>>
+<<elseif $Shalah > 1>>  
+    <<jump ShalahDialogue_Return>>
+<<endif>>
+===
+title: ShalahDialogue_Start
+tags:
+---
+Shalah: Sara, ach jooni-joonam! How are you feeling?
+-> I'm okay Shalah. How are you? 
+    Shalah: Just okay, my dear? 
+-> Better than I was before my nap.  
+Shalah: Chai mikhai? I will get it for you. 
+-> Yes, I'll have some chai now. 
+-> No, I'm okay for now. Thanks. 
+===
+title: ShalahDialogue_Return
+tags:
+---
+Shalah: Sara joonam, I am listening to the news. 
+Shalah: If you need something, ask your Maman. 
 ===

@@ -132,6 +132,8 @@ public class AnimateCharacter : Interactive
 		fps.canMove = false;
 		//set pos
 		_cameraSwitcher.currentPlayer.transform.position = spotToHold.position;
+		//set rot
+		_cameraSwitcher.currentCamObj.transform.LookAt(transform.position);
 
 		//add event listener for disable sitting 
 		fps.beingHeld.AddListener(DisableHolding);
