@@ -190,6 +190,8 @@ public class MonologueManager : MonoBehaviour
     IEnumerator WaitToSetNew(int index)
     {
         yield return new WaitUntil(() => inMonologue == false);
+        
+        //todo should now wait for Dialogue system to not be in effect (my YarnCharacter!)
 
         yield return new WaitForEndOfFrame();
 

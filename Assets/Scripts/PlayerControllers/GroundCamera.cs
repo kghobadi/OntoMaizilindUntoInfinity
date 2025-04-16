@@ -257,6 +257,11 @@ public class GroundCamera : MonoBehaviour
     {
         clamps = !clamps;
     }
+
+    public void SetLookOverride(Vector3 pos)
+    {
+        //todo method should work for clamp/not 
+    }
     
     void ShiftCheck()
     {

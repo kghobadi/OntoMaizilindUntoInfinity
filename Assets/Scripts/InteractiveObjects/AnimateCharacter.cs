@@ -104,8 +104,23 @@ public class AnimateCharacter : Interactive
         //trigger dialogue on pickup 
         if (triggersDialogue && !string.IsNullOrEmpty(dialogueNode))
         {
-	        _dialogueRunner.StartDialogue(dialogueNode);
+	        //Try not to overlap with Monologue system for this character. 
+	        if (monoMgr.inMonologue)
+	        {
+		        StartCoroutine(WaitToStartDialogue());
+	        }
+	        else
+	        {
+		        _dialogueRunner.StartDialogue(dialogueNode);
+	        }
         }
+    }
+
+    IEnumerator WaitToStartDialogue()
+    {
+	    yield return new WaitUntil(() => !monoMgr.inMonologue);
+	    
+	    _dialogueRunner.StartDialogue(dialogueNode);
     }
 
 	protected override void SetActive()
@@ -133,7 +148,8 @@ public class AnimateCharacter : Interactive
 		//set pos
 		_cameraSwitcher.currentPlayer.transform.position = spotToHold.position;
 		//set rot
-		_cameraSwitcher.currentCamObj.transform.LookAt(transform.position);
+		GroundCamera cam = _cameraSwitcher.currentCamObj.GetGroundCam();
+		cam.SetLookOverride(transform.position);
 
 		//add event listener for disable sitting 
 		fps.beingHeld.AddListener(DisableHolding);
@@ -194,6 +210,11 @@ public class AnimateCharacter : Interactive
 		}
 		
 		holding = false;
+	}
+
+	public void SetHolding()
+	{
+		holding = true;
 	}
 
 	//called if parent picks me up while being held 

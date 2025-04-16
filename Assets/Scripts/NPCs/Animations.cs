@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace NPC
@@ -12,6 +13,7 @@ namespace NPC
         public bool setAnimSpeed;
         public float animSpeed = 1f;
 
+        [SerializeField] private AnimateCharacter animateChar;
 
         protected override void Awake()
         {
@@ -39,6 +41,15 @@ namespace NPC
         public void SetRunFloat(float value)
         {
             Animator.SetFloat("RunType" , value);
+        }
+
+        public void SetHolding()
+        {
+            animateChar.SetHolding();
+        }
+        public void StopHolding()
+        {
+            animateChar.DisableHolding();
         }
     }
 }

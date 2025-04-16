@@ -71,6 +71,7 @@ namespace NPC
             PRAYING, 
             DEAD,
             CARRY,
+            HOLD_SIT,
         }
 
         private Action onIdleAction;
