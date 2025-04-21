@@ -50,13 +50,13 @@ public class SitOnObject : Interactive
 		fps.canMove = false;
 		//set pos
 		_cameraSwitcher.currentPlayer.transform.position = spotToSit.position;
-		//so its not highlighted anymore 
-		SetInactive();
-
+		
 		//add event listener for disable sitting 
 		fps.beingHeld.AddListener(DisableSitting);
 		//set bool
 		sitting = true;
+		//so its not highlighted anymore 
+		SetInactive();
 	}
 
 	private void Update()

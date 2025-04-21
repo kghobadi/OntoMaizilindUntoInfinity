@@ -146,7 +146,7 @@ public class AnimateCharacter : Interactive
 		//set rot
 		GroundCamera cam = _cameraSwitcher.currentCamObj.GetGroundCam();
 		cam.SetLookOverride(transform.position);
-		if (npc.lookAtTransform == _cameraSwitcher.currentCamObj.transform)
+		if (npc.lookAtTransform == cam.transform)
 		{
 			npc.SetLook(null); //since they will look at you by default this is no longer necessary
 		}

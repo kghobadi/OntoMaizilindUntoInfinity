@@ -29,6 +29,7 @@ public class PickUpObject : Interactive
 	public UnityEvent pickUpEvent;
 	public FirstPersonController desiredHolder;
 
+	[SerializeField] protected Vector3 holdOffset;
 	[SerializeField] private string useItemMessage = "Use";
 	
 	//TODO add picked up object UI 
@@ -111,7 +112,7 @@ public class PickUpObject : Interactive
 		//parent this obj to fps holder
 		transform.SetParent(fpsHolder.holdingSpot);
 		//zero pos
-		transform.localPosition = Vector3.zero;
+		transform.localPosition = Vector3.zero + holdOffset; 
 		//zero rotation
 		transform.localRotation = Quaternion.identity;	
 		//set holding
