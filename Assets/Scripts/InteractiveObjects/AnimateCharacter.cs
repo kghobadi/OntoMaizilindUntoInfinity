@@ -45,10 +45,6 @@ public class AnimateCharacter : Interactive
     [SerializeField] private MonologueManager monoMgr;
     [SerializeField] private int monoIndex;
     
-    
-    
-    //TODO add different dialogue AFTER the speech begins 
-    
     protected override void Start()
     {
         base.Start();
@@ -150,6 +146,10 @@ public class AnimateCharacter : Interactive
 		//set rot
 		GroundCamera cam = _cameraSwitcher.currentCamObj.GetGroundCam();
 		cam.SetLookOverride(transform.position);
+		if (npc.lookAtTransform == _cameraSwitcher.currentCamObj.transform)
+		{
+			npc.SetLook(null); //since they will look at you by default this is no longer necessary
+		}
 
 		//add event listener for disable sitting 
 		fps.beingHeld.AddListener(DisableHolding);

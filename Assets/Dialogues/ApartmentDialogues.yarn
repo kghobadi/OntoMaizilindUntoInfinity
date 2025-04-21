@@ -18,10 +18,14 @@ tags:
 //Checks for convos with maman. Can trigger any maman node with this kind of check. 
 //Increment maman counter 
 <<set $Maman to $Maman + 1>>
-<<if $Maman is 1>>
-    <<jump MamanDialogue_Start>>
-<<elseif $Maman > 1>>  
-    <<jump MamanDialogue_Return>>
+<<if $SpeechStarted == true>>
+      <<jump MamanDialogue_Speech>>
+<<elseif $SpeechStarted == false>>
+  <<if $Maman is 1>>
+        <<jump MamanDialogue_Start>>
+    <<elseif $Maman > 1>>  
+        <<jump MamanDialogue_Return>>
+    <<endif>>
 <<endif>>
 ===
 title: MamanDialogue_Start
@@ -42,6 +46,13 @@ tags:
 ---
 Maman: Sara azizam, I need to talk with your Aunt Flora.
 Maman: Go play with someone else while you wait, ok? 
+===
+title: MamanDialogue_Speech
+tags:
+---
+Maman: Sara azizam, everything is going to be alright. 
+Maman: The Shah is saying something very important. 
+Maman: We have to listen so we know what to do. 
 ===
 title: RaminDialogues
 tags:
@@ -86,11 +97,16 @@ tags:
 //Checks for convos with baba. Can trigger any baba node with this kind of check. 
 //Increment counter 
 <<set $Baba to $Baba + 1>>
-<<if $Baba is 1>>
-    <<jump BabaDialogue_Start>>
-<<elseif $Baba > 1>>  
-    <<jump BabaDialogue_Return>>
+<<if $SpeechStarted == true>>
+      <<jump BabaDialogue_Speech>>
+<<elseif $SpeechStarted == false>>
+    <<if $Baba is 1>>
+        <<jump BabaDialogue_Start>>
+    <<elseif $Baba > 1>>  
+        <<jump BabaDialogue_Return>>
+    <<endif>>
 <<endif>>
+
 ===
 title: BabaDialogue_Start
 tags:
@@ -112,18 +128,29 @@ tags:
 Baba: Sara joonam, I am listening to the news. 
 Baba: If you need something, ask your Maman. 
 ===
+title: BabaDialogue_Speech
+tags:
+---
+Baba: Sara azizam, I will protect you no matter what. 
+Baba: The Shah is saying something very important. 
+Baba: We have to listen so we know where to go. 
+===
 title: AyeshahDialogues
 tags:
 ---
 //Checks for convos with Ayeshah. Can trigger any Ayeshah node with this kind of check. 
 //Increment counter 
 <<set $Ayeshah to $Ayeshah + 1>>
-<<if $Ayeshah is 1>>
-    <<jump AyeshahDialogue_Start>>
-<<elseif $Ayeshah is 2>>  
-    <<jump AyeshahDialogue_Marriage>>
-<<elseif $Ayeshah > 2>>  
-    <<jump AyeshahDialogue_Return>>
+<<if $SpeechStarted == true>>
+      <<jump AyeshahDialogue_Speech>>
+<<elseif $SpeechStarted == false>>
+    <<if $Ayeshah is 1>>
+        <<jump AyeshahDialogue_Start>>
+    <<elseif $Ayeshah is 2>>  
+        <<jump AyeshahDialogue_Marriage>>
+    <<elseif $Ayeshah > 2>>  
+        <<jump AyeshahDialogue_Return>>
+    <<endif>>
 <<endif>>
 ===
 title: AyeshahDialogue_Start
@@ -175,16 +202,29 @@ tags:
 ---
 Ayeshah: If you need something, just ask. 
 ===
+title: AyeshahDialogue_Speech
+tags:
+---
+Ayeshah: Sara azizam, we will watch over you no matter what. 
+Ayeshah: The Shah is saying something very important. 
+Ayeshah: We have to listen so we know what's coming. 
+===
 title: SaidehDialogues
 tags:
 ---
 //Checks for convos with Saideh. Can trigger any Saideh node with this kind of check. 
 //Increment counter 
 <<set $Saideh to $Saideh + 1>>
-<<if $Saideh is 1>>
-    <<jump SaidehDialogue_Start>>
-<<elseif $Saideh > 1>>  
-    <<jump SaidehDialogue_Return>>
+
+<<if $SpeechStarted == true>>
+      <<jump SaidehDialogue_Speech>>
+<<elseif $SpeechStarted == false>>
+    <<if $Saideh is 1>>
+        <<jump SaidehDialogue_Start>>
+    <<elseif $Saideh > 1>>  
+        <<jump SaidehDialogue_Return>>
+    <<endif>>
+
 <<endif>>
 ===
 title: SaidehDialogue_Start
@@ -204,16 +244,28 @@ tags:
 Saideh: Sara joonam, I am listening to the news. 
 Saideh: If you need something, ask your Maman. 
 ===
+title: SaidehDialogue_Speech
+tags:
+---
+Saideh: Sara azizam, we will watch over you no matter what. 
+Saideh: The Shah is saying something very important. 
+Saideh: We have to listen so we know what's coming. 
+===
 title: ShalahDialogues
 tags:
 ---
 //Checks for convos with Shalah. Can trigger any Shalah node with this kind of check. 
 //Increment counter 
 <<set $Shalah to $Shalah + 1>>
-<<if $Shalah is 1>>
-    <<jump ShalahDialogue_Start>>
-<<elseif $Shalah > 1>>  
-    <<jump ShalahDialogue_Return>>
+
+<<if $SpeechStarted == true>>
+      <<jump ShalahDialogue_Speech>>
+<<elseif $SpeechStarted == false>>
+    <<if $Shalah is 1>>
+        <<jump ShalahDialogue_Start>>
+    <<elseif $Shalah > 1>>  
+        <<jump ShalahDialogue_Return>>
+    <<endif>>
 <<endif>>
 ===
 title: ShalahDialogue_Start
@@ -232,4 +284,11 @@ tags:
 ---
 Shalah: Sara joonam, I am listening to the news. 
 Shalah: If you need something, ask your Maman. 
+===
+title: ShalahDialogue_Speech
+tags:
+---
+Shalah: Sara azizam, we will watch over you no matter what. 
+Shalah: The Shah is saying something very important. 
+Shalah: We have to listen so we know what's coming. 
 ===
