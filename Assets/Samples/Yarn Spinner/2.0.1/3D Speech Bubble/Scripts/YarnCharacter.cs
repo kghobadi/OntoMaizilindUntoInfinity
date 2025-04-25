@@ -25,6 +25,29 @@ namespace Yarn.Unity.Example
         public SpeakerSound speakerSound;
 
         public Vector2 anchoredUiPos;
+
+        [SerializeField]
+        private bool inConversation;
+
+        /// <summary>
+        /// Set when this character is in a Yarn dialogue. 
+        /// </summary>
+        public bool InConversation
+        {
+            get => inConversation;
+            set
+            {
+                inConversation = value;
+                if (value)
+                {
+                    Debug.Log(characterName + " started dialogue!");
+                }
+                else
+                {
+                    Debug.Log(characterName + " finished dialogue!");
+                }
+            }
+        }
         
         public Vector3 positionWithOffset
         { 

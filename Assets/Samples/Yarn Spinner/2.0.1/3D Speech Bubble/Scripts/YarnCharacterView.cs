@@ -76,6 +76,7 @@ namespace Yarn.Unity.Example
             {
                 if (character.characterName == searchName)
                 {
+                    character.InConversation = true; 
                     return character;
                 }
             }
@@ -172,6 +173,20 @@ namespace Yarn.Unity.Example
                 if (useWorldPos)
                 {
                     optionsBubbleRect.anchoredPosition = WorldToAnchoredPosition(optionsBubbleRect, playerCharacter.positionWithOffset, bubbleMargin);
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Called by Dialogue Runner completion of a Dialogue. 
+        /// </summary>
+        public void OnDialogueCompleted()
+        {
+            foreach (var character in allCharacters)
+            {
+                if (character.InConversation)
+                {
+                    character.InConversation = false;
                 }
             }
         }

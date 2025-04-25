@@ -48,6 +48,6 @@ public class PickUpTea : PickUpObject
 
    public void PlaySipTeaSound()
    {
-      PlayRandomSoundRandomPitch(sipTeaSounds, 1f);
+      PlayRandomSoundRandomPitch(sipTeaSounds, 0.5f);
    }
 }

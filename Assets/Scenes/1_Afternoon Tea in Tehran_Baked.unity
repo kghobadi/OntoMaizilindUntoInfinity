@@ -1980,6 +1980,7 @@ MonoBehaviour:
   allMyMonologues:
   - {fileID: 11400000, guid: fc0017532782ffa4da3724f278056941, type: 2}
   inMonologue: 0
+  interruptible: 0
   mTrigger: {fileID: 0}
   enableOnStart: 0
   head: {fileID: 0}
@@ -2094,6 +2095,7 @@ MonoBehaviour:
   offsetCam: {fileID: 160742221}
   speakerSound: {fileID: 239127803}
   anchoredUiPos: {x: 0, y: -500}
+  inConversation: 0
 --- !u!1 &240356795
 GameObject:
   m_ObjectHideFlags: 0
@@ -2615,6 +2617,7 @@ MonoBehaviour:
   offsetCam: {fileID: 160742221}
   speakerSound: {fileID: 248959516}
   anchoredUiPos: {x: 0, y: -50}
+  inConversation: 0
 --- !u!4 &253456002 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4412641556588668, guid: d30f70e89efa40a46a601a9d1d7335ec,
@@ -4541,6 +4544,7 @@ MonoBehaviour:
   offsetCam: {fileID: 160742221}
   speakerSound: {fileID: 1372805084}
   anchoredUiPos: {x: 0, y: -50}
+  inConversation: 0
 --- !u!114 &389472695 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114801743937296034, guid: 0520d190841ed434bba87e98d542fb5a,
@@ -4654,6 +4658,7 @@ MonoBehaviour:
   offsetCam: {fileID: 160742221}
   speakerSound: {fileID: 405118443}
   anchoredUiPos: {x: 0, y: -50}
+  inConversation: 0
 --- !u!114 &405118443 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114852823054472008, guid: 8f40cf4489493464db7b6c012a47c04c,
@@ -4746,7 +4751,7 @@ PrefabInstance:
     - target: {fileID: 5946742510300963181, guid: d07e87023168a7d448d0b30a315a2047,
         type: 3}
       propertyPath: m_Name
-      value: Cigarette_Smoke_Particles 1
+      value: Tea_Smoke_Particles 1
       objectReference: {fileID: 0}
     - target: {fileID: 5946742510300963182, guid: d07e87023168a7d448d0b30a315a2047,
         type: 3}
@@ -4766,7 +4771,7 @@ PrefabInstance:
     - target: {fileID: 5946742510300963182, guid: d07e87023168a7d448d0b30a315a2047,
         type: 3}
       propertyPath: InitialModule.startLifetime.scalar
-      value: 24
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d07e87023168a7d448d0b30a315a2047, type: 3}
@@ -5355,6 +5360,26 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 452691513}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &467643237 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6333205686618854706, guid: 71bb1b17f58206b438a1204e1145f869,
+    type: 3}
+  m_PrefabInstance: {fileID: 6757358385853828148}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &467643240
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467643237}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5236269602797400473, guid: 4875875abb20cc540b11d97da813623a, type: 3}
 --- !u!1 &468060723
 GameObject:
   m_ObjectHideFlags: 0
@@ -6360,6 +6385,7 @@ MonoBehaviour:
   allMyMonologues:
   - {fileID: 11400000, guid: 89fb45f3b63953d49acd7babc4152a74, type: 2}
   inMonologue: 0
+  interruptible: 0
   mTrigger: {fileID: 0}
   enableOnStart: 0
   head: {fileID: 0}
@@ -7314,7 +7340,7 @@ PrefabInstance:
     - target: {fileID: 5946742510300963181, guid: d07e87023168a7d448d0b30a315a2047,
         type: 3}
       propertyPath: m_Name
-      value: Cigarette_Smoke_Particles 1
+      value: Tea_Smoke_Particles 1
       objectReference: {fileID: 0}
     - target: {fileID: 5946742510300963182, guid: d07e87023168a7d448d0b30a315a2047,
         type: 3}
@@ -7334,7 +7360,7 @@ PrefabInstance:
     - target: {fileID: 5946742510300963182, guid: d07e87023168a7d448d0b30a315a2047,
         type: 3}
       propertyPath: InitialModule.startLifetime.scalar
-      value: 24
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d07e87023168a7d448d0b30a315a2047, type: 3}
@@ -7660,6 +7686,7 @@ MonoBehaviour:
   offsetCam: {fileID: 160742221}
   speakerSound: {fileID: 790376049}
   anchoredUiPos: {x: 0, y: -50}
+  inConversation: 0
 --- !u!114 &790376049 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114996772988496874, guid: 9a20b15ab81808c4eab3ec23fb2e7591,
@@ -7898,7 +7925,7 @@ PrefabInstance:
     - target: {fileID: 5946742510300963181, guid: d07e87023168a7d448d0b30a315a2047,
         type: 3}
       propertyPath: m_Name
-      value: Cigarette_Smoke_Particles 1
+      value: Tea_Smoke_Particles 1
       objectReference: {fileID: 0}
     - target: {fileID: 5946742510300963182, guid: d07e87023168a7d448d0b30a315a2047,
         type: 3}
@@ -7918,7 +7945,7 @@ PrefabInstance:
     - target: {fileID: 5946742510300963182, guid: d07e87023168a7d448d0b30a315a2047,
         type: 3}
       propertyPath: InitialModule.startLifetime.scalar
-      value: 24
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d07e87023168a7d448d0b30a315a2047, type: 3}
@@ -8414,8 +8441,50 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8039182129750664188, guid: 00fd2771c8eb2ed4ab2e7f93c9165ccd,
+        type: 3}
+      propertyPath: onDialogueComplete.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8039182129750664188, guid: 00fd2771c8eb2ed4ab2e7f93c9165ccd,
+        type: 3}
+      propertyPath: onDialogueComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8039182129750664188, guid: 00fd2771c8eb2ed4ab2e7f93c9165ccd,
+        type: 3}
+      propertyPath: onDialogueComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 847754120}
+    - target: {fileID: 8039182129750664188, guid: 00fd2771c8eb2ed4ab2e7f93c9165ccd,
+        type: 3}
+      propertyPath: onDialogueComplete.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8039182129750664188, guid: 00fd2771c8eb2ed4ab2e7f93c9165ccd,
+        type: 3}
+      propertyPath: onDialogueComplete.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnDialogueCompleted
+      objectReference: {fileID: 0}
+    - target: {fileID: 8039182129750664188, guid: 00fd2771c8eb2ed4ab2e7f93c9165ccd,
+        type: 3}
+      propertyPath: onDialogueComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00fd2771c8eb2ed4ab2e7f93c9165ccd, type: 3}
+--- !u!114 &847754120 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 97135655831072866, guid: 00fd2771c8eb2ed4ab2e7f93c9165ccd,
+    type: 3}
+  m_PrefabInstance: {fileID: 847754119}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76551342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c863204dba8a21e4ba83c6f4e30f257c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &849291360
 GameObject:
   m_ObjectHideFlags: 0
@@ -8554,7 +8623,7 @@ PrefabInstance:
     - target: {fileID: 5946742510300963181, guid: d07e87023168a7d448d0b30a315a2047,
         type: 3}
       propertyPath: m_Name
-      value: Cigarette_Smoke_Particles 1
+      value: Tea_Smoke_Particles 1
       objectReference: {fileID: 0}
     - target: {fileID: 5946742510300963182, guid: d07e87023168a7d448d0b30a315a2047,
         type: 3}
@@ -8574,7 +8643,7 @@ PrefabInstance:
     - target: {fileID: 5946742510300963182, guid: d07e87023168a7d448d0b30a315a2047,
         type: 3}
       propertyPath: InitialModule.startLifetime.scalar
-      value: 24
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d07e87023168a7d448d0b30a315a2047, type: 3}
@@ -8737,6 +8806,7 @@ MonoBehaviour:
   offsetCam: {fileID: 160742221}
   speakerSound: {fileID: 893702202}
   anchoredUiPos: {x: 0, y: -50}
+  inConversation: 0
 --- !u!114 &893702202 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114584023911959270, guid: f950e09aa25992c449bb7ee1806d7f17,
@@ -9348,6 +9418,16 @@ PrefabInstance:
     - target: {fileID: 4001195399049588, guid: 8f40cf4489493464db7b6c012a47c04c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 168.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 65965316217410826, guid: 8f40cf4489493464db7b6c012a47c04c,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 65965316217410826, guid: 8f40cf4489493464db7b6c012a47c04c,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 82322965417193660, guid: 8f40cf4489493464db7b6c012a47c04c,
         type: 3}
@@ -13686,7 +13766,7 @@ PrefabInstance:
     - target: {fileID: 5946742510300963181, guid: d07e87023168a7d448d0b30a315a2047,
         type: 3}
       propertyPath: m_Name
-      value: Cigarette_Smoke_Particles 1
+      value: Tea_Smoke_Particles 1
       objectReference: {fileID: 0}
     - target: {fileID: 5946742510300963182, guid: d07e87023168a7d448d0b30a315a2047,
         type: 3}
@@ -13706,7 +13786,7 @@ PrefabInstance:
     - target: {fileID: 5946742510300963182, guid: d07e87023168a7d448d0b30a315a2047,
         type: 3}
       propertyPath: InitialModule.startLifetime.scalar
-      value: 24
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d07e87023168a7d448d0b30a315a2047, type: 3}
@@ -19294,6 +19374,7 @@ MonoBehaviour:
   offsetCam: {fileID: 160742221}
   speakerSound: {fileID: 1464690834}
   anchoredUiPos: {x: 0, y: -50}
+  inConversation: 0
 --- !u!1 &1469904934
 GameObject:
   m_ObjectHideFlags: 0
@@ -20007,6 +20088,16 @@ PrefabInstance:
     - target: {fileID: 4821019200361836, guid: 9a20b15ab81808c4eab3ec23fb2e7591, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0.00000001490159
+      objectReference: {fileID: 0}
+    - target: {fileID: 65439478165968640, guid: 9a20b15ab81808c4eab3ec23fb2e7591,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 65439478165968640, guid: 9a20b15ab81808c4eab3ec23fb2e7591,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 82142297496474176, guid: 9a20b15ab81808c4eab3ec23fb2e7591,
         type: 3}
@@ -24009,6 +24100,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 125.05601
       objectReference: {fileID: 0}
+    - target: {fileID: 65408709592906018, guid: f950e09aa25992c449bb7ee1806d7f17,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 65408709592906018, guid: f950e09aa25992c449bb7ee1806d7f17,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 82420354022187336, guid: f950e09aa25992c449bb7ee1806d7f17,
         type: 3}
       propertyPath: m_Volume
@@ -26131,6 +26232,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4622508070761625393, guid: e782c11b1a408bc4584dde570643faeb,
+        type: 3}
+      propertyPath: m_Name
+      value: Tea_Smoke_Particles 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4622508070761625394, guid: e782c11b1a408bc4584dde570643faeb,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e782c11b1a408bc4584dde570643faeb, type: 3}
 --- !u!1001 &3122280121905328154
@@ -27400,7 +27511,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90.00001
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 13943997590558615, guid: 71bb1b17f58206b438a1204e1145f869, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 71bb1b17f58206b438a1204e1145f869, type: 3}
 --- !u!4 &6757358385853828149 stripped
 Transform:

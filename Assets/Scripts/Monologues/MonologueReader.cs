@@ -188,6 +188,15 @@ public class MonologueReader : MonoBehaviour {
         onProgressLine.Invoke();
     }
 
+    /// <summary>
+    /// Called when interrupted. 
+    /// </summary>
+    public void ManualEnd()
+    {
+        StopAllCoroutines();
+        EndMono();
+    }
+
     void EndMono()
     {
         readingMono = false;
@@ -386,7 +395,11 @@ public class MonologueReader : MonoBehaviour {
     public void OnLineFinished()
     {
         isTyping = false;
-        SetWaitForNextLine();
+        //Check to ensure this is still reading!
+        if (readingMono)
+        {
+            SetWaitForNextLine();
+        }
     }
 
     //calls wait for next line coroutine 

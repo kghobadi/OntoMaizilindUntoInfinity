@@ -75,6 +75,8 @@ public class Monologue : ScriptableObject
     
     [Tooltip("Check to make this dialogue end a hallucination if there is one active.")]
     public bool endsCurrentHallucination;
+    [Tooltip("Check to make this dialogue interruptible by Yarn")]
+    public bool interruptible;
     //new animation state?
     //new vo?
 }

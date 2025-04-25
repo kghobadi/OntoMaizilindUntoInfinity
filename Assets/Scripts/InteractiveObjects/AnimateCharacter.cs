@@ -103,7 +103,17 @@ public class AnimateCharacter : Interactive
 	        //Try not to overlap with Monologue system for this character. 
 	        if (monoMgr.inMonologue)
 	        {
-		        StartCoroutine(WaitToStartDialogue());
+		        //Interrupt mono system to avoid clutter. 
+		        if (monoMgr.interruptible)
+		        {
+			        monoMgr.MonologueReader.ManualEnd();
+			        _dialogueRunner.StartDialogue(dialogueNode);
+		        }
+		        //Wait for mono to end. 
+		        else
+		        {
+			        StartCoroutine(WaitToStartDialogue());
+		        }
 	        }
 	        else
 	        {
@@ -179,10 +189,6 @@ public class AnimateCharacter : Interactive
 					ReleasePlayer();
 				}
 			}
-			
-			//TODO Left mouse button / main input should be able to trigger Interaction for special cases
-			//For Ramin - he will throw us up in the air. 
-			//What about for others? 
 		}
 	}
 

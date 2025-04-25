@@ -9,6 +9,7 @@ using Cinemachine;
 using NPC;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using Yarn.Unity.Example;
 
 public class MonologueManager : MonoBehaviour
 {
@@ -25,6 +26,8 @@ public class MonologueManager : MonoBehaviour
     public Controller npcController;
     [SerializeField]
     private MonologueReader monoReader;
+    //My Yarn Dialogue component 
+    private YarnCharacter yarnChar;
     [SerializeField] 
     private SpeakerSound speakerSound;
     [SerializeField]
@@ -46,6 +49,8 @@ public class MonologueManager : MonoBehaviour
     public List<Monologue> allMyMonologues = new List<Monologue>();
     
     public bool inMonologue;
+    [HideInInspector]
+    public bool interruptible; //this means the mono can be interrupted by Yarn dialogue. 
     [HideInInspector]
     public MonologueTrigger mTrigger;
 
@@ -122,6 +127,7 @@ public class MonologueManager : MonoBehaviour
         wmManager = FindObjectOfType<WorldMonologueManager>();
         camManager = FindObjectOfType<CameraManager>();
         speakerSound = GetComponent<SpeakerSound>();
+        yarnChar = GetComponent<YarnCharacter>();
         //Most every character will have a Monologue reader as a child.
         if (!sharesReader)
         {
@@ -169,6 +175,7 @@ public class MonologueManager : MonoBehaviour
         //set current to 0 and end to length 
         monoReader.currentLine = 0;
         monoReader.endAtLine = monoReader.textLines.Length;
+        interruptible = mono.interruptible;
 
         //set mono reader text speeds 
         monoReader.timeBetweenLetters = mono.timeBetweenLetters;
@@ -177,7 +184,10 @@ public class MonologueManager : MonoBehaviour
         monoReader.waitTimes = mono.waitTimes;
     }
 
-    //overwrites any previous wait to set New mono call
+    /// <summary>
+    /// Overwrites any previous wait to set New mono call
+    /// </summary>
+    /// <param name="index"></param>
     public void WaitToSetNewMonologue(int index)
     {
         if(newMonologue != null)
@@ -186,12 +196,20 @@ public class MonologueManager : MonoBehaviour
         StartCoroutine(newMonologue);
     }
 
-    //waits until this mono manager is no longer in mono to set system and enable new monologue
+    /// <summary>
+    /// Waits until this mono manager is no longer in mono to set system and enable new monologue
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
     IEnumerator WaitToSetNew(int index)
     {
         yield return new WaitUntil(() => inMonologue == false);
         
-        //todo should now wait for Dialogue system to not be in effect (my YarnCharacter!)
+        //If we have yarn, wait until there is no conversation there either! 
+        if (yarnChar)
+        {
+            yield return new WaitUntil(() => yarnChar.InConversation == false);
+        }
 
         yield return new WaitForEndOfFrame();
 
