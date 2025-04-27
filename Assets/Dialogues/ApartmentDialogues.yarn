@@ -60,10 +60,14 @@ tags:
 //Checks for convos with Ramin. Can trigger any Ramin node with this kind of check. 
 //Increment counter 
 <<set $Ramin to $Ramin + 1>>
-<<if $Ramin is 1>>
-    <<jump RaminDialogue_Start>>
-<<elseif $Ramin > 1>>  
-    <<jump RaminDialogue_Return>>
+<<if $SpeechStarted == true>>
+      <<jump RaminDialogue_Speech>>
+<<elseif $SpeechStarted == false>>
+    <<if $Ramin is 1>>
+        <<jump RaminDialogue_Start>>
+    <<elseif $Ramin > 1>>  
+        <<jump RaminDialogue_Return>>
+    <<endif>>
 <<endif>>
 ===
 title: RaminDialogue_Start
@@ -90,6 +94,12 @@ Ramin: Want me to toss you?
 -> Yeah!!! I want to fly! 
   <<triggerevent 1>>
 -> No, I don't feel like it. 
+===
+title: RaminDialogue_Speech
+tags:
+---
+Ramin: Sara, don't worry, I will keep everyone safe. 
+Ramin: But for now, we should listen to the Shah. 
 ===
 title: BabaDialogues
 tags:
@@ -168,7 +178,7 @@ Ayeshah: Are you sure you don't want to tell me more?
     Ayeshah: Azizam, it is normal to miss people when we are gone from them. 
     Ayeshah: I won't lie, it isn't easy living apart from our loved ones. 
     Ayeshah: You still have their phone numbers and can call them, joonie. 
--> I, well, it's nothing grandma. 
+-> I, well, it's nothing Khaleh Ayeshah. 
     Ayeshah: I'm sure it's something big if my strong and growing Sara is worried. 
 ===
 title: AyeshahDialogue_Marriage
