@@ -112,7 +112,7 @@ public class AnimateCharacter : Interactive
 		        //Wait for mono to end. 
 		        else
 		        {
-			        StartCoroutine(WaitToStartDialogue());
+			        DoWaitToStartDialogue();
 		        }
 	        }
 	        else
@@ -122,9 +122,22 @@ public class AnimateCharacter : Interactive
         }
     }
 
+    void DoWaitToStartDialogue()
+    {
+	    if (waitToStartDialogue != null)
+	    {
+		    StopCoroutine(waitToStartDialogue);
+	    }
+
+	    waitToStartDialogue = WaitToStartDialogue();
+	    StartCoroutine(waitToStartDialogue);
+    }
+
+    private IEnumerator waitToStartDialogue;
     IEnumerator WaitToStartDialogue()
     {
-	    yield return new WaitUntil(() => !monoMgr.inMonologue);
+	    //Wait until I do not have a monologue - there is No dialogue, and I am still holding the player. 
+	    yield return new WaitUntil(() => !monoMgr.inMonologue && !_dialogueRunner.IsDialogueRunning && holding);
 	    
 	    _dialogueRunner.StartDialogue(dialogueNode);
     }

@@ -12537,12 +12537,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   desiredHolder: {fileID: 0}
+  holdOffset: {x: 0, y: 0, z: 0}
+  useItemMessage: Use
   airplaneState: 0
-  throwMultiplier: 5
-  flySpeed: 750
-  maxVelocityZ: 10
-  fallSpeed: 5
-  maxVelocityY: 8
+  throwSpeed: 3
+  flyAccel: 1
+  flyLiftMin: 4
+  flyLiftMax: 12
   airplaneTrails:
   - {fileID: 4109954888344275853}
   - {fileID: 4109954888575204099}
@@ -16453,10 +16454,10 @@ MonoBehaviour:
   fadeInAmount: 0.25
   fadeOutAmount: 0
   nextAction: 0
+  fadeInOnStart: 0
   trackList: []
   trackCounter: 0
   fadeOnSceneChange: 0
-  sceneName: 
   pauseClips: 0
   pauseTimes: []
 --- !u!65 &8621615738208832033
@@ -19211,10 +19212,10 @@ MonoBehaviour:
   fadeInAmount: 0.5
   fadeOutAmount: 0
   nextAction: 0
+  fadeInOnStart: 0
   trackList: []
   trackCounter: 0
   fadeOnSceneChange: 0
-  sceneName: 
   pauseClips: 0
   pauseTimes: []
 --- !u!114 &6989232417132863983
@@ -19429,6 +19430,7 @@ MonoBehaviour:
   fadeInSpeed: 1
   fadeOutSpeed: 1
   shownAtStart: 0
+  fadedAtStart: 0
 --- !u!114 &7018554618679922484
 MonoBehaviour:
   m_ObjectHideFlags: 0
