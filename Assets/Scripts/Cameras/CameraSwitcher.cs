@@ -10,8 +10,9 @@ using UnityEngine.AI;
 using NPC;
 using UnityEngine.SceneManagement;
 
-public class CameraSwitcher : MonoBehaviour 
+public class CameraSwitcher : NonInstantiatingSingleton<CameraSwitcher> 
 {
+    protected override CameraSwitcher GetInstance () { return this; }
     CameraManager camManager;
     private Camera mainCam;
     private CinemachineBrain cineBrain;

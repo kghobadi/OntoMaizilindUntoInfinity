@@ -53,7 +53,7 @@ public class SubtitleController : MonoBehaviour
     [SerializeField] private float topOffset = 15f;
     [SerializeField] private float timeBetweenLetters = 0.035f;
     [SerializeField] private bool dynamicHeight = true;
-    
+    [SerializeField] private bool useFaceDetection;
     [SerializeField] private float maxDistFromCenter = 500f;
     //Public properties
     public CanvasGroup CanvasGroup
@@ -76,6 +76,14 @@ public class SubtitleController : MonoBehaviour
     public FadeUiRevamped FadeControls => fader;
 
     private void Update()
+    {
+        if (useFaceDetection)
+        {
+            FaceDetection();
+        }
+    }
+
+    void FaceDetection()
     {
         if (monoMgr.FaceVisible)
         {

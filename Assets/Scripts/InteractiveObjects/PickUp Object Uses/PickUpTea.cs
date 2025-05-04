@@ -7,13 +7,18 @@ public class PickUpTea : PickUpObject
    [Header("Tea Settings")]
    public AudioClip[] sipTeaSounds;
 
+   private Vector3 origScale;
    private Quaternion origRotation;
    private Animator teaCupAnimator;
+   [SerializeField] private int sipAmt = 7;
+   private int sips;
+   [SerializeField] private Transform teaLiquid;
 
    protected override void Start()
    {
       base.Start();
 
+      origScale = teaLiquid.localScale;
       teaCupAnimator = GetComponent<Animator>();
    }
 
@@ -39,11 +44,24 @@ public class PickUpTea : PickUpObject
    {
       base.UseObject();
 
-      //while teacup is idle state
-      if (teaCupAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+      if (sips < sipAmt)
       {
-         teaCupAnimator.SetTrigger("Sip");
+         //while teacup is idle state
+         if (teaCupAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+         {
+            teaCupAnimator.SetTrigger("Sip");
+         }
+
+         sips++;
+         teaLiquid.localScale = new Vector3(teaLiquid.localScale.x,
+            origScale.y / sips, teaLiquid.localScale.z);
       }
+      //Tea returns to orig pos 
+      else
+      {
+         ReturnToOriginalPosParent();
+      }
+     
    }
 
    public void PlaySipTeaSound()

@@ -209,6 +209,8 @@ public class MonologueManager : MonoBehaviour
         if (yarnChar)
         {
             yield return new WaitUntil(() => yarnChar.InConversation == false);
+
+            yield return new WaitForSeconds(3f);
         }
 
         yield return new WaitForEndOfFrame();

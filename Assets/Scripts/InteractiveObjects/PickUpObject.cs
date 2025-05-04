@@ -52,6 +52,8 @@ public class PickUpObject : Interactive
 		base.Init();
 		_rigidbody = GetComponent<Rigidbody>();
 		colliders = GetComponentsInChildren<Collider>();
+		originalParent = transform.parent;
+		originalPos = transform.position;
 		if (fpsHolder == null)
 		{
 			fpsHolder = _cameraSwitcher.currentPlayer.GetComponent<FirstPersonController>();
@@ -194,6 +196,7 @@ public class PickUpObject : Interactive
 	public virtual void UseObject()
 	{
 		//this is different depending on the object :)
+		iCursor.Deactivate();
 	}
 	
 	protected virtual void DropObject()
@@ -214,5 +217,19 @@ public class PickUpObject : Interactive
 	}
 	
 	//TODO maybe need a proper Fall state for dropping objects? just add some downward force...
-	
+
+	public void ReturnToOriginalPosParent()
+	{
+		InteractCursor.Instance.Deactivate();
+		//reparent
+		transform.SetParent(originalParent);
+		//fps drop
+		fpsHolder.DropObject();
+		//enable colliders
+		for (int i = 0; i < colliders.Length; i++)
+		{
+			colliders[i].enabled = true;
+		}
+		transform.position = originalPos;
+	}
 }

@@ -26,6 +26,13 @@ public class ObjectViewer : AudioHandler
 	public float mouseRotSpeedY = 30f;
 	public float controllerRotSpeedX = 50f;
 	public float controllerRotSpeedY = 50f;
+	public bool speechStarted;
+	
+
+	public void SetSpeechStarted(bool val)
+	{
+		speechStarted = val;
+	}
 
 	[SerializeField] private MonologueManager playerMonoManager;
 	
@@ -86,7 +93,7 @@ public class ObjectViewer : AudioHandler
 			objectDescription.enabled = false;
 
 			//Set player thoughts monologue 
-			if (obj.ObjectMonologue)
+			if (obj.ObjectMonologue && speechStarted)
 			{
 				//Don't proceed if this should not repeat. 
 				if (!obj.RepeatsThought && obj.viewCounter > 0)
@@ -100,6 +107,11 @@ public class ObjectViewer : AudioHandler
 					playerMonoManager.SetMonologueSystem(obj.ObjectMonologue);
 					playerMonoManager.EnableMonologue();
 				}
+			}
+			//todo could do anxiety thoughts dialogue here
+			else if (speechStarted)
+			{
+				//
 			}
 		}
 		//there is a text asset 
