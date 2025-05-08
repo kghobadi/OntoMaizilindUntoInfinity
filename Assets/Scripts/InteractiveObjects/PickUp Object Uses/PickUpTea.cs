@@ -50,9 +50,9 @@ public class PickUpTea : PickUpObject
          if (teaCupAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
          {
             teaCupAnimator.SetTrigger("Sip");
+            
+            sips++;
          }
-
-         sips++;
       }
       //Tea returns to orig pos 
       else
@@ -62,6 +62,9 @@ public class PickUpTea : PickUpObject
      
    }
 
+   /// <summary>
+   /// Triggered by anim 
+   /// </summary>
    public void PlaySipTeaSound()
    {
       float pitchFactor = 1 - sips * 0.025f;
@@ -70,7 +73,7 @@ public class PickUpTea : PickUpObject
    }
 
    /// <summary>
-   /// Make tea gone. 
+   /// Make tea gone. Triggered by anim 
    /// </summary>
    public void ShrinkTea()
    {

@@ -151,7 +151,7 @@ public class AnimateCharacter : Interactive
 			//check not already sitting && can move
 			if (!holding && fps.canMove)
 			{
-				base.SetActive();
+				ShowAsInteractive();
 			}
 		}
 		else
