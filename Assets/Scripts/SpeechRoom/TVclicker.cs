@@ -9,6 +9,14 @@ public class TVclicker : Interactive {
     [Header("Sounds")]
     public AudioClip[] staticClicks;
 
+
+    private int channelChanges;
+    [Header("Adult Reactions")] 
+    [SerializeField]
+    private MonologueManager[] speakers;
+    [SerializeField]
+    private int[] monoIndexes;
+    
     protected override void Start()
     {
         base.Start();
@@ -34,12 +42,22 @@ public class TVclicker : Interactive {
     {
         base.Interact();
         
+        //This only proceeds if the speech has not started. 
         if(tv.speechStarted == false && tv.waitingForStatic == false)
         {
+            //trigger reaction monologue 
+            if (tv.CurrentClip == 0)
+            {
+                if (channelChanges < speakers.Length)
+                {
+                    speakers[channelChanges].WaitToSetNewMonologue(monoIndexes[channelChanges]);
+                }
+                channelChanges++;
+            }
             tv.SwitchChannel();
 
             PlayRandomSoundRandomPitch(staticClicks, 1f);
-
+            
             if(clickerUI)
                 clickerUI.FadeOut();
 

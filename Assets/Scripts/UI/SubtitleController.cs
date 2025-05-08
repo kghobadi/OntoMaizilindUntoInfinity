@@ -81,6 +81,11 @@ public class SubtitleController : MonoBehaviour
         {
             FaceDetection();
         }
+        else
+        {
+            if(!faceAnimation.active) 
+                faceAnimation.Activate();
+        }
     }
 
     void FaceDetection()

@@ -53,19 +53,43 @@ public class PickUpTea : PickUpObject
          }
 
          sips++;
-         teaLiquid.localScale = new Vector3(teaLiquid.localScale.x,
-            origScale.y / sips, teaLiquid.localScale.z);
       }
       //Tea returns to orig pos 
       else
       {
-         ReturnToOriginalPosParent();
+         //ReturnToOriginalPosParent();
       }
      
    }
 
    public void PlaySipTeaSound()
    {
-      PlayRandomSoundRandomPitch(sipTeaSounds, 0.5f);
+      float pitchFactor = 1 - sips * 0.025f;
+      RandomizePitch(pitchFactor, pitchFactor + 0.1f);
+      PlayRandomSound(sipTeaSounds, 0.5f);
+   }
+
+   /// <summary>
+   /// Make tea gone. 
+   /// </summary>
+   public void ShrinkTea()
+   {
+      if (sips < sipAmt)
+      {
+         teaLiquid.localScale = new Vector3(teaLiquid.localScale.x,
+            origScale.y / sips, teaLiquid.localScale.z);
+      }
+      else
+      {
+         teaLiquid.gameObject.SetActive(false);
+      }
+   }
+   
+   //should u be able to refill tea at the samovar? how would that work? 
+   //maybe it could be a dialogue with the samovar lol? 
+   public void RefillTea()
+   {
+      teaLiquid.localScale = origScale;
+      teaLiquid.gameObject.SetActive(true);
    }
 }

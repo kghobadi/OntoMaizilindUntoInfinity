@@ -21,6 +21,8 @@ public class Television : MonoBehaviour
     [SerializeField]
     private int currentClip = 0; //defaults to the news channel 
 
+    public int CurrentClip => currentClip;
+
     [Header("On Speech Start")]
     [SerializeField]
     private VideoClip staticBroadcast;
