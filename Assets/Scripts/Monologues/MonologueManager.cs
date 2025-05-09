@@ -170,6 +170,10 @@ public class MonologueManager : MonoBehaviour
     public void SetMonologueSystem(Monologue mono)
     {
         //set mono reader text lines 
+        if (allMyMonologues.Contains(mono))
+        {
+            currentMonologue = allMyMonologues.IndexOf(mono);
+        }
         monoReader.textLines = (mono.monologue.text.Split('\n'));
 
         //set current to 0 and end to length 

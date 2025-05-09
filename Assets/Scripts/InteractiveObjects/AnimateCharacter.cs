@@ -227,6 +227,12 @@ public class AnimateCharacter : Interactive
 		{
 			npc.SetIdleType(origIdleType);
 		}
+		//todo make npc look back at something else / nothing 
+		if (npc.lookAtTransform == _cameraSwitcher.currentCamObj.transform)
+		{
+			npc.SetLook(null); 
+		}
+		
 		
 		holding = false;
 	}
