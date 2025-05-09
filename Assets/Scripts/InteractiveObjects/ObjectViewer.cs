@@ -102,15 +102,16 @@ public class ObjectViewer : AudioHandler
 				}
 
 				//Can only think thoughts when not already in a player monologue
-				if (!playerMonoManager.inMonologue)
+				//This actually feels like it should just cut off whatever is being thought before. 
+				if (playerMonoManager.inMonologue)
+				{
+					playerMonoManager.DisableMonologue();
+					playerMonoManager.WaitToSetNewMonologue(obj.ObjectMonologue);
+				}
+				else
 				{
 					playerMonoManager.SetMonologueSystem(obj.ObjectMonologue);
 					playerMonoManager.EnableMonologue();
-				}
-				//Otherwise wait until that mono completes for next thoughts. 
-				else
-				{
-					playerMonoManager.WaitToSetNewMonologue(obj.ObjectMonologue);
 				}
 			}
 			//Repeat the anxiety monologue until the player gets the idea. 

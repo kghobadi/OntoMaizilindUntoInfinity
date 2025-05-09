@@ -208,7 +208,7 @@ public class MonologueManager : MonoBehaviour
         yield return new WaitUntil(() => inMonologue == false);
         
         //If we have yarn, wait until there is no conversation there either! 
-        if (yarnChar)
+        if (yarnChar && yarnChar.InConversation)
         {
             yield return new WaitUntil(() => yarnChar.InConversation == false);
 
