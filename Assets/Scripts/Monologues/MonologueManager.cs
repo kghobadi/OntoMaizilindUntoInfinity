@@ -184,24 +184,26 @@ public class MonologueManager : MonoBehaviour
         monoReader.waitTimes = mono.waitTimes;
     }
 
+    public void WaitToSetNewMonologue(int index) => WaitToSetNewMonologue(allMyMonologues[index]);
+
     /// <summary>
     /// Overwrites any previous wait to set New mono call
     /// </summary>
-    /// <param name="index"></param>
-    public void WaitToSetNewMonologue(int index)
+    /// <param name="mono"></param>
+    public void WaitToSetNewMonologue(Monologue mono)
     {
         if(newMonologue != null)
             StopCoroutine(newMonologue);
-        newMonologue = WaitToSetNew(index);
+        newMonologue = WaitToSetNew(mono);
         StartCoroutine(newMonologue);
     }
 
     /// <summary>
     /// Waits until this mono manager is no longer in mono to set system and enable new monologue
     /// </summary>
-    /// <param name="index"></param>
+    /// <param name="mono"></param>
     /// <returns></returns>
-    IEnumerator WaitToSetNew(int index)
+    IEnumerator WaitToSetNew(Monologue mono)
     {
         yield return new WaitUntil(() => inMonologue == false);
         
@@ -215,7 +217,7 @@ public class MonologueManager : MonoBehaviour
 
         yield return new WaitForEndOfFrame();
 
-        SetMonologueSystem(index);
+        SetMonologueSystem(mono);
         
         EnableMonologue();
     }

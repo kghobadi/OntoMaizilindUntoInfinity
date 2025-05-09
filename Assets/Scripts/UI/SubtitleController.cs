@@ -83,7 +83,7 @@ public class SubtitleController : MonoBehaviour
         }
         else
         {
-            if(!faceAnimation.active) 
+            if(faceAnimation && !faceAnimation.active) 
                 faceAnimation.Activate();
         }
     }
