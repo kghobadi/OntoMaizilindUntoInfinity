@@ -75,11 +75,13 @@ public class SubtitleController : MonoBehaviour
     }
     public FadeUiRevamped FadeControls => fader;
 
-    private void Update()
+    private void Start()
     {
         if (useFaceDetection)
         {
+            //Disable alhpa of face at start!
             FaceDetection();
+            InvokeRepeating("FaceDetection", 0.25f, 0.25f);
         }
         else
         {
@@ -93,7 +95,7 @@ public class SubtitleController : MonoBehaviour
         if (monoMgr.FaceVisible)
         {
             //Is the character's face visible?
-            if (monoMgr.FaceVisible.FaceIsVisible && monoMgr.FaceVisible.GetDistanceFromCenter() < maxDistFromCenter)
+            if (monoMgr.FaceVisible.FaceIsVisible && monoMgr.FaceVisible.GetDistanceFromCenter() > maxDistFromCenter)
             {
                 if(faceAnimation.active) 
                     faceAnimation.Deactivate();

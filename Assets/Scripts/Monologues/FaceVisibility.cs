@@ -37,11 +37,6 @@ public class FaceVisibility : MonoBehaviour
     private void OnBecameInvisible()
     {
         faceIsVisible = false;
-
-        if (mainCam)
-        {
-            GetScreenPosition();
-        }
     }
 
     /// <summary>

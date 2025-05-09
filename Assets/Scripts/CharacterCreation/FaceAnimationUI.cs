@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class FaceAnimationUI : AnimationHandler 
 {
 	private Image m_Image;
-	private FadeUiRevamped faceFade;
 
 	//private values for screen adjustments
 	private float currentWidth;
@@ -16,11 +15,12 @@ public class FaceAnimationUI : AnimationHandler
 	public bool active;
 	public bool activateOnStart;
 
+	[SerializeField] private bool fadesOut;
+
 	protected override void Awake()
 	{
 		base.Awake();
 		m_Image = GetComponent<Image>();
-		faceFade = GetComponent<FadeUiRevamped>();
 	}
 	
 	void Start ()
@@ -31,8 +31,17 @@ public class FaceAnimationUI : AnimationHandler
 
 	public void Activate()
 	{
-		if(m_Image)
-			m_Image.enabled = true;
+		if (m_Image)
+		{
+			if (fadesOut)
+			{
+				FadeInFaces();
+			}
+			else
+			{
+				m_Image.enabled = true;
+			}
+		}
 
 		SetAnimator("talking");
 		
@@ -46,8 +55,17 @@ public class FaceAnimationUI : AnimationHandler
 
 	public void Deactivate()
 	{
-		if(m_Image)
-			m_Image.enabled = false;
+		if (m_Image)
+		{
+			if (fadesOut)
+			{
+				FadeOutFaces();
+			}
+			else
+			{
+				m_Image.enabled = false;
+			}
+		}
 		
 		SetAnimator("idle");
 		
@@ -59,7 +77,8 @@ public class FaceAnimationUI : AnimationHandler
 	/// </summary>
 	public void FadeInFaces()
 	{
-		faceFade.FadeIn();
+		LeanTween.cancel(m_Image.gameObject);
+		LeanTween.alpha(m_Image.rectTransform, 0f, 0.25f);
 	}
 	
 	/// <summary>
@@ -67,6 +86,7 @@ public class FaceAnimationUI : AnimationHandler
 	/// </summary>
 	public void FadeOutFaces()
 	{
-		faceFade.FadeOut();
+		LeanTween.cancel(m_Image.gameObject);
+		LeanTween.alpha(m_Image.rectTransform, 1f, 0.25f);
 	}
 }
