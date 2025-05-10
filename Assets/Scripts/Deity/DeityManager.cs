@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -23,6 +24,14 @@ public class DeityManager : MonoBehaviour
     [SerializeField]
     private GameObject deityDome;
 
+    [Header("Deity Titles")]
+    [SerializeField] private TMP_Text deityTitleText;
+
+    private Animator textAnim;
+    private CanvasGroup titleGroup;
+    [SerializeField] private Color white;
+    [SerializeField] private Color red;
+    [SerializeField] private Color black;
     public Deity CurrentDeity => deities[currentDeity - 1];
 
     public UnityEvent deityDied;
@@ -31,7 +40,8 @@ public class DeityManager : MonoBehaviour
     {
         //add event listeners 
         //deityDied.AddListener(OnDeityDied);
-
+        textAnim = deityTitleText.GetComponent<Animator>();
+        titleGroup = deityTitleText.GetComponent<CanvasGroup>();
         pilot = FindObjectOfType<ThePilot>();
     }
 
@@ -58,6 +68,9 @@ public class DeityManager : MonoBehaviour
             //rails to city
             railMgr.SetPhase(2);
         }
+        
+        //Show the deity's title 
+        ShowTitleText(currentDeity);
 
         //Move the final deity towards the dome - quickly 
         if(currentDeity == 6)
@@ -85,6 +98,30 @@ public class DeityManager : MonoBehaviour
         {
             Debug.Log("That's all the deities!");
         }
+    }
+
+    /// <summary>
+    /// Simple leantween methods to display deity title. 
+    /// </summary>
+    /// <param name="index"></param>
+    public void ShowTitleText(int index)
+    {
+        string title = deities[index].DeityName;
+
+        //set title and back to white
+        deityTitleText.text = title;
+        textAnim.SetTrigger("reset");
+        //Fade in 
+        LeanTween.alphaCanvas(titleGroup, 1f, 1f).setOnComplete(
+            () =>
+            {   
+                //text anim 
+                textAnim.SetTrigger("transition");
+                //Then wait fade out
+                StartCoroutine(WaitForAction(3f, () => 
+                    LeanTween.alphaCanvas(titleGroup, 0f, 1f)));
+            }
+        );
     }
 
     /// <summary>

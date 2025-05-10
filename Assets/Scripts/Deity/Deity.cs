@@ -17,6 +17,8 @@ public class Deity : MonoBehaviour {
     public DeityHealth DeityHealth => _Health;
     public DeityAnimations DeityAnimations => _Animations;
 
+    [SerializeField] private string deityName;
+    public string DeityName => deityName;
     [Header("Movements")]
     public bool strafe;
     public bool moveForward;

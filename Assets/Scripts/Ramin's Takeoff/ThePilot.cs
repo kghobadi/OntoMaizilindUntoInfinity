@@ -549,6 +549,8 @@ public class ThePilot : AudioHandler {
     //TODO should use values between -1 and 1 based on the actual Velocity of the plane, rather than the Input value to animate. 
     void CheckAnimations()
     {
+        // _Animations.Animator.SetFloat("Move X", horizontal);
+        // _Animations.Animator.SetFloat("Move Y", vertical);
         _Animations.Animator.SetFloat("Move X", planeBody.velocity.x / velocityAnimatorFactor);
         _Animations.Animator.SetFloat("Move Y", planeBody.velocity.y / velocityAnimatorFactor);
     }
