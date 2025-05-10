@@ -83,7 +83,7 @@ public class PickUpTea : PickUpObject
       {
          teaLiquid.localScale = new Vector3(teaLiquid.localScale.x,
             origScale.y / sips, teaLiquid.localScale.z);
-         teaLiquid.localPosition -= new Vector3(0, 0.05f, 0);
+         teaLiquid.localPosition -= new Vector3(0, 0.01f, 0);
       }
       else
       {
@@ -96,6 +96,7 @@ public class PickUpTea : PickUpObject
    public void RefillTea()
    {
       teaLiquid.localScale = origScale;
+      teaLiquid.localPosition = origLocalPos;
       teaLiquid.gameObject.SetActive(true);
    }
 }

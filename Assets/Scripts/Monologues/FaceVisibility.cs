@@ -81,7 +81,7 @@ public class FaceVisibility : MonoBehaviour
         Vector2 center = new Vector2(mainCam.pixelWidth / 2, mainCam.pixelHeight / 2);
         float distFromCenter = Vector2.Distance(currentScreenPos, center);
         
-        Debug.LogFormat( "{0} has a dist from center of {1}", gameObject.name , distFromCenter);
+        //Debug.LogFormat( "{0} has a dist from center of {1}", gameObject.name , distFromCenter);
         return distFromCenter;
     }
     

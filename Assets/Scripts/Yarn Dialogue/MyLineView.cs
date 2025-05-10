@@ -189,7 +189,7 @@ namespace Yarn.Unity
 
         public YarnCharacter [] yarnCharacters;
         public YarnCharacter currentYarnChar;
-        
+        public TMP_Text[] characterNameFields;
 
 #if USE_INPUTSYSTEM && ENABLE_INPUT_SYSTEM
         [SerializeField]
@@ -377,6 +377,7 @@ namespace Yarn.Unity
 
             //pass in character name to get current yarn char. 
             GetCurrentYarnCharacter(dialogueLine.CharacterName);
+            SetCharNameFields(dialogueLine.CharacterName);
 
             if (useFadeEffect)
             {
@@ -436,6 +437,14 @@ namespace Yarn.Unity
                     currentYarnChar = character;
                     break;
                 }
+            }
+        }
+
+        void SetCharNameFields(string name)
+        {
+            foreach (var nameField in characterNameFields)
+            {
+                nameField.text = name;
             }
         }
         
