@@ -221,14 +221,7 @@ public class FadeUiRevamped : MonoBehaviour
             yield return null;
         }
 
-        //final set value
-        alphaValue.a = fadeInAmount;
-        UpdateAlpha();
-        
-        if (uiType == UIType.CANVASGROUP)
-        {
-            _canvasGroup.alpha = fadeInAmount;
-        }
+        SetOpaque();
 
         //set fade state.
         fadeState = FadeStates.IDLE_SHOWN;
@@ -237,6 +230,20 @@ public class FadeUiRevamped : MonoBehaviour
         if (fadeOutImmediately)
         {
             FadeOut();
+        }
+    }
+
+    /// <summary>
+    /// Final set value of Fade in method. 
+    /// </summary>
+    public void SetOpaque()
+    {
+        alphaValue.a = fadeInAmount;
+        UpdateAlpha();
+        
+        if (uiType == UIType.CANVASGROUP)
+        {
+            _canvasGroup.alpha = fadeInAmount;
         }
     }
 
@@ -267,13 +274,7 @@ public class FadeUiRevamped : MonoBehaviour
             yield return null;
         }
 
-        //final set value
-        alphaValue.a = fadeOutAmount;
-        UpdateAlpha();
-        if (uiType == UIType.CANVASGROUP)
-        {
-            _canvasGroup.alpha = fadeOutAmount;
-        }
+        SetTransparent();
 
         //set fade state.
         fadeState = FadeStates.IDLE_HIDDEN;
@@ -283,6 +284,19 @@ public class FadeUiRevamped : MonoBehaviour
         if (!keepActive)
         {
             gameObject.SetActive(false);
+        }
+    }
+
+    /// <summary>
+    /// Final set value of Fade out method. 
+    /// </summary>
+    public void SetTransparent()
+    {
+        alphaValue.a = fadeOutAmount;
+        UpdateAlpha();
+        if (uiType == UIType.CANVASGROUP)
+        {
+            _canvasGroup.alpha = fadeOutAmount;
         }
     }
 

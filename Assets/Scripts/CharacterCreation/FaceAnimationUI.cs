@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class FaceAnimationUI : AnimationHandler 
 {
 	private Image m_Image;
-
+	Color alphaValue;
 	//private values for screen adjustments
 	private float currentWidth;
 	private float currentHeight;
@@ -21,6 +21,20 @@ public class FaceAnimationUI : AnimationHandler
 	{
 		base.Awake();
 		m_Image = GetComponent<Image>();
+		alphaValue = m_Image.color;
+	}
+
+	public void SetTransparent()
+	{
+		alphaValue.a = 0f;
+		m_Image.color = alphaValue;
+		active = false;
+	}
+	
+	public void SetOpaque()
+	{
+		alphaValue.a = 1f;
+		m_Image.color = alphaValue;
 	}
 	
 	void Start ()
@@ -33,13 +47,10 @@ public class FaceAnimationUI : AnimationHandler
 	{
 		if (m_Image)
 		{
+			m_Image.enabled = true;
 			if (fadesOut)
 			{
 				FadeInFaces();
-			}
-			else
-			{
-				m_Image.enabled = true;
 			}
 		}
 
@@ -78,7 +89,7 @@ public class FaceAnimationUI : AnimationHandler
 	public void FadeInFaces()
 	{
 		LeanTween.cancel(m_Image.gameObject);
-		LeanTween.alpha(m_Image.rectTransform, 0f, 0.25f);
+		LeanTween.alpha(m_Image.rectTransform, 1f, 0.25f);
 	}
 	
 	/// <summary>
@@ -87,6 +98,6 @@ public class FaceAnimationUI : AnimationHandler
 	public void FadeOutFaces()
 	{
 		LeanTween.cancel(m_Image.gameObject);
-		LeanTween.alpha(m_Image.rectTransform, 1f, 0.25f);
+		LeanTween.alpha(m_Image.rectTransform, 0f, 0.25f);
 	}
 }

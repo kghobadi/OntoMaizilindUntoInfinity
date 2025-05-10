@@ -79,7 +79,8 @@ public class SubtitleController : MonoBehaviour
     {
         if (useFaceDetection)
         {
-            //Disable alhpa of face at start!
+            //Disable alpha of face at start!
+            faceAnimation.SetTransparent();
             FaceDetection();
             InvokeRepeating("FaceDetection", 0.25f, 0.25f);
         }
@@ -94,13 +95,14 @@ public class SubtitleController : MonoBehaviour
     {
         if (monoMgr.FaceVisible)
         {
-            //Is the character's face visible?
-            if (monoMgr.FaceVisible.FaceIsVisible && monoMgr.FaceVisible.GetDistanceFromCenter() > maxDistFromCenter)
+            //Is the character's face visible? Are they also close to the center of the screen? 
+            if (monoMgr.FaceVisible.FaceIsVisible && monoMgr.FaceVisible.GetDistanceFromCenter() < maxDistFromCenter)
             {
+                //Stop showing it
                 if(faceAnimation.active) 
                     faceAnimation.Deactivate();
             }
-            //It's not visible -> show our face 
+            //It's not visible -> show our face in UI  
             else
             {
                 if(!faceAnimation.active) 
