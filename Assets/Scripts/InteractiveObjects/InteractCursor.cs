@@ -21,6 +21,9 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 	private CanvasScaler canvasScaler;
 	private RectTransform m_rectTransform;
 	private Image imageHolder;
+	private Sprite origSprite;
+	public Sprite CurrentSprite => imageHolder.sprite;
+	public string CurrentText => interactTexts[0].text;
 	private TMP_Text[] interactTexts;
 	private ObjectViewer objectViewer;
 	public bool active;
@@ -61,6 +64,7 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 		canvasScaler = parentCanvas.GetComponent<CanvasScaler>();
 		m_rectTransform = GetComponent<RectTransform>();
 		imageHolder = GetComponent<Image>();
+		origSprite = imageHolder.sprite;
 		interactTexts = GetComponentsInChildren<TMP_Text>();
 		objectViewer = FindObjectOfType<ObjectViewer>();
 
@@ -91,7 +95,7 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 		//Object viewer active check
 		if (objectViewer != null)
 		{
-			if (objectViewer.viewing)
+			if (objectViewer.viewing || objectViewer.speechStarted) // we also do not activate cursor UI during speech. 
 			{
 				return;
 			}
@@ -138,8 +142,15 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 	{
 		if (camSwitcher) //TODO can add other conditions if necessary. 
 		{
-			if(!camSwitcher.CurrentFPC.holding)
+			if(!camSwitcher.CurrentFPC.holding && camSwitcher.CurrentFPC.canMove)
 				Deactivate();
+			else if (!camSwitcher.CurrentFPC.canMove)
+			{
+				if (interactTexts[0].text != "Get Up" && interactTexts[0].text != "Get Down")
+				{
+					Deactivate();
+				}
+			}
 		}
 		else
 		{

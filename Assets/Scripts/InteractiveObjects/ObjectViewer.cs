@@ -105,8 +105,12 @@ public class ObjectViewer : AudioHandler
 				//This actually feels like it should just cut off whatever is being thought before. 
 				if (playerMonoManager.inMonologue)
 				{
-					playerMonoManager.DisableMonologue();
-					playerMonoManager.WaitToSetNewMonologue(obj.ObjectMonologue);
+					//Prevent insta spam of the same object mono 
+					if (playerMonoManager.CurrentMonologueData != obj.ObjectMonologue)
+					{
+						playerMonoManager.DisableMonologue();
+						playerMonoManager.WaitToSetNewMonologue(obj.ObjectMonologue);
+					}
 				}
 				else
 				{

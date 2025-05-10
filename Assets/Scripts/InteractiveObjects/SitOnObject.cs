@@ -17,6 +17,9 @@ public class SitOnObject : Interactive
 	private FirstPersonController fps;
 	private InputDevice inputDevice;
 
+	[SerializeField] private Sprite clickToGetUp;
+	[SerializeField] private string getUp = "Get Up";
+
 	protected override void SetActive()
 	{
 		//get fps
@@ -57,6 +60,8 @@ public class SitOnObject : Interactive
 		sitting = true;
 		//so its not highlighted anymore 
 		SetInactive();
+		//activate UI for how to get up 
+		iCursor.ActivateCursor(clickToGetUp, getUp);
 	}
 
 	private void Update()
@@ -69,10 +74,17 @@ public class SitOnObject : Interactive
 			//check that we are not viewing an obj up close. could also check if we are holding something.
 			if (_cameraSwitcher.objViewer.viewing == false)
 			{
-				//right click to stand up or back button
-				if (Input.GetMouseButtonDown(1) || inputDevice.Action2.WasPressed || Input.GetKeyDown(KeyCode.Space))
+				//Interact again to get up 
+				if ((Input.GetMouseButtonDown(0) || inputDevice.Action1.WasPressed || Input.GetKeyDown(KeyCode.Space))
+					&& iCursor.CurrentText == getUp)
 				{
 					ReleasePlayer();
+				}
+				else
+				{
+					//show how to get up 
+					if(clickToGetUp && !string.IsNullOrEmpty(getUp) &&!iCursor.active)
+						iCursor.ActivateCursor(clickToGetUp, getUp);
 				}
 			}
 		}

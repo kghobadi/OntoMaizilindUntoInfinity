@@ -47,6 +47,9 @@ public class MonologueManager : MonoBehaviour
     public int currentMonologue;
     [Tooltip("Fill this with all the individual monologues the character will give")]
     public List<Monologue> allMyMonologues = new List<Monologue>();
+
+    private Monologue currentMonologueData;
+    public Monologue CurrentMonologueData => currentMonologueData;
     
     public bool inMonologue;
     [HideInInspector]
@@ -174,6 +177,8 @@ public class MonologueManager : MonoBehaviour
         {
             currentMonologue = allMyMonologues.IndexOf(mono);
         }
+
+        currentMonologueData = mono;
         monoReader.textLines = (mono.monologue.text.Split('\n'));
 
         //set current to 0 and end to length 
