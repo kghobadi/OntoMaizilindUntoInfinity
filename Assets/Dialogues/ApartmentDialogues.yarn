@@ -34,17 +34,25 @@ tags:
 Maman: Sara azizam, did you sleep well?
 -> No, maman I had a nightmare. 
     Maman: Ach jooni-delam, you are fine. Sorry I didn't come check on you sooner. 
+    Maman: I'm expecting a call from your Khaleh Flora any moment now. 
+    Player: Tell her I say Salaam when she calls. 
+    Maman: Of course, I'm sure she misses you and Ramin-joon very much these days. 
 -> Yes, but I am still a little tired. 
+    Maman: Well, this is your weekend to rest before school starts up again next week. 
+    Maman: Do you feel ready to begin? 
+    Player: I guess so. Just a little nervous. 
+    Maman: It's normal to be nervous when you move somewhere new. 
+    Maman: Don't worry, soon you will meet your cousins who grew up here in Tehran. 
 Maman: Chai mikhai? It's always ready for you. 
 -> Yes, I'll have some chai now. 
     Maman: Here you go my dear. 
     <<triggerevent 0>>
--> No, I'm okay for now. Thanks. 
+-> No, I'm okay for now. Merci. 
 ===
 title: MamanDialogue_Return
 tags:
 ---
-Maman: Sara azizam, I need to talk with your Aunt Flora.
+Maman: Sara azizam, I need to talk with your Khaleh Flora.
 Maman: Go play with someone else while you wait, ok? 
 ===
 title: MamanDialogue_Speech
@@ -121,16 +129,25 @@ tags:
 title: BabaDialogue_Start
 tags:
 ---
-Baba: Sara, ach jooni-joonam! How are you feeling?
+Baba: Sara, akhe jooni-joonam! How are you feeling?
 -> I'm okay Baba.
     Baba: Just okay, my dear? 
     Baba: Can I do anything for you? 
--> Better than I was before my nap.  
+-> I'm scared Baba. 
+    Baba: Scared of what? I swear to God there is nothing from which I cannot protect you.
+    Player: I had a weird dream, that's all. 
+    Baba: Weird dreams are just that - pay them no mind. 
+    Baba: You can't dwell on the strange things you see in dreams. 
+    Baba: While we sleep, the part of our brain that accounts for logic is off. 
+    Baba: As a result, I use a special trick. Once I suspect I'm asleep, I try to find the time.
+    Baba: If you look hard enough, it becomes clear that you are not in the real world, but a dream. 
+    Baba: Still, it's best to forget it. Thinking about it too much will just hurt you in the end. 
+    Player: You're probably right, Baba. 
 Baba: Chai mikhai? I will get it for you. 
 -> Yes, I'll have some chai now. 
     Baba: Here you go azizam. 
     <<triggerevent 0>>
--> No, I'm okay for now. Thanks. 
+-> No, I'm okay for now. Merci. 
 ===
 title: BabaDialogue_Return
 tags:
@@ -156,10 +173,8 @@ tags:
 <<elseif $SpeechStarted == false>>
     <<if $Ayeshah is 1>>
         <<jump AyeshahDialogue_Start>>
-    <<elseif $Ayeshah is 2>>  
+    <<elseif $Ayeshah > 1>>  
         <<jump AyeshahDialogue_Marriage>>
-    <<elseif $Ayeshah > 2>>  
-        <<jump AyeshahDialogue_Return>>
     <<endif>>
 <<endif>>
 ===
@@ -186,33 +201,69 @@ Ayeshah: Are you sure you don't want to tell me more?
 title: AyeshahDialogue_Marriage
 tags:
 ---
-Player: Khaleh Ayeshah, did you ever get married? 
-Ayeshah: Good question, my dear. I once fell in love. 
-Ayeshah: Haven't I told you the story before? 
--> No, tell me more!
--> Yes, tell it again anyway! 
-Ayeshah: Bashe, okay. It all started when I was a student in University. 
-Ayeshah: I was enrolled as a nurse, but ended up studying natural science. 
-Ayeshah: Ali was such a handsome man, I had a crush on him the moment I met him.
-Ayeshah: The only problem was that he was my professor! 
-Ayeshah: Such things were improper then and improper now. 
-Ayeshah: It wasn't about our age, but that I was his student. 
-Ayeshah: I learned that sometimes love is not very predictable. 
-Ayeshah: I did a semester of very difficult exams and was his research assistant. 
-Ayeshah: He treated me with utmost respect, and I think I did a good job hiding my crush. 
--> So why didn't you get married? 
-    Ayeshah: The reality was that he was not a man of Islam. 
-    Ayeshah: He did not believe in God, and believed only in science. 
-    Ayeshah: This was something my mother at the time could not accept. 
--> What happened if he found out? 
-    Ayeshah: I probably would have been forced back into the nursing school.
-Ayeshah: In the end, I chose to return home to the North and reunite with my sisters. 
-Ayeshah: We all chose each other, rather than men. And it's been a wonderful life.
-===
-title: AyeshahDialogue_Return
-tags:
----
-Ayeshah: If you need something, just ask. 
+Ayeshah: Yes, my dear, what's on your mind? 
+-> Khaleh Ayeshah, how can you be sure that spirits are real? 
+    Ayeshah: Good question, my dear. I've had experiences with my own eyes and ears that confirm this. 
+    Ayeshah: It's about your intuition and internal feelings. 
+    Ayeshah: Have you ever been somewhere and felt something wasn't right? Or that there was a strange sensation? 
+    Ayeshah: Death is natural and foregone. It happens to all of us one day, that final rest. 
+    Ayeshah: The day before my mother died, I dreamt that the ground had erupted and an enormous fissure destroyed our village.
+    Ayeshah: In the final moment, I grasped at my mothers' hand and she clutched back at me, then fell into the abyss. 
+    Ayeshah: I woke with a start, short of breath, drenched in sweat, and in fight or flight. 
+    Ayeshah: Your Khaleh Shalah came to me and asked if I had dreamt of our Maman.  
+    Ayeshah: I asked how she knew, and she told me she had the same dream. 
+    Ayeshah: Before we could tell another soul, the earthquake was upon us. 
+    Ayeshah: The ceilings shook so violently we wasted no time on belongings and ran outside covering our heads. 
+    Ayeshah: Usually, it was best to stay inside and hide under our desks. But that shaking was too much. 
+    Ayeshah: We gathered in the center of town at the bazarre and it was total mayhem. 
+    Ayeshah: Before we knew it, it was over and the damage was done. 
+    Ayeshah: Our house had collapsed. It took all night to find signs of Maman. 
+    Ayeshah: Finally, after digging through the rubble, we saw her arm outstretched. 
+    Ayeshah: She had come back home to look for us and been crushed underneath the garden exit. 
+    Ayeshah: The next 40 days were the worst of my life. 
+    Ayeshah: But every night, my faith in God grew, as I was able to converse with Maman in the world of spirits. 
+    Ayeshah: To get there, I would enter a black void, beneath my eyelids, and imagine a train station. 
+    Ayeshah: The train were transport me through time and space, and when I arrived, it was like returning home from Tehran. 
+    Ayeshah: Like getting off in Shomaal, and walking up the winding way to Shesh rudbar. 
+    Ayeshah: From there, when I reached the six creek crossing, I would dive into the middle point of the waters. 
+    Ayeshah: Upon emerging, I would be surrounded by Maman, my grandfather and grandmother, and so many familiar faces. 
+    Ayeshah: They urged me to return to life, but only once the 40 days had passed. 
+    Ayeshah: Since then, my visions only come when a big change is coming. 
+    -> When was the last vision you had?
+        Ayeshah: Well, come to think of it, before we left Shomaal. 
+        Ayeshah: I dreamt that your parents got into a car accident. 
+        Ayeshah: That morning I decided it was best not to share it. 
+        Ayeshah: But enough of such things. You should focus on your studies. 
+    -> I think I had a vision this morning. 
+        Ayeshah: And what was that about? 
+        Player: I think I saw an angel. He had two faces, and held many glowing orbs. 
+        Ayeshah: Be careful dear, for it could be a nefarious djinn in disguise. 
+        Ayeshah: Did it say anything to you? 
+        Player: He said something very strange, but I can't remember it now. 
+        Ayeshah: O Allah, grant us the good in this world and the good in the Hereafter and save us from the torment of Hell-Fire.
+        Ayeshah: Let us pray that He was sent to alleviate us from the torment of Al-Masihid-Dajjal.
+-> Khaleh Ayeshah, did you ever get married? 
+    Ayeshah: Good question, my dear. I once fell in love. 
+    Ayeshah: Haven't I told you the story before? 
+    -> No, tell me more!
+    -> Yes, tell it again anyway! 
+    Ayeshah: Bashe, okay. It all started when I was a student in University. 
+    Ayeshah: I was enrolled as a nurse, but ended up studying natural science. 
+    Ayeshah: Ali was such a handsome man, I had a crush on him the moment I met him.
+    Ayeshah: The only problem was that he was my professor! 
+    Ayeshah: Such things were improper then and improper now. 
+    Ayeshah: It wasn't about our age, but that I was his student. 
+    Ayeshah: I learned that sometimes love is not very predictable. 
+    Ayeshah: I did a semester of very difficult exams and was his research assistant. 
+    Ayeshah: He treated me with utmost respect, and I think I did a good job hiding my crush. 
+    -> So why didn't you get married? 
+        Ayeshah: The reality was that he was not a man of Islam. 
+        Ayeshah: He did not believe in God, and believed only in science. 
+        Ayeshah: This was something my mother at the time could not accept. 
+    -> What happened if he found out? 
+        Ayeshah: I probably would have been forced back into the nursing school.
+    Ayeshah: In the end, I chose to return home to the North and reunite with my sisters. 
+    Ayeshah: We all chose each other, rather than men. And it's been a wonderful life.
 ===
 title: AyeshahDialogue_Speech
 tags:
@@ -280,8 +331,8 @@ Saideh: Chai mikhai? I will get it for you.
     Saideh: Daei Rahmani and the miners wouldn't stand for it, so they decided to take up arms. 
     Saideh: They went to all the miners in the nearby villages, gathered up their guns, and left for the jungle. 
     Saideh: The Shah sent his forces to the area and hoped to capture your Daei. 
-    Saideh: Unfortunately, this turned brother against brother as Shir Khan was subjet to the Shah's decree. 
-    Saideh: He was the leader in our area of Savad Kuh, but also sympathetic to Rahmani and the miners. 
+    Saideh: Unfortunately, this turned brother against brother as Shir Khan was subject to the Shah's decrees. 
+    Saideh: He was the leader in our area of Savad Kuh, but also sympathetic to Daei Rahmani and the miners. 
     Saideh: He devised a plan to mislead the Shah and pretend to track down Daei Rahmani, giving fake reports. 
     Saideh: For a while, they played this game of cat and mouse. 
     Saideh: Eventually, though, the miners were running out of food. 
@@ -317,7 +368,7 @@ tags:
 title: ShalahDialogue_Start
 tags:
 ---
-Shalah: Sara, ach jooni-joonam! How are you feeling?
+Shalah: Sara, akhe jooni-joonam! How are you feeling?
 -> I'm okay Shalah. How are you? 
     Shalah: Just okay, my dear? 
 -> Better than I was before my nap.  

@@ -106,6 +106,7 @@ namespace NPC
         public Transform holdingSpot;
         private HeavyBreathing breathingSounds;
         public FaceAnimation faceAnimation;
+        private AnimateCharacter animCharacter;
         public float dropOffset = 3f;
 
         [Header("Follower Logic")] 
@@ -131,6 +132,7 @@ namespace NPC
             spiritTrail = GetComponentInChildren<SpiritTrail>();
             breathingSounds = GetComponentInChildren<HeavyBreathing>();
             camObj = GetComponent<CamObject>();
+            animCharacter = GetComponent<AnimateCharacter>();
 
             //player ref
             if (controller.camSwitcher)
@@ -520,6 +522,11 @@ namespace NPC
         /// </summary>
         void PickUpPlayer()
         {
+            //Disable animate character method at this point. 
+            if (animCharacter)
+            {
+                animCharacter.enabled = false;
+            }
             //get fps
             FirstPersonController fps = controller.camSwitcher.currentPlayer.GetComponent<FirstPersonController>();
 
