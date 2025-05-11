@@ -442,6 +442,12 @@ namespace Yarn.Unity
 
         void SetCharNameFields(string name)
         {
+            //Player name should read as Me 
+            if (name == "Player")
+            {
+                name = "Me";
+            }
+            
             foreach (var nameField in characterNameFields)
             {
                 nameField.text = name;

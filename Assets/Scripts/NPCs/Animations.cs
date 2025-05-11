@@ -47,6 +47,11 @@ namespace NPC
         {
             animateChar.SetHolding();
         }
+
+        public void SetUniqueAnim()
+        {
+            animateChar.SetUniqueAnim();
+        }
         public void StopHolding()
         {
             animateChar.DisableHolding();

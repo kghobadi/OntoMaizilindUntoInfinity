@@ -98,5 +98,6 @@ public class PickUpTea : PickUpObject
       teaLiquid.localScale = origScale;
       teaLiquid.localPosition = origLocalPos;
       teaLiquid.gameObject.SetActive(true);
+      sips = 0;
    }
 }

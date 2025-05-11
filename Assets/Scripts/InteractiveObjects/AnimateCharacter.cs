@@ -30,6 +30,7 @@ public class AnimateCharacter : Interactive
     public Transform spotToHold;
     public Transform standSpot; 
     public bool holding;
+    public bool uniqueAnim; // like for ramin throw!
     private Vector3 playerPosition;
     private FirstPersonController fps;
     private InputDevice inputDevice;
@@ -200,6 +201,12 @@ public class AnimateCharacter : Interactive
 			//check that we are not viewing an obj up close. could also check if we are holding something.
 			if (_cameraSwitcher.objViewer.viewing == false && !_dialogueRunner.IsDialogueRunning)
 			{
+				//Cant do below while in unique anim. 
+				if (uniqueAnim)
+				{
+					return;
+				}
+				
 				//Interact again to get down 
 				if ((Input.GetMouseButtonDown(0) || inputDevice.Action1.WasPressed || Input.GetKeyDown(KeyCode.Space))
 				    && iCursor.CurrentText == getDown)
@@ -286,8 +293,17 @@ public class AnimateCharacter : Interactive
 		iCursor.Deactivate();	
 	}
 
+	/// <summary>
+	/// Called by anim flags. 
+	/// </summary>
+	public void SetUniqueAnim()
+	{
+		uniqueAnim = true;
+	}
+
 	public void SetHolding()
 	{
+		uniqueAnim = false;
 		holding = true;
 	}
 

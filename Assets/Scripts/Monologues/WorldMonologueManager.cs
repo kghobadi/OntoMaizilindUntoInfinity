@@ -19,4 +19,12 @@ public class WorldMonologueManager : MonoBehaviour
         if (allMonoManagers.Length == 0)
             allMonoManagers = FindObjectsOfType<MonologueManager>();
     }
+
+    public void ClearAllPreviousMonologues()
+    {
+        for (int i = 0; i < allMonoManagers.Length; i++)
+        {
+            allMonoManagers[i].DisableMonologue();
+        }
+    }
 }
