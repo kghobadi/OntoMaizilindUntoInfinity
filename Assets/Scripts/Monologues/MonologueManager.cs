@@ -17,6 +17,12 @@ public class MonologueManager : MonoBehaviour
     GameObject currentPlayer;
     CameraSwitcher camSwitcher; 
     private Camera mainCam;
+    private AnimateCharacter animChar;
+    public AnimateCharacter AnimChar
+    {
+        get => animChar;
+        set => animChar = value;
+    }
 
     //npc management refs 
     [HideInInspector]
@@ -127,7 +133,8 @@ public class MonologueManager : MonoBehaviour
         if (textBack)
             animateTextback = textBack.GetComponent<AnimateDialogue>();
 
-        wmManager = FindObjectOfType<WorldMonologueManager>();
+        wmManager = WorldMonologueManager.Instance;
+        animChar = GetComponent<AnimateCharacter>();
         camManager = FindObjectOfType<CameraManager>();
         speakerSound = GetComponent<SpeakerSound>();
         yarnChar = GetComponent<YarnCharacter>();

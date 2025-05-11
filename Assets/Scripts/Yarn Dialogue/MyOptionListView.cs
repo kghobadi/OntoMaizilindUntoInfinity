@@ -144,5 +144,19 @@ namespace Yarn.Unity
                 StartCoroutine(Effects.FadeAlpha(canvasGroup, 1, 0, fadeTime, () => OnOptionSelected(option.DialogueOptionID)));
             }
         }
+
+        public override void DialogueComplete()
+        {
+            base.DialogueComplete();
+            
+            StopAllCoroutines();
+            // Hide all existing option views
+            foreach (var optionView in optionViews)
+            {
+                optionView.gameObject.SetActive(false);
+            }
+            //disable ability to select options 
+            canSelectOption = false;
+        }
     }
 }

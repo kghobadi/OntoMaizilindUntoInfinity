@@ -167,25 +167,28 @@ public class AnimateCharacter : Interactive
 	
 	void GoToCharacter()
 	{
-		//disable movement
-		fps.canMove = false;
-		//set pos
-		_cameraSwitcher.currentPlayer.transform.position = spotToHold.position;
-		//set rot
-		GroundCamera cam = _cameraSwitcher.currentCamObj.GetGroundCam();
-		cam.SetLookOverride(transform.position);
-		if (npc.lookAtTransform == cam.transform)
+		if (!holding && fps.canMove)
 		{
-			npc.SetLook(null); //since they will look at you by default this is no longer necessary
-		}
+			//disable movement
+			fps.canMove = false;
+			//set pos
+			_cameraSwitcher.currentPlayer.transform.position = spotToHold.position;
+			//set rot
+			GroundCamera cam = _cameraSwitcher.currentCamObj.GetGroundCam();
+			cam.SetLookOverride(transform.position);
+			if (npc.lookAtTransform == cam.transform)
+			{
+				npc.SetLook(null); //since they will look at you by default this is no longer necessary
+			}
 
-		//add event listener for disable sitting 
-		fps.beingHeld.AddListener(DisableHolding);
-		//set bool
-		holding = true;
+			//add event listener for disable sitting 
+			fps.beingHeld.AddListener(DisableHolding);
+			//set bool
+			holding = true;
         
-		//so its not highlighted anymore 
-		SetInactive();
+			//so its not highlighted anymore 
+			SetInactive();
+		}
 	}
 
 	private void Update()
@@ -223,6 +226,11 @@ public class AnimateCharacter : Interactive
 			//Make sure to deactivate cursor while dialogue-ing 
 			else if (_dialogueRunner.IsDialogueRunning)
 			{
+				if(Input.GetKeyDown(KeyCode.D))
+				{
+					WorldMonologueManager.Instance.StopAllViews();
+				}
+				
 				//TODO Allow player to end dialogue early and get down when not looking at person's face. 
 				// if (_faceVisibility)
 				// {
@@ -257,12 +265,6 @@ public class AnimateCharacter : Interactive
 
 	void ReleasePlayer()
 	{
-		//stop dialogue if it is happening
-		if (_dialogueRunner.IsDialogueRunning || !string.IsNullOrEmpty( _dialogueRunner.CurrentNodeName))
-		{
-			_dialogueRunner.Stop();
-		}
-		
 		//send player to stand spot 
 		if (standSpot)
 		{

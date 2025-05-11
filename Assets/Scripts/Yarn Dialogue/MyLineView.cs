@@ -463,5 +463,15 @@ namespace Yarn.Unity
             }
             ReadyForNextLine();
         }
+
+        public override void DialogueComplete()
+        {
+            base.DialogueComplete();
+
+            //TODO why isn't this properly stopping dialogue? 
+            StopAllCoroutines();
+            //fade out canvas group 
+            LeanTween.alphaCanvas(canvasGroup, 0f, 0.5f);
+        }
     }
 }
