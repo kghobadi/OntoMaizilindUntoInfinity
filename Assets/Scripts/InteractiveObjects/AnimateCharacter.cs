@@ -213,36 +213,37 @@ public class AnimateCharacter : Interactive
 						iCursor.ActivateCursor(clickToGetDown, getDown);
 				}
 			}
-			//Make sure to deactive cursor while dialogue-ing 
+			//Make sure to deactivate cursor while dialogue-ing 
 			else if (_dialogueRunner.IsDialogueRunning)
 			{
-				//Allow player to end dialogue early and get down when not looking at person's face. 
-				if (_faceVisibility)
-				{
-					if (_faceVisibility.FaceIsVisible)
-					{
-						iCursor.Deactivate();
-					}
-					else
-					{
-						//Interact again to get down 
-						if ((Input.GetMouseButtonDown(0) || inputDevice.Action1.WasPressed || Input.GetKeyDown(KeyCode.Space))
-						    && iCursor.CurrentText == getDown)
-						{
-							ReleasePlayer();
-						}
-						else
-						{
-							//show how to get down when not showing other things 
-							if(clickToGetDown && !string.IsNullOrEmpty(getDown) &&!iCursor.active)
-								iCursor.ActivateCursor(clickToGetDown, getDown);
-						}
-					}
-				}
-				else
-				{
-					iCursor.Deactivate();
-				}
+				//TODO Allow player to end dialogue early and get down when not looking at person's face. 
+				// if (_faceVisibility)
+				// {
+				// 	if (_faceVisibility.FaceIsVisible)
+				// 	{
+				// 		iCursor.Deactivate();
+				// 	}
+				// 	else
+				// 	{
+				// 		//Interact again to get down 
+				// 		if ((Input.GetMouseButtonDown(0) || inputDevice.Action1.WasPressed || Input.GetKeyDown(KeyCode.Space))
+				// 		    && iCursor.CurrentText == getDown)
+				// 		{
+				// 			ReleasePlayer();
+				// 		}
+				// 		else
+				// 		{
+				// 			//show how to get down when not showing other things 
+				// 			if(clickToGetDown && !string.IsNullOrEmpty(getDown) &&!iCursor.active)
+				// 				iCursor.ActivateCursor(clickToGetDown, getDown);
+				// 		}
+				// 	}
+				// }
+				// else
+				// {
+				//
+				// }
+				iCursor.Deactivate();
 			}
 		}
 	}
@@ -250,7 +251,7 @@ public class AnimateCharacter : Interactive
 	void ReleasePlayer()
 	{
 		//stop dialogue if it is happening
-		if (_dialogueRunner.IsDialogueRunning)
+		if (_dialogueRunner.IsDialogueRunning || !string.IsNullOrEmpty( _dialogueRunner.CurrentNodeName))
 		{
 			_dialogueRunner.Stop();
 		}

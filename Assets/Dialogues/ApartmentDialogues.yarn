@@ -173,7 +173,9 @@ tags:
 <<elseif $SpeechStarted == false>>
     <<if $Ayeshah is 1>>
         <<jump AyeshahDialogue_Start>>
-    <<elseif $Ayeshah > 1>>  
+    <<elseif $Ayeshah is 2>>  
+        <<jump AyeshahDialogue_Spirits>>
+    <<elseif $Ayeshah > 2>>  
         <<jump AyeshahDialogue_Marriage>>
     <<endif>>
 <<endif>>
@@ -198,7 +200,7 @@ Ayeshah: Are you sure you don't want to tell me more?
     Ayeshah: Was it the angel you saw before? 
     Ayeshah: No matter... You shouldn't worry yourself, my dear. 
 ===
-title: AyeshahDialogue_Marriage
+title: AyeshahDialogue_Spirits
 tags:
 ---
 Ayeshah: Yes, my dear, what's on your mind? 
@@ -214,22 +216,25 @@ Ayeshah: Yes, my dear, what's on your mind?
     Ayeshah: I asked how she knew, and she told me she had the same dream. 
     Ayeshah: Before we could tell another soul, the earthquake was upon us. 
     Ayeshah: The ceilings shook so violently we wasted no time on belongings and ran outside covering our heads. 
-    Ayeshah: Usually, it was best to stay inside and hide under our desks. But that shaking was too much. 
-    Ayeshah: We gathered in the center of town at the bazarre and it was total mayhem. 
-    Ayeshah: Before we knew it, it was over and the damage was done. 
+    Ayeshah: Usually, it was best to stay inside and hide under our desks. The shaking was just too much. 
+    Ayeshah: We gathered in the town bazaar and it was total mayhem. 
+    Ayeshah: But just as fast as it came, it was over and the damage was done. 
     Ayeshah: Our house had collapsed. It took all night to find signs of Maman. 
     Ayeshah: Finally, after digging through the rubble, we saw her arm outstretched. 
     Ayeshah: She had come back home to look for us and been crushed underneath the garden exit. 
     Ayeshah: The next 40 days were the worst of my life. 
-    Ayeshah: But every night, my faith in God grew, as I was able to converse with Maman in the world of spirits. 
+    Ayeshah: But every night, my faith in Allah grew, as I was able to converse with Maman in the world of spirits. 
     Ayeshah: To get there, I would enter a black void, beneath my eyelids, and imagine a train station. 
-    Ayeshah: The train were transport me through time and space, and when I arrived, it was like returning home from Tehran. 
-    Ayeshah: Like getting off in Shomaal, and walking up the winding way to Shesh rudbar. 
+    Ayeshah: The train would transport me through time and space.
+    Ayeshah: When I arrived, it was like returning home from Tehran to Shomaal.
+    Ayeshah: Maman would always be waiting for me, ready to trek up the winding way to Shesh rudbar. 
     Ayeshah: From there, when I reached the six creek crossing, I would dive into the middle point of the waters. 
-    Ayeshah: Upon emerging, I would be surrounded by Maman, my grandfather and grandmother, and so many familiar faces. 
+    Ayeshah: Upon emerging, I would be surrounded by my grandfather, grandmother, and so many familiar faces. 
+    Ayeshah: They looked different there - like a more youthful form of themselves. 
+    Ayeshah: Imagine that, if you could see me in my prime! 
     Ayeshah: They urged me to return to life, but only once the 40 days had passed. 
-    Ayeshah: Since then, my visions only come when a big change is coming. 
-    -> When was the last vision you had?
+    Ayeshah: Since then, my visions only come when a big change is happening. 
+    -> When was the last time you had a vision?
         Ayeshah: Well, come to think of it, before we left Shomaal. 
         Ayeshah: I dreamt that your parents got into a car accident. 
         Ayeshah: That morning I decided it was best not to share it. 
@@ -239,9 +244,16 @@ Ayeshah: Yes, my dear, what's on your mind?
         Player: I think I saw an angel. He had two faces, and held many glowing orbs. 
         Ayeshah: Be careful dear, for it could be a nefarious djinn in disguise. 
         Ayeshah: Did it say anything to you? 
-        Player: He said something very strange, but I can't remember it now. 
+        Player: He said something very odd, but I can't remember it now. 
         Ayeshah: O Allah, grant us the good in this world and the good in the Hereafter and save us from the torment of Hell-Fire.
         Ayeshah: Let us pray that He was sent to alleviate us from the torment of Al-Masihid-Dajjal.
+-> Nothing, I just wanted to sit with you. 
+    Ayeshah: Ghorbunet beram, I would die for you Sara-joonam. 
+===
+title: AyeshahDialogue_Marriage
+tags:
+---
+Ayeshah: Yes, my dear, what's on your mind? 
 -> Khaleh Ayeshah, did you ever get married? 
     Ayeshah: Good question, my dear. I once fell in love. 
     Ayeshah: Haven't I told you the story before? 
@@ -264,6 +276,8 @@ Ayeshah: Yes, my dear, what's on your mind?
         Ayeshah: I probably would have been forced back into the nursing school.
     Ayeshah: In the end, I chose to return home to the North and reunite with my sisters. 
     Ayeshah: We all chose each other, rather than men. And it's been a wonderful life.
+-> Nothing, I just wanted to sit with you. 
+    Ayeshah: Ghorbunet beram, I would die for you my little Sara dear. 
 ===
 title: AyeshahDialogue_Speech
 tags:
@@ -306,15 +320,20 @@ Saideh: Is there something else?
 -> What is the Shah talking about? 
     Saideh: He is explaining himself and his politics to a woman from the West. 
     Saideh: She is asking him about the economy, things like oil prices and food. 
-    Saideh: Our country makes money by collecting oil and selling it to other countries. 
+    Saideh: Our country makes money by collecting oil and selling it to other countries. This is our main industry.  
     Saideh: She managed to catch him in this, pointing out he was a 'partner in the exploitation'. 
     Saideh: This is a word we use in Marxism to describe what workers go through under capitalism. 
     Saideh: Remember how I put it - exploitation is a process where your work and energy are stolen from you. 
     Saideh: This is how our world's system has been designed, and the Shah is arguing that he has no choice in this. 
     Saideh: Perhaps there is some truth to that, but you know your Khaleh Saideh thinks we all make choices.
     Saideh: I believe the Shah is a puppet of the Americans. And who in their right mind would want to be a puppet? 
+    -> Not me! I do what I wish. 
+        Saideh: That's my girl. 
+    -> Oh, being a puppet sounds nice.
+        Saideh: It does provide a rich and full lifestyle for a small number of Iranians. 
+        Saideh: But this is a complete and utter betrayal of the nation.  
 -> No, nothing else. 
-Saideh: Akhe, go play or relax. It's the weekend, dear! 
+    Saideh: Akhe, go play or relax. It's the weekend, dear! 
 ===
 title: SaidehDialogue_Return
 tags:
@@ -368,10 +387,11 @@ tags:
 title: ShalahDialogue_Start
 tags:
 ---
-Shalah: Sara, akhe jooni-joonam! How are you feeling?
+Shalah: Sara, Ghorbunet beram! How are you feeling?
 -> I'm okay Shalah. How are you? 
     Shalah: Just okay, my dear? 
 -> Better than I was before my nap.  
+    Shalah: You need the rest for school, little one. 
 Shalah: Chai mikhai? I will get it for you. 
 -> Yes, I'll have some chai now. 
     <<triggerevent 0>>
@@ -380,8 +400,32 @@ Shalah: Chai mikhai? I will get it for you.
 title: ShalahDialogue_Return
 tags:
 ---
-Shalah: Sara joonam, I am listening to the news. 
-Shalah: If you need something, ask your Maman. 
+Shalah: Sara-joonam, what do you need? 
+-> Khaleh Shalah, when was the last time you left Iran? 
+    Shalah: Oh it must have been a few years ago at least. 
+    Shalah: Thinking back, it would be at least 7 years now. 
+    Shalah: It was a long overdue trip I took to visit various places in the Arab world. 
+    Shalah: First I went to Lebanon and Syria, then Egypt and occupied Palestine. 
+    -> Which place was your favorite?
+        Shalah: Of course, Palestine was my favorite, even though the trip was very difficult and emotional for me. 
+        Shalah: I visited Jerusalem, the West Bank, Nablus, Yaffa, and even the Gaza Strip. 
+        Shalah: I was able to bring aid supplies to the Jabalia and Shujaiya refugee camps when there was a shortage of clean water and fuel. 
+        Shalah: Afterwards, a makeshift banquet was held for all the volunteers in Khan Yunis. 
+        Shalah: Watching the children play on the beaches and sands of Gaza moved me. 
+        Shalah: I was struck by the fact that I would be able to leave and go back to my homeland, but they were trapped there. 
+        Shalah: Gaza is the courage of the whole world, dear Sara. 
+        Shalah: When the United States and Britain finally fall, and the colonial era is killed, it will be Palestine which rises from the ashes.  
+    -> How long were you gone? 
+        Shalah: Almost 3 months. Long enough that I felt like I had been away for years. 
+        Shalah: Short enough that I didn't have time to miss home or family. 
+        Shalah: I always miss my sisters, but Saideh and Ayeshah came with me on the first half of the trip to Lebanon and Syria. 
+        Shalah: We all had studied Arabic thoroughly and knew it well enough to get by. 
+        Shalah: It's amazing what there is to see out in the world, dear Sara. There is so much to learn and explore. 
+        Shalah: One lifetime is simply not enough to experience everything. 
+        Shalah: It is best to pick your battles and focus on what's important to you, what you know for certain you will not regret. 
+        Shalah: Otherwise, life is short. We don't have time to waste on this silly planet Earth. 
+-> Nothing right now, I just wanted to sit with you. 
+    Shalah: Akhe joon, you are the sweetest niece.
 ===
 title: ShalahDialogue_Speech
 tags:
