@@ -266,7 +266,10 @@ namespace Yarn.Unity
             }
 
             // We're good to indicate that we want to skip/continue.
-            OnContinueClicked();
+            if (WorldMonologueManager.Instance._dialogueRunner.IsDialogueRunning)
+            {
+                OnContinueClicked();
+            }
         }
 #endif
 

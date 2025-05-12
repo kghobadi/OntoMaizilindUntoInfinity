@@ -26,7 +26,7 @@ public class MonologueManager : MonoBehaviour
 
     //npc management refs 
     [HideInInspector]
-    public WorldMonologueManager wmManager;
+    public WorldMonologueManager wmManager => WorldMonologueManager.Instance;
     CameraManager camManager;
     [HideInInspector]
     public Controller npcController;
@@ -85,6 +85,12 @@ public class MonologueManager : MonoBehaviour
     private GameObject leftSideSubtitlePrefab;
     [SerializeField] private string characterName;
     [SerializeField] private float subtitleLifetime = 6;
+    private float origSubLifetime; 
+    public float SubtitleLifetime
+    {
+        get => subtitleLifetime;
+        set => subtitleLifetime = value;
+    }
     [SerializeField] private bool useLineSkipping;
     [SerializeField] private FaceVisibility _faceVisibility;
     public FaceVisibility FaceVisible => _faceVisibility;
@@ -133,11 +139,11 @@ public class MonologueManager : MonoBehaviour
         if (textBack)
             animateTextback = textBack.GetComponent<AnimateDialogue>();
 
-        wmManager = WorldMonologueManager.Instance;
         animChar = GetComponent<AnimateCharacter>();
         camManager = FindObjectOfType<CameraManager>();
         speakerSound = GetComponent<SpeakerSound>();
         yarnChar = GetComponent<YarnCharacter>();
+        origSubLifetime = subtitleLifetime;
         //Most every character will have a Monologue reader as a child.
         if (!sharesReader)
         {
@@ -354,6 +360,12 @@ public class MonologueManager : MonoBehaviour
             }
         }
 
+        //update subtitle lifetime 
+        if (mono.updatesSubLifetime)
+        {
+            SubtitleLifetime = mono.subtitleLifetime;
+        }
+
         //begin mono 
         inMonologue = true;
         
@@ -363,7 +375,7 @@ public class MonologueManager : MonoBehaviour
         monoReader.SetTypingLine();
     }
     
-    public void DisableMonologue()
+    public void DisableMonologue(bool preventNewMonos = false)
     {
         StopAllCoroutines();
         
@@ -400,13 +412,6 @@ public class MonologueManager : MonoBehaviour
                 npcController.Animation.SetAnimator("idle");
         }
         
-        StartCoroutine(WaitForCameraTransition());
-    }
-
-    IEnumerator WaitForCameraTransition()
-    {
-        yield return new WaitForSeconds(1f);
-
         Monologue mono = allMyMonologues[currentMonologue];
 
         //is this an npc?
@@ -489,7 +494,7 @@ public class MonologueManager : MonoBehaviour
         }
 
         //if this monologue has a new monologue to activate
-        if (mono.triggersMonologues)
+        if (mono.triggersMonologues && !preventNewMonos)
         {
             //enable the monologues but wait to make them usable to player 
             for(int i = 0; i< mono.monologueTriggerIndeces.Length; i++)
@@ -522,6 +527,11 @@ public class MonologueManager : MonoBehaviour
                     halluc.WaitToEnd(halluc.hallucinationEndWait);
                 }
             }
+        }
+        //return to orig sub lifetime 
+        if (mono.updatesSubLifetime)
+        {
+            SubtitleLifetime = origSubLifetime;
         }
         
         onMonoEnd.Invoke();

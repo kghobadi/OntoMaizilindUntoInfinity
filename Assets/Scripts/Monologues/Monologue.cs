@@ -77,6 +77,11 @@ public class Monologue : ScriptableObject
     public bool endsCurrentHallucination;
     [Tooltip("Check to make this dialogue interruptible by Yarn")]
     public bool interruptible;
+
+    [Tooltip("Check to to update the Subtitle controllers lifetime")]
+    public bool updatesSubLifetime;
+    [Tooltip("Allows you to update the Subtitle controllers lifetime.")]
+    public float subtitleLifetime;
     //new animation state?
     //new vo?
 }

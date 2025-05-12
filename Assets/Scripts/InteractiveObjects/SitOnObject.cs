@@ -60,8 +60,6 @@ public class SitOnObject : Interactive
 		sitting = true;
 		//so its not highlighted anymore 
 		SetInactive();
-		//activate UI for how to get up 
-		iCursor.ActivateCursor(clickToGetUp, getUp);
 	}
 
 	private void Update()

@@ -13,9 +13,11 @@ public struct Monologues
 public class WorldMonologueManager : NonInstantiatingSingleton<WorldMonologueManager>
 {
     protected override WorldMonologueManager GetInstance () { return this; }
+    public InMemoryVariableStorage yarnStorage;
     public Monologues[] allMonologues;
     public MonologueManager[] allMonoManagers;
     public DialogueRunner _dialogueRunner;
+    public bool speechStarted ;
 
     protected override void OnAwake()
     {
@@ -32,7 +34,7 @@ public class WorldMonologueManager : NonInstantiatingSingleton<WorldMonologueMan
     {
         for (int i = 0; i < allMonoManagers.Length; i++)
         {
-            allMonoManagers[i].DisableMonologue();
+            allMonoManagers[i].DisableMonologue(true);
         }
     }
     

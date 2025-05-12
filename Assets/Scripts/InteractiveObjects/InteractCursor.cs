@@ -93,12 +93,9 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 		Init();
 
 		//Object viewer active check
-		if (objectViewer != null)
+		if (objectViewer && objectViewer.viewing) 
 		{
-			if (objectViewer.viewing || objectViewer.speechStarted) // we also do not activate cursor UI during speech. 
-			{
-				return;
-			}
+			return;
 		}
 
 		//do we have a unique interact sprite?
@@ -106,9 +103,14 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 		{
 			imageHolder.sprite = newSprite;
 		}
-
+		
 		SetInteractTexts(message);
-
+		
+		//Check if the speech started 
+		if (objectViewer &&  objectViewer.speechStarted) 
+		{
+			return;
+		}
 		Cursor.visible = true;
 		imageHolder.enabled = true;
 		active = true;
