@@ -144,8 +144,17 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 	{
 		if (camSwitcher) //TODO can add other conditions if necessary. 
 		{
-			if(!camSwitcher.CurrentFPC.holding && camSwitcher.CurrentFPC.canMove)
+			if (!camSwitcher.CurrentFPC.holding && camSwitcher.CurrentFPC.canMove)
+			{
 				Deactivate();
+			}
+			else if (camSwitcher.CurrentFPC.holding)
+			{
+				if (interactTexts[0].text.Contains("Go to"))
+				{
+					Deactivate();
+				}
+			}
 			else if (!camSwitcher.CurrentFPC.canMove)
 			{
 				if (interactTexts[0].text != "Get Up" && interactTexts[0].text != "Get Down")
