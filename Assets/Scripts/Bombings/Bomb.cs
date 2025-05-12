@@ -195,6 +195,11 @@ public class Bomb : MonoBehaviour {
         //disable forces 
         bombBody.isKinematic = true;
         //return to pool
-        _pooledObj.ReturnToPool();
+        if(_pooledObj)
+            _pooledObj.ReturnToPool(); //todo null ref?
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }
