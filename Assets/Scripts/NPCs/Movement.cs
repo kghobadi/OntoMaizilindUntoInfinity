@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Pathfinding;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -22,9 +23,28 @@ namespace NPC
 
         [Header("AI Movement Settings")]
         public LayerMask grounded;
+        public bool useNewAStarPath;
+        private AIDestinationSetter destSetter;
+        private Rigidbody _rigidbody;
+        private CapsuleCollider _capsuleCollider;
+        [HideInInspector]
+        public AIPath myAiPath;
         [HideInInspector]
         public NavMeshAgent myNavMesh;
         private NavMeshPath path;
+
+        public float StoppingDist
+        {
+            get
+            {
+                float stoppingDist = 0;
+                if (myNavMesh)
+                    stoppingDist = myNavMesh.stoppingDistance;
+                else if (myAiPath)
+                    stoppingDist = myAiPath.endReachedDistance;
+                return stoppingDist;
+            }
+        }
         public bool randomSpeed = true;
         [Tooltip("Random value within this range will be added to navmesh speed.")]
         public Vector2 speedRange = new Vector2(-5f, 10f);
@@ -126,8 +146,21 @@ namespace NPC
             npcAnimations = GetComponentInChildren<Animations>();
             npcSounds = GetComponent<Sounds>();
             mainCam = Camera.main;
-            myNavMesh = GetComponent<NavMeshAgent>();
+            
             movementManager = FindObjectOfType<NPCMovementManager>();
+            if (useNewAStarPath)
+            {
+                destSetter = GetComponent<AIDestinationSetter>();
+                myAiPath = GetComponent<AIPath>();
+                _rigidbody = GetComponentInChildren<Rigidbody>();
+                _capsuleCollider = GetComponentInChildren<CapsuleCollider>();
+                destSetter.target.SetParent(movementManager.transform);
+            }
+            else
+            {
+                myNavMesh = GetComponent<NavMeshAgent>();
+            }
+           
             monoManager = GetComponent<MonologueManager>();
             spiritTrail = GetComponentInChildren<SpiritTrail>();
             breathingSounds = GetComponentInChildren<HeavyBreathing>();
@@ -169,6 +202,10 @@ namespace NPC
             {
                 myNavMesh.speed += Random.Range(speedRange.x, speedRange.y);
             }
+            else if (useNewAStarPath)
+            {
+                myAiPath.maxSpeed += Random.Range(speedRange.x, speedRange.y);
+            }
         }
         
         void RandomizePriority()
@@ -176,6 +213,10 @@ namespace NPC
             if (myNavMesh)
             {
                 myNavMesh.avoidancePriority = Random.Range(priorityRange.x, priorityRange.y);
+            }
+            else if (useNewAStarPath)
+            {
+                //no priority system afaik
             }
         }
 
@@ -336,6 +377,10 @@ namespace NPC
         {
             if(myNavMesh)
                 myNavMesh.isStopped = true;
+            else if (useNewAStarPath)
+            {
+                myAiPath.isStopped = true;
+            }
             stateTimer = idleTime;
             CheckIdleType();
             npcAnimations.SetAnimator("idle");
@@ -468,6 +513,7 @@ namespace NPC
                 waypoints = movementManager.movementPaths[newMove.pathIndex].movementPoints;
                 waypointCounter = 0;
 
+                movementRadius = movementManager.movementPaths[newMove.pathIndex].moveRadius;
                 waitingToGiveMonologue = false;
             }
 
@@ -484,7 +530,15 @@ namespace NPC
                     deathLock.SetLocalLockY(deathY);
                 }
                 //disable my nav mesh 
-                myNavMesh.enabled = false;
+                if(myNavMesh)
+                    myNavMesh.enabled = false;
+                if (useNewAStarPath)
+                {
+                    myAiPath.enabled = false;
+                    _rigidbody.isKinematic = true;
+                    _capsuleCollider.enabled = false; 
+                }
+                    
             }
 
             resetsMovement = false;
@@ -505,7 +559,7 @@ namespace NPC
             if (npcType == NPCMovementTypes.FINDPLAYER)
             {
                 //are we close to player?
-                if (Vector3.Distance(transform.position, currentPlayer.transform.position) < myNavMesh.stoppingDistance + 3f)
+                if (Vector3.Distance(transform.position, currentPlayer.transform.position) < StoppingDist + 3f)
                 {
                     PickUpPlayer();
                 }
@@ -638,7 +692,7 @@ namespace NPC
                 //get dist
                 float dist = Vector3.Distance(transform.position, targetPosition);
                 //stop running after we are close to position
-                if (dist < myNavMesh.stoppingDistance + 3f)
+                if (dist < StoppingDist + 3f)
                 {
                     //can be called by triggers or smth
                     if (resetsMovement)
@@ -678,7 +732,7 @@ namespace NPC
                 //get dist from follow obj
                 float distFromObject = Vector3.Distance(transform.position, followObject.transform.position);
                 //are we close to follow obj?
-                if (distFromObject > myNavMesh.stoppingDistance + 1f)
+                if (distFromObject > StoppingDist + 1f)
                 {
                     NavigateToPoint(followObject.position, false);
                 }
@@ -720,7 +774,14 @@ namespace NPC
 
             //set point to cast from 
             Vector3 castPoint = waypoints[waypointCounter].position;
+            //If a movement radius was set, apply it to randomize the cast point 
+            if (movementRadius > 0)
+            {
+                Vector2 xz = Random.insideUnitCircle * movementRadius;
 
+                castPoint = new Vector3(xz.x + castPoint.x, transform.position.y + 10, xz.y + castPoint.z);
+            }
+            
             NavigateToPoint(castPoint, false);
         }
 
@@ -750,10 +811,20 @@ namespace NPC
             //myNavMesh.SetDestination(targetPosition);
             
             //new path calc method 
-            NavMesh.CalculatePath(transform.position, targetPosition, NavMesh.AllAreas, path);
-            myNavMesh.SetPath(path);
+            if (myNavMesh)
+            {
+                NavMesh.CalculatePath(transform.position, targetPosition, NavMesh.AllAreas, path);
+                myNavMesh.SetPath(path);
 
-            myNavMesh.isStopped = false;
+                myNavMesh.isStopped = false;
+            }
+            else if(useNewAStarPath)
+            {
+                //Just move our personal waypoint
+                destSetter.target.position = targetPosition;
+                //allow move
+                myAiPath.isStopped = false;
+            }
 
             //set moving 
             controller.npcState = Controller.NPCStates.MOVING;

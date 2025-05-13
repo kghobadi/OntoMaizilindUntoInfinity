@@ -4,6 +4,7 @@ using UnityEngine;
 using Cameras;
 using Cinemachine;
 using NPC;
+using Pathfinding;
 using UnityEngine.AI;
 
 //this scripts stores info about what kind of camera object we are switching too
@@ -28,6 +29,7 @@ public class CamObject : MonoBehaviour
     private FirstPersonController myFPS;
     private GroundCamera myGroundCam;
     private NavMeshAgent myNMA;
+    private AIPath myAI;
     
     //bomber only
     private camMouseLook _camMouseLook;
@@ -104,6 +106,16 @@ public class CamObject : MonoBehaviour
         return myNMA;
     }
     
+    public AIPath GetAiPath()
+    {
+        if (myAI == null)
+        {
+            myAI = GetComponent<AIPath>();
+        }
+
+        return myAI;
+    }
+    
     public BombSquadron BombSquadron
     {
         get
@@ -123,13 +135,26 @@ public class CamObject : MonoBehaviour
         //if the game obj is disabled -- enable it.
         if(gameObject.activeSelf == false)
             gameObject.SetActive(true);
-        //turn off that persons NavMeshAgent
-        if (GetNMA())
+        //turn off that persons AI
+        if (GetMovement().useNewAStarPath)
         {
-            GetNMA().enabled = false;
-            //turn off that persons AI movement 
-            GetMovement().AIenabled = false;
+            if (GetAiPath())
+            {
+                GetAiPath().enabled = false;
+                //turn off that persons AI movement 
+                GetMovement().AIenabled = false;
+            }
         }
+        else
+        {
+            if (GetNMA())
+            {
+                GetNMA().enabled = false;
+                //turn off that persons AI movement 
+                GetMovement().AIenabled = false;
+            }
+        }
+       
        
         //enable ground cam script
         GetGroundCam().enabled = true;
@@ -147,11 +172,16 @@ public class CamObject : MonoBehaviour
         if (GetNMA() != null)
         {
             GetNMA().enabled = true;
-            //turn on AI movement and reset movement 
-            GetMovement().AIenabled = true;
-            GetMovement().ResetMovement(GetMovement().startBehavior);
-            GetMovement().SetIdle();
         }
+
+        if (GetAiPath() != null)
+        {
+            GetAiPath().enabled = true;
+        }
+        //turn on AI movement and reset movement 
+        GetMovement().AIenabled = true;
+        GetMovement().ResetMovement(GetMovement().startBehavior);
+        GetMovement().SetIdle();
     }
 
     public void BomberEnable()

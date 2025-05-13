@@ -471,8 +471,17 @@ public class CameraSwitcher : NonInstantiatingSingleton<CameraSwitcher>
         Movement momMove = mom.GetComponent<Movement>();
         momMove.ResetMovement(death);
         //set mom pos stuff
-        momMove.myNavMesh.isStopped = true;
-        momMove.myNavMesh.speed = 0;
+        if (momMove.useNewAStarPath)
+        {
+            //TODO set speed to 0
+            //momMove.myNavMesh.isStopped = true;
+            //momMove.myNavMesh.speed = 0;
+        }
+        else
+        {
+            momMove.myNavMesh.isStopped = true;
+            momMove.myNavMesh.speed = 0;
+        }
         mom.position = explode.momDead.position;
         //dad looks at mosque 
         Vector3 lookAtMom = new Vector3(mosque.transform.position.x, mom.transform.position.y, mosque.transform.position.z);
@@ -484,8 +493,17 @@ public class CameraSwitcher : NonInstantiatingSingleton<CameraSwitcher>
         Movement dadMove = dad.GetComponent<Movement>();
         dadMove.DropPlayer();
         //set dad pos stuff
-        dadMove.myNavMesh.isStopped = true;
-        dadMove.myNavMesh.speed = 0;
+        if (momMove.useNewAStarPath)
+        {
+            //TODO set speed to 0
+            //dadMove.myNavMesh.isStopped = true;
+            //dadMove.myNavMesh.speed = 0;
+        }
+        else
+        {
+            dadMove.myNavMesh.isStopped = true;
+            dadMove.myNavMesh.speed = 0;
+        }
         dad.position = explode.dadDead.position;
         //dad looks at mosque 
         Vector3 lookAt = new Vector3(mosque.transform.position.x, dad.transform.position.y, mosque.transform.position.z);
