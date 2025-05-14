@@ -112,6 +112,7 @@ namespace NPC
         [HideInInspector] public SpiritTrail spiritTrail;
         [SerializeField] private LockPosition deathLock;
         [SerializeField] private float deathY;
+        [SerializeField] private Material deathMat;
 
         [Header("Wanderer Settings")]
         public Transform[] waypoints;
@@ -538,7 +539,14 @@ namespace NPC
                     _rigidbody.isKinematic = true;
                     _capsuleCollider.enabled = false; 
                 }
-                    
+                //set the burned death mat
+                if (faceAnimation && deathMat)
+                {
+                    //disable face animation & animator which locks skin mat 
+                    if(faceAnimation.Animator)
+                        faceAnimation.Animator.enabled = false;
+                    faceAnimation.SetFace(deathMat);
+                }
             }
 
             resetsMovement = false;
