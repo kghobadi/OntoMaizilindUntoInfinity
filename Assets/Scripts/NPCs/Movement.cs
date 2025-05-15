@@ -552,6 +552,18 @@ namespace NPC
             resetsMovement = false;
         }
 
+        /// <summary>
+        /// Called when entering the mosque courtyard to avoid weirdness. 
+        /// </summary>
+        public void DisableAiCollision()
+        {
+            if (useNewAStarPath)
+            {
+                _rigidbody.isKinematic = true;
+                _capsuleCollider.enabled = false; 
+            }
+        }
+
         //resets state timer to float time + random range 
         void ResetStateTimer(float time)
         {
