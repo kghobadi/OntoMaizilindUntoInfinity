@@ -1343,6 +1343,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  requiresCount: 0
+  neededCount: 0
+  currentCount: 0
 --- !u!65 &358479758
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1477,6 +1480,11 @@ PrefabInstance:
       propertyPath: lookAtObjects.Array.data[0]
       value: 
       objectReference: {fileID: 1777595918}
+    - target: {fileID: 114961710161321112, guid: 004947fbf1c5f5f42bdb6e4eef9f4357,
+        type: 3}
+      propertyPath: movementPaths.Array.data[4].idleType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114578452879493764, guid: 004947fbf1c5f5f42bdb6e4eef9f4357, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 004947fbf1c5f5f42bdb6e4eef9f4357, type: 3}
@@ -1698,6 +1706,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  requiresCount: 0
+  neededCount: 0
+  currentCount: 0
 --- !u!65 &559200337
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2126,6 +2137,8 @@ MonoBehaviour:
   endAtLine: 0
   canSkip: 0
   readingMono: 0
+  timeBetweenWords: 0.135
+  useTextScroll: 0
   timeBetweenLetters: 0
   timeBetweenLines: 0
   conversational: 0
@@ -2417,6 +2430,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  requiresCount: 0
+  neededCount: 0
+  currentCount: 0
 --- !u!65 &612870560
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2846,6 +2862,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  requiresCount: 0
+  neededCount: 0
+  currentCount: 0
 --- !u!65 &719846181
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3239,6 +3258,8 @@ MonoBehaviour:
   endAtLine: 0
   canSkip: 0
   readingMono: 0
+  timeBetweenWords: 0.135
+  useTextScroll: 0
   timeBetweenLetters: 0
   timeBetweenLines: 0
   conversational: 0
@@ -4152,6 +4173,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  requiresCount: 0
+  neededCount: 0
+  currentCount: 0
 --- !u!65 &1350580495
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4384,6 +4408,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  requiresCount: 0
+  neededCount: 0
+  currentCount: 0
 --- !u!65 &1516519412
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4844,6 +4871,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114111313592787268, guid: 9b9d2db0b858f19459302fb6a1311d16,
         type: 3}
+      propertyPath: idleType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114111313592787268, guid: 9b9d2db0b858f19459302fb6a1311d16,
+        type: 3}
       propertyPath: AIenabled
       value: 0
       objectReference: {fileID: 0}
@@ -4874,6 +4906,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 413889d1da67e9643bdd7e2ecf7ceb34,
         type: 2}
+    - target: {fileID: 114262508995686554, guid: 9b9d2db0b858f19459302fb6a1311d16,
+        type: 3}
+      propertyPath: timeBetweenWords
+      value: 0.135
+      objectReference: {fileID: 0}
     - target: {fileID: 114358872024738958, guid: 9b9d2db0b858f19459302fb6a1311d16,
         type: 3}
       propertyPath: m_Enabled
@@ -5725,6 +5762,11 @@ PrefabInstance:
     - target: {fileID: 4785892453077946, guid: 0e095e01401d9a64daeef683800128f0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90.00001
+      objectReference: {fileID: 0}
+    - target: {fileID: 114169807818614042, guid: 0e095e01401d9a64daeef683800128f0,
+        type: 3}
+      propertyPath: timeBetweenWords
+      value: 0.135
       objectReference: {fileID: 0}
     - target: {fileID: 114309758147089142, guid: 0e095e01401d9a64daeef683800128f0,
         type: 3}
@@ -11850,6 +11892,7 @@ MonoBehaviour:
   talkingAnimations: 0
   setAnimSpeed: 0
   animSpeed: 1
+  animateChar: {fileID: 0}
 --- !u!114 &114447583148527796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11912,6 +11955,7 @@ MonoBehaviour:
   talkingAnimations: 0
   setAnimSpeed: 0
   animSpeed: 1
+  animateChar: {fileID: 0}
 --- !u!114 &114569372595988062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12164,7 +12208,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f421ec52e220e54f9f1d3d88e633cb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wmManager: {fileID: 0}
   npcController: {fileID: 0}
   monoReader: {fileID: 0}
   speakerSound: {fileID: 0}
@@ -12177,6 +12220,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 82f3c3c4a9fbba64dbce835de28175b0, type: 2}
   - {fileID: 11400000, guid: 81267619f12ee2941bc4b3afc12358f2, type: 2}
   inMonologue: 0
+  interruptible: 0
   mTrigger: {fileID: 0}
   enableOnStart: 1
   head: {fileID: 4989957360805994}
@@ -12216,6 +12260,8 @@ MonoBehaviour:
   endAtLine: 0
   canSkip: 0
   readingMono: 0
+  timeBetweenWords: 0.135
+  useTextScroll: 0
   timeBetweenLetters: 0
   timeBetweenLines: 0
   conversational: 0
