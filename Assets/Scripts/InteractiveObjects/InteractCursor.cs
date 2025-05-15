@@ -105,12 +105,17 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 		}
 		
 		SetInteractTexts(message);
-		
 		//Check if the speech started 
 		if (objectViewer &&  objectViewer.speechStarted) 
 		{
+			//IF you just want to pass in the new text for other checks but don't enable. 
+			// foreach (var interactText in interactTexts)
+			// {
+			// 	interactText.text = message;
+			// }
 			return;
 		}
+	
 		Cursor.visible = true;
 		imageHolder.enabled = true;
 		active = true;

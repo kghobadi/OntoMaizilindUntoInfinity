@@ -1738,7 +1738,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f421ec52e220e54f9f1d3d88e633cb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wmManager: {fileID: 0}
   npcController: {fileID: 0}
   monoReader: {fileID: 331286211}
   speakerSound: {fileID: 0}
@@ -2912,6 +2911,8 @@ MonoBehaviour:
   endAtLine: 0
   canSkip: 0
   readingMono: 0
+  timeBetweenWords: 0.135
+  useTextScroll: 0
   timeBetweenLetters: 0
   timeBetweenLines: 0
   conversational: 0
@@ -2990,6 +2991,8 @@ MonoBehaviour:
   endAtLine: 0
   canSkip: 1
   readingMono: 0
+  timeBetweenWords: 0
+  useTextScroll: 0
   timeBetweenLetters: 0
   timeBetweenLines: 0
   conversational: 0
@@ -3466,7 +3469,7 @@ PrefabInstance:
     - target: {fileID: 2991058490851686363, guid: 9b9d2db0b858f19459302fb6a1311d16,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.75
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b9d2db0b858f19459302fb6a1311d16, type: 3}
@@ -5483,7 +5486,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f421ec52e220e54f9f1d3d88e633cb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wmManager: {fileID: 0}
   npcController: {fileID: 0}
   monoReader: {fileID: 0}
   speakerSound: {fileID: 0}
