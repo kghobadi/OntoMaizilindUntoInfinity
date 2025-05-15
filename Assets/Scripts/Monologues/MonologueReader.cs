@@ -37,10 +37,14 @@ public class MonologueReader : MonoBehaviour {
     IEnumerator currentTypingLine;
     IEnumerator waitForNextLine;
 
-    [Header("Text Timing")]
+    [Header("Text Timing")] 
+    [SerializeField]
+    private float timeBetweenWords;
+    [SerializeField]
+    private bool useTextScroll;
     public float timeBetweenLetters;
     //wait between lines
-    public float timeBetweenLines;
+    public float timeBetweenLines = 0.35f;
     [Tooltip("Check this and fill in array below so that each line of text can be assigned a different wait")]
     public bool conversational;
     public float[] waitTimes;
@@ -265,7 +269,16 @@ public class MonologueReader : MonoBehaviour {
             {
                 StopCoroutine(currentTypingLine);
             }
-            currentTypingLine = TextScroll(textLines[currentLine]);
+
+            //Default to scroll by word, unless intentionally set text scroll. 
+            if (useTextScroll)
+            {
+                currentTypingLine = TextScroll(textLines[currentLine]);
+            }
+            else
+            {
+                currentTypingLine = TextScrollByWord(textLines[currentLine]);
+            }
 
             StartCoroutine(currentTypingLine);
         }
@@ -273,6 +286,70 @@ public class MonologueReader : MonoBehaviour {
 
     //TODO Create Scroll by Line method as an option for Mono Reader
     //Make back and forth between this and MonoMgr for new subtitle system. 
+    /// <summary>
+    /// Coroutine that types out each letter individually
+    /// </summary>
+    /// <param name="lineOfText"></param>
+    /// <returns></returns>
+    private IEnumerator TextScrollByWord(string lineOfText)
+    {
+        // set first letter
+        int word = 0;
+        if (usesTMP)
+            the_Text.text = "";
+        else
+            theText.text = "";
+
+        //get words
+        string[] words = lineOfText.Split(' ');
+        isTyping = true;
+
+        while (isTyping && (word < words.Length - 1))
+        {
+            string wordStr = words[word] + " ";
+            //add this word to our text
+            if (usesTMP)
+            {
+                the_Text.text += wordStr;
+            }
+            else
+            {
+                theText.text += wordStr;
+            }
+            
+            //adjust width of ui
+            if (useDynamicWidth)
+            {
+                RendererExtensions.ChangeHeightOfRect(textBackTransform, the_Text, 75f, maxWidth, sideOffset);
+            }
+
+            //Audio check
+            if (!sharedReader)
+            {
+                //check what audio to play 
+                if (speakerAudio)
+                    speakerAudio.SpeakWord(lineOfText);
+            }
+            else
+            {
+                foreach(var speaker in speakers)
+                {
+                    speaker.SpeakWord(lineOfText);
+                }
+            }
+
+            //next word
+            word += 1;
+            yield return new WaitForSeconds(timeBetweenWords);
+        }
+
+        //player waited to read full line
+        if (isTyping)
+            CompleteTextLine(lineOfText);
+
+        SetWaitForNextLine();
+    }
+
     
     //Coroutine that types out each letter individually
     private IEnumerator TextScroll(string lineOfText)

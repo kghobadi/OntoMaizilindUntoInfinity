@@ -4,7 +4,8 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -13,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monologue: {fileID: 4900000, guid: 5c40a35b528d6a54cbc81e3dc4845abd, type: 3}
   worldMonoIndex: 0
-  waitToStart: 0
-  timeUntilStart: 0
+  waitToStart: 1
+  timeUntilStart: 1
   lockPlayer: 0
   loadsScene: 0
+  timeBetweenWords: 0.135
   timeBetweenLetters: 0.05
   timeBetweenLines: 3
   conversational: 0
@@ -39,3 +41,9 @@ MonoBehaviour:
   headLooks: 0
   headLookAt: 3
   returnToOriginalRotation: 0
+  useDistFading: 0
+  activeFadeDistance: 10
+  endsCurrentHallucination: 0
+  interruptible: 0
+  updatesSubLifetime: 0
+  subtitleLifetime: 0

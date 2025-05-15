@@ -200,6 +200,7 @@ public class MonologueManager : MonoBehaviour
         interruptible = mono.interruptible;
 
         //set mono reader text speeds 
+        monoReader.timeBetweenLines = mono.timeBetweenWords;
         monoReader.timeBetweenLetters = mono.timeBetweenLetters;
         monoReader.timeBetweenLines = mono.timeBetweenLines;
         monoReader.conversational = mono.conversational;

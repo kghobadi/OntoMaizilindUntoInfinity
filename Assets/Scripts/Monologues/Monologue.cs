@@ -20,6 +20,7 @@ public class Monologue : ScriptableObject
     public bool loadsScene;
 
     [Header("Info for Monologue Reader")]
+    public float timeBetweenWords = 0.135f;
     public float timeBetweenLetters = 0.1f;
     public float timeBetweenLines = 3f;
     [Tooltip("Check this and fill in array below so that each line of text can be assigned a different wait")]
