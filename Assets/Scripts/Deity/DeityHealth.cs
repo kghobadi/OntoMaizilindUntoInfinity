@@ -63,13 +63,13 @@ public class DeityHealth : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Bullet")
+        if(other.CompareTag("Bullet"))
         {
             //take damage
             TakeDamage(other.gameObject, 1);
         }
 
-        if(other.tag == "Ground" && healthState == HealthStates.FALLING)
+        if(other.CompareTag("Ground") && healthState == HealthStates.FALLING)
         {
             //crash
             Crash();
@@ -165,7 +165,7 @@ public class DeityHealth : MonoBehaviour
         //return point that's 1000 below me
         else
         {
-            return new Vector3(transform.position.x, transform.position.y - 1000, transform.position.z);
+            return new Vector3(transform.position.x, transform.position.y - 1050, transform.position.z);
         }
     }
 }

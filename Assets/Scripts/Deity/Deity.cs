@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,6 +36,7 @@ public class Deity : MonoBehaviour {
         CENTER, LEFT, RIGHT,
     }
     float origXPos;
+    private Vector3 enabledPos;
     int strafeCount = 0;
     public bool strafingDirection;
     public float xMin, xMax;
@@ -71,6 +73,11 @@ public class Deity : MonoBehaviour {
 
         //set dirs & start moving 
         SetDirections(flightPos);
+    }
+
+    private void OnEnable()
+    {
+        enabledPos = transform.position;
     }
 
     private void FixedUpdate()
@@ -240,12 +247,12 @@ public class Deity : MonoBehaviour {
         //go right
         if (strafingDirection)
         {
-            xDestination = xMax;
+            xDestination = enabledPos.x + xMax;
         }
         //go left 
         else
         {
-            xDestination = xMin;
+            xDestination = enabledPos.x + xMin;
         }
         
         //inc 
