@@ -84,6 +84,7 @@ public class MonologueManager : MonoBehaviour
     [SerializeField]
     private GameObject leftSideSubtitlePrefab;
     [SerializeField] private string characterName;
+    public string CharacterName => characterName;
     [SerializeField] private float subtitleLifetime = 6;
     private float origSubLifetime; 
     public float SubtitleLifetime

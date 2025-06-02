@@ -251,8 +251,17 @@ public class MonologueReader : MonoBehaviour {
         if (useFaceSubs)
         {
             //If we do distance check here to decide whether the subtitle even spawns, we can wait with SetWaitForLine and +3 sec or something 
-            if (monoManager.DistToRealP <= monoManager.CurrentMonologue.activeFadeDistance)
+            if (monoManager.DistToRealP <= monoManager.CurrentMonologue.activeFadeDistance
+                && !WorldMonologueManager.Instance._dialogueRunner.IsDialogueRunning) //Must NOT be running Dialogue to show subtitles. 
             {
+                //While the player is reading/looking at objects, don't bother distracting them. Speech cannot have started - otherwise we want to see them.
+                if (InteractCursor.Instance && InteractCursor.Instance.ObjectViewer.viewing && monoManager.CharacterName != "Me"
+                    && !InteractCursor.Instance.ObjectViewer.speechStarted)
+                {
+                    //Character says an Audio Only line - no subtitle. 
+                    StartCoroutine(AudioOnlyLine(textLines[currentLine]));
+                    return;
+                }
                 monoManager.CreateSubtitle(textLines[currentLine]);
                 isTyping = true;
             }

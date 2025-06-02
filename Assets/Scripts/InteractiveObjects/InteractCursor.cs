@@ -26,6 +26,7 @@ public class InteractCursor : NonInstantiatingSingleton<InteractCursor>
 	public string CurrentText => interactTexts[0].text;
 	private TMP_Text[] interactTexts;
 	private ObjectViewer objectViewer;
+	public ObjectViewer ObjectViewer => objectViewer;
 	public bool active;
 	
 	public bool CanInteract
