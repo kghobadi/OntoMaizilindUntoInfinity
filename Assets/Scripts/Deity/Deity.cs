@@ -247,12 +247,12 @@ public class Deity : MonoBehaviour {
         //go right
         if (strafingDirection)
         {
-            xDestination = enabledPos.x + xMax;
+            xDestination = xMax;
         }
         //go left 
         else
         {
-            xDestination = enabledPos.x + xMin;
+            xDestination = xMin;
         }
         
         //inc 
