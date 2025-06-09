@@ -62,7 +62,7 @@ public class PauseMenu : NonInstantiatingSingleton<PauseMenu>
         inputDevice = InputManager.ActiveDevice;
         
         //if you press start or back on controller OR escape on keyboard -- toggle the pause menu.
-        if (inputDevice.CommandWasPressed || Input.GetKeyDown(KeyCode.F10)) //changed for museum build
+        if (inputDevice.CommandWasPressed || Input.GetKeyDown(KeyCode.F10) || Input.GetKeyDown(KeyCode.Escape)) //changed for museum build
         {
             TogglePause();
         }

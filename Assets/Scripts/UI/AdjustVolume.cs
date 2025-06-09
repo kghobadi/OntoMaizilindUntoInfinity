@@ -32,24 +32,32 @@ public class AdjustVolume : MonoBehaviour
     [SerializeField] private Slider volumeSlider;
     [SerializeField] private TMP_InputField volumeIF;
     [SerializeField] private string volumeValName = "masterVol";
+    private Vector2 volumeRange = new Vector2(-80f, 20f);
     [SerializeField] private AudioMixer mixer;
 
     private void Start()
     {
-        volumeSlider.value = Volume;
+        float trueVal = ExtensionMethods.Remap(Volume, volumeRange.x, volumeRange.y,
+            volumeSlider.minValue, volumeSlider.maxValue);
+        volumeSlider.value = trueVal;
         SetVolume();
     }
 
     private void OnEnable()
     {
-        volumeSlider.value = Volume;
+        float trueVal = ExtensionMethods.Remap(Volume, volumeRange.x, volumeRange.y,
+            volumeSlider.minValue, volumeSlider.maxValue);
+        volumeSlider.value = trueVal;
         UpdateIFText();
     }
 
     public void SetVolume()
     {
-        mixer.SetFloat(volumeValName, volumeSlider.value);
-        PlayerPrefs.SetFloat(volumeValName, volumeSlider.value);
+        float trueVal = ExtensionMethods.Remap(volumeSlider.value, volumeSlider.minValue, volumeSlider.maxValue,
+            volumeRange.x, volumeRange.y);
+        mixer.SetFloat(volumeValName, trueVal);
+        
+        PlayerPrefs.SetFloat(volumeValName, trueVal);
         UpdateIFText();
     }
 
