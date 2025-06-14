@@ -5,6 +5,13 @@ using UnityEngine;
 public class DoorTrigger : AudioHandler {
 
     Animator doorAnimator;
+    private BoxCollider doorCollider;
+    
+    [Tooltip("Check this and set the specific game object if there is only one very specific object which can trigger this.")]
+    public bool specificObject;
+    [Tooltip("Specific object this trigger is waiting for.")]
+    public GameObject specificObj;
+   
     public bool locked;
 
     [Header("Sounds")]
@@ -14,23 +21,45 @@ public class DoorTrigger : AudioHandler {
     void Start()
     {
         doorAnimator = GetComponent<Animator>();
+        doorCollider = GetComponent<BoxCollider>();
     }
 
     public void EnableDoor()
     {
         locked = false;
+        //doorCollider.isTrigger = true; //triggerable
     }
 
     public void DisableDoor()
     {
         locked = true;
+        //doorCollider.isTrigger = false;
     }
 
+    public void SetSpecificObj(GameObject obj)
+    {
+        specificObj = obj;
+        specificObject = true;
+    }
+
+    public void DisableSpecificObj()
+    {
+        specificObject = false;
+    }
+    
     void OnTriggerEnter(Collider other)
     {
         if (!locked)
         {
-            if (other.gameObject.CompareTag("Human") || other.gameObject.CompareTag("Player"))
+            //check for a specific obj to trigger this. 
+            if (specificObject)
+            {
+                if (other.gameObject == specificObj)
+                {
+                    OpenDoor();
+                }
+            }
+            else if (other.gameObject.CompareTag("Human") || other.gameObject.CompareTag("Player"))
             {
                 OpenDoor();
             }
