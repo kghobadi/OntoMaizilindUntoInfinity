@@ -81,6 +81,7 @@ public class MenuSelections : AudioHandler
     
     public void DeactivateMenu(bool disableObject)
     {
+        //DeactivateAllSubMenus(); // deactivate the submenus
         menuActive = false;
         if (disableObject)
         {
@@ -184,7 +185,7 @@ public class MenuSelections : AudioHandler
             }
 
             //activate next stars
-            menuSelections[currentSelector].ActivateSelectors();
+            menuSelections[currentSelector].ActivateSelectors(true);
 
             //change reset called 
             canChange = false;
@@ -315,7 +316,6 @@ public class MenuSelections : AudioHandler
     {
         for (int i = 0; i < subMenus.Length; i++)
         {
-            subMenus[i].DeactivateAllSubMenus();
             subMenus[i].DeactivateMenu(true);
         }
 

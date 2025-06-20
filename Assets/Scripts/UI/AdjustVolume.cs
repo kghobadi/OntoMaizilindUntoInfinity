@@ -71,4 +71,7 @@ public class AdjustVolume : MonoBehaviour
         float roundedVal = Mathf.Round(volumeSlider.value); 
         volumeIF.text = roundedVal.ToString();
     }
+    
+    //TODO will need to create a way for the user to control the slider with a Controller 
+    //Once selected from menu selections, Left stick should let you move slider left-right or up-down
 }

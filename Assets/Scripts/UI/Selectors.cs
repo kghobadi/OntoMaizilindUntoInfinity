@@ -35,7 +35,7 @@ public class Selectors : MonoBehaviour,  IPointerEnterHandler
         DeactivateSelectors();
     }
 
-    public void ActivateSelectors()
+    public void ActivateSelectors(bool withSound = false)
     {
         //play sound from menu
         if (menuSelections)
