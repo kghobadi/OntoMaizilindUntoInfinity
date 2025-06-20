@@ -62,6 +62,7 @@ public class Orbit : MonoBehaviour {
             orbitalSpeed += accelerationForce * Time.deltaTime;
             if (orbitalSpeed >= maxSpeedAmt)
             {
+                orbitalSpeed = maxSpeedAmt;
                 accelerate = false;
             }
         }
@@ -71,7 +72,12 @@ public class Orbit : MonoBehaviour {
             orbitalSpeed -= decelerationForce * Time.deltaTime;
             if (orbitalSpeed <= minSpeedAmt)
             {
+                orbitalSpeed = minSpeedAmt; 
                 decelerate = false;
+                if (orbitalSpeed == 0)
+                {
+                    orbiting = false;
+                }
             }
         }
 	}
@@ -150,7 +156,7 @@ public class Orbit : MonoBehaviour {
     /// Allows you to decelerate orbital speed over time by acceleration force until we reach max speed. 
     /// </summary>
     /// <param name="deceleration"></param>
-    /// <param name="maxSpeed"></param>
+    /// <param name="minSpeed"></param>
     public void Decelerate(float deceleration, float minSpeed)
     {
         decelerationForce = deceleration;

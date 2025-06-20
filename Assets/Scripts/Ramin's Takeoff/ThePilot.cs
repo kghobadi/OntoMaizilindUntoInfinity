@@ -613,8 +613,8 @@ public class ThePilot : AudioHandler {
     //called by lightning to zap the plane 
     public void InitiateZap()
     {
-        //Early return when already zapped OR in barrel roll. 
-        if (isZapped || _Animations.IsInBarrelRoll)
+        //Early return when already zapped OR in barrel roll OR the controls are inactive. 
+        if (isZapped || _Animations.IsInBarrelRoll || !controlsActive)
         {
             return;
         }

@@ -19,10 +19,14 @@ public class DeityManager : MonoBehaviour
     private List<Deity> deities = new List<Deity>();
     [SerializeField][Tooltip("For showing next deities in Hallucs")]
     private List<GameObject> deityVisions = new List<GameObject>();
+
+    [SerializeField] private MoveTowards[] staticOrbs;
     [SerializeField]
     private int currentDeity = 0;
     [SerializeField]
     private GameObject deityDome;
+
+    [SerializeField] private FadeUI scribeView;
 
     [Header("Deity Titles")]
     [SerializeField] private TMP_Text deityTitleText;
@@ -67,26 +71,30 @@ public class DeityManager : MonoBehaviour
             pilot.StartCountingBullets();
             //rails to city
             railMgr.SetPhase(2);
+        
+            //fade in scribe
+            scribeView.FadeIn();
         }
         
-        //Show the deity's title 
-        ShowTitleText(currentDeity);
-
         //Move the final deity towards the dome - quickly 
         if(currentDeity == 6)
         {
             deities[currentDeity].mover.MoveTo(deityDome.transform.position, 135f);
+            
+            //Show the deity's title 
+            ShowTitleText(currentDeity);
         }
         //Activate this deity at the dome position 
         else
         {
-            //set deity active
-            deities[currentDeity].gameObject.SetActive(true);
-            //set pos to match deityDome
-            deities[currentDeity].transform.position = deityDome.transform.position;
+            //Begin deity orb move
+            Orbit orbital = staticOrbs[currentDeity].GetComponent<Orbit>();
+            orbital.Decelerate(5f,0f); //decelerate orbit 
+            staticOrbs[currentDeity].MoveTo(deityDome.transform.position, staticOrbs[currentDeity].moveSpeed);
+            int dIndex = currentDeity;
+            StartCoroutine(WaitForOrb(dIndex));
         }
-      
-
+        
         //Wait to disable the dome
         WaitToActivateDome(5f, false);
 
@@ -98,6 +106,31 @@ public class DeityManager : MonoBehaviour
         {
             Debug.Log("That's all the deities!");
         }
+    }
+
+    /// <summary>
+    /// Wait for orb to arrive at player location then enable next deity. 
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
+    IEnumerator WaitForOrb(int index)
+    {
+        yield return new WaitUntil(() => !staticOrbs[index].moving);
+        
+        EnableNextDeity(index);
+    }
+
+    void EnableNextDeity(int deityIndex)
+    {
+        //disable orb
+        staticOrbs[deityIndex].gameObject.SetActive(false);
+        //set deity active
+        deities[deityIndex].gameObject.SetActive(true);
+        //set pos to match deityDome
+        deities[deityIndex].transform.position = deityDome.transform.position;
+        
+        //Show the deity's title 
+        ShowTitleText(deityIndex);
     }
 
     /// <summary>
@@ -153,7 +186,10 @@ public class DeityManager : MonoBehaviour
     public void WaitToActivateDome(float time, bool state)
     {
         //Wait to activate the dome
-        StartCoroutine(WaitForAction(time, () => deityDome.gameObject.SetActive(state)));
+        StartCoroutine(WaitForAction(time, () =>
+        {
+            deityDome.gameObject.SetActive(state);
+        }));
     }
 
     /// <summary>

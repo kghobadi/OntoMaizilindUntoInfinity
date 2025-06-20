@@ -218,7 +218,7 @@ public class Hallucination : MonoBehaviour
 		{
 			//deityMan.ResumeDeities();
 			deityMan.ToggleDeityVisions(false);
-			//deityMan.SpawnDeity();
+			deityMan.SpawnDeity();
 		}
 		
 		//yarn variable to save?
