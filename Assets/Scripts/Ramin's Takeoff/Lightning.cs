@@ -17,6 +17,8 @@ public class Lightning : AudioHandler {
     public bool lightningCloud;
     public float lightningChance = 33f;
 
+    public bool alwaysFaceGround; 
+
     public override void Awake()
     {
         base.Awake();
@@ -52,8 +54,11 @@ public class Lightning : AudioHandler {
         //only some clouds are chosen && MUST BE ACTIVE GAMEOBJ
         if (lightningCloud && gameObject.activeSelf)
         {
-            //look at ground
-            transform.LookAt(new Vector3(transform.position.x, 0f, transform.position.z));
+            //look at ground/straight down 
+            if (alwaysFaceGround)
+            {
+                transform.LookAt(new Vector3(transform.position.x, transform.position.y - 100f, transform.position.z));
+            }
             //tick thunderstrike time 
             lightningTimer -= Time.deltaTime;
             if (lightningTimer < 0)
