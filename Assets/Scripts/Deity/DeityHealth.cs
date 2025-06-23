@@ -22,6 +22,9 @@ public class DeityHealth : MonoBehaviour
     public bool destroyerOfWorlds;
     public int healthPoints = 133;
     public ObjectPooler splosionPooler;
+    
+    [SerializeField]
+    private CloudGenerator deityCloudGen;
 
     public HealthStates healthState;
     public enum HealthStates
@@ -149,7 +152,9 @@ public class DeityHealth : MonoBehaviour
         //get final rest pos 
         Vector3 finalRestPos = new Vector3(transform.position.x, transform.position.y, -500f); //TODO this didnt work for the envy squid. Is it crashing properly?
         //set deity to move with terrain 
-        deity.mover.MoveTo(finalRestPos, zSpeed);
+        deity.mover.MoveTo(finalRestPos, zSpeed); 
+        //disable deity cloud gen
+        deityCloudGen.gameObject.SetActive(false);
     }
 
     //finds point below deity to move to 

@@ -45,6 +45,9 @@ public class ThePilot : AudioHandler {
     public float weaponsTimerR, firingIntervalR = 0.05f;
     [Tooltip("Controls UI which appears at start of sequence")] 
     public FadeUI[] weaponsControlFades;
+    
+    [Tooltip("Controls UI which appears at start of sequence")] 
+    public FadeUI[] rollsControlFades;
 
     public bool useLockOnTargeting;
     [SerializeField]
@@ -544,6 +547,15 @@ public class ThePilot : AudioHandler {
         _Animations.Animator.SetTrigger("barrelRoll");
         _Animations.IsInBarrelRoll = true;
         barrelRoll = false;
+        
+        //fade out all weapons controls UIs 
+        if (rollsControlFades[0].GetCurrentOpacity() > 0)
+        {
+            for (int i = 0; i < rollsControlFades.Length; i++)
+            {
+                rollsControlFades[i].FadeOut();
+            }
+        }
     }
 
     //TODO should use values between -1 and 1 based on the actual Velocity of the plane, rather than the Input value to animate. 
