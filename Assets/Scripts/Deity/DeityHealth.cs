@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 /// <summary>
 /// Handles the health and behavior status of Deities. 
@@ -20,8 +21,13 @@ public class DeityHealth : MonoBehaviour
 
     [Tooltip("Check if this is Deity VII")]
     public bool destroyerOfWorlds;
+
+    private int totalHP;
     public int healthPoints = 133;
+    [SerializeField] private Image healthbar;
+    [SerializeField] private CanvasGroup healthGroup;
     public ObjectPooler splosionPooler;
+    [SerializeField] public Vector3 splosionOffset = new Vector3(0, 0, -3);
     
     [SerializeField]
     private CloudGenerator deityCloudGen;
@@ -43,6 +49,7 @@ public class DeityHealth : MonoBehaviour
     
     private void Awake()
     {
+        totalHP = healthPoints;
         deityMan = FindObjectOfType<DeityManager>();
         _Sounds = GetComponent<DeitySound>();
         if(_Sounds == null)
@@ -85,7 +92,7 @@ public class DeityHealth : MonoBehaviour
         Bullet bullet = bull.GetComponent<Bullet>();
         //spawn splosion
         GameObject splosion = splosionPooler.GrabObject();
-        splosion.transform.position = bull.transform.position;
+        splosion.transform.position = bull.transform.position + splosionOffset;
         splosion.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
         //particle system
         ParticleSystem sParticles = splosion.GetComponent<ParticleSystem>();
@@ -98,8 +105,9 @@ public class DeityHealth : MonoBehaviour
         int voiceToCheck = _Sounds.CountUpArray(_Sounds.voiceCounter, _Sounds.voices.Length - 1);
         if(_Sounds.voices[voiceToCheck].isPlaying == false)
             _Sounds.PlaySoundMultipleAudioSources(_Sounds.explosionSounds);
-
-
+        
+        if(healthbar)
+            healthbar.fillAmount = (float) healthPoints / totalHP;
         if (healthPoints <= 0 && healthState == HealthStates.ALIVE)
         {
             //Fall
@@ -109,6 +117,12 @@ public class DeityHealth : MonoBehaviour
 
     void Fall()
     {
+        //disable healthbar 
+        if (healthGroup)
+        {
+            LeanTween.alphaCanvas(healthGroup, 0f, 3f);
+        }
+            
         //fall anim
         _Animations.Animator.SetTrigger("fall");
         //find spot on ground in front of me to move towards at fall speed

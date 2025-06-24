@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Yarn.Unity;
@@ -37,6 +38,23 @@ public class WorldMonologueManager : NonInstantiatingSingleton<WorldMonologueMan
             allMonoManagers[i].DisableMonologue(true);
         }
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            SkipDialogues();
+        }
+    }
+
+    public void SkipDialogues()
+    {
+        //Stop any new dialogues which are waiting. This is important. 
+        for (int i = 0; i < allMonoManagers.Length; i++)
+        {
+            allMonoManagers[i].DisableMonologue();
+        }
+    }
     
     /// <summary>
     /// Stops all dialogue views. 
@@ -44,12 +62,15 @@ public class WorldMonologueManager : NonInstantiatingSingleton<WorldMonologueMan
     public void StopAllViews()
     {
         //stop dialogue runner system. 
-        _dialogueRunner.Stop();
-        
-        // Stop any processes that might be running already
-        foreach (var dialogueView in _dialogueRunner.dialogueViews)
+        if (_dialogueRunner)
         {
-            dialogueView.DialogueComplete();
+            _dialogueRunner.Stop();
+        
+            // Stop any processes that might be running already
+            foreach (var dialogueView in _dialogueRunner.dialogueViews)
+            {
+                dialogueView.DialogueComplete();
+            }
         }
 
         //Stop any new dialogues which are waiting. This is important. 

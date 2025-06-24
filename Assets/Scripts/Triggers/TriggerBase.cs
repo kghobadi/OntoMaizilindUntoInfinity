@@ -72,6 +72,12 @@ public abstract class TriggerBase : MonoBehaviour
     /// </summary>
     public virtual void SetTrigger()
     {
+        //already triggered?
+        if (hasTriggered)
+        {
+            return;
+        }
+        
         if (waits)
         {
             SetCoroutine(waitToTrigger, WaitToTrigger());

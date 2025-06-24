@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -20,6 +21,8 @@ public class Deity : MonoBehaviour {
 
     [SerializeField] private string deityName;
     public string DeityName => deityName;
+    [SerializeField] private TMP_Text deityTitleText;
+    private CanvasGroup deityTitleGroup;
     [Header("Movements")]
     public bool strafe;
     public bool moveForward;
@@ -60,12 +63,18 @@ public class Deity : MonoBehaviour {
         _Animations = GetComponent<DeityAnimations>();
         deityBody = GetComponent<Rigidbody>();
         mover = GetComponent<MoveTowards>();
+        if (deityTitleText)
+        {
+            deityTitleGroup = deityTitleText.GetComponent<CanvasGroup>();
+        }
     }
     
     void Start()
     {
         //grab orig x pos 
         origXPos = transform.position.x;
+        if(deityTitleText)
+            deityTitleText.text = deityName;
 
         //reset count & start strafe
         strafeCount = 0;
@@ -132,6 +141,16 @@ public class Deity : MonoBehaviour {
         destructionBeam.Stop();
         //enable death particles 
         deathTendrils.Play();
+        
+        //fade out deity title
+        if(deityTitleGroup)
+            LeanTween.alphaCanvas(deityTitleGroup, 0f, 3f);
+    }
+
+    public void FadeInDeityTitle()
+    {
+        if(deityTitleGroup)
+            LeanTween.alphaCanvas(deityTitleGroup, 1f, 3f);
     }
 
     public void SetCrash()

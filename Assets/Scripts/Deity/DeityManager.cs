@@ -83,6 +83,9 @@ public class DeityManager : MonoBehaviour
             
             //Show the deity's title 
             ShowTitleText(currentDeity);
+            
+            //scale the angel Canvas 
+            LeanTween.scale(scribeView.gameObject, scribeView.transform.localScale / 2, 5f);
         }
         //Activate this deity at the dome position 
         else
@@ -151,8 +154,12 @@ public class DeityManager : MonoBehaviour
                 //text anim 
                 textAnim.SetTrigger("transition");
                 //Then wait fade out
-                StartCoroutine(WaitForAction(3f, () => 
-                    LeanTween.alphaCanvas(titleGroup, 0f, 1f)));
+                StartCoroutine(WaitForAction(3f, () =>
+                {
+                    LeanTween.alphaCanvas(titleGroup, 0f, 1f); //TODO could use cool move UI text from title scene to make this nice trans
+                    deities[index].FadeInDeityTitle();
+                }));
+
             }
         );
     }
