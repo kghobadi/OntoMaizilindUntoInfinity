@@ -52,7 +52,7 @@ public class WorldMonologueManager : NonInstantiatingSingleton<WorldMonologueMan
         //Stop any new dialogues which are waiting. This is important. 
         for (int i = 0; i < allMonoManagers.Length; i++)
         {
-            allMonoManagers[i].DisableMonologue();
+            allMonoManagers[i].MonologueReader.ManualEnd();
         }
     }
     

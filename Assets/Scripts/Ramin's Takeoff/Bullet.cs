@@ -62,8 +62,8 @@ public class Bullet : MonoBehaviour {
         if(other.gameObject.CompareTag("DeathCloud"))
         {
             //reset cloud scale && send to poolers
-            //other.gameObject.transform.localScale = other.gameObject.GetComponent<Cloud>().origScale;
-            //other.gameObject.GetComponent<PooledObject>().ReturnToPool();
+            other.gameObject.transform.localScale = other.gameObject.GetComponent<Cloud>().origScale;
+            other.gameObject.GetComponent<PooledObject>().ReturnToPool();
         }
         
         //return bullet and death cloud to their pools on impact 

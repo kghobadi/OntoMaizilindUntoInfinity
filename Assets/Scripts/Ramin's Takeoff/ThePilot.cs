@@ -25,6 +25,8 @@ public class ThePilot : AudioHandler {
     private float xDecel = 0.8f;
     [SerializeField]
     private float yDecel = 0.8f;
+
+    [SerializeField] private Animator steeringWheel;
     public bool controlsActive = true;
     public bool movementFrozen;
     public bool countingBullets;
@@ -48,6 +50,9 @@ public class ThePilot : AudioHandler {
     
     [Tooltip("Controls UI which appears at start of sequence")] 
     public FadeUI[] rollsControlFades;
+
+    [Tooltip("Shows plane interior to player while in Third person")]
+    public CanvasGroup fpsView;
 
     public bool useLockOnTargeting;
     [SerializeField]
@@ -165,6 +170,11 @@ public class ThePilot : AudioHandler {
             //_Animations.SetAnimator("idle");
             //_Animations.Animator.enabled = false;
             zoomedIn = true;
+            //Fade out visual 
+            if (fpsView)
+            {
+                LeanTween.alphaCanvas(fpsView, 0f, 1f);
+            }
         }
         //zoomed out 
         else
@@ -186,6 +196,11 @@ public class ThePilot : AudioHandler {
             
             //_Animations.Animator.enabled = true;
             zoomedIn = false;
+            //Fade in visual 
+            if (fpsView)
+            {
+                LeanTween.alphaCanvas(fpsView, 1f, 1f);
+            }
         }
     }
 
@@ -565,6 +580,8 @@ public class ThePilot : AudioHandler {
         // _Animations.Animator.SetFloat("Move Y", vertical);
         _Animations.Animator.SetFloat("Move X", planeBody.velocity.x / velocityAnimatorFactor);
         _Animations.Animator.SetFloat("Move Y", planeBody.velocity.y / velocityAnimatorFactor);
+        steeringWheel.SetFloat("Move X", horizontal);
+        steeringWheel.SetFloat("Move Y", vertical);
     }
     
     /// <summary>

@@ -17,6 +17,7 @@ public class CloudGenerator : MonoBehaviour
     [Header("RANDOM")]
     public int generationAmount;
     public float generationRadius;
+    [SerializeField] private bool includeHeight;
 
     //for SQUARE
     [Header("SQUARE")]
@@ -95,7 +96,13 @@ public class CloudGenerator : MonoBehaviour
         {
             Vector2 xz = Random.insideUnitCircle * generationRadius;
 
-            Vector3 spawnPos = transform.position + new Vector3(xz.x, 0, xz.y);
+            //todo this yields 0 randomization on Y 
+            float y = 0;
+            if (includeHeight)
+            {
+                y = Random.Range(-generationRadius, generationRadius);
+            }
+            Vector3 spawnPos = transform.position + new Vector3(xz.x, y, xz.y);
 
             SpawnCloud(spawnPos);
         }
