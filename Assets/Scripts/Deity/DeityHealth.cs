@@ -132,11 +132,7 @@ public class DeityHealth : MonoBehaviour
         //change health state
         healthState = HealthStates.FALLING;
         //invoke deity died event. 
-        deityMan.deityDied.Invoke();
-        //remove from deity list TODO may not need this 
-        //deityMan.RemoveDeity(deity);
-        //Reactivate the deity dome
-        deityMan.WaitToActivateDome(3f, true);
+        deityMan.OnDeityDied();
         //stop strafing
         deity.SetFall();
         //alien sound 

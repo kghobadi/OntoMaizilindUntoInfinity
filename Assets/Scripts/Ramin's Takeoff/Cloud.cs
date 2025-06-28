@@ -15,8 +15,7 @@ public class Cloud : MonoBehaviour
     public float heightFromZero;
     public float rotationMin = -3f, rotationMax = 3f;
     float rotateX, rotateY, rotateZ;
-    [HideInInspector]
-    public Vector3 origScale;
+    private Vector3 origScale;
 
     void Awake()
     {
@@ -70,5 +69,10 @@ public class Cloud : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, hit.point + new Vector3(0, heightFromZero, 0), 5 * Time.deltaTime);
         }
+    }
+
+    public void ResetScale()
+    {
+        transform.localScale = origScale;
     }
 }

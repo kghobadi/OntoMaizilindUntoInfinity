@@ -27,9 +27,14 @@ public class DeityManager : MonoBehaviour
     private GameObject deityDome;
 
     [SerializeField] private FadeUI scribeView;
+    [SerializeField] private CanvasGroup deityHealthGroup;
+    private RectTransform deityHpRect;
 
     [Header("Deity Titles")]
     [SerializeField] private TMP_Text deityTitleText;
+    private Vector2 origTitlePos;
+    [SerializeField] private Vector2 titleHpSpot = new Vector2(0, -45f);
+    [SerializeField] private Vector3 titleScaleTop = new Vector3(0.35f, 0.35f, 1f);
 
     private Animator textAnim;
     private CanvasGroup titleGroup;
@@ -40,13 +45,20 @@ public class DeityManager : MonoBehaviour
 
     public UnityEvent deityDied;
 
+    private void Awake()
+    {
+        textAnim = deityTitleText.GetComponent<Animator>();
+        titleGroup = deityTitleText.GetComponent<CanvasGroup>();
+        origTitlePos = deityTitleText.rectTransform.anchoredPosition;
+        deityHpRect = deityHealthGroup.GetComponent<RectTransform>();
+        pilot = FindObjectOfType<ThePilot>();
+    }
+
     private void OnEnable()
     {
         //add event listeners 
         //deityDied.AddListener(OnDeityDied);
-        textAnim = deityTitleText.GetComponent<Animator>();
-        titleGroup = deityTitleText.GetComponent<CanvasGroup>();
-        pilot = FindObjectOfType<ThePilot>();
+       
     }
 
     private void OnDisable()
@@ -147,6 +159,7 @@ public class DeityManager : MonoBehaviour
         //set title and back to white
         deityTitleText.text = title;
         textAnim.SetTrigger("reset");
+        deityTitleText.rectTransform.anchoredPosition = origTitlePos;
         //Fade in 
         LeanTween.alphaCanvas(titleGroup, 1f, 1f).setOnComplete(
             () =>
@@ -156,12 +169,28 @@ public class DeityManager : MonoBehaviour
                 //Then wait fade out
                 StartCoroutine(WaitForAction(3f, () =>
                 {
-                    LeanTween.alphaCanvas(titleGroup, 0f, 1f); //TODO could use cool move UI text from title scene to make this nice trans
-                    deities[index].FadeInDeityTitle();
+                    
+                    //Fade out command for deity title text
+                    LeanTween.moveY(deityTitleText.rectTransform, titleHpSpot.y, 1f); // move up to hp spot
+                    LeanTween.scale(deityTitleText.rectTransform, titleScaleTop, 1f); //scale down 
+
+                    //was for Individual world space hp bars.
+                    //deities[index].FadeInDeityTitle();
                 }));
 
             }
         );
+    }
+
+    /// <summary>
+    /// Called by deities when they die. 
+    /// </summary>
+    public void OnDeityDied()
+    {
+        deityDied.Invoke();
+        //fade out title 
+        LeanTween.alphaCanvas(titleGroup, 0f, 1f); 
+        WaitToActivateDome(3f, true);
     }
 
     /// <summary>

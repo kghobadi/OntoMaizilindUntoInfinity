@@ -11,7 +11,9 @@ public class CloudGenerator : MonoBehaviour
     public GenerationType generationType;
     public enum GenerationType
     {
-        RANDOM, SQUARE, 
+        RANDOM, 
+        SQUARE,
+        SQUID,
     }
     //for RANDOM
     [Header("RANDOM")]
@@ -63,9 +65,13 @@ public class CloudGenerator : MonoBehaviour
             {
                 GenerateRandom();
             }
-            if (generationType == GenerationType.SQUARE)
+            else if (generationType == GenerationType.SQUARE)
             {
                 GenerateSquare();
+            }
+            else if (generationType == GenerationType.SQUID)
+            {
+                GenerateSquid();
             }
 
             //randomize spawn timer 
@@ -110,6 +116,23 @@ public class CloudGenerator : MonoBehaviour
 
     //generate objects in a square grid pattern 
     void GenerateSquare()
+    {
+        //set to size of the grid we will be making 
+        generatedObjs = new GameObject[(gridSizeX + 1) * (gridSizeY + 1)];
+
+        for (int i = 0, y = 0; y <= gridSizeY; y++)
+        {
+            for (int x = 0; x <= gridSizeX; x++, i++)
+            {
+                Vector3 spawnPos = new Vector3(x * distBetweenX, transform.position.y, y * distBetweenY) + transform.position;
+
+                SpawnCloud(spawnPos);
+            }
+        }
+    }
+    
+    //generate objects in a square grid pattern 
+    void GenerateSquid()
     {
         //set to size of the grid we will be making 
         generatedObjs = new GameObject[(gridSizeX + 1) * (gridSizeY + 1)];
