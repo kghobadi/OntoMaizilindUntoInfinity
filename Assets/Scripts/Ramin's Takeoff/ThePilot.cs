@@ -69,6 +69,7 @@ public class ThePilot : AudioHandler {
     public AudioSource music;
     public AudioClip outOfAmmoClick;
     public AudioClip zapped;
+    public AudioClip barrelRollSfx;
 
     [SerializeField]
     private MonologueManager raminMonos;
@@ -572,7 +573,8 @@ public class ThePilot : AudioHandler {
             }
         }
         
-        //TODO could have a cool sound effect for this!
+        //cool sound effect for this!
+        PlaySoundRandomPitch(barrelRollSfx, 1f);
     }
 
     //TODO should use values between -1 and 1 based on the actual Velocity of the plane, rather than the Input value to animate. 
