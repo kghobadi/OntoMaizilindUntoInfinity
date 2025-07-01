@@ -571,6 +571,8 @@ public class ThePilot : AudioHandler {
                 rollsControlFades[i].FadeOut();
             }
         }
+        
+        //TODO could have a cool sound effect for this!
     }
 
     //TODO should use values between -1 and 1 based on the actual Velocity of the plane, rather than the Input value to animate. 

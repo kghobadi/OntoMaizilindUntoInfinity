@@ -31,6 +31,7 @@ public class DeityHealth : MonoBehaviour
     
     [SerializeField]
     private CloudGenerator deityCloudGen;
+    public CloudGenerator DeityCloudGen => deityCloudGen;
 
     public HealthStates healthState;
     public enum HealthStates

@@ -98,6 +98,16 @@ public class Deity : MonoBehaviour {
             Strafe();
     }
 
+    /// <summary>
+    /// Accessible method for animation based cloud gen timing.
+    /// </summary>
+    public void SpitClouds()
+    {
+        _Health.DeityCloudGen.Generate();
+        
+        //TODO could have sound for this unique to each deity? so player associates it with attack timing
+    }
+
     private Vector3 lastVelocity;
     public void FreezeMovement()
     {

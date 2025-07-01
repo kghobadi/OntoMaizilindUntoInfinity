@@ -15,6 +15,7 @@ public class CloudGenerator : MonoBehaviour
         SQUARE,
         SQUID,
     }
+    
     //for RANDOM
     [Header("RANDOM")]
     public int generationAmount;
@@ -28,22 +29,35 @@ public class CloudGenerator : MonoBehaviour
     public float distBetweenX, distBetweenY;
 
     //cloud settings 
-    [Header("Cloud Settings")]
+    [Header("Cloud Travel Speed & Lifetime")]
     public float cloudSpeed;
     public float speedMin, speedMax;
     public float distanceToDestroy;
-    //spawn times
+    
+    [Header("Spawn Timing")]
+    [Tooltip("Check true to use another method to spawn clouds - most likely animation events.")]
+    [SerializeField] private bool disableSpawnTimers;
     public float spawnTimer, spawnIntervalMin = 3f, spawnIntervalMax = 5f;
-    [Tooltip("Lowest Height on Y axis to spawn")]
-    public float minHeight = 250f;
 
+    [Header("Extra Randomization")]
+    [SerializeField] private bool randomYAtStart;
+    [SerializeField] private Vector2 randomYRange = new Vector2(-15f, 75f);
+
+    [SerializeField] private bool randomXAtGenerate;
+    [SerializeField] private Vector2 randomXRange = new Vector2(-15f, 15);
+    
     public float scaleMin = 0.5f, scaleMax = 2f;
 
     void Awake()
     {
+        //TODO why set a random y like this? 
         //random y
-        transform.position = new Vector3(transform.position.x,
-            transform.position.y + Random.Range(-15f, 75f), transform.position.z);
+        if (randomYAtStart)
+        {
+            transform.position = new Vector3(transform.position.x,
+                transform.position.y + Random.Range(randomYRange.x, randomYRange.y), transform.position.z);
+        }
+
         //set orig pos 
         origPos = transform.position;
         //randomize spawn timer 
@@ -53,29 +67,40 @@ public class CloudGenerator : MonoBehaviour
     //so cloud spawning is frame dependent huh
     void Update()
     {
-        spawnTimer -= Time.deltaTime;
-        if(spawnTimer < 0)
+        if (!disableSpawnTimers)
         {
-            //randomize spawn center on x axis 
-            transform.position = new Vector3(transform.position.x + Random.Range(-15f, 15f),
+            spawnTimer -= Time.deltaTime;
+            if(spawnTimer < 0)
+            {
+                Generate();
+                //randomize spawn timer 
+                spawnTimer = Random.Range(spawnIntervalMin, spawnIntervalMax);
+            }
+        }
+    }
+
+    public void Generate()
+    {
+        //TODO why do all generate behaviors do this? 
+        //randomize spawn center on x axis 
+        if (randomXAtGenerate)
+        {
+            transform.position = new Vector3(transform.position.x + Random.Range(randomXRange.x, randomXRange.y),
                 transform.position.y, transform.position.z);
+        }
 
-            //generation patterns 
-            if(generationType == GenerationType.RANDOM)
-            {
-                GenerateRandom();
-            }
-            else if (generationType == GenerationType.SQUARE)
-            {
-                GenerateSquare();
-            }
-            else if (generationType == GenerationType.SQUID)
-            {
-                GenerateSquid();
-            }
-
-            //randomize spawn timer 
-            spawnTimer = Random.Range(spawnIntervalMin, spawnIntervalMax);
+        //generation patterns 
+        if(generationType == GenerationType.RANDOM)
+        {
+            GenerateRandom();
+        }
+        else if (generationType == GenerationType.SQUARE)
+        {
+            GenerateSquare();
+        }
+        else if (generationType == GenerationType.SQUID)
+        {
+            GenerateSquid();
         }
     }
 

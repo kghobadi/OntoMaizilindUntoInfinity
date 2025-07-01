@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 /// <summary>
 /// TODO this script will change as we make this sequence more on rails/linear and less 'open-ended'.
@@ -28,6 +29,7 @@ public class DeityManager : MonoBehaviour
 
     [SerializeField] private FadeUI scribeView;
     [SerializeField] private CanvasGroup deityHealthGroup;
+    [SerializeField] private Image deityHpFill;
     private RectTransform deityHpRect;
 
     [Header("Deity Titles")]
@@ -160,6 +162,8 @@ public class DeityManager : MonoBehaviour
         deityTitleText.text = title;
         textAnim.SetTrigger("reset");
         deityTitleText.rectTransform.anchoredPosition = origTitlePos;
+        deityTitleText.rectTransform.localScale = Vector3.one;
+        deityHpFill.fillAmount = 1f; //reset hp fill amt 
         //Fade in 
         LeanTween.alphaCanvas(titleGroup, 1f, 1f).setOnComplete(
             () =>
@@ -169,11 +173,12 @@ public class DeityManager : MonoBehaviour
                 //Then wait fade out
                 StartCoroutine(WaitForAction(3f, () =>
                 {
-                    
                     //Fade out command for deity title text
                     LeanTween.moveY(deityTitleText.rectTransform, titleHpSpot.y, 1f); // move up to hp spot
                     LeanTween.scale(deityTitleText.rectTransform, titleScaleTop, 1f); //scale down 
 
+                    //Fade in deity hp group 
+                    LeanTween.alphaCanvas(deityHealthGroup, 1f, 1f); 
                     //was for Individual world space hp bars.
                     //deities[index].FadeInDeityTitle();
                 }));
