@@ -103,9 +103,19 @@ public class Deity : MonoBehaviour {
     /// </summary>
     public void SpitClouds()
     {
-        _Health.DeityCloudGen.Generate();
-        
-        //TODO could have sound for this unique to each deity? so player associates it with attack timing
+        for (int i = 0; i < _Health.DeityCloudGens.Length; i++)
+        {
+            _Health.DeityCloudGens[i].Generate();
+        }
+    }
+
+    /// <summary>
+    /// Call a specific cloud gen to spawn. 
+    /// </summary>
+    /// <param name="index"></param>
+    public void SpitCloudsFromIndex(int index)
+    {
+        _Health.DeityCloudGens[index].Generate();
     }
 
     private Vector3 lastVelocity;

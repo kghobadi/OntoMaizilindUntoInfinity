@@ -30,8 +30,8 @@ public class DeityHealth : MonoBehaviour
     [SerializeField] public Vector3 splosionOffset = new Vector3(0, 0, -3);
     
     [SerializeField]
-    private CloudGenerator deityCloudGen;
-    public CloudGenerator DeityCloudGen => deityCloudGen;
+    private CloudGenerator[] deityCloudGens;
+    public CloudGenerator[] DeityCloudGens => deityCloudGens;
 
     public HealthStates healthState;
     public enum HealthStates
@@ -165,7 +165,10 @@ public class DeityHealth : MonoBehaviour
         //set deity to move with terrain 
         deity.mover.MoveTo(finalRestPos, zSpeed); 
         //disable deity cloud gen
-        deityCloudGen.gameObject.SetActive(false);
+        for (int i = 0; i < deityCloudGens.Length; i++)
+        {
+            deityCloudGens[i].gameObject.SetActive(false);
+        }
     }
 
     //finds point below deity to move to 
