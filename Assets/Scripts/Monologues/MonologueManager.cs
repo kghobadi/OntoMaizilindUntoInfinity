@@ -49,6 +49,9 @@ public class MonologueManager : MonoBehaviour
     [Tooltip("if there is a background for speaking text")]
     [SerializeField]
     private FadeUiRevamped[] allFades;
+    [Tooltip("Fade these out ")]
+    [SerializeField]
+    private FadeUiRevamped[] fadeOuts;
     //text component and string array of its lines
     public int currentMonologue;
     [Tooltip("Fill this with all the individual monologues the character will give")]
@@ -296,6 +299,10 @@ public class MonologueManager : MonoBehaviour
             {
                 fade.FadeIn();
             }
+            foreach(var fade in fadeOuts)
+            {
+                fade.FadeOut();
+            }
         }
 
         //Activate face animation UI if it has it / we dont use subtitles 
@@ -375,6 +382,20 @@ public class MonologueManager : MonoBehaviour
 
         //start the typing!
         monoReader.SetTypingLine();
+    }
+
+    public void CheckFades()
+    {
+        foreach(var fade in allFades)
+        {
+            if(!fade.IsShowing)
+                fade.FadeIn();
+        }
+        foreach(var fade in fadeOuts)
+        {
+            if(fade.IsShowing)
+                fade.FadeOut();
+        }
     }
     
     public void DisableMonologue(bool preventNewMonos = false)

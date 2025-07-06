@@ -187,9 +187,8 @@ public class MonologueReader : MonoBehaviour {
         else
         {
             SetTypingLine();
+            onProgressLine.Invoke();
         }
-
-        onProgressLine.Invoke();
     }
 
     /// <summary>

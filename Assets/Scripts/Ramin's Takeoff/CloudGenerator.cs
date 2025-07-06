@@ -45,8 +45,13 @@ public class CloudGenerator : MonoBehaviour
 
     [SerializeField] private bool randomXAtGenerate;
     [SerializeField] private Vector2 randomXRange = new Vector2(-15f, 15);
-    
-    public float scaleMin = 0.5f, scaleMax = 2f;
+
+    [Header("Scaling")] 
+    public float scaleMin = 0.5f;
+    public float scaleMax = 2f;
+    public bool tweenScale;
+    public Vector3 startScale = new Vector3(0.1f, 0.1f, 0.1f);
+    public float scaleTime = 1f;
 
     void Awake()
     {
@@ -115,9 +120,20 @@ public class CloudGenerator : MonoBehaviour
         //assign refs to rain cloud script
         cloudClone.GetComponent<Cloud>()._cloudGen = this;
 
-        //randomize cloud scale 
-        float randomScale = Random.Range(scaleMin, scaleMax);
-        cloudClone.transform.localScale *= randomScale;
+        //randomize cloud scale  - tween 
+        if (tweenScale)
+        {
+            float randomScale = Random.Range(scaleMin, scaleMax);
+            Vector3 finalScale = cloudPooler.ObjPrefab.transform.localScale * randomScale;
+            cloudClone.transform.localScale = startScale;
+            LeanTween.scale(cloudClone, finalScale, scaleTime);
+        }
+        //Instantly set scale
+        else
+        {
+            float randomScale = Random.Range(scaleMin, scaleMax);
+            cloudClone.transform.localScale = randomScale * cloudPooler.ObjPrefab.transform.localScale;
+        }
     }
 
     //generate objects in a random unit circle 

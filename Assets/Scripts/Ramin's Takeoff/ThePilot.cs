@@ -50,6 +50,7 @@ public class ThePilot : AudioHandler {
     
     [Tooltip("Controls UI which appears at start of sequence")] 
     public FadeUI[] rollsControlFades;
+    public CanvasFader moveControls;
 
     [Tooltip("Shows plane interior to player while in Third person")]
     public CanvasGroup fpsView;
@@ -424,6 +425,12 @@ public class ThePilot : AudioHandler {
             {
                 barrelRoll = true;
             }
+        }
+
+        //Fade out move controls. 
+        if (moveControls.IsShowing && horizontal != 0 || vertical != 0)
+        {
+            moveControls.FadeOut();
         }
     }
 

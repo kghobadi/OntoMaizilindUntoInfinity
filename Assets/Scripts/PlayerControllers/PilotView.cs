@@ -23,6 +23,8 @@ public class PilotView : MonoBehaviour
     public bool clamps;
     public float minX, maxX;
     public float minY, maxY;
+    
+    public CanvasFader camMoveControls;
 
     void Awake()
     {
@@ -96,6 +98,12 @@ public class PilotView : MonoBehaviour
             transform.parent.Rotate(0, hRot, 0);
             //Rotates Player on "Y" Axis Acording to Mouse Input
             transform.Rotate(vRot, 0, 0);
+        }
+
+        //Fade out move controls
+        if (camMoveControls && camMoveControls.IsShowing && hRot != 0 || vRot != 0)
+        {
+            camMoveControls.FadeOut();
         }
     }
 
