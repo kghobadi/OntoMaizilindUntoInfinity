@@ -99,7 +99,7 @@ public class DeityManager : MonoBehaviour
             ShowTitleText(currentDeity);
             
             //scale the angel Canvas 
-            LeanTween.scale(scribeView.gameObject, scribeView.transform.localScale / 2, 5f);
+            LeanTween.scale(scribeView.gameObject, scribeView.transform.localScale / 2, 10f);
         }
         //Activate this deity at the dome position 
         else
