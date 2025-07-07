@@ -16,6 +16,8 @@ public class DetectDeity : MonoBehaviour
     [SerializeField]
     private SpriteRenderer[] spriteRenderers;
 
+    public float maxDist = 1000f;
+
     [SerializeField]
     private Sprite[] active;
     [SerializeField]
@@ -42,13 +44,13 @@ public class DetectDeity : MonoBehaviour
     {
         RaycastHit hit;
         //check for deity hit
-        if (Physics.Raycast(transform.position, Vector3.forward, out hit, Mathf.Infinity, deityMask))
+        if (Physics.Raycast(transform.position, Vector3.forward, out hit, maxDist, deityMask))
         {
             Debug.Log(hit.transform.gameObject.name);
             //Check for deity health
             DeityHealth deityHealth = hit.transform.GetComponent<DeityHealth>();
             //Is it the current deity?
-            if (deityHealth != null && m_Manager.CurrentDeity.DeityHealth == deityHealth)
+            if (deityHealth != null) //used to check it was current like - && m_Manager.CurrentDeity.DeityHealth == deityHealth
             {
                 SetSprites(active);
             }
@@ -56,7 +58,7 @@ public class DetectDeity : MonoBehaviour
             else if(deityHealth == null)
             {
                 DeityBodyPart deityBodyPart = hit.transform.GetComponent<DeityBodyPart>();
-                if(deityBodyPart != null && m_Manager.CurrentDeity.DeityHealth ==  deityBodyPart.DeityHealth )
+                if(deityBodyPart != null) //used to check it was current like -&& m_Manager.CurrentDeity.DeityHealth ==  deityBodyPart.DeityHealth 
                 {
                     SetSprites(active);
                 }
