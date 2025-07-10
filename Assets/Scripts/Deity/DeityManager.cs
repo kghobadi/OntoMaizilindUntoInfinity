@@ -44,6 +44,7 @@ public class DeityManager : MonoBehaviour
     [SerializeField] private Color red;
     [SerializeField] private Color black;
     public Deity CurrentDeity => deities[currentDeity - 1];
+    [SerializeField] private MonologueManager rezaMono;
 
     public UnityEvent deityDied;
 
@@ -218,6 +219,15 @@ public class DeityManager : MonoBehaviour
     {
         StartCoroutine(WaitForAction(time, SpawnDeity));
     }
+    
+    /// <summary>
+    /// Waits to spawn a deity a given time. 
+    /// </summary>
+    /// <param name="time"></param>
+    public void WaitToSpawnDeityDialogue(float time)
+    {
+        StartCoroutine(WaitForDialogue(time,rezaMono, SpawnDeity));
+    }
 
     /// <summary>
     /// Wait an amount of time to activate/deactivate the deity dome. 
@@ -232,7 +242,23 @@ public class DeityManager : MonoBehaviour
             deityDome.gameObject.SetActive(state);
         }));
     }
+    
+    /// <summary>
+    /// Waits then performs an action. 
+    /// </summary>
+    /// <param name="wait"></param>
+    /// <param name="action"></param>
+    /// <returns></returns>
+    IEnumerator WaitForDialogue(float wait, MonologueManager mono, Action action)
+    {
+        yield return new WaitForSeconds(wait);
 
+        yield return new WaitUntil(() => !mono.inMonologue);
+
+        action.Invoke();
+    }
+
+    
     /// <summary>
     /// Waits then performs an action. 
     /// </summary>
