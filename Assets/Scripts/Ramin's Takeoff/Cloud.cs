@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Cloud : MonoBehaviour
 {
-
     GameObject _player;
 
     float currentSpeed;
@@ -35,9 +34,12 @@ public class Cloud : MonoBehaviour
     //set rotation speeds
     void RandomizeRotations()
     {
-        rotateX = Random.Range(rotationMin, rotationMax);
-        rotateY = Random.Range(rotationMin, rotationMax);
-        rotateZ = Random.Range(rotationMin, rotationMax);
+        if (rotationMin != 0 && rotationMax != 0)
+        {
+            rotateX = Random.Range(rotationMin, rotationMax);
+            rotateY = Random.Range(rotationMin, rotationMax);
+            rotateZ = Random.Range(rotationMin, rotationMax);
+        }
     }
     
     void Update()
