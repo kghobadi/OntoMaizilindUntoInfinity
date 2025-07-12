@@ -12,6 +12,7 @@ public class Cloud : MonoBehaviour
     PooledObject poolObj;
 
     public float heightFromZero;
+    public bool disableRotation;
     public float rotationMin = -3f, rotationMax = 3f;
     float rotateX, rotateY, rotateZ;
     private Vector3 origScale;
@@ -31,10 +32,12 @@ public class Cloud : MonoBehaviour
         RandomizeRotations();
     }
 
+    //TODO should add more clarity to how these rotations work exposed at the top. 
+    //This is why my deity clouds don't look the way I expect. 
     //set rotation speeds
     void RandomizeRotations()
     {
-        if (rotationMin != 0 && rotationMax != 0)
+        if (!disableRotation)
         {
             rotateX = Random.Range(rotationMin, rotationMax);
             rotateY = Random.Range(rotationMin, rotationMax);
@@ -48,7 +51,8 @@ public class Cloud : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position,
            transform.position - new Vector3(0, 0, 10), currentSpeed * Time.deltaTime);
         //rotate
-        transform.Rotate(rotateX, rotateY, rotateZ);
+        if(!disableRotation)
+            transform.Rotate(rotateX, rotateY, rotateZ);
 
         //destroy when it gets far away enough from original generator
         if (Mathf.Abs(transform.position.z - _cloudGen.transform.position.z) > _cloudGen.distanceToDestroy)

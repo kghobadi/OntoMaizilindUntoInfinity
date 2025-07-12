@@ -40,6 +40,9 @@ public class CloudGenerator : MonoBehaviour
     public float spawnTimer, spawnIntervalMin = 3f, spawnIntervalMax = 5f;
 
     [Header("Extra Randomization")]
+    [Tooltip("Instead of using the rotation of the cloud gen, just use Identity (000)")]
+    [SerializeField] private bool spawnAtIdentityRot;
+    
     [SerializeField] private bool randomYAtStart;
     [SerializeField] private Vector2 randomYRange = new Vector2(-15f, 75f);
 
@@ -116,7 +119,15 @@ public class CloudGenerator : MonoBehaviour
         cloudClone = cloudPooler.GrabObject();
         cloudClone.transform.SetParent(null);
         cloudClone.transform.position = spawnPos;
-        cloudClone.transform.rotation = Quaternion.Euler(transform.eulerAngles);
+        if (spawnAtIdentityRot)
+        {
+            cloudClone.transform.rotation = Quaternion.identity;
+        }
+        else
+        {
+            cloudClone.transform.rotation = Quaternion.Euler(transform.eulerAngles);
+        }
+        
         //assign refs to rain cloud script
         cloudClone.GetComponent<Cloud>()._cloudGen = this;
 

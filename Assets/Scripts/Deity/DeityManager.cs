@@ -94,7 +94,8 @@ public class DeityManager : MonoBehaviour
         //Move the final deity towards the dome - quickly 
         if(currentDeity == 6)
         {
-            deities[currentDeity].mover.MoveTo(deityDome.transform.position, 135f);
+            //Move to somewhere in front of my 3d cursor/deity dome. 
+            deities[currentDeity].mover.MoveTo(deityDome.transform.position + new Vector3(0,0,350f), 135f);
             
             //Show the deity's title 
             ShowTitleText(currentDeity);
@@ -108,7 +109,7 @@ public class DeityManager : MonoBehaviour
             //Begin deity orb move
             Orbit orbital = staticOrbs[currentDeity].GetComponent<Orbit>();
             orbital.Decelerate(5f,0f); //decelerate orbit 
-            staticOrbs[currentDeity].MoveTo(deityDome.transform.position, staticOrbs[currentDeity].moveSpeed);
+            staticOrbs[currentDeity].MoveTo(deityDome.transform, staticOrbs[currentDeity].moveSpeed);
             int dIndex = currentDeity;
             StartCoroutine(WaitForOrb(dIndex));
         }
@@ -145,7 +146,7 @@ public class DeityManager : MonoBehaviour
         //set deity active
         deities[deityIndex].gameObject.SetActive(true);
         //set pos to match deityDome
-        deities[deityIndex].transform.position = deityDome.transform.position;
+        deities[deityIndex].transform.position = staticOrbs[deityIndex].transform.position;
         
         //Show the deity's title 
         ShowTitleText(deityIndex);

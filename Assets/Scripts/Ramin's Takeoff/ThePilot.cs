@@ -46,10 +46,9 @@ public class ThePilot : AudioHandler {
     [Tooltip("Time between bullets firing right")]
     public float weaponsTimerR, firingIntervalR = 0.05f;
     [Tooltip("Controls UI which appears at start of sequence")] 
-    public FadeUI[] weaponsControlFades;
-    
+    public CanvasFader weaponsControls;
     [Tooltip("Controls UI which appears at start of sequence")] 
-    public FadeUI[] rollsControlFades;
+    public CanvasFader rollControls;
     public CanvasFader moveControls;
 
     [Tooltip("Shows plane interior to player while in Third person")]
@@ -250,13 +249,9 @@ public class ThePilot : AudioHandler {
                     }
                     
                     //weapons controls UI fade outs can only happen if they are already faded in.
-                    if (weaponsControlFades[0].GetCurrentOpacity() > weaponsControlFades[0].fadeInAmount - 0.1f)
+                    if (weaponsControls.IsShowing)
                     {
-                        //fade out all weapons controls UIs 
-                        for (int i = 0; i < weaponsControlFades.Length; i++)
-                        {
-                            weaponsControlFades[i].FadeOut();
-                        }
+                        weaponsControls.FadeOut();
                     }
                 }
                 //click click OUT OF AMMO - Trigger the apocalypse. 
@@ -572,12 +567,9 @@ public class ThePilot : AudioHandler {
         barrelRoll = false;
         
         //fade out all weapons controls UIs 
-        if (rollsControlFades[0].GetCurrentOpacity() > 0)
+        if (rollControls.IsShowing)
         {
-            for (int i = 0; i < rollsControlFades.Length; i++)
-            {
-                rollsControlFades[i].FadeOut();
-            }
+            rollControls.FadeOut();
         }
         
         //cool sound effect for this!

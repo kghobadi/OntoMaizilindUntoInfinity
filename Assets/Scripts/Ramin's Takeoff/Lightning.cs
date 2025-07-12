@@ -57,7 +57,7 @@ public class Lightning : AudioHandler {
             //look at ground/straight down 
             if (alwaysFaceGround)
             {
-                transform.LookAt(new Vector3(transform.position.x, transform.position.y - 100f, transform.position.z));
+                transform.LookAt(new Vector3(transform.position.x, transform.position.y - 1000f, transform.position.z));
             }
             //tick thunderstrike time 
             lightningTimer -= Time.deltaTime;
