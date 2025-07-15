@@ -31,6 +31,7 @@ public class BombShelter : MonoBehaviour {
     public GameObject projector;
     public VideoPlayer projection;
     public MonologueManager imamSpeech;
+    public FadeUiRevamped[] fadesForVideo;
     public GameCamera projectionViewer;
     public GameCamera transitionViewer;
     public float timeTilTransition = 15f;
@@ -146,6 +147,12 @@ public class BombShelter : MonoBehaviour {
 
         //start video
         projection.Play();
+
+        //fade these in to show video. 
+        foreach (var fade in fadesForVideo)
+        {
+            fade.FadeIn();
+        }
 
         //start mono
         imamSpeech.SetMonologueSystem(0);
