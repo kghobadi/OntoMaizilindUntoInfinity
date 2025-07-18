@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 using Cameras;
+using RenderHeads.Media.AVProVideo;
 
 public class BombShelter : MonoBehaviour {
 
@@ -32,6 +33,8 @@ public class BombShelter : MonoBehaviour {
     public VideoPlayer projection;
     public MonologueManager imamSpeech;
     public FadeUiRevamped[] fadesForVideo;
+    public MediaPlayer pilotPlayer;
+    public CanvasFader videoFader;
     public GameCamera projectionViewer;
     public GameCamera transitionViewer;
     public float timeTilTransition = 15f;
@@ -145,13 +148,23 @@ public class BombShelter : MonoBehaviour {
         //set state
         transitionState = TransitionStates.PROJECTING;
 
-        //start video
-        projection.Play();
-
-        //fade these in to show video. 
-        foreach (var fade in fadesForVideo)
+      
+        //Use av pro / leantween canvas fader
+        if (pilotPlayer)
         {
-            fade.FadeIn();
+            pilotPlayer.Play();
+            videoFader.FadeIn();
+        }
+        //Use standard unity video player.
+        else
+        {
+            //start video
+            projection.Play();
+            //fade these in to show video. 
+            foreach (var fade in fadesForVideo)
+            {
+                fade.FadeIn();
+            }
         }
 
         //start mono
